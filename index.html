@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yogo Aryo Jatmiko — Statistisi, Demografer & Ruang Statistika</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f1f3d;
+  --navy-mid: #1a3360;
+  --teal: #1d6f8a;
+  --amber: #e8a118;
+  --amber-light: #f5c842;
+  --cream: #faf8f3;
+  --cream-dark: #f0ece0;
+  --text: #1a1a2e;
+  --text-muted: #5a6070;
+  --white: #ffffff;
+  --green: #2d8a6a;
+  --red: #c0392b;
+  --border: #e0dbd4;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+
+/* ═══════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  background:rgba(15,31,61,0.97);
+  backdrop-filter:blur(10px);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 5%;
+  height:62px;
+  border-bottom:1px solid rgba(232,161,24,0.2);
+}
+.nav-brand{display:flex;align-items:center;gap:.6rem;}
+.nav-logo-mark{
+  width:34px;height:34px;background:var(--amber);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:.7rem;font-weight:500;
+  color:var(--navy);letter-spacing:-.5px;
+}
+.nav-brand-text{font-family:'DM Serif Display',serif;font-size:1.05rem;color:white;}
+.nav-links{display:flex;gap:0;align-items:center;}
+.nav-links a{
+  color:rgba(255,255,255,.72);font-size:.83rem;font-weight:400;
+  padding:0 .9rem;height:62px;line-height:62px;display:block;
+  border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;
+}
+.nav-links a:hover{color:var(--amber-light);border-bottom-color:var(--amber);}
+.nav-links .nav-cta{
+  background:var(--amber);color:var(--navy)!important;
+  padding:.45rem 1.2rem!important;height:auto!important;line-height:normal!important;
+  border-radius:6px;font-weight:600!important;border-bottom:none!important;
+  margin-left:.5rem;transition:background .2s,transform .2s!important;
+}
+.nav-links .nav-cta:hover{background:var(--amber-light)!important;transform:translateY(-1px);}
+.hamburger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:.5rem;}
+.hamburger span{display:block;width:22px;height:2px;background:rgba(255,255,255,.8);}
+.mobile-nav{display:none;background:#0d1a30;border-top:1px solid rgba(255,255,255,.08);padding:1rem 5%;}
+.mobile-nav a{display:block;padding:.55rem 0;font-size:.9rem;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.07);}
+.mobile-nav a:hover{color:var(--amber-light);}
+.mobile-nav .mob-label{font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin:1rem 0 .3rem;}
+
+/* ═══════════════════════════════════════
+   HERO — PROFIL UTAMA
+═══════════════════════════════════════ */
+.hero-profile{
+  min-height:100vh;
+  background:var(--navy);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:8rem 6% 5rem;
+  position:relative;overflow:hidden;
+}
+.hero-bg-math{
+  position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.035;
+  font-family:'DM Mono',monospace;font-size:.82rem;color:white;
+  display:flex;flex-wrap:wrap;align-content:flex-start;
+  padding:2rem;gap:1.5rem 2.5rem;line-height:2.2;
+}
+.hero-profile-grid{
+  display:grid;grid-template-columns:auto 1fr;
+  gap:3.5rem;align-items:center;max-width:960px;margin:0 auto;width:100%;
+}
+.profile-avatar{
+  width:160px;height:160px;border-radius:50%;
+  background:var(--amber);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:3.2rem;
+  color:var(--navy);border:4px solid rgba(255,255,255,.15);
+  flex-shrink:0;
+}
+.profile-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(232,161,24,.12);border:1px solid rgba(232,161,24,.25);
+  color:var(--amber-light);padding:.3rem .9rem;border-radius:50px;
+  font-size:.73rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:1rem;animation:fadeInUp .5s ease both;
+}
+.hero-profile h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2rem,4vw,3rem);color:white;line-height:1.15;
+  margin-bottom:.5rem;animation:fadeInUp .5s .1s ease both;
+}
+.hero-profile .subtitle{
+  font-size:.92rem;font-weight:300;color:rgba(255,255,255,.6);
+  margin-bottom:1.4rem;animation:fadeInUp .5s .15s ease both;
+  line-height:1.7;
+}
+.hero-profile .quote{
+  font-style:italic;color:rgba(255,255,255,.45);font-size:.87rem;
+  border-left:3px solid var(--amber);padding-left:1rem;
+  margin-bottom:1.8rem;max-width:500px;animation:fadeInUp .5s .2s ease both;
+}
+.social-row{display:flex;gap:.6rem;flex-wrap:wrap;animation:fadeInUp .5s .25s ease both;}
+.social-btn{
+  padding:.3rem .85rem;border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;font-size:.77rem;color:rgba(255,255,255,.65);
+  transition:background .2s,border-color .2s,color .2s;
+}
+.social-btn:hover{background:var(--amber);border-color:var(--amber);color:var(--navy);}
+.hero-cta-row{display:flex;gap:.8rem;margin-top:1.8rem;flex-wrap:wrap;animation:fadeInUp .5s .3s ease both;}
+.btn-primary{
+  background:var(--amber);color:var(--navy);
+  padding:.8rem 1.8rem;border-radius:8px;
+  font-weight:600;font-size:.92rem;
+  transition:all .25s;display:inline-flex;align-items:center;gap:.5rem;
+  border:none;cursor:pointer;
+}
+.btn-primary:hover{background:var(--amber-light);transform:translateY(-2px);box-shadow:0 8px 25px rgba(232,161,24,.35);}
+.btn-outline{
+  background:transparent;color:rgba(255,255,255,.8);
+  padding:.8rem 1.8rem;border-radius:8px;
+  font-weight:400;font-size:.92rem;
+  transition:all .25s;display:inline-flex;align-items:center;gap:.5rem;
+  border:1px solid rgba(255,255,255,.22);
+}
+.btn-outline:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.07);}
+
+/* ═══════════════════════════════════════
+   STATS BAR
+═══════════════════════════════════════ */
+.stats-bar{
+  background:var(--cream-dark);
+  border-bottom:1px solid #ddd5c0;
+  padding:1.5rem 6%;
+}
+.stats-bar-inner{
+  max-width:960px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center;
+}
+.stat-item .num{
+  font-family:'DM Serif Display',serif;font-size:2rem;color:var(--navy);line-height:1;
+}
+.stat-item .lbl{font-size:.75rem;color:var(--text-muted);margin-top:.2rem;font-weight:300;}
+
+/* ═══════════════════════════════════════
+   RUANG STATISTIKA HERO / CTA BANNER
+═══════════════════════════════════════ */
+.rs-banner{
+  background:linear-gradient(135deg,var(--navy-mid) 0%,var(--teal) 100%);
+  padding:4rem 6%;
+  position:relative;overflow:hidden;
+}
+.rs-banner::before{
+  content:'';position:absolute;width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,161,24,.15) 0%,transparent 70%);
+  right:-5%;top:50%;transform:translateY(-50%);pointer-events:none;
+}
+.rs-banner-inner{
+  max-width:960px;margin:0 auto;
+  display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center;
+}
+.rs-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(232,161,24,.15);border:1px solid rgba(232,161,24,.3);
+  color:var(--amber-light);padding:.3rem .9rem;border-radius:50px;
+  font-size:.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:.8rem;
+}
+.rs-banner h2{
+  font-family:'DM Serif Display',serif;font-size:clamp(1.6rem,3vw,2.3rem);
+  color:white;line-height:1.25;margin-bottom:.7rem;
+}
+.rs-banner h2 em{font-style:italic;color:var(--amber-light);}
+.rs-banner p{font-size:.93rem;font-weight:300;color:rgba(255,255,255,.7);line-height:1.7;max-width:480px;}
+.rs-banner-actions{display:flex;flex-direction:column;gap:.7rem;align-items:flex-end;flex-shrink:0;}
+.rs-stat-demo{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  border-radius:12px;padding:1.2rem 1.5rem;min-width:220px;
+  font-family:'DM Mono',monospace;font-size:.73rem;color:rgba(255,255,255,.65);
+  line-height:1.8;
+}
+.rs-stat-demo .hl{color:var(--amber-light);}
+.rs-stat-demo .hlg{color:#5dd4a8;}
+.tools-bar{
+  background:var(--cream-dark);border-bottom:1px solid #e0d9cc;
+  padding:.9rem 6%;display:flex;align-items:center;gap:1.5rem;overflow-x:auto;
+}
+.tools-label{font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;}
+.tools-list{display:flex;gap:.5rem;flex-wrap:nowrap;}
+.tool-pill{
+  background:white;border:1px solid #ddd;border-radius:50px;
+  padding:.35rem .9rem;font-size:.78rem;font-weight:500;color:var(--text);
+  white-space:nowrap;display:flex;align-items:center;gap:.4rem;
+}
+.tool-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);}
+
+/* ═══════════════════════════════════════
+   WIDGET R SHINY (NEW SECTION)
+═══════════════════════════════════════ */
+.shiny-widget-section{background:white;padding:5rem 6%;}
+.shiny-frame-container{
+  max-width:960px;margin:2rem auto 0;border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;background:var(--cream);
+  box-shadow:0 10px 40px rgba(0,0,0,0.06);
+}
+.shiny-header{background:var(--navy);padding:0.8rem 1.5rem;display:flex;justify-content:space-between;align-items:center;}
+.shiny-dot-group{display:flex;gap:6px;}
+.shiny-dot{width:10px;height:10px;border-radius:50%;}
+.shiny-frame-wrapper{position:relative;padding-bottom:60%;height:0;overflow:hidden;}
+.shiny-frame-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+
+/* ═══════════════════════════════════════
+   SECTION HELPERS
+═══════════════════════════════════════ */
+.section-label{font-size:.73rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem;}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(1.7rem,3.2vw,2.4rem);line-height:1.2;color:var(--navy);margin-bottom:.8rem;}
+.section-sub{font-size:.95rem;font-weight:300;color:var(--text-muted);line-height:1.7;max-width:540px;}
+
+/* ═══════════════════════════════════════
+   AKADEMIK — 2 kolom
+═══════════════════════════════════════ */
+.akademik{background:white;padding:5rem 6%;}
+.akademik-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr;gap:3rem;}
+
+.section-h{font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--navy);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--amber);}
+
+ul.item-list{list-style:none;}
+ul.item-list li{padding:.55rem 0;border-bottom:1px solid var(--border);font-size:.87rem;}
+ul.item-list li:last-child{border-bottom:none;}
+.tag-progress{display:inline-block;background:var(--teal);color:#fff;font-size:.65rem;padding:.1rem .4rem;border-radius:10px;margin-left:.4rem;vertical-align:middle;}
+.item-link{color:var(--teal);font-size:.78rem;display:block;margin-top:.15rem;}
+.more-link{display:inline-block;margin-top:.8rem;font-size:.78rem;font-weight:600;color:var(--amber);border-bottom:1px solid var(--amber);padding-bottom:1px;letter-spacing:.04em;text-transform:uppercase;}
+
+.news-item{margin-bottom:.9rem;padding-bottom:.9rem;border-bottom:1px solid var(--border);font-size:.86rem;}
+.news-item .date{font-size:.75rem;color:var(--text-muted);margin-bottom:.15rem;}
+.news-item:last-child{border-bottom:none;}
+
+/* sidebar cards */
+.sidebar-card{background:var(--cream);border:1px solid var(--border);border-top:3px solid var(--amber);border-radius:0 0 6px 6px;padding:1.4rem;margin-bottom:1.4rem;}
+.sidebar-card h3{font-family:'DM Serif Display',serif;font-size:.97rem;margin-bottom:.7rem;color:var(--navy);}
+.sidebar-card p{font-size:.82rem;color:var(--text-muted);line-height:1.6;}
+.sidebar-card a{display:block;font-size:.82rem;color:var(--teal);margin-bottom:.25rem;}
+.sidebar-card a:hover{text-decoration:underline;}
+.research-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem;}
+.research-tags span{border:1px solid var(--border);padding:.2rem .6rem;border-radius:12px;font-size:.73rem;color:var(--text-muted);}
+
+/* ═══════════════════════════════════════
+   PAIN POINTS
+═══════════════════════════════════════ */
+.pain{background:var(--cream);padding:5rem 6%;}
+.pain-inner{max-width:960px;margin:0 auto;}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3rem;}
+.pain-card{
+  padding:1.6rem;border-radius:12px;border:1px solid #eae6de;
+  background:white;transition:all .25s;position:relative;overflow:hidden;
+}
+.pain-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--amber);transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.pain-card:hover{border-color:var(--amber);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.07);}
+.pain-card:hover::before{transform:scaleX(1);}
+.pain-icon{font-size:1.8rem;margin-bottom:.8rem;}
+.pain-card h3{font-size:.93rem;font-weight:600;color:var(--navy);margin-bottom:.5rem;}
+.pain-card p{font-size:.83rem;font-weight:300;color:var(--text-muted);line-height:1.6;}
+
+/* ═══════════════════════════════════════
+   SERVICES
+═══════════════════════════════════════ */
+.services{background:white;padding:5.5rem 6%;}
+.services-inner{max-width:960px;margin:0 auto;}
+.services-header{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:3rem;}
+.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;}
+.service-card{
+  background:var(--cream);border:1px solid #e4e0d8;border-radius:14px;
+  padding:1.8rem;transition:all .3s;
+}
+.service-card:hover{box-shadow:0 15px 40px rgba(15,31,61,.09);transform:translateY(-4px);border-color:#c5bfb0;}
+.service-icon{
+  width:44px;height:44px;background:var(--navy);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;margin-bottom:1rem;
+}
+.service-card h3{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:.4rem;}
+.service-card p{font-size:.84rem;font-weight:300;color:var(--text-muted);line-height:1.6;margin-bottom:1rem;}
+.service-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
+.service-tag{
+  background:white;border:1px solid #e0dbd0;color:var(--text-muted);
+  font-size:.69rem;font-weight:500;padding:.2rem .6rem;border-radius:50px;
+  font-family:'DM Mono',monospace;
+}
+.service-card.featured{
+  background:var(--navy);border-color:var(--navy);grid-column:span 2;
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;
+}
+.service-card.featured h3{color:white;font-size:1.2rem;}
+.service-card.featured p{color:rgba(255,255,255,.62);}
+.service-card.featured .service-tag{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:rgba(255,255,255,.65);}
+.service-card.featured .service-icon{background:var(--amber);}
+.featured-price-block{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+  border-radius:12px;padding:1.5rem;text-align:center;
+}
+.featured-price-block .from{font-size:.72rem;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;}
+.featured-price-block .price{font-family:'DM Serif Display',serif;font-size:2.3rem;color:var(--amber-light);line-height:1;}
+.featured-price-block .per{font-size:.75rem;color:rgba(255,255,255,.45);margin-top:.25rem;}
+.featured-price-block .btn-primary{margin-top:1.1rem;width:100%;justify-content:center;}
+
+/* ═══════════════════════════════════════
+   PRICING
+═══════════════════════════════════════ */
+.pricing{background:var(--cream);padding:5.5rem 6%;}
+.pricing-inner{max-width:960px;margin:0 auto;}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3rem;}
+.price-card{
+  border:2px solid #e4e0d8;border-radius:16px;
+  padding:2.2rem 1.8rem;text-align:center;
+  transition:all .3s;position:relative;background:white;
+}
+.price-card:hover{border-color:var(--navy);transform:translateY(-4px);box-shadow:0 15px 40px rgba(15,31,61,.1);}
+.price-card.recommended{background:var(--navy);border-color:var(--navy);transform:scale(1.03);}
+.price-card.recommended:hover{transform:scale(1.03) translateY(-4px);}
+.rec-badge{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--amber);color:var(--navy);font-size:.68rem;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:.3rem .9rem;border-radius:50px;white-space:nowrap;
+}
+.price-card-name{font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:.4rem;}
+.price-card.recommended .price-card-name{color:rgba(255,255,255,.55);}
+.price-card-desc{font-size:.82rem;font-weight:300;color:var(--text-muted);margin-bottom:1.5rem;line-height:1.5;}
+.price-card.recommended .price-card-desc{color:rgba(255,255,255,.5);}
+.price-amount{font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--navy);line-height:1;}
+.price-card.recommended .price-amount{color:var(--amber-light);}
+.price-unit{font-size:.75rem;color:var(--text-muted);margin-bottom:1.5rem;margin-top:.25rem;}
+.price-card.recommended .price-unit{color:rgba(255,255,255,.45);}
+.price-features{list-style:none;text-align:left;margin-bottom:1.8rem;}
+.price-features li{
+  font-size:.84rem;font-weight:300;color:var(--text-muted);
+  padding:.5rem 0;border-bottom:1px solid rgba(0,0,0,.05);
+  display:flex;align-items:flex-start;gap:.55rem;
+}
+.price-card.recommended .price-features li{color:rgba(255,255,255,.7);border-bottom-color:rgba(255,255,255,.08);}
+.price-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+.price-card.recommended .price-features li::before{color:var(--amber-light);}
+.price-cta{
+  width:100%;padding:.8rem;border-radius:8px;font-size:.9rem;font-weight:600;
+  cursor:pointer;display:block;text-align:center;transition:all .25s;
+  border:2px solid var(--navy);background:transparent;color:var(--navy);
+}
+.price-cta:hover{background:var(--navy);color:white;}
+.price-card.recommended .price-cta{background:var(--amber);border-color:var(--amber);color:var(--navy);}
+.price-card.recommended .price-cta:hover{background:var(--amber-light);border-color:var(--amber-light);}
+.pricing-note{margin-top:1.8rem;text-align:center;font-size:.83rem;color:var(--text-muted);font-weight:300;}
+.pricing-note a{color:var(--teal);}
+.pricing-note a:hover{text-decoration:underline;}
+
+/* ═══════════════════════════════════════
+   HOW IT WORKS
+═══════════════════════════════════════ */
+.how{background:white;padding:5rem 6%;}
+.how-inner{max-width:960px;margin:0 auto;}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.8rem;margin-top:3rem;position:relative;}
+.how-steps::before{content:'';position:absolute;top:28px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,var(--amber),var(--teal));opacity:.25;}
+.how-step{text-align:center;position:relative;}
+.how-step-num{
+  width:54px;height:54px;background:var(--navy);color:var(--amber-light);
+  border-radius:50%;font-family:'DM Serif Display',serif;font-size:1.3rem;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.3rem;border:3px solid white;box-shadow:0 0 0 2px var(--navy);
+  position:relative;z-index:2;
+}
+.how-step h3{font-size:.9rem;font-weight:600;color:var(--navy);margin-bottom:.5rem;}
+.how-step p{font-size:.8rem;font-weight:300;color:var(--text-muted);line-height:1.6;}
+
+/* ═══════════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════════ */
+.testimonials{background:var(--cream);padding:5rem 6%;}
+.testimonials-inner{max-width:960px;margin:0 auto;}
+.testimonials-grid-photo{margin-bottom:0;}
+.testimonial-card-photo{text-align:center;padding-top:1.2rem;}
+.testimonial-card-photo .testimonial-text{padding-top:.5rem;}
+.testimonial-card-photo .testimonial-author{justify-content:center;}
+.reviewer-photo-wrap{
+  width:90px;height:90px;border-radius:50%;
+  margin:0 auto .8rem;position:relative;
+  border:3px solid var(--amber);overflow:hidden;
+  background:var(--navy);
+}
+.reviewer-photo{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+.reviewer-photo[src=""]{display:none;}
+.reviewer-photo-fallback{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:1.1rem;color:var(--amber-light);
+  background:var(--navy);
+  position:absolute;inset:0;
+}
+
+
+.testimonial-card{
+  background:white;border:1px solid #e4e0d8;border-radius:14px;
+  padding:1.7rem;position:relative;
+}
+.testimonial-card::before{
+  content:'"';font-family:'DM Serif Display',serif;font-size:5rem;line-height:1;
+  color:var(--amber);opacity:.18;position:absolute;top:.4rem;left:1.3rem;
+}
+.stars{color:var(--amber);font-size:.78rem;margin-bottom:.5rem;}
+.testimonial-text{font-size:.87rem;font-weight:300;line-height:1.75;color:var(--text);margin-bottom:1.3rem;padding-top:.9rem;font-style:italic;}
+.testimonial-author{display:flex;align-items:center;gap:.7rem;}
+.author-avatar{width:38px;height:38px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;color:var(--amber-light);font-weight:700;font-size:.88rem;}
+.author-name{font-size:.84rem;font-weight:600;color:var(--navy);}
+.author-info{font-size:.72rem;color:var(--text-muted);}
+
+/* ═══════════════════════════════════════
+   ABOUT / PROFIL LENGKAP
+═══════════════════════════════════════ */
+.about{background:var(--navy);padding:5.5rem 6%;position:relative;overflow:hidden;}
+.about::after{
+  content:'σ μ χ² β R²';position:absolute;right:4%;top:50%;transform:translateY(-50%);
+  font-family:'DM Serif Display',serif;font-size:8rem;color:rgba(255,255,255,.028);
+  letter-spacing:1.5rem;pointer-events:none;
+}
+.about-inner{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:center;max-width:960px;margin:0 auto;}
+.about-photo-frame{
+  width:100%;max-width:280px;aspect-ratio:3/4;
+  border-radius:14px;overflow:hidden;position:relative;
+  border:1px solid rgba(255,255,255,.1);
+}
+.about-photo-img{
+  width:100%;height:100%;object-fit:cover;object-position:top center;
+  display:block;
+}
+.about-photo-img[src=""]{display:none;}
+.about-photo-placeholder{
+  width:100%;height:100%;
+  background:var(--navy-mid);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;
+  position:absolute;inset:0;
+}
+.about-photo-placeholder .emoji{font-size:3.5rem;}
+.about-photo-placeholder .name{font-family:'DM Serif Display',serif;color:white;font-size:1rem;}
+.about-photo-placeholder .title-sm{font-size:.75rem;color:rgba(255,255,255,.45);text-align:center;padding:0 1rem;}
+.about-stats-float{
+  position:absolute;bottom:-1rem;right:-1.2rem;
+  background:var(--amber);border-radius:10px;padding:1rem 1.3rem;
+}
+.about-stats-float .num{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--navy);line-height:1;}
+.about-stats-float .lbl{font-size:.68rem;font-weight:600;color:rgba(15,31,61,.7);margin-top:.15rem;text-transform:uppercase;letter-spacing:.5px;}
+.about-photo-wrapper{position:relative;}
+.about-content .section-label{color:var(--amber-light);}
+.about-content .section-title{color:white;}
+.about-content p{font-size:.92rem;font-weight:300;color:rgba(255,255,255,.68);line-height:1.8;margin-bottom:.9rem;}
+.about-credentials{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:1.8rem;}
+.cred{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:.9rem 1.1rem;}
+.cred-title{font-size:.83rem;font-weight:600;color:var(--amber-light);margin-bottom:.2rem;}
+.cred-sub{font-size:.75rem;color:rgba(255,255,255,.45);}
+
+/* ═══════════════════════════════════════
+   PUBLIKASI & BUKU
+═══════════════════════════════════════ */
+.publications{background:white;padding:5rem 6%;}
+.publications-inner{max-width:960px;margin:0 auto;}
+.pub-list{list-style:none;margin-top:2rem;}
+.pub-list li{
+  padding:1rem 0;border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:start;
+}
+.pub-list li:last-child{border-bottom:none;}
+.pub-num{
+  width:28px;height:28px;border-radius:50%;background:var(--navy);
+  color:var(--amber-light);font-family:'DM Mono',monospace;font-size:.72rem;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;
+}
+.pub-title{font-size:.88rem;font-weight:500;color:var(--navy);margin-bottom:.25rem;line-height:1.5;}
+.pub-journal{font-size:.77rem;color:var(--teal);font-style:italic;}
+.books-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:1rem;margin-top:2rem;
+}
+.book-card{
+  border:1px solid var(--border);border-radius:8px;padding:.9rem;
+  font-size:.76rem;color:var(--text-muted);text-align:center;
+  background:var(--cream);transition:transform .15s,box-shadow .15s;
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+}
+.book-card:hover{transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,.08);color:var(--teal);}
+.book-icon{font-size:1.9rem;}
+
+/* ═══════════════════════════════════════
+   SOSMED / KONTAK
+═══════════════════════════════════════ */
+.sosmed{background:var(--cream-dark);padding:3.5rem 6%;border-top:1px solid #ddd5c0;border-bottom:1px solid #ddd5c0;}
+.sosmed-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem;}
+.sosmed-text .section-label{margin-bottom:.4rem;}
+.sosmed-text h2{font-family:'DM Serif Display',serif;font-size:1.7rem;color:var(--navy);margin-bottom:.4rem;}
+.sosmed-text p{font-size:.87rem;color:var(--text-muted);font-weight:300;}
+.sosmed-cards{display:flex;gap:.9rem;flex-wrap:wrap;}
+.sosmed-card{
+  background:white;border:1px solid #e0d9cc;border-radius:12px;
+  padding:1rem 1.3rem;display:flex;align-items:center;gap:.9rem;
+  color:inherit;transition:all .25s;min-width:170px;
+}
+.sosmed-card:hover{border-color:var(--navy);box-shadow:0 6px 20px rgba(15,31,61,.1);transform:translateY(-2px);}
+.sosmed-card-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.sosmed-card-label{font-size:.68rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:.12rem;}
+.sosmed-card-name{font-size:.88rem;font-weight:600;color:var(--navy);}
+
+/* ═══════════════════════════════════════
+   FAQ
+═══════════════════════════════════════ */
+.faq{background:white;padding:5rem 6%;}
+.faq-inner{max-width:760px;margin:0 auto;}
+.faq-list{margin-top:2.5rem;}
+.faq-item{border-bottom:1px solid #e8e3d8;}
+.faq-q{
+  width:100%;background:none;border:none;cursor:pointer;text-align:left;
+  padding:1.3rem 0;display:flex;justify-content:space-between;align-items:center;
+  font-size:.94rem;font-weight:500;color:var(--navy);gap:1rem;
+  font-family:'DM Sans',sans-serif;
+}
+.faq-icon{
+  width:24px;height:24px;border:1.5px solid #c5bfb0;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.78rem;color:var(--text-muted);flex-shrink:0;transition:all .3s;
+}
+.faq-item.open .faq-icon{background:var(--navy);border-color:var(--navy);color:white;transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;font-size:.87rem;font-weight:300;color:var(--text-muted);line-height:1.75;}
+.faq-item.open .faq-a{max-height:250px;padding-bottom:1.3rem;}
+
+/* ═══════════════════════════════════════
+   FINAL CTA
+═══════════════════════════════════════ */
+.final-cta{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 60%,var(--teal) 100%);
+  padding:5.5rem 6%;text-align:center;position:relative;overflow:hidden;
+}
+.final-cta::before{
+  content:'';position:absolute;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,161,24,.12) 0%,transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
+}
+.final-cta h2{font-family:'DM Serif Display',serif;font-size:clamp(1.9rem,4vw,2.9rem);color:white;margin-bottom:.9rem;position:relative;}
+.final-cta p{font-size:.97rem;font-weight:300;color:rgba(255,255,255,.68);max-width:500px;margin:0 auto 2.2rem;line-height:1.75;position:relative;}
+.final-cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer{background:#080e1c;padding:2.5rem 6%;color:rgba(255,255,255,.38);}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;max-width:960px;margin:0 auto;}
+.footer-brand{font-family:'DM Serif Display',serif;color:rgba(255,255,255,.6);font-size:1.05rem;}
+.footer-links{display:flex;gap:1.4rem;flex-wrap:wrap;}
+.footer-links a{color:rgba(255,255,255,.35);font-size:.8rem;transition:color .2s;}
+.footer-links a:hover{color:var(--amber-light);}
+.footer-copy{font-size:.75rem;}
+
+/* ═══════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════ */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:900px){
+  .hero-profile-grid{grid-template-columns:1fr;text-align:center;}
+  .profile-avatar{margin:0 auto;}
+  .social-row,.hero-cta-row{justify-content:center;}
+  .hero-profile .quote{margin:0 auto 1.5rem;}
+  .stats-bar-inner{grid-template-columns:repeat(2,1fr);}
+  .rs-banner-inner{grid-template-columns:1fr;}
+  .rs-banner-actions{align-items:flex-start;}
+  .rs-stat-demo{display:none;}
+  .akademik-inner{grid-template-columns:1fr;}
+  .pain-grid{grid-template-columns:repeat(2,1fr);}
+  .services-header{grid-template-columns:1fr;}
+  .services-grid{grid-template-columns:1fr;}
+  .service-card.featured{grid-column:span 1;grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .price-card.recommended{transform:none;}
+  .how-steps{grid-template-columns:repeat(2,1fr);}
+  .how-steps::before{display:none;}
+  .testimonials-grid{grid-template-columns:1fr;}
+  .about-inner{grid-template-columns:1fr;}
+  .about-photo-placeholder{max-width:220px;margin:0 auto;}
+  .about-credentials{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  nav{padding:0 4%;}
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .pain-grid{grid-template-columns:1fr;}
+  .stats-bar-inner{grid-template-columns:repeat(2,1fr);}
+  .sosmed-inner{flex-direction:column;}
+  .footer-inner{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-logo-mark">YAJ</div>
+    <span class="nav-brand-text">Yogo Aryo Jatmiko</span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#akademik">Akademik</a>
+    <a href="#layanan">Layanan</a>
+    <a href="#harga">Harga</a>
+    <a href="#publikasi">Publikasi</a>
+    <a href="#tentang">Tentang</a>
+    <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya ingin konsultasi statistik." target="_blank" class="nav-cta">💬 Konsultasi</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <div class="mob-label">Navigasi</div>
+  <a href="#akademik">Akademik & Proyek</a>
+  <a href="#layanan">Layanan Konsultasi</a>
+  <a href="#harga">Harga Paket</a>
+  <a href="#publikasi">Publikasi</a>
+  <a href="#tentang">Tentang Saya</a>
+  <a href="#kontak">Kontak & Sosmed</a>
+  <a href="https://wa.me/6289655003613" target="_blank" style="color:var(--amber-light);margin-top:.5rem;">💬 WhatsApp Sekarang</a>
+</div>
+
+<section class="hero-profile" id="home">
+  <div class="hero-bg-math" aria-hidden="true">
+    <span>H₀: β₁ = 0</span><span>∑(xᵢ - x̄)²</span><span>p-value &lt; 0.05</span>
+    <span>R² = 0.842</span><span>F(3,96) = 17.4</span><span>VIF &lt; 10</span>
+    <span>χ²(4) = 9.23</span><span>α = 0.05</span><span>ŷ = 2.3 + 0.7x</span>
+    <span>Life Table</span><span>Population Projection</span><span>Cohort-Component</span>
+    <span>e₀ = 71.4</span><span>PCHIP Interpolation</span><span>SAE-HB Beta</span>
+    <span>Durbin-Watson</span><span>Kolmogorov-Smirnov</span><span>ANOVA</span>
+  </div>
+
+  <div class="hero-profile-grid">
+    <div>
+      <div class="profile-avatar">YAJ</div>
+    </div>
+    <div>
+      <div class="profile-eyebrow"><span>★</span> Statistisi, Analyst &amp; Demografer</div>
+      <h1>Yogo Aryo Jatmiko</h1>
+      <p class="subtitle">
+        SST, M.Stat &nbsp;·&nbsp; Statistisi di BPS Jakarta &nbsp;·&nbsp; Dosen Demografi Polstat STIS &nbsp;·&nbsp; Coach Mentor Jagoprompt
+      </p>
+      <p class="quote">"Make your lives a masterpiece, you only get one canvas." — E.A. Bucchianeri</p>
+      <div class="social-row">
+        <a class="social-btn" href="https://twitter.com/yogoboy" target="_blank">Twitter</a>
+        <a class="social-btn" href="https://www.linkedin.com/in/yogo-aryo-jatmiko-45ba7786/" target="_blank">LinkedIn</a>
+        <a class="social-btn" href="https://www.instagram.com/jatmikoyogo/" target="_blank">Instagram</a>
+        <a class="social-btn" href="https://youtube.com/YogoAryoJatmiko" target="_blank">YouTube</a>
+        <a class="social-btn" href="https://orcid.org/0000-0002-1985-7704" target="_blank">ORCID</a>
+        <a class="social-btn" href="https://linktr.ee/yogojatmiko" target="_blank">Linktree</a>
+      </div>
+      <div class="hero-cta-row">
+        <a href="#layanan" class="btn-primary">🎓 Ruang Statistika — Konsultasi</a>
+        <a href="#akademik" class="btn-outline">📄 Profil Akademik</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div class="stat-item"><div class="num">10+</div><div class="lbl">Tahun pengalaman</div></div>
+    <div class="stat-item"><div class="num">8+</div><div class="lbl">Publikasi jurnal</div></div>
+    <div class="stat-item"><div class="num">SP2020</div><div class="lbl">Tim proyeksi penduduk</div></div>
+    <div class="stat-item"><div class="num">S1–S3</div><div class="lbl">Mahasiswa yang dibantu</div></div>
+  </div>
+</div>
+
+<section class="rs-banner">
+  <div class="rs-banner-inner">
+    <div>
+      <div class="rs-eyebrow">💡 Ruang Statistika</div>
+      <h2>Skripsi, Tesis & Disertasi<br>Butuh <em>Statistik?</em></h2>
+      <p>Konsultasi olah data dan interpretasi statistik langsung dengan seorang statistisi BPS dan dosen. Mulai dari uji asumsi, regresi, hingga SEM — kita kerjakan bersama.</p>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.5rem;">
+        <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya butuh konsultasi statistik untuk penelitian saya." class="btn-primary" target="_blank">💬 Chat WhatsApp Sekarang</a>
+        <a href="#harga" class="btn-outline">Lihat Paket Harga</a>
+      </div>
+    </div>
+    <div class="rs-stat-demo">
+      <span class="hl">Model Summary</span><br>
+      R = 0.917 &nbsp; <span class="hlg">R² = 0.841</span><br>
+      Adjusted R² = 0.836<br><br>
+      <span class="hl">ANOVA</span><br>
+      F(3,96) = 170.24<br>
+      Sig. = <span class="hlg">.000 ***</span><br><br>
+      <span class="hl">Coefficients</span><br>
+      β₁ = 0.421 &nbsp; p = .000<br>
+      β₂ = 0.318 &nbsp; p = .001<br>
+      <span class="hlg">Normalitas ✓ &nbsp; VIF ✓</span>
+    </div>
+  </div>
+</section>
+
+<div class="tools-bar">
+  <span class="tools-label">Tools yang dibantu</span>
+  <div class="tools-list">
+    <div class="tool-pill"><span class="dot"></span> SPSS</div>
+    <div class="tool-pill"><span class="dot"></span> JASP</div>
+    <div class="tool-pill"><span class="dot"></span> R / RStudio</div>
+    <div class="tool-pill"><span class="dot"></span> Stata</div>
+    <div class="tool-pill"><span class="dot"></span> AMOS</div>
+    <div class="tool-pill"><span class="dot"></span> SmartPLS</div>
+    <div class="tool-pill"><span class="dot"></span> Eviews</div>
+    <div class="tool-pill"><span class="dot"></span> Minitab</div>
+    <div class="tool-pill"><span class="dot"></span> Excel Statistics</div>
+  </div>
+</div>
+
+<section class="shiny-widget-section" id="dashboard">
+  <div class="shiny-inner" style="max-width:960px; margin:0 auto;">
+    <div class="section-label">Interactive Showcase</div>
+    <h2 class="section-title">Data Visualization & Dashboard</h2>
+    <p class="section-sub">Eksplorasi data kependudukan dan statistik secara interaktif melalui aplikasi berbasis R Shiny.</p>
+    
+    <div class="shiny-frame-container">
+      <div class="shiny-header">
+        <div class="shiny-dot-group">
+          <div class="shiny-dot" style="background:#ff5f56;"></div>
+          <div class="shiny-dot" style="background:#ffbd2e;"></div>
+          <div class="shiny-dot" style="background:#27c93f;"></div>
+        </div>
+        <span style="color:rgba(255,255,255,0.5); font-family:'DM Mono'; font-size:0.7rem;">Digital_Demography_app_v2.R</span>
+      </div>
+      <div class="shiny-frame-wrapper">
+        <iframe src="https://yogoaj.shinyapps.io/digdem/" title="Dashboard Statistik"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="akademik" id="akademik">
+  <div class="akademik-inner">
+    <div>
+      <h2 class="section-h">Proyek Aktif</h2>
+      <ul class="item-list">
+        <li>Project ARIMA – BDO Consultant 2025-2026 <span class="tag-progress">On Progress</span></li>
+        <li>Head of the Sectoral Statistics Development Team (Population and Labor Statistics Division) <span class="tag-progress">On Progress</span></li>
+        <li>SUPAS & IKN Team Member 2025</li>
+        <li>Population Weighting Project Leader 2023–2025</li>
+        <li>Deputy Chairman, Population Projection Team SP2020</li>
+      </ul>
+      <a class="more-link" href="legacy/My Projects.html" target="_blank">Lihat Semua Proyek →</a>
+
+      <h2 class="section-h" style="margin-top:2.5rem;">Berita Terkini</h2>
+      <div class="news-item">
+        <div class="date">22 Februari 2025</div>
+        Mentor Coach di Webinar Analisis Data menggunakan JASP dan AI (Jagoprompt)
+      </div>
+      <div class="news-item">
+        <div class="date">10–14 Februari 2025</div>
+        PIC Proyeksi & Estimasi Penduduk di Workshop ABS–BPS, Jakarta
+      </div>
+      <div class="news-item">
+        <div class="date">8 Februari 2025</div>
+        Mentor Coach di Webinar JASP + AI (Jagoprompt)
+      </div>
+      <a class="more-link" href="legacy/News.html" target="_blank">Berita Lainnya →</a>
+
+      <h2 class="section-h" style="margin-top:2.5rem;">Pengajaran</h2>
+      <ul class="item-list">
+        <li><a href="https://www.notion.so/Pengantar-Demografi-c70bd6804fda4d36a272de71cb9d4a40" target="_blank" style="color:var(--teal);">Pengantar Demografi (Notion) ↗</a></li>
+        <li><a href="https://www.notion.so/Teknik-Demografi-2-731d848691024ddd9c2c12cec2162734" target="_blank" style="color:var(--teal);">Teknik Demografi 2 (Notion) ↗</a></li>
+        <li><a href="legacy/CB Projection RUP.html" target="_blank" style="color:var(--teal);">CB Projection RUP ↗</a></li>
+        <li><a href="legacy/CB Projection Bayessian.html" target="_blank" style="color:var(--teal);">CB Projection Bayessian ↗</a></li>
+        <li><a href="legacy/Bimbingan Skripsi.html" target="_blank" style="color:var(--teal);">Bimbingan Skripsi ↗</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="sidebar-card">
+        <h3>Kontak & Info</h3>
+        <p>+62-896-5500-3613</p>
+        <a href="mailto:yj29289@gmail.com" style="margin-top:.5rem;">yj29289@gmail.com</a>
+        <a href="https://saweria.co/yogoaj" target="_blank">saweria.co/yogoaj</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>Profil Akademik</h3>
+        <a href="https://scholar.google.com/citations?user=s0uf2fgAAAAJ" target="_blank">Google Scholar</a>
+        <a href="https://www.researchgate.net/scientific-contributions/Yogo-Aryo-Jatmiko-2154722352" target="_blank">ResearchGate</a>
+        <a href="https://orcid.org/0000-0002-1985-7704" target="_blank">ORCID</a>
+        <a href="https://jagoprompt.com/tentang-kami/" target="_blank">Jagoprompt.com</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>Minat Riset</h3>
+        <div class="research-tags">
+          <span>Fertilitas</span><span>Mortalitas</span><span>Migrasi</span><span>Machine Learning</span>
+          <span>Demografi</span><span>Tenaga Kerja</span><span>Proyeksi Penduduk</span>
+          <span>Life Table</span><span>Bayesian Stats</span><span>Ekonomi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pain">
+  <div class="pain-inner">
+    <div class="section-label">Kamu tidak sendirian</div>
+    <h2 class="section-title">Masalah yang paling sering kami dengar dari mahasiswa</h2>
+    <p class="section-sub">Dari S1 sampai S3, tantangan statistik itu nyata — dan kami ada untuk membantu kamu melewatinya.</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">😵‍💫</div>
+        <h3>"Data saya tidak normal, gimana?"</h3>
+        <p>Uji Kolmogorov-Smirnov hasilnya signifikan, pembimbing minta penjelasan, kamu bingung langkah selanjutnya.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">📊</div>
+        <h3>"VIF saya di atas 10, itu bahaya?"</h3>
+        <p>Hasil regresi keluar, tapi ada multikolinearitas dan kamu tidak yakin harus lapor ke bab berapa di skripsi.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">📉</div>
+        <h3>"R² saya kecil, pembimbing tidak puas"</h3>
+        <p>Model sudah dibangun, tapi nilai R² rendah dan kamu tidak tahu cara interpretasinya dengan benar.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🤯</div>
+        <h3>"SEM/PLS ini terlalu kompleks"</h3>
+        <p>Tesis kamu pakai SEM atau SmartPLS, tapi dari nol sampai interpretasi output rasanya seperti belajar bahasa alien.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">⏰</div>
+        <h3>"Deadline mepet, pembimbing minta revisi"</h3>
+        <p>Sidang sudah dekat, tapi bab metodologi statistikmu masih dikoreksi terus dan kamu butuh bantuan cepat.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">💸</div>
+        <h3>"Jasa olah data mahal banget"</h3>
+        <p>Banyak jasa statistik tapi biayanya jutaan dan tidak ada garansi bisa menjelaskan hasilnya ke pembimbing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="layanan">
+  <div class="services-inner">
+    <div class="services-header">
+      <div>
+        <div class="section-label">Apa yang kami lakukan</div>
+        <h2 class="section-title">Layanan konsultasi statistik lengkap</h2>
+      </div>
+      <p class="section-sub">Dari perumusan metode, pengolahan data, sampai interpretasi yang siap dibawa ke sidang.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">📐</div>
+        <h3>Uji Asumsi & Diagnostik</h3>
+        <p>Normalitas, homoskedastisitas, multikolinearitas, autokorelasi — lengkap dengan interpretasi untuk bab metodologi.</p>
+        <div class="service-tags">
+          <span class="service-tag">Kolmogorov-Smirnov</span><span class="service-tag">VIF</span>
+          <span class="service-tag">Durbin-Watson</span><span class="service-tag">Breusch-Pagan</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <h3>Regresi & Prediksi</h3>
+        <p>Regresi linear, logistik, ordinal, multinomial — plus uji F, uji t, dan interpretasi koefisien yang benar.</p>
+        <div class="service-tags">
+          <span class="service-tag">OLS Regression</span><span class="service-tag">Logistic</span>
+          <span class="service-tag">Panel Data</span><span class="service-tag">Mediasi/Moderasi</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🧩</div>
+        <h3>SEM & Analisis Jalur</h3>
+        <p>Structural Equation Modeling dengan AMOS atau SmartPLS. Dari validitas konstruk, fit model, sampai interpretasi path coefficient.</p>
+        <div class="service-tags">
+          <span class="service-tag">CFA</span><span class="service-tag">AMOS</span>
+          <span class="service-tag">SmartPLS</span><span class="service-tag">Goodness of Fit</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔬</div>
+        <h3>Uji Beda & ANOVA</h3>
+        <p>T-test, ANOVA, MANOVA, Kruskal-Wallis untuk komparasi kelompok. Lengkap dengan post-hoc test dan effect size.</p>
+        <div class="service-tags">
+          <span class="service-tag">Independent t-test</span><span class="service-tag">ANOVA</span>
+          <span class="service-tag">Mann-Whitney</span><span class="service-tag">ANCOVA</span>
+        </div>
+      </div>
+      <div class="service-card featured">
+        <div>
+          <div class="service-icon">🎓</div>
+          <h3>Paket Pendampingan Komprehensif</h3>
+          <p>Untuk kamu yang butuh didampingi dari awal sampai akhir. Kami bantu memilih metode yang tepat, olah data, dan interpretasi lengkap yang siap dimasukkan ke naskah skripsi/tesis/disertasimu.</p>
+          <div class="service-tags">
+            <span class="service-tag">Konsultasi metode</span><span class="service-tag">Olah data SPSS/R/JASP</span>
+            <span class="service-tag">Interpretasi output</span><span class="service-tag">Revisi bab metodologi</span>
+            <span class="service-tag">Siap sidang</span>
+          </div>
+        </div>
+        <div class="featured-price-block">
+          <div class="from">Mulai dari</div>
+          <div class="price">Rp 250K</div>
+          <div class="per">per sesi konsultasi</div>
+          <a href="#harga" class="btn-primary">Lihat Semua Paket</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="harga">
+  <div class="pricing-inner">
+    <div class="section-label">Harga terjangkau untuk mahasiswa</div>
+    <h2 class="section-title">Pilih paket yang sesuai kebutuhanmu</h2>
+    <p class="section-sub">Transparan, tanpa biaya tersembunyi. Bayar hanya untuk yang kamu butuhkan.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-card-name">Konsultasi Singkat</div>
+        <div class="price-card-desc">Untuk pertanyaan spesifik, interpretasi output, atau diskusi metode</div>
+        <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.2rem;">Mulai dari</div>
+        <div class="price-amount">250K</div>
+        <div class="price-unit">per sesi 1 jam · via Zoom/WA</div>
+        <ul class="price-features">
+          <li>Konsultasi 1 jam via Zoom</li>
+          <li>Review output statistik</li>
+          <li>Tanya jawab metodologi</li>
+          <li>Ringkasan hasil tertulis</li>
+          <li>Cocok untuk S1 & S2</li>
+        </ul>
+        <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya mau konsultasi paket Singkat" class="price-cta" target="_blank">Pesan via WhatsApp</a>
+      </div>
+      <div class="price-card recommended">
+        <div class="rec-badge">Paling Dipilih</div>
+        <div class="price-card-name">Paket Olah Data</div>
+        <div class="price-card-desc">Pengolahan data lengkap dari input sampai output + interpretasi</div>
+        <div style="font-size:0.75rem; color:rgba(255,255,255,0.6); text-transform:uppercase; margin-bottom:0.2rem;">Mulai dari</div>
+        <div class="price-amount">500K</div>
+        <div class="price-unit">per paket · 1 topik analisis</div>
+        <ul class="price-features">
+          <li>Input & cleaning data</li>
+          <li>Uji asumsi lengkap</li>
+          <li>Analisis utama (regresi/ANOVA/dll)</li>
+          <li>Interpretasi output siap tulis</li>
+          <li>Revisi 1x gratis</li>
+          <li>Deliverable: file + laporan</li>
+        </ul>
+        <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya mau paket Olah Data" class="price-cta" target="_blank">Mulai Sekarang</a>
+      </div>
+      <div class="price-card">
+        <div class="price-card-name">Pendampingan Penuh</div>
+        <div class="price-card-desc">Didampingi dari bab metodologi sampai siap sidang</div>
+        <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.2rem;">Mulai dari</div>
+        <div class="price-amount">1,2Jt</div>
+        <div class="price-unit">paket lengkap · S2/S3 · multi-sesi</div>
+        <ul class="price-features">
+          <li>3 sesi konsultasi (@ 1,5 jam)</li>
+          <li>Review bab metodologi & hasil</li>
+          <li>Olah data end-to-end</li>
+          <li>Interpretasi APA-style</li>
+          <li>Simulasi tanya jawab sidang</li>
+          <li>Prioritas respons WhatsApp</li>
+        </ul>
+        <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya mau paket Pendampingan Penuh" class="price-cta" target="_blank">Diskusi Kebutuhan</a>
+      </div>
+    </div>
+    <p class="pricing-note">
+      Butuh analisis lebih kompleks (SEM, multilevel, Bayesian, panel data)?&nbsp;
+      <a href="https://wa.me/6289655003613" target="_blank">Chat kami</a> untuk diskusi harga custom. Tidak ada komitmen.
+    </p>
+  </div>
+</section>
+
+<section class="how" id="cara-kerja">
+  <div class="how-inner">
+    <div class="section-label">Prosesnya mudah</div>
+    <h2 class="section-title">Dari WhatsApp sampai analisis selesai</h2>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-num">1</div>
+        <h3>Chat & Ceritakan Masalahmu</h3>
+        <p>Kirim pesan WhatsApp, ceritakan topik, tools yang dipakai, dan kendala statistikmu. Gratis, tanpa komitmen.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">2</div>
+        <h3>Diskusi & Pilih Paket</h3>
+        <p>Kami diskusikan kebutuhanmu, rekomendasikan metode yang tepat, dan kamu pilih paket sesuai budget.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">3</div>
+        <h3>Pengolahan & Konsultasi</h3>
+        <p>Sesi via Zoom atau pengolahan data dikerjakan. Kamu ikut belajar prosesnya, bukan cuma terima output jadi.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">4</div>
+        <h3>Siap ke Pembimbing</h3>
+        <p>Kamu dapat output, interpretasi tertulis, dan pemahaman cukup untuk menjelaskan ke pembimbing atau penguji.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="tentang">
+  <div class="about-inner">
+    <div class="about-photo-wrapper">
+      <div class="about-photo-frame">
+        <img
+          src="assets/foto-yogo.png"
+          alt="Yogo Aryo Jatmiko"
+          class="about-photo-img"
+          onerror="this.style.display='none';document.getElementById('photo-fallback').style.display='flex';"
+        >
+        <div class="about-photo-placeholder" id="photo-fallback">
+          <div class="emoji">👨‍💻</div>
+          <div class="name">Yogo Aryo Jatmiko</div>
+          <div class="title-sm">Statistisi, Analyst & Demografer<br></div>
+        </div>
+      </div>
+      <div class="about-stats-float">
+        <div class="num">10+</div>
+        <div class="lbl">Tahun pengalaman</div>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="section-label">Tentang saya</div>
+      <h2 class="section-title">Dibalik Ruang Statistika</h2>
+      <p>Halo! Saya Yogo Aryo Jatmiko — statistisi di BPS (Badan Pusat Statistik) dan dosen demografi di Polstat STIS Jakarta. Sudah lebih dari 10 tahun bekerja dengan data dan statistik di lingkungan akademis dan pemerintahan.</p>
+      <p>Ruang Statistika lahir karena saya melihat banyak mahasiswa yang cerdas tapi tersandung di statistik — bukan karena mereka tidak mampu, tapi karena kurang mendapat penjelasan yang tepat dan terjangkau.</p>
+      <p>Di sini, saya tidak cuma mengerjakan datamu. Saya ingin kamu <em>paham</em> apa yang terjadi, sehingga kamu bisa jelaskan dengan percaya diri ke pembimbing dan penguji.</p>
+      <div class="about-credentials">
+        <div class="cred"><div class="cred-title">🏛️ BPS</div><div class="cred-sub">Statistisi</div></div>
+        <div class="cred"><div class="cred-title">🎓 Polstat STIS Jakarta</div><div class="cred-sub">Dosen Statistik & Demografi</div></div>
+        <div class="cred"><div class="cred-title">📄 Publikasi Internasional</div><div class="cred-sub">8+ jurnal terindeks</div></div>
+        <div class="cred"><div class="cred-title">🤖 AI × Statistics</div><div class="cred-sub">Mentor di Jagoprompt</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <div class="section-label">Kata mereka</div>
+    <h2 class="section-title">Ulasan Klien & Peserta Pelatihan</h2>
+
+    <p class="section-sub" style="margin-bottom:2rem;">Dari peserta webinar JASP + AI dan klien konsultasi statistik</p>
+    <div class="testimonials-grid testimonials-grid-photo">
+      <div class="testimonial-card testimonial-card-photo">
+        <div class="stars">★★★★★</div>
+        <div class="reviewer-photo-wrap">
+          <img src="" alt="Didik Setiyo Widodo" class="reviewer-photo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="reviewer-photo-fallback">DSW</div>
+        </div>
+        <p class="testimonial-text">"JASP Magic membuka mata saya akan potensi statistik yang luar biasa. Bukan sekadar angka-angka kaku, tapi cerita bermakna yang tersembunyi dalam data. Pelatihan ini mengubah cara pandang saya tentang analisis data secara menyeluruh!"</p>
+        <div class="testimonial-author">
+          <div><div class="author-name">Didik Setiyo Widodo</div><div class="author-info">Dosen Kimia, Universitas Diponegoro</div></div>
+        </div>
+      </div>
+
+      <div class="testimonial-card testimonial-card-photo">
+        <div class="stars">★★★★★</div>
+        <div class="reviewer-photo-wrap">
+          <img src="" alt="Rumpoko Wicaksono" class="reviewer-photo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="reviewer-photo-fallback">RW</div>
+        </div>
+        <p class="testimonial-text">"Dulu saya belajar JASP sendiri dengan meraba-raba. Setelah mengikuti pelatihan ini, rasanya seperti mendapat kompas yang tepat. Sekarang saya jauh lebih mantap saat membimbing mahasiswa dalam mengolah data penelitian mereka."</p>
+        <div class="testimonial-author">
+          <div><div class="author-name">Rumpoko Wicaksono</div><div class="author-info">Dosen Ilmu Pangan, Universitas Jenderal Soedirman</div></div>
+        </div>
+      </div>
+
+      <div class="testimonial-card testimonial-card-photo">
+        <div class="stars">★★★★★</div>
+        <div class="reviewer-photo-wrap">
+          <img src="" alt="Imam Santoso" class="reviewer-photo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="reviewer-photo-fallback">IS</div>
+        </div>
+        <p class="testimonial-text">"Pelatihan ini memberikan pemahaman mendalam tentang JASP — dari konsep dasar hingga analisis kompleks. Yang membuat istimewa adalah panduan interpretasi berbasis AI yang memudahkan pemahaman. Kini data statistik terasa lebih hidup dan bermakna."</p>
+        <div class="testimonial-author">
+          <div><div class="author-name">Imam Santoso, S.T., M.T.</div><div class="author-info">Dosen Teknik Elektro, Undip</div></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-sub" style="margin:2.5rem 0 1.5rem;">Dari mahasiswa yang dibantu konsultasi statistik</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Data saya ada masalah heteroskedastisitas dan saya sudah panik karena sidang seminggu lagi. Mas Yogo bantu explain dengan sabar, langsung tahu solusinya pakai uji White. Akhirnya sidang lancar!</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AR</div>
+          <div><div class="author-name">Anisa R.</div><div class="author-info">Mahasiswi S2 Manajemen, UI</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Tesis saya pakai SmartPLS dan saya benar-benar tidak paham loadingnya. Setelah konsultasi 2 sesi, saya bisa jelaskan semua output ke pembimbing dengan percaya diri. Worth it banget!</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">BH</div>
+          <div><div class="author-name">Budi H.</div><div class="author-info">Mahasiswa S2 Akuntansi, UGM</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Harganya affordable dan penjelasannya mudah dipahami orang awam statistik seperti saya. Sekarang saya sudah lulus dan bisa apply ilmunya di pekerjaan. Rekomen banget!</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">FN</div>
+          <div><div class="author-name">Fitri N.</div><div class="author-info">Alumni S1 Psikologi, Unair</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="publications" id="publikasi">
+  <div class="publications-inner">
+    <div class="section-label">Karya ilmiah</div>
+    <h2 class="section-title">Publikasi Terbaru</h2>
+    <ul class="pub-list">
+      <li>
+        <div class="pub-num">1</div>
+        <div>
+          <div class="pub-title"><a href="https://doi.org/10.1007/978-981-95-4554-4_3" target="_blank" style="color:var(--navy);">Migrant Characteristics in Flux: The Influence of Covid-19 Across Indonesia</a></div>
+          <div class="pub-journal">Springer Nature Singapore</div>
+        </div>
+      </li>
+      <li>
+        <div class="pub-num">2</div>
+        <div>
+          <div class="pub-title"><a href="https://jurnal.stis.ac.id/index.php/jurnalasks/article/view/793" target="_blank" style="color:var(--navy);">Quantile Regression with Constrained B-Splines for Modelling Average Years of Schooling and Household Expenditure</a></div>
+          <div class="pub-journal">Jurnal Aplikasi Statistika dan Komputasi Statistik</div>
+        </div>
+      </li>
+      <li>
+        <div class="pub-num">3</div>
+        <div>
+          <div class="pub-title"><a href="https://jurnal.uns.ac.id/ijas/article/view/65141" target="_blank" style="color:var(--navy);">Modeling Household Food Vulnerability Levels in Indonesia in 2021 with Ordinal Logistic Regression Approach</a></div>
+          <div class="pub-journal">Indonesian Journal of Applied Statistics</div>
+        </div>
+      </li>
+      <li>
+        <div class="pub-num">4</div>
+        <div>
+          <div class="pub-title"><a href="http://journal.sragenkab.go.id/index.php/sukowati/article/view/391" target="_blank" style="color:var(--navy);">Labor Participation Of The Elderly In A Single Household In Indonesia</a></div>
+          <div class="pub-journal">Jurnal Litbang Sukowati</div>
+        </div>
+      </li>
+      <li>
+        <div class="pub-num">5</div>
+        <div>
+          <div class="pub-title"><a href="https://ejournal.uin-suska.ac.id/index.php/JSMS/article/view/16477" target="_blank" style="color:var(--navy);">Application of Multinomial Logistic Regression on Age Determinants of Childbirth Complications in Indonesia</a></div>
+          <div class="pub-journal">Jurnal Sains Matematika dan Statistika</div>
+        </div>
+      </li>
+    </ul>
+    <a class="more-link" href="https://orcid.org/0000-0002-1985-7704" target="_blank">Semua Publikasi di ORCID →</a>
+
+    <h2 class="section-title" style="margin-top:3rem;">Buku & Kontribusi Penulisan</h2>
+    <div class="books-grid">
+      <a class="book-card" href="https://www.bps.go.id/id/publication/2023/05/16/fad83131cd3bb9be3bb2a657/proyeksi-penduduk-indonesia-2020-2050.html" target="_blank">
+        <div class="book-icon">📗</div>Proyeksi Penduduk Indonesia 2020–2050
+      </a>
+      <a class="book-card" href="https://indonesia.unfpa.org/sites/default/files/pub-pdf/dokumentasi-komprehensif-sensus-penduduk-2020.pdf" target="_blank">
+        <div class="book-icon">📘</div>Dokumentasi Komprehensif SP2020
+      </a>
+      <a class="book-card" href="https://www.bps.go.id/id/publication/2024/12/18/823bf1b38eff8d07a03e2de5/pembangunan-kependudukan-dalam-upaya-pengentasan-kemiskinan.html" target="_blank">
+        <div class="book-icon">📙</div>Pembangunan Kependudukan & Kemiskinan
+      </a>
+      <a class="book-card" href="https://www.bps.go.id/id/publication/2024/12/20/43880dc0f8be5ab92199f8b9/potret-penyandang-disabilitas-di-indonesia.html" target="_blank">
+        <div class="book-icon">📕</div>Potret Disabilitas SP2020
+      </a>
+      <a class="book-card" href="https://www.bps.go.id/id/publication/2023/12/15/388847fe1848d4853c405201/kajian-fertilitas-remaja-10-14-tahun.html" target="_blank">
+        <div class="book-icon">📒</div>Kajian Fertilitas Remaja 10–14 Th
+      </a>
+      <a class="book-card" href="https://www.bps.go.id/publication/2023/09/28/e963fbb4c91c404de65f4bfc/analisis-tematik-kependudukan-indonesia.html" target="_blank">
+        <div class="book-icon">📓</div>Analisis Tematik Kependudukan SP2020
+      </a>
+      <a class="book-card" href="https://ntb.bps.go.id/publication/2023/07/14/f5deb488833b01bd89ba7e27/proyeksi-penduduk-kab-kota-ntb-2020-2035.html" target="_blank">
+        <div class="book-icon">📔</div>Proyeksi Penduduk NTB 2020–2035
+      </a>
+      <a class="book-card" href="https://yanuendarprasetyo.com/wp-content/uploads/2023/12/20-12-2023-Praktik-Ekonomi-Hijau-di-Indonesia.pdf" target="_blank">
+        <div class="book-icon">🌿</div>Praktik Ekonomi Hijau di Indonesia
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="sosmed" id="kontak">
+  <div class="sosmed-inner">
+    <div class="sosmed-text">
+      <div class="section-label">Ikuti & temukan kami di</div>
+      <h2>Ruang Statistika</h2>
+      <p>Konten statistik gratis, tips olah data, dan update terbaru setiap hari.</p>
+    </div>
+    <div class="sosmed-cards">
+      <a href="https://www.instagram.com/ruangstatistika01" target="_blank" class="sosmed-card">
+        <div class="sosmed-card-icon" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white;">📸</div>
+        <div><div class="sosmed-card-label">Instagram</div><div class="sosmed-card-name">@ruangstatistika01</div></div>
+      </a>
+      <a href="https://www.youtube.com/@YogoAryoJatmiko" target="_blank" class="sosmed-card">
+        <div class="sosmed-card-icon" style="background:#ff0000;color:white;">▶️</div>
+        <div><div class="sosmed-card-label">YouTube</div><div class="sosmed-card-name">Ruang Statistika</div></div>
+      </a>
+      <a href="https://wa.me/6289655003613" target="_blank" class="sosmed-card">
+        <div class="sosmed-card-icon" style="background:#25D366;color:white;">💬</div>
+        <div><div class="sosmed-card-label">WhatsApp</div><div class="sosmed-card-name">Chat Langsung</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="faq-inner">
+    <div class="section-label">Pertanyaan umum</div>
+    <h2 class="section-title">Ada yang ingin kamu tanyakan?</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>Apakah saya harus paham statistik dulu sebelum konsultasi?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">Sama sekali tidak. Kami terbiasa membantu mahasiswa dari semua level, termasuk yang masih bingung membedakan mean dan median sekalipun. Yang penting kamu ceritakan topik penelitianmu dan kami akan arahkan dari sana.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>Tools apa saja yang bisa dibantu?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">SPSS, JASP, R/RStudio, Stata, SmartPLS, AMOS, Eviews, dan Excel. Jika kamu pakai tools lain, tanyakan dulu via WhatsApp — kemungkinan besar kami tetap bisa bantu.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>Berapa lama prosesnya dari booking sampai hasil jadi?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">Konsultasi singkat bisa dijadwalkan dalam 1–2 hari. Paket olah data biasanya selesai 2–3 hari kerja. Pendampingan penuh, kita atur jadwal sesi bersama sesuai waktumu.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>Apakah ini termasuk joki skripsi?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">Tidak. Ruang Statistika adalah layanan konsultasi dan pendampingan. Kami mengajarkan kamu cara mengolah data dan memahami hasilnya — bukan mengerjakan skripsimu. Tujuan kami agar kamu bisa menjelaskan hasil penelitianmu sendiri di depan penguji.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>Bagaimana cara pembayarannya?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">Transfer bank (BCA, BRI) atau dompet digital (GoPay, OVO, Shopeepay). Pembayaran di awal untuk sesi singkat, dan bisa dicicil 50% untuk paket pendampingan penuh.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>Ada garansi kalau saya tidak puas?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">Untuk paket olah data, kami menyediakan 1x revisi gratis. Jika hasilnya masih tidak sesuai, kami akan diskusikan solusinya. Kepuasan kamu adalah prioritas kami.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <h2>Sudah saatnya statistikmu beres.</h2>
+  <p>Jangan biarkan angka-angka menghalangi kamu dari lulus. Chat kami sekarang — gratis, tanpa komitmen, dan kami siap membantu.</p>
+  <div class="final-cta-actions">
+    <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya butuh bantuan konsultasi statistik untuk penelitian saya." class="btn-primary" target="_blank">💬 Chat WhatsApp Sekarang</a>
+    <a href="#harga" class="btn-outline">Lihat Paket Harga</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Yogo Aryo Jatmiko · Ruang Statistika</div>
+    <div class="footer-links">
+      <a href="#akademik">Akademik</a>
+      <a href="#layanan">Layanan</a>
+      <a href="#harga">Harga</a>
+      <a href="#publikasi">Publikasi</a>
+      <a href="legacy/index.html">Website Lama</a>
+      <a href="https://linktr.ee/yogojatmiko" target="_blank">Linktree</a>
+    </div>
+    <div class="footer-copy">© 2026 Yogo Aryo Jatmiko · All Rights Reserved</div>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Mobile nav toggle
+const ham = document.getElementById('hamburger');
+const mob = document.getElementById('mobileNav');
+ham.addEventListener('click', () => {
+  mob.style.display = mob.style.display === 'block' ? 'none' : 'block';
+});
+
+// Hide nav links on mobile
+function checkWidth() {
+  const links = document.getElementById('navLinks');
+  if (window.innerWidth < 600) {
+    links.style.display = 'none';
+    ham.style.display = 'flex';
+  } else {
+    links.style.display = 'flex';
+    ham.style.display = 'none';
+    mob.style.display = 'none';
+  }
+}
+checkWidth();
+window.addEventListener('resize', checkWidth);
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.pain-card, .service-card, .price-card, .how-step, .testimonial-card, .cred, .book-card, .pub-list li, .shiny-frame-container').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(18px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
