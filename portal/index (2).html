@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ruang Statistika | Yogo AJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===================== RESET & BASE ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #1a1a2e;
+      --ink-mid:   #2c3e50;
+      --ink-soft:  #4a5568;
+      --ink-muted: #718096;
+      --gold:      #c9a84c;
+      --gold-lt:   #e8c97a;
+      --cream:     #faf7f2;
+      --cream-dk:  #f0ebe1;
+      --white:     #ffffff;
+      --card-bg:   #ffffff;
+      --shadow-sm: 0 2px 8px rgba(26,26,46,0.06);
+      --shadow-md: 0 8px 28px rgba(26,26,46,0.12);
+      --shadow-lg: 0 20px 56px rgba(26,26,46,0.16);
+      --radius:    14px;
+      --nav-h:     68px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===================== NAVBAR ===================== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: rgba(26,26,46,0.96);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      border-bottom: 1px solid rgba(201,168,76,0.25);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .nav-brand .logo-mark {
+      width: 36px; height: 36px;
+      background: var(--gold);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+    .nav-brand .brand-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      color: var(--white);
+      letter-spacing: 0.01em;
+    }
+    .nav-brand .brand-sub {
+      font-size: 0.7rem;
+      color: var(--gold-lt);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: block;
+      margin-top: -3px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 7px 16px;
+      border-radius: 100px;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--white);
+      border-color: rgba(201,168,76,0.45);
+      background: rgba(201,168,76,0.08);
+    }
+    .nav-links .nav-cta {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+      font-weight: 600;
+    }
+    .nav-links .nav-cta:hover {
+      background: var(--gold-lt);
+      border-color: var(--gold-lt);
+      color: var(--ink);
+    }
+
+    /* ===================== HERO ===================== */
+    .hero {
+      min-height: 100vh;
+      padding-top: var(--nav-h);
+      background: var(--ink);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Decorative grid */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    /* Glow blobs */
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .hero-blob-1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--gold), transparent 70%);
+      top: -100px; left: -100px;
+      animation: floatBlob 12s ease-in-out infinite;
+    }
+    .hero-blob-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #4a90d9, transparent 70%);
+      bottom: -80px; right: -80px;
+      animation: floatBlob 15s ease-in-out infinite reverse;
+    }
+
+    @keyframes floatBlob {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(30px, 20px) scale(1.08); }
+    }
+
+    .hero-inner {
+      position: relative;
+      text-align: center;
+      padding: 0 24px;
+      max-width: 760px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.35);
+      color: var(--gold-lt);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      color: var(--white);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.58);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 40px;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 100px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.22s;
+      letter-spacing: 0.02em;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--ink);
+    }
+    .btn-gold:hover {
+      background: var(--gold-lt);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,168,76,0.35);
+    }
+    .btn-outline {
+      background: transparent;
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.08);
+      color: var(--white);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    /* Stats strip */
+    .hero-stats {
+      margin-top: 72px;
+      display: flex;
+      gap: 0;
+      justify-content: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      width: 100%;
+      max-width: 680px;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .stat {
+      flex: 1;
+      padding: 28px 20px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.1rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.38);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      animation: fadeIn 1s 1s ease both;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(201,168,76,0.5), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.15); }
+    }
+
+    /* ===================== GALLERY SECTION ===================== */
+    .gallery {
+      padding: 100px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .section-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--ink);
+      line-height: 1.15;
+    }
+    .section-title em { font-style: italic; }
+    .section-rule {
+      width: 56px; height: 3px;
+      background: var(--gold);
+      margin: 20px auto 0;
+      border-radius: 2px;
+    }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 52px;
+    }
+    .filter-btn {
+      padding: 7px 20px;
+      border-radius: 100px;
+      border: 1px solid rgba(26,26,46,0.15);
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: all 0.18s;
+      letter-spacing: 0.03em;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--ink);
+      color: var(--white);
+      border-color: var(--ink);
+    }
+
+    /* Cards grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(26,26,46,0.07);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.28s cubic-bezier(0.34,1.4,0.64,1), box-shadow 0.28s ease;
+      opacity: 0;
+      animation: cardReveal 0.5s ease forwards;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-img-wrap {
+      position: relative;
+      height: 190px;
+      overflow: hidden;
+      background: var(--cream-dk);
+    }
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .card:hover .card-img-wrap img {
+      transform: scale(1.06);
+    }
+    .card-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--ink) 0%, #2c3e50 100%);
+      font-family: 'DM Serif Display', serif;
+      font-size: 3rem;
+      color: rgba(201,168,76,0.4);
+    }
+
+    /* Tag overlay on image */
+    .card-tag {
+      position: absolute;
+      top: 12px; right: 12px;
+      background: rgba(26,26,46,0.85);
+      color: var(--gold-lt);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      backdrop-filter: blur(4px);
+    }
+
+    .card-body {
+      padding: 22px 22px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.08rem;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+    .card-desc {
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-footer {
+      padding: 0 22px 20px;
+    }
+    .card-btn {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      background: var(--ink);
+      color: var(--white);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 10px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .card-btn:hover {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    /* staggered card animation delays */
+    .card:nth-child(1)  { animation-delay: 0.05s; }
+    .card:nth-child(2)  { animation-delay: 0.10s; }
+    .card:nth-child(3)  { animation-delay: 0.15s; }
+    .card:nth-child(4)  { animation-delay: 0.20s; }
+    .card:nth-child(5)  { animation-delay: 0.25s; }
+    .card:nth-child(6)  { animation-delay: 0.30s; }
+    .card:nth-child(7)  { animation-delay: 0.35s; }
+    .card:nth-child(8)  { animation-delay: 0.40s; }
+    .card:nth-child(9)  { animation-delay: 0.45s; }
+
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===================== ABOUT STRIP ===================== */
+    .about-strip {
+      background: var(--ink);
+      padding: 80px 40px;
+      text-align: center;
+    }
+    .about-strip .about-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .about-strip h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .about-strip h2 em { color: var(--gold); font-style: italic; }
+    .about-strip p {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.95rem;
+      line-height: 1.75;
+      margin-bottom: 36px;
+    }
+    .about-links {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .about-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.8);
+      transition: all 0.2s;
+      letter-spacing: 0.03em;
+    }
+    .about-link:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .about-link.primary {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+    }
+    .about-link.primary:hover {
+      background: var(--gold-lt);
+      border-color: var(--gold-lt);
+      color: var(--ink);
+    }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      background: #111122;
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer .foot-brand {
+      font-family: 'DM Serif Display', serif;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.95rem;
+    }
+    footer .foot-brand span { color: var(--gold); }
+    footer .foot-copy {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.22);
+      letter-spacing: 0.06em;
+    }
+
+    /* ===================== UTILITY ANIMATIONS ===================== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-brand .brand-text { font-size: 1rem; }
+      .hero-stats { flex-wrap: wrap; }
+      .stat { flex: 1 1 45%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .gallery { padding: 60px 20px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: center; text-align: center; }
+    }
+  </style>
+</head>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav>
+<a href="#" class="nav-brand">
+  <div class="nav-logo-mark" style="background: transparent; display: flex; align-items: center; justify-content: center;">
+    <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <rect x="25" y="55" width="12" height="25" rx="2" fill="#FFFFFF"/>
+      <rect x="45" y="40" width="12" height="40" rx="2" fill="#FFFFFF"/>
+      
+      <path d="M20,70 C35,60 55,50 75,35" stroke="#FFD700" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <rect x="65" y="25" width="12" height="55" rx="2" fill="#FFD700"/>
+      <path d="M75,35 L68,38 L72,31 Z" fill="#FFD700"/>
+    </svg>
+  </div>
+  <span class="nav-brand-text" style="color: #FFFFFF;">Ruang Statistika</span>
+  <span class="nav-brand-sub" style="color: #FFD700;">Portal by Yogo AJ</span>
+</a>
+    <div class="nav-links">
+      <a href="#gallery">Dashboard</a>
+      <a href="#about">Tentang</a>
+      <a href="https://yogoaj.github.io" target="_blank" class="nav-cta">↗ Developer</a>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+
+    <div class="hero-inner">
+      <div class="hero-badge">Demografi · Statistika · Pemodelan</div>
+      <h1 class="hero-title">
+        Ruang<br><em>Statistika</em>
+      </h1>
+      <p class="hero-desc">
+        Kumpulan aplikasi analisis data dan pemodelan demografi yang dikembangkan oleh Yogo AJ.
+      </p>
+      <div class="hero-actions">
+        <a href="#gallery" class="btn btn-gold">Jelajahi Dashboard</a>
+        <a href="https://yogoaj.github.io" target="_blank" class="btn btn-outline">↗ Tentang Developer</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">9</div>
+          <div class="stat-lbl">Aplikasi</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">R</div>
+          <div class="stat-lbl">Shiny & GitHub</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">BPS</div>
+          <div class="stat-lbl">Institusi</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">ID</div>
+          <div class="stat-lbl">Fokus Wilayah</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ===================== GALLERY ===================== -->
+  <section class="gallery" id="gallery">
+    <div class="section-header">
+      <div class="section-eyebrow">Dashboard Gallery</div>
+      <h2 class="section-title">Aplikasi <em>& Tools</em></h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterCards('all', this)">Semua</button>
+      <button class="filter-btn" onclick="filterCards('proyeksi', this)">Proyeksi</button>
+      <button class="filter-btn" onclick="filterCards('demografi', this)">Demografi</button>
+      <button class="filter-btn" onclick="filterCards('visualisasi', this)">Visualisasi</button>
+      <button class="filter-btn" onclick="filterCards('life-table', this)">Life Table</button>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid">
+
+      <a class="card" href="https://yogoaj.shinyapps.io/digdem/" target="_blank" data-tags="demografi visualisasi">
+        <div class="card-img-wrap">
+          <img src="digdem_app.png" alt="Digital Demography" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-img-placeholder" style="display:none">📊</div>
+          <div class="card-tag">Demografi</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Digital Demography</div>
+          <div class="card-desc">Alat analisis data demografi Indonesia. Eksplorasi berbagai tab untuk visualisasi dan ringkasan data.</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-btn">Open Dashboard →</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://yogoaj.shinyapps.io/TFRLGSTNew/" target="_blank" data-tags="proyeksi demografi">
+        <div class="card-img-wrap">
+          <img src="tfr_app.png" alt="Simulator TFR" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-img-placeholder" style="display:none">📈</div>
+          <div class="card-tag">Proyeksi</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Simulator Proyeksi TFR Logistik</div>
+          <div class="card-desc">Proyeksi TFR menggunakan metode Logistik dengan fitur optimasi asimtot otomatis (Goal Seek).</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-btn">Open Dashboard →</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://yogoaj.shinyapps.io/E0PRJ/" target="_blank" data-tags="proyeksi life-table">
+        <div class="card-img-wrap">
+          <img src="prob_proj.png" alt="Simulator e0" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-img-placeholder" style="display:none">🔢</div>
+          <div class="card-tag">Proyeksi</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Simulator Proyeksi e₀ Logistik</div>
+          <div class="card-desc">Pemodelan proyeksi Angka Harapan Hidup (e₀/AHH/UHH) dengan metode Logistik.</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-btn">Open Dashboard →</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://yogoaj2.shinyapps.io/BEERSP/" target="_blank" data-tags="demografi">
+        <div class="card-img-wrap">
+          <img src="beer_tool.png" alt="BEERSP" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-img-placeholder" style="display:none">🧮</div>
+          <div class="card-tag">Metode</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Simulator Pecah Umur Tunggal — BEERSP</div>
+          <div class="card-desc">Aplikasi untuk melakukan pemecahan umur tunggal dengan Metode Beers, baik original maupun modified.</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-btn">Open Dashboard →</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://yogoaj.shinyapps.io/Proj2020to2050/" target="_blank" data-tags="proyeksi visualisasi demografi">
+        <div class="card-img-wrap">
+          <img src="proj_pop.png" alt="Integrated Population Analysis" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-img-placeholder" style="display:none">🌐</div>
+          <div class="card-tag">Proyeksi</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Integrated Population Analysis</div>
+          <div class="card-desc">Dashboard Analisis Penduduk berdasarkan Hasil Rilis Proyeksi Penduduk 2020–2050.</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-btn">Open Dashboard →</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://yogoaj.shinyapps.io/monte_carlo/" target="_blank" data-tags="life-table demografi">
+        <div class="card-img-wrap">
+          <img src="comp_lt.png" alt="Complete Life Table" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-img-placeholder" style="display:none">📋</div>
+          <div class="card-tag">Life Table</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Complete Life Table Generator</div>
+          <div class="card-desc">Aplikasi untuk menghitung dan memvisualisasikan complete life table dari data abridged sebagai input.</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-btn">Open Dashboard →</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://yogoaj.github.io/idn-lfpc2020-parameters/#5/-0.957/116.800" target="_blank" data-tags="visualisasi demografi">
+        <div class="card-img-wrap">
+          <img src="idn_lf.png" alt="Webmap LF PC2020" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-img-placeholder" style="display:none">🗺️</div>
+          <div class="card-tag">Peta Interaktif</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Webmap — LF PC2020 Parameters</div>
+          <div class="card-desc">Aplikasi berbasis peta yang menampilkan parameter provinsi berdasarkan hasil LF SP2020.</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-btn">Open Dashboard →</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://yogoaj.shinyapps.io/one_data_dashboard/" target="_blank" data-tags="visualisasi">
+        <div class="card-img-wrap">
+          <img src="one_data.png" alt="One Data Dashboard" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-img-placeholder" style="display:none">📦</div>
+          <div class="card-tag">Visualisasi</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">One Data Dashboard</div>
+          <div class="card-desc">Visualisasi data indikator strategis dalam kerangka Satu Data Indonesia (BPS).</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-btn">Open Dashboard →</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://yogoaj.github.io/narrative-project/" target="_blank" data-tags="visualisasi">
+        <div class="card-img-wrap">
+          <img src="twine_app.png" alt="Interactive Narratives" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-img-placeholder" style="display:none">📖</div>
+          <div class="card-tag">Narasi</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Interactive Narratives</div>
+          <div class="card-desc">Eksperimen narasi interaktif mengenai kebijakan kependudukan dan simulasi sosial.</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-btn">Open Dashboard →</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT STRIP ===================== -->
+  <section class="about-strip" id="about">
+    <div class="about-inner">
+      <h2>Tentang <em>Developer</em></h2>
+      <p>
+        Yogo AJ adalah Founder Ruang Statistika, Statistisi di BPS (Badan Pusat Statistik) dan Dosen demografi di Polstat STIS Jakarta serta Coach Mentor di Jagoprompt. Sudah lebih dari 10 tahun bekerja dengan data dan statistik di lingkungan akademis dan pemerintahan. Beliau berfokus pada analisis dan pemodelan demografi Indonesia — termasuk proyeksi penduduk, life table, dan diseminasi data statistik. Portal ini merupakan kumpulan alat dan eksperimen yang dikembangkan secara mandiri.
+      </p>
+      <div class="about-links">
+        <a href="https://yogoaj.github.io" target="_blank" class="about-link primary">↗ Kunjungi Website</a>
+        <a href="https://yogoaj.shinyapps.io" target="_blank" class="about-link">shinyapps.io</a>
+        <a href="https://github.com/yogoaj" target="_blank" class="about-link">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="foot-brand">Ruang <span>Statistika</span></div>
+    <div class="foot-copy">© 2026 Yogo AJ</div>
+  </footer>
+
+  <!-- ===================== SCRIPTS ===================== -->
+  <script>
+    // Filter cards by tag
+    function filterCards(tag, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('#cardsGrid .card');
+      cards.forEach((card, i) => {
+        const tags = card.dataset.tags || '';
+        const show = tag === 'all' || tags.includes(tag);
+        card.style.display = show ? 'flex' : 'none';
+        if (show) {
+          card.style.animation = 'none';
+          card.offsetHeight; // reflow
+          card.style.animation = `cardReveal 0.4s ease ${i * 0.05}s forwards`;
+          card.style.opacity = '0';
+        }
+      });
+    }
+
+    // Smooth scroll for hero button
+    document.querySelector('a[href="#gallery"]')?.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+    });
+    document.querySelector('a[href="#about"]')?.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Intersection Observer for card reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.card').forEach(c => observer.observe(c));
+  </script>
+</body>
+</html>
