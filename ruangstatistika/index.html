@@ -1,1 +1,1298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruang Statistika v4.5 — AI-Powered Research & Stats Reporting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0c2340;
+  --navy2: #0f2d52;
+  --blue: #185FA5;
+  --accent: #378add;
+  --gold: #F5C518;
+  --gold2: #e6b800;
+  --purple: #6366f1;
+  --purple-bg: #ede9fe;
+  --green: #3b6d11;
+  --green-bg: #eaf3de;
+  --red: #e11d48;
+  --bg: #F4F8FD;
+  --card: #ffffff;
+  --muted: #64748b;
+  --border: #dde8f5;
+  --text: #1a2940;
+}
 
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Sora', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ─── PROMO BAR ─── */
+.promo-bar {
+  background: var(--gold); color: var(--navy); text-align: center;
+  padding: 9px 5%; font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
+}
+.promo-bar span { background: var(--navy); color: var(--gold); padding: 2px 8px; border-radius: 4px; }
+.promo-countdown {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--navy); color: var(--gold); padding: 3px 10px; border-radius: 6px;
+  font-size: 13px; font-weight: 800; letter-spacing: 0.5px;
+}
+.promo-countdown #countdown-timer { font-variant-numeric: tabular-nums; }
+
+/* ─── NAVBAR ─── */
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem 5%;
+  background: var(--navy);
+  position: sticky; top: 0; z-index: 200;
+  border-bottom: 2px solid rgba(245,197,24,0.3);
+}
+.nav-brand { font-family: 'Playfair Display', serif; color: #fff; font-size: 20px; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+.nav-brand span { color: var(--gold); }
+.nav-brand .version-tag { font-size: 11px; font-family: 'Sora', sans-serif; background: rgba(245,197,24,0.15); color: var(--gold); padding: 2px 7px; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px; }
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-links a { color: rgba(255,255,255,0.65); font-size: 13px; text-decoration: none; transition: .2s; }
+.nav-links a:hover { color: #fff; }
+.nav-cta { background: var(--gold); color: var(--navy); padding: 0.55rem 1.4rem; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none; white-space: nowrap; transition: .2s; }
+.nav-cta:hover { background: var(--gold2); transform: translateY(-1px); }
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--navy);
+  padding: 5.5rem 5% 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(24,95,165,0.35) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(245,197,24,0.12); border: 1px solid rgba(245,197,24,0.4);
+  color: var(--gold); padding: 5px 16px; border-radius: 99px;
+  font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+  margin-bottom: 1.8rem;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 5.5vw, 68px);
+  line-height: 1.08;
+  color: #fff;
+  max-width: 920px; margin: 0 auto 1.2rem;
+}
+.hero h1 em { color: var(--gold); font-style: italic; }
+.hero-sub {
+  font-size: 18px; color: rgba(255,255,255,0.7);
+  max-width: 680px; margin: 0 auto 2rem;
+}
+.hero-pain {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+  max-width: 800px; margin: 0 auto 2.4rem;
+}
+.pain-tag {
+  background: rgba(225,29,72,0.12); border: 1px solid rgba(225,29,72,0.3);
+  color: #fca5a5; padding: 5px 14px; border-radius: 99px; font-size: 13px;
+}
+.hero-btns { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.btn-hero { padding: 1rem 2.4rem; border-radius: 10px; font-size: 17px; font-weight: 700; text-decoration: none; transition: .2s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-gold { background: var(--gold); color: var(--navy); box-shadow: 0 4px 24px rgba(245,197,24,0.35); }
+.btn-gold:hover { background: var(--gold2); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.3); }
+.btn-ghost:hover { background: rgba(255,255,255,0.08); }
+
+.hero-stats {
+  display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+  margin-top: 3rem; padding-top: 2.5rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.stat-item { text-align: center; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 36px; color: var(--gold); font-weight: 900; }
+.stat-label { font-size: 12px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+/* ─── WHAT'S NEW BANNER ─── */
+.whatsnew-bar {
+  background: linear-gradient(90deg, #1a1060 0%, #0f2d52 50%, #0c2340 100%);
+  border-top: 1px solid rgba(99,102,241,0.3);
+  border-bottom: 1px solid rgba(99,102,241,0.3);
+  padding: 1.2rem 5%;
+  text-align: center;
+}
+.whatsnew-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+.whatsnew-badge { 
+  background: linear-gradient(90deg, #6366f1, #8b5cf6); color: white; 
+  padding: 3px 12px; border-radius: 99px; font-size: 11px; font-weight: 800; 
+  letter-spacing: 1px; white-space: nowrap; flex-shrink: 0; margin-top: 3px;
+}
+.whatsnew-text { font-size: 13.5px; color: rgba(255,255,255,0.8); text-align: left; line-height: 1.7; }
+.whatsnew-text strong { color: #fff; }
+
+/* ─── PRIVATE BY DESIGN ─── */
+.privacy-section {
+  background: linear-gradient(135deg, #0f2d52 0%, #1a1060 100%);
+  padding: 3.5rem 5%;
+  border-top: 3px solid var(--purple);
+  border-bottom: 3px solid var(--purple);
+}
+.privacy-inner {
+  max-width: 900px; margin: 0 auto;
+  display: flex; align-items: center; gap: 40px; flex-wrap: wrap;
+}
+.privacy-icon {
+  width: 80px; height: 80px; min-width: 80px;
+  background: var(--purple-bg); border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 38px;
+}
+.privacy-text h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: #fff; margin-bottom: 8px; }
+.privacy-text p { color: rgba(255,255,255,0.8); font-size: 15px; line-height: 1.7; }
+.privacy-text p strong { color: var(--gold); }
+
+/* ─── SECTION WRAPPER ─── */
+.section { padding: 5rem 5%; max-width: 1200px; margin: 0 auto; }
+.section-eyebrow { font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 40px); color: var(--navy); margin-bottom: 1rem; }
+.section-sub { font-size: 16px; color: var(--muted); max-width: 600px; margin: 0 auto 3rem; }
+.text-center { text-align: center; }
+
+/* ─── HOW IT WORKS STEPS ─── */
+.steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; max-width: 1000px; margin: 0 auto; }
+.step-card {
+  background: #fff; border-radius: 16px; padding: 1.8rem 1.5rem;
+  border: 1.5px solid var(--border); text-align: center; position: relative;
+  transition: .3s;
+}
+.step-card:hover { border-color: var(--blue); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(24,95,165,0.08); }
+.step-num {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--navy);
+  color: var(--gold); font-weight: 800; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 12px;
+}
+.step-icon { font-size: 28px; margin-bottom: 10px; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+.step-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+/* ─── COMPARISON TABLE ─── */
+.compare-wrap { overflow-x: auto; border-radius: 20px; box-shadow: 0 8px 40px rgba(12,35,64,0.08); }
+.compare-table { width: 100%; border-collapse: collapse; background: #fff; min-width: 600px; }
+.compare-table th { padding: 1.1rem 1.4rem; font-size: 14px; font-weight: 700; text-align: center; }
+.compare-table th:first-child { text-align: left; background: var(--navy); color: #fff; }
+.compare-table th.col-free { background: #f1f5f9; color: var(--navy); }
+.compare-table th.col-pro { background: var(--gold); color: var(--navy); }
+.compare-table td { padding: 0.95rem 1.4rem; border-bottom: 1px solid var(--border); font-size: 14px; text-align: center; }
+.compare-table td:first-child { text-align: left; font-weight: 500; }
+.compare-table tr:hover td { background: #f8fbff; }
+.compare-table .row-group { background: #f4f8fd; }
+.compare-table .row-group td { font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1px; padding: 8px 1.4rem; border-bottom: 1px solid var(--border); }
+.compare-table .row-group td:first-child { text-align: left; }
+.ico-yes { color: var(--green); font-weight: 700; font-size: 18px; }
+.ico-partial { color: #d97706; font-size: 13px; font-weight: 600; }
+.ico-no { color: #cbd5e1; font-size: 18px; }
+
+/* ─── PRODUCT DEMO MOCKUP ─── */
+.demo-section { background: #f0f6ff; padding: 4rem 5%; }
+.demo-inner { max-width: 1000px; margin: 0 auto; }
+.demo-browser {
+  background: #fff; border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(12,35,64,0.14);
+  overflow: hidden; border: 1.5px solid #dde8f5;
+}
+.demo-topbar {
+  background: #f1f5f9; padding: 10px 16px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid #dde8f5;
+}
+.demo-dots { display: flex; gap: 6px; }
+.demo-dots span { width: 12px; height: 12px; border-radius: 50%; }
+.demo-dots span:nth-child(1) { background: #ff5f57; }
+.demo-dots span:nth-child(2) { background: #ffbd2e; }
+.demo-dots span:nth-child(3) { background: #28ca41; }
+.demo-url { flex: 1; background: #fff; border: 1px solid #dde8f5; border-radius: 6px; padding: 4px 12px; font-size: 12px; color: var(--muted); }
+.demo-content { display: flex; min-height: 340px; }
+.demo-sidebar {
+  width: 180px; min-width: 180px; background: var(--navy);
+  padding: 1rem 0; border-right: 1px solid rgba(255,255,255,0.06);
+}
+.demo-sidebar-logo { padding: 0.5rem 1rem 1rem; font-family: 'Playfair Display', serif; font-size: 14px; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 0.5rem; }
+.demo-sidebar-logo span { color: var(--gold); }
+.demo-nav-item {
+  padding: 8px 14px; font-size: 12px; color: rgba(255,255,255,0.55);
+  display: flex; align-items: center; gap: 8px; cursor: default; transition: .2s;
+}
+.demo-nav-item.active { background: rgba(245,197,24,0.12); color: var(--gold); font-weight: 600; border-left: 3px solid var(--gold); }
+.demo-nav-label { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 1.5px; padding: 10px 14px 4px; }
+.demo-main { flex: 1; padding: 1.5rem; background: #f8faff; display: flex; flex-direction: column; gap: 12px; }
+.demo-header-row { display: flex; justify-content: space-between; align-items: center; }
+.demo-title-chip { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--navy); font-weight: 700; }
+.demo-chip { background: var(--navy); color: var(--gold); font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 99px; }
+.demo-upload-zone {
+  background: #fff; border: 2px dashed #c7d9f0; border-radius: 12px;
+  padding: 1rem; text-align: center; font-size: 12px; color: var(--muted);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.demo-upload-zone strong { color: var(--navy); }
+.demo-file-loaded { background: var(--navy); color: #fff; border-radius: 10px; padding: 0.8rem 1rem; font-size: 12px; display: flex; align-items: center; gap: 8px; }
+.demo-file-loaded .file-badge { background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; }
+.demo-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.demo-stat-box { background: #fff; border-radius: 8px; padding: 0.7rem; border: 1px solid var(--border); text-align: center; }
+.demo-stat-box .val { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: var(--navy); }
+.demo-stat-box .lbl { font-size: 10px; color: var(--muted); }
+.demo-ai-block { background: linear-gradient(135deg, #0c2340, #185FA5); border-radius: 10px; padding: 0.9rem 1rem; }
+.demo-ai-block .ai-label { font-size: 10px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+.demo-ai-block .ai-text { font-size: 11px; color: rgba(255,255,255,0.85); line-height: 1.6; }
+.demo-export-btn {
+  background: var(--gold); color: var(--navy); border: none; border-radius: 8px;
+  padding: 10px 18px; font-size: 13px; font-weight: 800; cursor: default;
+  display: flex; align-items: center; gap: 6px; width: 100%; justify-content: center;
+}
+.demo-arrow-flow { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 1.5rem; }
+.demo-step-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: #fff; border: 1.5px solid var(--border); border-radius: 99px;
+  padding: 7px 16px; font-size: 12.5px; font-weight: 600; color: var(--navy);
+}
+.demo-step-pill .num { background: var(--navy); color: var(--gold); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; flex-shrink: 0; }
+.demo-arrow { color: var(--blue); font-size: 18px; font-weight: 900; }
+.demo-step-pill.final { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+
+/* ─── PRICING REVAMP ─── */
+.pricing-section { background: var(--navy); padding: 5rem 5%; }
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+.price-card {
+  background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1);
+  border-radius: 24px; padding: 2.5rem 2rem;
+  position: relative; transition: .3s;
+}
+.price-card:hover { transform: translateY(-5px); border-color: rgba(245,197,24,0.4); }
+.price-card.featured {
+  border: 2px solid var(--gold);
+  background: rgba(245,197,24,0.06);
+  box-shadow: 0 0 0 4px rgba(245,197,24,0.08), 0 20px 60px rgba(0,0,0,0.3);
+}
+.badge-best {
+  position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(90deg, #d4a017, var(--gold), #d4a017);
+  color: var(--navy); padding: 5px 20px; border-radius: 99px;
+  font-size: 11px; font-weight: 800; white-space: nowrap; letter-spacing: 0.5px;
+  box-shadow: 0 4px 16px rgba(245,197,24,0.4);
+}
+.plan-name { font-size: 13px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+.plan-headline { font-family: 'Playfair Display', serif; font-size: 22px; color: #fff; margin-bottom: 4px; }
+.plan-sub-copy { font-size: 12.5px; color: rgba(255,255,255,0.5); margin-bottom: 1.2rem; font-style: italic; line-height: 1.5; }
+.plan-price-old { font-size: 14px; color: rgba(255,255,255,0.3); text-decoration: line-through; }
+.plan-price { font-family: 'Playfair Display', serif; font-size: 52px; color: #fff; font-weight: 900; line-height: 1; margin: 4px 0 2px; }
+.plan-price-micro { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 1.4rem; }
+.plan-duration {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  padding: 3px 10px; border-radius: 6px; margin-bottom: 1.4rem;
+}
+.dur-trial { background: rgba(99,102,241,0.2); color: #a5b4fc; }
+.dur-life { background: rgba(245,197,24,0.15); color: var(--gold); }
+.dur-inst { background: rgba(59,109,17,0.2); color: #86efac; }
+.plan-features { list-style: none; margin-bottom: 2rem; }
+.plan-features li { font-size: 13.5px; color: rgba(255,255,255,0.8); padding: 5px 0; display: flex; gap: 8px; }
+.plan-features li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+.plan-features li.dim { color: rgba(255,255,255,0.35); }
+.plan-features li.dim::before { content: '—'; color: rgba(255,255,255,0.2); }
+.plan-features li.bonus::before { content: '🎁'; }
+.btn-plan { width: 100%; padding: 0.9rem; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; display: block; text-align: center; transition: .2s; cursor: pointer; border: none; }
+.btn-plan-gold { background: var(--gold); color: var(--navy); }
+.btn-plan-gold:hover { background: var(--gold2); }
+.btn-plan-outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.25); }
+.btn-plan-outline:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05); }
+.btn-plan-green { background: #22c55e; color: #052e16; }
+.btn-plan-green:hover { background: #16a34a; }
+.pricing-note { text-align: center; font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 2rem; }
+.entry-nudge { text-align: center; margin-bottom: 2rem; background: rgba(245,197,24,0.07); border: 1px solid rgba(245,197,24,0.2); border-radius: 12px; padding: 0.9rem 1.5rem; max-width: 680px; margin-left: auto; margin-right: auto; font-size: 14px; color: rgba(255,255,255,0.75); }
+
+/* ─── E-BOOK BONUS ─── */
+.ebook-section { background: #f0f6ff; padding: 5rem 5%; }
+.ebook-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
+.ebook-card {
+  background: #fff; border-radius: 20px; overflow: hidden;
+  border: 1.5px solid var(--border); transition: .3s;
+  display: flex; flex-direction: column;
+}
+.ebook-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(12,35,64,0.1); }
+.ebook-cover {
+  height: 120px; display: flex; align-items: center; justify-content: center;
+  font-size: 52px; position: relative;
+}
+.ebook-cover-1 { background: linear-gradient(135deg, #0c2340 0%, #185FA5 100%); }
+.ebook-cover-2 { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); }
+.ebook-cover-3 { background: linear-gradient(135deg, #b45309 0%, #d97706 100%); }
+.ebook-cover-4 { background: linear-gradient(135deg, #166534 0%, #15803d 100%); }
+.ebook-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
+.ebook-plan { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.ebook-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--navy); margin-bottom: 6px; font-weight: 700; }
+.ebook-audience { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.ebook-value { font-size: 13px; font-weight: 600; color: var(--green); margin-top: auto; }
+
+/* ─── FEATURES ─── */
+.feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px; }
+.feat-card {
+  background: #fff; border-radius: 18px; padding: 2rem;
+  border: 1.5px solid var(--border); transition: .3s;
+}
+.feat-card:hover { border-color: var(--blue); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(24,95,165,0.08); }
+.feat-icon { font-size: 32px; margin-bottom: 12px; }
+.feat-title { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.feat-desc { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+.feat-new { display: inline-block; background: linear-gradient(90deg, #6366f1, #8b5cf6); color: #fff; font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 4px; margin-bottom: 6px; letter-spacing: 0.5px; }
+
+/* ─── MODULE GRID ─── */
+.module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.module-pill {
+  background: #fff; border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 0.75rem 1rem; font-size: 13px; font-weight: 500; color: var(--navy);
+  display: flex; align-items: center; gap: 8px; transition: .2s;
+}
+.module-pill:hover { border-color: var(--blue); background: #f4f8fd; }
+.module-pill.is-pro { border-color: #d4c5fb; background: #faf8ff; color: #4338ca; }
+.module-pill.is-pro:hover { border-color: var(--purple); background: var(--purple-bg); }
+.module-pill .pill-icon { font-size: 16px; flex-shrink: 0; }
+.module-pill .pro-star { font-size: 10px; color: #8b5cf6; margin-left: auto; font-weight: 700; }
+
+/* ─── TESTIMONIALS ─── */
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.testi-card {
+  background: #fff; border-radius: 18px; padding: 2rem;
+  border-left: 4px solid var(--blue); box-shadow: 0 4px 16px rgba(12,35,64,0.05);
+}
+.testi-stars { color: var(--gold); font-size: 15px; margin-bottom: 10px; }
+.testi-text { font-size: 14px; color: var(--text); line-height: 1.7; font-style: italic; margin-bottom: 14px; }
+.testi-author { display: flex; align-items: center; gap: 10px; }
+.testi-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--navy); display: flex; align-items: center; justify-content: center;
+  color: var(--gold); font-weight: 700; font-size: 15px; flex-shrink: 0;
+}
+.testi-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+.testi-role { font-size: 12px; color: var(--muted); }
+
+/* ─── SUCCESS EXAMPLES ─── */
+.success-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.success-card {
+  background: linear-gradient(135deg, #0c2340 0%, #0f2d52 100%);
+  border-radius: 20px; padding: 2rem; color: #fff; position: relative; overflow: hidden;
+}
+.success-card::before {
+  content: '"'; position: absolute; right: 20px; top: 10px;
+  font-size: 120px; color: rgba(245,197,24,0.08); line-height: 1;
+  font-family: 'Playfair Display', serif;
+}
+.success-outcome { font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.success-text { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.85); margin-bottom: 14px; font-style: italic; }
+.success-person { font-size: 13px; font-weight: 600; color: #fff; }
+.success-detail { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+/* ─── AI PROVIDERS ─── */
+.provider-grid { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 1.5rem; }
+.provider-chip {
+  background: #fff; border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 0.6rem 1.2rem; display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; color: var(--navy); transition: .2s;
+}
+.provider-chip:hover { border-color: var(--blue); }
+.provider-chip.free-tag::after { content: 'GRATIS'; font-size: 9px; font-weight: 800; color: var(--green); background: var(--green-bg); padding: 1px 5px; border-radius: 3px; margin-left: 4px; }
+.provider-chip .chip-icon { font-size: 18px; }
+
+/* ─── AUTHOR ─── */
+.author-box {
+  background: var(--navy); border-radius: 24px; padding: 3rem;
+  display: flex; align-items: center; gap: 36px; flex-wrap: wrap;
+  max-width: 900px; margin: 0 auto; border: 2px solid rgba(245,197,24,0.2);
+}
+.author-avatar {
+  width: 110px; height: 110px; border-radius: 50%; min-width: 110px;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 42px; font-weight: 900; color: #fff; font-family: 'Playfair Display', serif;
+  border: 4px solid var(--gold);
+}
+.author-text h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: #fff; margin-bottom: 4px; }
+.author-text .role { font-size: 13px; color: var(--gold); font-weight: 600; margin-bottom: 10px; }
+.author-text p { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.7; }
+
+/* ─── CHANGELOG ─── */
+.changelog-wrap { max-width: 860px; margin: 0 auto; }
+.changelog-item { margin-bottom: 16px; }
+.changelog-version {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--navy); color: var(--gold); padding: 4px 14px; border-radius: 99px;
+  font-size: 12px; font-weight: 800; letter-spacing: 1px; margin-bottom: 10px;
+}
+.changelog-version.latest { background: linear-gradient(90deg, #6366f1, #8b5cf6); color: #fff; }
+.changelog-entry { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 1.2rem 1.5rem; }
+.changelog-entry p { font-size: 13.5px; color: var(--muted); line-height: 1.8; }
+.changelog-entry p strong { color: var(--navy); }
+.changelog-entry p + p { margin-top: 6px; }
+
+/* ─── FAQ ─── */
+.faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq-item { background: #fff; border-radius: 14px; border: 1.5px solid var(--border); overflow: hidden; }
+.faq-q {
+  padding: 1.1rem 1.5rem; font-size: 15px; font-weight: 600; color: var(--navy);
+  cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  user-select: none;
+}
+.faq-q:hover { background: #f8fbff; }
+.faq-q::after { content: '+'; font-size: 22px; color: var(--blue); transition: .2s; }
+.faq-item.open .faq-q::after { content: '−'; }
+.faq-a { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s; font-size: 14px; color: var(--muted); line-height: 1.7; }
+.faq-item.open .faq-a { max-height: 300px; padding: 0.1rem 1.5rem 1.2rem; }
+
+/* ─── FINAL CTA ─── */
+.cta-section {
+  background: linear-gradient(135deg, var(--navy) 0%, #1a1060 100%);
+  padding: 5rem 5%; text-align: center;
+}
+.cta-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); color: #fff; margin-bottom: 1rem; }
+.cta-section p { font-size: 17px; color: rgba(255,255,255,0.65); margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+.cta-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.cta-note { font-size: 13px; color: rgba(255,255,255,0.35); }
+.cta-note a { color: rgba(255,255,255,0.55); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: #060f1e; padding: 2.5rem 5%;
+  color: rgba(255,255,255,0.4); font-size: 13px;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+}
+footer a { color: rgba(255,255,255,0.55); text-decoration: none; }
+
+/* ─── MISC ─── */
+hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+.pill { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; }
+.pill-gold { background: rgba(245,197,24,0.15); color: var(--gold); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero { padding: 4rem 5% 3rem; }
+  .author-box { flex-direction: column; text-align: center; }
+  .privacy-inner { flex-direction: column; text-align: center; }
+  .hero-stats { gap: 24px; }
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .steps-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- PROMO BAR -->
+<div class="promo-bar">
+  🔥 DISKON AKHIR TAHUN — Hemat hingga 57% untuk semua paket!
+  &nbsp;⏳ Berakhir dalam:
+  <span class="promo-countdown">⏰ <span id="countdown-timer">12:00:00</span></span>
+</div>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a href="#" class="nav-brand">Ruang <span>Statistika</span> <span class="version-tag">v4.5</span></a>
+  <div class="nav-links">
+    <a href="#fitur">Fitur</a>
+    <a href="#modul">Modul</a>
+    <a href="#pricing">Harga</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="#pricing" class="nav-cta">Dapatkan Lisensi Pro →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">✦ Terpercaya di 50+ Kampus Indonesia</div>
+  <h1>Bab 4 Skripsi Beres<br>Sebelum Deadline. <em>Dijamin.</em></h1>
+  <p class="hero-sub">Dari data mentah ke laporan Word akademis dalam hitungan menit </p>
+  
+  <div class="hero-pain">
+    <span class="pain-tag">❌ Pusing baca p-value?</span>
+    <span class="pain-tag">❌ Capek copy-paste ke Word?</span>
+    <span class="pain-tag">❌ Takut uji asumsi klasik?</span>
+    <span class="pain-tag">❌ Deadline makin dekat?</span>
+    <span class="pain-tag">❌ SPSS mahal & ribet?</span>
+  </div>
+  
+  <div class="hero-btns">
+    <a href="#pricing" class="btn-hero btn-gold">Mulai Sekarang — Dari Rp 29rb</a>
+    <a href="https://ruang-statistika.streamlit.app/" class="btn-hero btn-ghost" target="_blank">Coba Gratis ↗</a>
+  </div>
+  
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Pengguna Aktif</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">30+</div>
+      <div class="stat-label">Modul Analisis</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">5</div>
+      <div class="stat-label">AI Provider</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4.5</div>
+      <div class="stat-label">Versi Terkini</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVATE BY DESIGN -->
+<div class="privacy-section">
+  <div class="privacy-inner">
+    <div class="privacy-icon">🔐</div>
+    <div class="privacy-text">
+      <h3>Private by Design — Kuota AI Anda 100% Milik Anda</h3>
+      <p>Aplikasi ini bersifat <strong>"Private by Design"</strong>. Anda tidak berbagi kuota AI dengan siapapun. Cukup masukkan <strong>API Key sendiri</strong> (Groq tersedia gratis!), dan nikmati analisis tanpa batas, tanpa antre. Data Anda tidak pernah dikirim ke server kami — semua proses terjadi di sesi browser Anda sendiri.</p>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section">
+  <div class="text-center">
+    <div class="section-eyebrow">Cara Kerja</div>
+    <h2 class="section-title">Dari Data ke Laporan dalam 5 Langkah</h2>
+    <p class="section-sub">Tidak perlu instal software apapun. Buka browser, unggah data, analisis, ekspor.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-icon">📁</div>
+      <div class="step-title">Upload & Cleaning</div>
+      <div class="step-desc">CSV, Excel, SPSS (.sav), Stata (.dta), TXT — sistem auto-bersihkan duplikat & nilai hilang</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-icon">🧮</div>
+      <div class="step-title">Compute Variabel</div>
+      <div class="step-desc">Skor komposit, recode, standardisasi, transformasi log — buat variabel baru dengan formula kustom</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-icon">📊</div>
+      <div class="step-title">Pilih Modul Analisis</div>
+      <div class="step-desc">30+ modul tersedia — dari deskriptif dasar hingga SEM, CFA, Mediasi, Moderasi bahkan Web Scraping</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-icon">🤖</div>
+      <div class="step-title">Interpretasi AI</div>
+      <div class="step-desc">Narasi akademis Bahasa Indonesia otomatis via Claude, GPT, Gemini, atau Groq (gratis)</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-icon">📄</div>
+      <div class="step-title">Generate Laporan</div>
+      <div class="step-desc">Export .docx atau .md — APA 7th, Skripsi Indonesia, Vancouver, Jurnal, Bisnis — satu klik</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ALL MODULES -->
+<div class="section" id="modul">
+  <div class="text-center">
+    <div class="section-eyebrow">Daftar Lengkap Modul</div>
+    <h2 class="section-title">30+ Modul Analisis Statistik</h2>
+    <p class="section-sub">Free: analisis esensial tanpa batas. Pro: modul lanjutan, laporan AI, ekspor .docx tak terbatas.</p>
+  </div>
+  
+  <div style="margin-bottom: 1.5rem;">
+    <div style="font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;">📂 Eksplorasi & Persiapan Data — Gratis</div>
+    <div class="module-grid">
+      <div class="module-pill"><span class="pill-icon">📁</span> Upload & Cleaning</div>
+      <div class="module-pill"><span class="pill-icon">🔍</span> EDA (Distribusi, Outlier)</div>
+      <div class="module-pill"><span class="pill-icon">🧮</span> Compute Variabel</div>
+      <div class="module-pill"><span class="pill-icon">🚨</span> Deteksi Outlier (IQR/Z)</div>
+      <div class="module-pill"><span class="pill-icon">📋</span> Statistik Deskriptif</div>
+      <div class="module-pill"><span class="pill-icon">✅</span> Validitas & Reliabilitas</div>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 1.5rem;">
+    <div style="font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;">📐 Uji Statistik — Gratis</div>
+    <div class="module-grid">
+      <div class="module-pill"><span class="pill-icon">🔗</span> Korelasi Pearson</div>
+      <div class="module-pill"><span class="pill-icon">👥</span> Analisis Kelompok</div>
+      <div class="module-pill"><span class="pill-icon">⚠️</span> Uji Asumsi Pra-Analisis</div>
+      <div class="module-pill"><span class="pill-icon">⚡</span> t-test / Mann-Whitney</div>
+      <div class="module-pill"><span class="pill-icon">📈</span> Regresi Linier (dasar)</div>
+      <div class="module-pill"><span class="pill-icon">📉</span> Regresi Logistik (dasar)</div>
+      <div class="module-pill"><span class="pill-icon">📊</span> ANOVA (dasar)</div>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 1.5rem;">
+    <div style="font-size: 11px; font-weight: 700; color: #8b5cf6; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;">🔒 Uji Nonparametrik & Lanjutan — Gratis + Pro</div>
+    <div class="module-grid">
+      <div class="module-pill"><span class="pill-icon">🔄</span> Wilcoxon / Friedman</div>
+      <div class="module-pill"><span class="pill-icon">📊</span> McNemar / Cochran Q</div>
+      <div class="module-pill"><span class="pill-icon">📏</span> Korelasi Spearman/Kendall</div>
+      <div class="module-pill is-pro"><span class="pill-icon">📐</span> OLS+ Uji Asumsi Klasik <span class="pro-star">★</span></div>
+      <div class="module-pill is-pro"><span class="pill-icon">🛡️</span> Regresi Robust (RLM/WLS) <span class="pro-star">★</span></div>
+      <div class="module-pill is-pro"><span class="pill-icon">📈</span> Regresi Logistik + ROC <span class="pro-star">★</span></div>
+      <div class="module-pill is-pro"><span class="pill-icon">📊</span> ANOVA + Tukey/KW + AI <span class="pro-star">★</span></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 1.5rem;">
+    <div style="font-size: 11px; font-weight: 700; color: #8b5cf6; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;">🔒 Pemodelan Lanjutan — Pro</div>
+    <div class="module-grid">
+      <div class="module-pill is-pro"><span class="pill-icon">🔀</span> Mediasi + Bootstrap CI <span class="pro-star">★</span></div>
+      <div class="module-pill is-pro"><span class="pill-icon">📐</span> Moderasi + Johnson-Neyman <span class="pro-star">★</span></div>
+      <div class="module-pill is-pro"><span class="pill-icon">🧩</span> SEM via semopy <span class="pro-star">★</span></div>
+      <div class="module-pill is-pro"><span class="pill-icon">🧪</span> CFA Standalone <span class="pro-star">★</span></div>
+      <div class="module-pill is-pro"><span class="pill-icon">🔬</span> EFA (KMO, Bartlett, Scree) <span class="pro-star">★</span></div>
+      <div class="module-pill is-pro"><span class="pill-icon">🏷️</span> Analisis Klaster (K-Means) <span class="pro-star">★</span></div>
+      <div class="module-pill is-pro"><span class="pill-icon">📏</span> Reliabilitas ICC <span class="pro-star">★</span></div>
+    </div>
+  </div>
+
+  <div>
+    <div style="font-size: 11px; font-weight: 700; color: #8b5cf6; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;">🔒 AI, Data & Laporan — Free Terbatas / Pro Penuh</div>
+    <div class="module-grid">
+      <div class="module-pill"><span class="pill-icon">💬</span> Chat AI Analyst</div>
+      <div class="module-pill is-pro"><span class="pill-icon">🕸️</span> Web Scraping & REST API <span class="pro-star">★</span></div>
+      <div class="module-pill is-pro"><span class="pill-icon">🔋</span> Power Analysis & Sample Size <span class="pro-star">★</span></div>
+      <div class="module-pill"><span class="pill-icon">📄</span> Generate Laporan (1×/hari gratis)</div>
+      <div class="module-pill is-pro"><span class="pill-icon">📄</span> Laporan .docx + AI Narasi <span class="pro-star">★</span></div>
+    </div>
+  </div>
+
+  <p style="text-align:center; margin-top: 1.5rem; font-size: 13px; color: var(--muted);">★ = Eksklusif Pro &nbsp;·&nbsp; Semua modul Free tersedia tanpa License Key</p>
+</div>
+
+<hr class="divider">
+
+<!-- COMPARISON TABLE -->
+<div class="section" id="fitur">
+  <div class="text-center">
+    <div class="section-eyebrow">Kenapa Ruang Statistika?</div>
+    <h2 class="section-title">Free vs Pro — Bandingkan Sendiri</h2>
+    <p class="section-sub">Versi gratis sudah powerful untuk eksplorasi dan uji dasar. Pro membuka kemampuan penuh untuk laporan akademis berkualitas jurnal.</p>
+  </div>
+  <div class="compare-wrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="min-width:260px;">Fitur</th>
+          <th class="col-free">Versi Gratis</th>
+          <th class="col-pro">Akademisi Pro ⭐</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-group"><td colspan="3">Eksplorasi & Persiapan Data</td></tr>
+        <tr><td>Upload CSV/Excel/SPSS/Stata/TXT</td><td><span class="ico-yes">✓</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>EDA, Deskriptif, Normalitas</td><td><span class="ico-yes">✓</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Compute Variabel (formula, recode, skor komposit)</td><td><span class="ico-yes">✓</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Validitas (CITC, α-if-deleted) & Reliabilitas</td><td><span class="ico-yes">✓</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Deteksi Outlier (IQR / Z-Score)</td><td><span class="ico-yes">✓</span></td><td><span class="ico-yes">✓</span></td></tr>
+        
+        <tr class="row-group"><td colspan="3">Uji Statistik</td></tr>
+        <tr><td>Korelasi Pearson + Scatter Plot</td><td><span class="ico-yes">✓</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Uji Beda (t-test / Mann-Whitney)</td><td><span class="ico-yes">✓</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Uji Nonparametrik (Wilcoxon, Friedman, McNemar, Cochran Q)</td><td><span class="ico-yes">✓</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Regresi Linier + Prediksi (dasar)</td><td><span class="ico-partial">Dasar</span></td><td><span class="ico-yes">✓ Lengkap</span></td></tr>
+        <tr><td>ANOVA + Effect Size η² (dasar)</td><td><span class="ico-partial">Dasar</span></td><td><span class="ico-yes">✓ + Tukey/KW</span></td></tr>
+        <tr><td>Regresi Logistik + Odds Ratio (dasar)</td><td><span class="ico-partial">Dasar</span></td><td><span class="ico-yes">✓ + ROC</span></td></tr>
+
+        <tr class="row-group"><td colspan="3">Pemodelan Lanjutan (Pro)</td></tr>
+        <tr><td>OLS+ Uji Asumsi Klasik (VIF, Glejser, Durbin-Watson)</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Regresi Robust (RLM Huber/Bisquare) & WLS</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Mediasi Bootstrap CI (Preacher & Hayes)</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Moderasi + Simple Slopes + Johnson-Neyman</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>SEM + CFA (CFI, RMSEA, SRMR, χ²)</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>EFA (KMO, Bartlett, Scree, Varimax/Oblimin)</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Analisis Klaster + Reliabilitas ICC</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Power Analysis & Sample Size</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Web Scraping & REST API Collector</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+
+        <tr class="row-group"><td colspan="3">AI & Laporan</td></tr>
+        <tr><td>Chat AI Analyst</td><td><span class="ico-yes">✓</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Generate Laporan .docx / .md</td><td><span class="ico-partial">1×/hari</span></td><td><span class="ico-yes">✓ Tak Terbatas</span></td></tr>
+        <tr><td>Narasi Interpretasi AI per Modul</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Grafik Tertanam di Laporan Word</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Nama Peneliti di Cover Laporan</td><td><span class="ico-yes">✓</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>Format APA 7th / Skripsi / Jurnal / Bisnis</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+        <tr><td>4 E-Book Bonus Eksklusif</td><td><span class="ico-no">✕</span></td><td><span class="ico-yes">✓</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- PRO FEATURES HIGHLIGHT -->
+<div class="section">
+  <div class="text-center">
+    <div class="section-eyebrow">Fitur Unggulan</div>
+    <h2 class="section-title">Analisis Tingkat Lanjut, Semudah Klik</h2>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon">🧩</div>
+      <div class="feat-title">SEM & CFA Lengkap</div>
+      <div class="feat-desc">Konstruk laten dengan fit indices (CFI ≥0.95, RMSEA ≤0.05, SRMR ≤0.08) dan loading faktor otomatis via semopy — tanpa AMOS atau SmartPLS berbayar.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔀</div>
+      <div class="feat-title">Mediasi Bootstrap CI</div>
+      <div class="feat-desc">Efek tidak langsung dengan metode Preacher & Hayes. Deteksi otomatis jenis mediasi: penuh, sebagian, atau tidak ada. Standar jurnal internasional.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📐</div>
+      <div class="feat-title">OLS+ & Asumsi Klasik</div>
+      <div class="feat-desc">VIF (multikolinearitas), Glejser & White (heteroskedastisitas), Durbin-Watson & Breusch-Godfrey (autokorelasi) — semua dalam satu layar, beserta plot diagnostik.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-new">BARU v4.5</div>
+      <div class="feat-icon">👤</div>
+      <div class="feat-title">Login Personal & Cover Laporan</div>
+      <div class="feat-desc">Login dengan nama pengguna — sapaan dinamis di Beranda (Pagi/Siang/Sore/Malam) dan nama peneliti otomatis tercantum di cover page laporan .docx & .md.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-new">BARU v4.2</div>
+      <div class="feat-icon">🔋</div>
+      <div class="feat-title">Power Analysis & Sample Size</div>
+      <div class="feat-desc">Hitung ukuran sampel minimum dan kurva statistical power untuk t-test, ANOVA, regresi, proporsi, korelasi, dan chi-square — dengan visualisasi interaktif.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-new">BARU v4.2</div>
+      <div class="feat-icon">🕸️</div>
+      <div class="feat-title">Web Scraping & REST API</div>
+      <div class="feat-desc">Ambil data langsung dari website, tabel HTML, API REST/JSON, atau ekstrak teks via AI — langsung siap dianalisis tanpa copy-paste manual.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📊</div>
+      <div class="feat-title">Moderasi & Interaksi</div>
+      <div class="feat-desc">Simple slopes, Johnson-Neyman interval — identifikasi batas nilai moderator di mana efek X berbalik signifikansinya. Lengkap dengan visualisasi interaktif.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📄</div>
+      <div class="feat-title">Laporan .docx Sekali Klik</div>
+      <div class="feat-desc">Export hasil lengkap ke Word dengan tabel APA 7th Edition, narasi AI Bahasa Indonesia siap pakai, dan grafik tertanam — tanpa format ulang manual.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🤖</div>
+      <div class="feat-title">Chat AI Analyst</div>
+      <div class="feat-desc">Konsultan statistik 24 jam yang memahami konteks riset Anda. Tanyakan apapun — interpretasi, pilihan uji, solusi pelanggaran asumsi — dalam Bahasa Indonesia.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- AI PROVIDERS -->
+<div class="section">
+  <div class="text-center">
+    <div class="section-eyebrow">AI Provider</div>
+    <h2 class="section-title">5 AI Provider — Ada yang Gratis!</h2>
+    <p class="section-sub">Pilih AI provider sesuai kebutuhan. Tanpa API Key, semua modul analisis tetap bisa digunakan — hanya fitur interpretasi AI yang memerlukan key.</p>
+  </div>
+  <div class="provider-grid">
+    <div class="provider-chip"><span class="chip-icon">🤖</span> Claude (Anthropic)</div>
+    <div class="provider-chip"><span class="chip-icon">💬</span> GPT-4 (OpenAI)</div>
+    <div class="provider-chip"><span class="chip-icon">✨</span> Gemini (Google)</div>
+    <div class="provider-chip free-tag"><span class="chip-icon">⚡</span> Groq — Llama 3.3 70B</div>
+    <div class="provider-chip free-tag"><span class="chip-icon">🤗</span> HuggingFace — Mistral 7B</div>
+  </div>
+  <p style="text-align:center; margin-top: 1.2rem; font-size: 13px; color: var(--muted);">Untuk skripsi/tesis, biaya API berbayar biasanya <strong>cukup mahal</strong>. Groq sepenuhnya gratis untuk penggunaan normal.</p>
+</div>
+
+<hr class="divider">
+
+<!-- PRODUCT DEMO VISUALIZER -->
+<section class="demo-section">
+  <div class="demo-inner">
+    <div class="text-center" style="margin-bottom: 2rem;">
+      <div class="section-eyebrow">Lihat Sendiri Produknya</div>
+      <h2 class="section-title">Dari Upload Data → Download Word dalam 5 Menit</h2>
+      <p class="section-sub">Tidak perlu install apapun. Semua berjalan di browser Anda.</p>
+    </div>
+
+    <div class="demo-browser">
+      <div class="demo-topbar">
+        <div class="demo-dots"><span></span><span></span><span></span></div>
+        <div class="demo-url">🔒 ruangstatistika.streamlit.app</div>
+      </div>
+      <div class="demo-content">
+        <div class="demo-sidebar">
+          <div class="demo-sidebar-logo">Ruang <span>Statistika</span></div>
+          <div class="demo-nav-label">Eksplorasi Data</div>
+          <div class="demo-nav-item active">📁 Upload & Cleaning</div>
+          <div class="demo-nav-item">🔍 EDA & Distribusi</div>
+          <div class="demo-nav-label">Uji Statistik</div>
+          <div class="demo-nav-item">📐 Regresi OLS+</div>
+          <div class="demo-nav-item">🔀 Mediasi Bootstrap</div>
+          <div class="demo-nav-label">AI & Laporan</div>
+          <div class="demo-nav-item">🤖 Chat AI Analyst</div>
+          <div class="demo-nav-item">📄 Generate Laporan</div>
+        </div>
+        <div class="demo-main">
+          <div class="demo-header-row">
+            <div class="demo-title-chip">📁 Upload & Data Cleaning</div>
+            <div class="demo-chip">✓ Pro Aktif</div>
+          </div>
+          <div class="demo-file-loaded">
+            <span class="file-badge">XLSX</span>
+            <span>data_skripsi_n350.xlsx · <strong style="color:var(--gold);">350 baris, 12 kolom</strong> · Auto-cleaned ✓</span>
+          </div>
+          <div class="demo-stats-row">
+            <div class="demo-stat-box"><div class="val">350</div><div class="lbl">Total Responden</div></div>
+            <div class="demo-stat-box"><div class="val">0</div><div class="lbl">Missing Value</div></div>
+            <div class="demo-stat-box"><div class="val">12</div><div class="lbl">Variabel Siap</div></div>
+          </div>
+          <div class="demo-ai-block">
+            <div class="ai-label">🤖 Narasi AI — Claude (Anthropic)</div>
+            <div class="ai-text">Data telah dimuat dengan 350 responden dan 12 variabel. Tidak ditemukan nilai hilang. Distribusi variabel X1 (Motivasi) menunjukkan kemiringan positif (skewness = 0.34), sehingga asumsi normalitas terpenuhi untuk analisis regresi berikutnya...</div>
+          </div>
+          <div class="demo-export-btn">📄 Generate Laporan .docx (APA 7th) — Sekali Klik</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-arrow-flow">
+      <div class="demo-step-pill"><div class="num">1</div>Upload CSV/Excel</div>
+      <div class="demo-arrow">→</div>
+      <div class="demo-step-pill"><div class="num">2</div>Pilih Modul Analisis</div>
+      <div class="demo-arrow">→</div>
+      <div class="demo-step-pill"><div class="num">3</div>AI Interpretasi Otomatis</div>
+      <div class="demo-arrow">→</div>
+      <div class="demo-step-pill final">📄 Download Word Siap Pakai</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div style="max-width:1100px; margin: 0 auto;">
+    <div class="text-center" style="margin-bottom: 2rem;">
+      <div class="section-eyebrow" style="color: var(--gold);">Pilih Paket Anda</div>
+      <h2 class="section-title" style="color: #fff;">Investasi Terbaik untuk Riset Anda</h2>
+      <p style="color: rgba(255,255,255,0.55); font-size: 15px;">Tidak ada biaya tersembunyi. Garansi uang kembali 7 hari.</p>
+    </div>
+
+    <div class="entry-nudge">
+      💡 <strong style="color:#fff;">Mulai dari Rp 29.000</strong> — selesaikan laporan Anda hari ini, upgrade kapan saja jika perlu lebih lama.
+    </div>
+
+    <div class="pricing-grid">
+      <!-- PAKET STARTER -->
+      <div class="price-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-headline">Satu Bulan Akses</div>
+        <div class="plan-sub-copy">"Hanya seharga satu cup kopi untuk selesaikan laporan Anda."</div>
+        <div class="plan-price">Rp29rb</div>
+        <span class="plan-duration dur-trial">1 Bulan Penuh</span>
+        <ul class="plan-features">
+          <li>Akses penuh semua fitur AI</li>
+          <li>Export ke Word (.docx) tak terbatas</li>
+          <li>Semua 30+ Modul Statistik</li>
+          <li>Interpretasi AI (gunakan API Key sendiri)</li>
+          <li>Chat AI Analyst</li>
+          <li>Login personal + nama di cover laporan</li>
+          <li class="dim">E-Book Bonus (tidak termasuk)</li>
+          <li class="dim">Grup diskusi eksklusif</li>
+        </ul>
+        <a href="mailto:yogoaj@gmail.com?subject=Beli Paket Starter - Rp29rb" class="btn-plan btn-plan-outline">Mulai Sekarang — Rp29rb</a>
+      </div>
+
+      <!-- PAKET PREMIUM (BEST SELLER) -->
+      <div class="price-card featured">
+        <div class="badge-best">🏆 PALING POPULER · BEST SELLER</div>
+        <div class="plan-name">Premium</div>
+        <div class="plan-headline">Enam Bulan Akses</div>
+        <div class="plan-sub-copy">Sangat cocok untuk mahasiswa yang mengerjakan Skripsi/Tesis dari awal hingga sidang.</div>
+        <div class="plan-price-old">Rp 174.000</div>
+        <div class="plan-price">Rp99rb</div>
+        <span class="plan-duration dur-life">6 Bulan Penuh</span>
+        <ul class="plan-features">
+          <li><strong>Semua fitur Starter</strong></li>
+          <li>Akses penuh semua modul Pro</li>
+          <li>Narasi interpretasi AI per modul</li>
+          <li>Grafik tertanam di laporan Word</li>
+          <li>Format APA 7th / Skripsi / Jurnal</li>
+          <li class="bonus">Gratis 2 Template Jurnal Eksklusif</li>
+          <li>Grup diskusi eksklusif mahasiswa</li>
+          <li>Update modul baru gratis</li>
+        </ul>
+        <a href="mailto:yogoaj@gmail.com?subject=Beli Paket Premium - Rp99rb" class="btn-plan btn-plan-gold">Ambil Sekarang — Rp99rb</a>
+      </div>
+
+      <!-- PAKET PROFESSIONAL -->
+      <div class="price-card">
+        <div class="plan-name">Professional</div>
+        <div class="plan-headline">Satu Tahun Penuh</div>
+        <div class="plan-sub-copy">"Investasi terbaik untuk dosen dan peneliti aktif."</div>
+        <div class="plan-price-old">Rp 348.000</div>
+        <div class="plan-price">Rp149rb</div>
+        <div class="plan-price-micro">Hanya Rp400-an per hari · Diskon lebih dari 57%</div>
+        <span class="plan-duration dur-inst">1 Tahun + Semua Bonus</span>
+        <ul class="plan-features">
+          <li><strong>Semua fitur Premium</strong></li>
+          <li>Semua 4 E-Book Bonus Eksklusif</li>
+          <li>Konsultasi metodologi via WA</li>
+          <li>Support teknis prioritas (≤24 jam)</li>
+          <li>Invoice resmi untuk reimbursement</li>
+          <li>Prioritas akses fitur baru</li>
+          <li>Update modul baru selamanya</li>
+        </ul>
+        <a href="mailto:yogoaj@gmail.com?subject=Beli Paket Professional - Rp149rb" class="btn-plan btn-plan-green">Investasi Sekarang — Rp149rb</a>
+      </div>
+    </div>
+    
+    <p class="pricing-note">💳 Pembayaran via Transfer Bank, QRIS, OVO, Dana, ShopeePay &nbsp;·&nbsp; Aktivasi lisensi dalam 1×24 jam &nbsp;·&nbsp; ✅ Garansi uang kembali 7 hari jika tidak puas</p>
+  </div>
+</section>
+
+<!-- E-BOOK BONUS -->
+<section class="ebook-section">
+  <div style="max-width:1100px; margin: 0 auto;">
+    <div class="text-center" style="margin-bottom: 3rem;">
+      <div class="section-eyebrow">Bonus Eksklusif</div>
+      <h2 class="section-title">4 E-Book Premium — Gratis untuk Pengguna Pro</h2>
+      <p class="section-sub">Tidak dijual terpisah. Hanya tersedia sebagai bonus paket lisensi Pro.</p>
+    </div>
+    <div class="ebook-grid">
+      <div class="ebook-card">
+        <div class="ebook-cover ebook-cover-1">📘</div>
+        <div class="ebook-body">
+          <div class="ebook-plan">Semua Paket Pro</div>
+          <div class="ebook-title">Bab 4 Kilat</div>
+          <div class="ebook-audience">🎓 Target: Mahasiswa S1 (Pejuang Skripsi)</div>
+          <div class="ebook-value">✦ Value: Kecepatan & Kelulusan Tepat Waktu</div>
+        </div>
+      </div>
+      <div class="ebook-card">
+        <div class="ebook-cover ebook-cover-2">🤖</div>
+        <div class="ebook-body">
+          <div class="ebook-plan">Paket Peneliti Pro & Instansi</div>
+          <div class="ebook-title">Seni Prompting Statistik</div>
+          <div class="ebook-audience">💡 Target: Pengguna Tech-Savvy</div>
+          <div class="ebook-value">✦ Value: Kecanggihan AI untuk Riset</div>
+        </div>
+      </div>
+      <div class="ebook-card">
+        <div class="ebook-cover ebook-cover-3">🔧</div>
+        <div class="ebook-body">
+          <div class="ebook-plan">Paket Peneliti Pro & Instansi</div>
+          <div class="ebook-title">Solusi Data Bandel</div>
+          <div class="ebook-audience">🔬 Target: Peneliti & Mahasiswa Akhir</div>
+          <div class="ebook-value">✦ Value: Problem Solving Data Kotor</div>
+        </div>
+      </div>
+      <div class="ebook-card">
+        <div class="ebook-cover ebook-cover-4">🏆</div>
+        <div class="ebook-body">
+          <div class="ebook-plan">Paket Peneliti Pro & Instansi</div>
+          <div class="ebook-title">Gaya Jurnal Q1</div>
+          <div class="ebook-audience">🎓 Target: Dosen & Mahasiswa S3</div>
+          <div class="ebook-value">✦ Value: Standar Akademik Internasional</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TESTIMONIALS -->
+<div class="section">
+  <div class="text-center">
+    <div class="section-eyebrow">Testimoni Nyata</div>
+    <h2 class="section-title">Apa Kata Pengguna Kami?</h2>
+    <p class="section-sub">Dari mahasiswa S1 hingga dosen doktor — mereka semua merasakan perbedaannya.</p>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"Dulu butuh berminggu-minggu pindah tabel SPSS ke Word, format ulang, pusing interpretasi. Pakai Ruang Statistika, bab 4 saya selesai dalam 1 hari. Narasi AI-nya sangat akademis dan langsung disetujui dosen pembimbing!"</div>
+      <div class="testi-author">
+        <div class="testi-avatar">D</div>
+        <div>
+          <div class="testi-name">Diana P.</div>
+          <div class="testi-role">Mahasiswa Magister, Universitas Gadjah Mada</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"Format ekspor DOCX-nya mengikuti gaya APA 7th Edition dengan sempurna. Saya langsung bisa share ke mahasiswa bimbingan saya sebagai referensi laporan yang baik. Luar biasa membantu proses bimbingan."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">A</div>
+        <div>
+          <div class="testi-name">Dr. Andi Setiawan, S.Si., M.Sc.</div>
+          <div class="testi-role">Dosen & Peneliti, LIPI</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"Fitur mediasi bootstrap-nya sangat membantu riset komunikasi saya. Tidak perlu software ribet PROCESS Macro lagi. Kualitas interpretasi AI-nya benar-benar akademis, bukan sekadar parafrase output."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">R</div>
+        <div>
+          <div class="testi-name">Rizky Ananda</div>
+          <div class="testi-role">Research Analyst, Lembaga Survei Nasional</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"Sebagai dosen Teknik, saya butuh uji statistik yang akurat bukan sekadar user-friendly. Ruang Statistika ternyata memberikan keduanya. Cook's Distance dan plot diagnostik-nya sangat membantu interpretasi model regresi."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">I</div>
+        <div>
+          <div class="testi-name">Imam Santoso, S.T., M.T.</div>
+          <div class="testi-role">Dosen Teknik Elektro, Universitas Diponegoro</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"Chat AI Analyst sangat membantu menjawab kebingungan saya soal interpretasi R-Square dan VIF secara instan. Dulu harus nunggu balas email dosen berhari-hari, sekarang langsung dapat jawaban akademis dalam detik."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">Y</div>
+        <div>
+          <div class="testi-name">Yudi H.</div>
+          <div class="testi-role">Mahasiswa S2, Universitas Indonesia</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"Modul Power Analysis baru sangat berguna saat menyiapkan proposal tesis. Saya langsung tahu berapa sampel minimum yang dibutuhkan untuk regresi berganda saya. Hemat waktu konsultasi metodologi."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">S</div>
+        <div>
+          <div class="testi-name">Sari Dewi M.</div>
+          <div class="testi-role">Mahasiswa S2 Psikologi, UNJ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS STORIES -->
+<div class="section" style="padding-top: 2rem;">
+  <div class="text-center">
+    <div class="section-eyebrow">Contoh Sukses</div>
+    <h2 class="section-title">Kisah Nyata Pengguna Pro</h2>
+    <p class="section-sub">Bukan janji — ini hasil nyata yang bisa Anda replikasi.</p>
+  </div>
+  <div class="success-grid">
+    <div class="success-card">
+      <div class="success-outcome">📝 Skripsi Lulus Cum Laude</div>
+      <div class="success-text">"SEM saya melibatkan 5 konstruk laten dan 28 indikator. Dulu saya stres karena tidak paham AMOS. Dengan modul SEM Ruang Statistika, semua fit indices langsung keluar beserta interpretasinya. Sidang saya berjalan sangat lancar."</div>
+      <div class="success-person">Maharani S.</div>
+      <div class="success-detail">Manajemen — IPK 3.89 — Lulus Tepat Waktu</div>
+    </div>
+    <div class="success-card">
+      <div class="success-outcome">🏆 Paper Diterima Jurnal Scopus Q2</div>
+      <div class="success-text">"Mediasi bootstrap dengan 5000 iterasi yang biasanya saya lakukan manual di R sekarang bisa dikerjakan dalam hitungan detik. Reviewer menganggap metodologi kami sangat solid. Paper diterima tanpa major revision."</div>
+      <div class="success-person">Dr. Hendra Wijaya</div>
+      <div class="success-detail">Peneliti Ekonomi — Publikasi Internasional</div>
+    </div>
+    <div class="success-card">
+      <div class="success-outcome">⚡ Efisiensi Tim 10x Lebih Cepat</div>
+      <div class="success-text">"Kami adalah lembaga survei kecil dengan 8 analis. Paket Instansi memungkinkan semua tim menggunakan platform yang sama dengan standar laporan yang seragam. Waktu produksi laporan turun dari 2 minggu menjadi 2 hari."</div>
+      <div class="success-person">Lembaga Riset Sosial X</div>
+      <div class="success-detail">Tim 8 analis — Paket Instansi</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CHANGELOG -->
+<div class="section">
+  <div class="text-center">
+    <div class="section-eyebrow">Riwayat Versi</div>
+    <h2 class="section-title">Changelog — Terus Berkembang</h2>
+    <p class="section-sub">Diperbarui secara aktif berdasarkan masukan pengguna nyata.</p>
+  </div>
+  <div class="changelog-wrap">
+    <div class="changelog-item">
+      <div class="changelog-version latest">✨ v4.5 — Terkini</div>
+      <div class="changelog-entry">
+        <p><strong>Auth Supabase Penuh:</strong> Login email+password, Registrasi mandiri, Lupa Password (link reset via email) — semua via Supabase Auth. Google OAuth dihapus, setup jauh lebih sederhana.</p>
+        <p><strong>Modal Login Baru (5 Tab):</strong> Masuk · Daftar · Lupa Password · Kode Pro · Lanjut Gratis — layout 2 kolom responsif.</p>
+        <p><strong>Session Restore Otomatis:</strong> Token Supabase disimpan di session_state dan di-restore saat refresh browser tanpa perlu login ulang.</p>
+        <p><strong>Personalisasi Penuh:</strong> Nama pengguna diteruskan via <code>ctx["user_name"]</code> ke seluruh modul — tercantum otomatis di cover page laporan .docx & .md.</p>
+        <p><strong>Bugfix auth.py:</strong> Tambah <code>check_daily_export_quota()</code>, <code>get_quota_remaining()</code>, dan <code>consume_export_quota()</code> tanpa argumen wajib — diperlukan oleh export.py.</p>
+      </div>
+    </div>
+    <div class="changelog-item">
+      <div class="changelog-version">v4.3</div>
+      <div class="changelog-entry">
+        <p><strong>Login Personal (nama pengguna):</strong> Sapaan dinamis di Beranda + badge tier Pro/Gratis. Nama peneliti otomatis tercantum di cover laporan .docx & .md.</p>
+        <p><strong>Laporan Gratis 1×/hari:</strong> Pengguna Free bisa generate laporan .docx / .md tanpa narasi AI. Kuota dicatat di <code>.quota_cache.json</code>.</p>
+        <p><strong>Modul baru terdaftar:</strong> eda.py, cfa.py, klaster.py, reliabilitas_icc.py, power_analysis.py, scraping.py, uji_nonparametrik.py.</p>
+        <p><strong>Bugfix kritis export.py:</strong> Indentasi blok is_pro, duplikat consume_export_quota(), duplikat key cfa_result di FALLBACK_KEYS — semua diperbaiki.</p>
+      </div>
+    </div>
+    <div class="changelog-item">
+      <div class="changelog-version">v4.2</div>
+      <div class="changelog-entry">
+        <p><strong>Modul baru:</strong> 🕸️ Web Scraping & Data Collector (tabel HTML, API REST/JSON, ekstrak teks AI), 🔋 Power Analysis & Sample Size, 🧮 Compute Variabel (formula, skor komposit, recode, lag/diff).</p>
+        <p><strong>Regresi, ANOVA, Logistik:</strong> Kini tersedia gratis terbatas — OLS dasar, one-way ANOVA, odds ratio — tanpa License Key. Fitur lanjutan (VIF, post-hoc Tukey, ROC, AI) tetap eksklusif Pro.</p>
+        <p><strong>AI Provider baru:</strong> Groq (Llama 3.3 70B) gratis & HuggingFace (Mistral 7B). Navigasi sidebar dikelompokkan per kategori.</p>
+        <p><strong>OLS Robust:</strong> Modul baru RLM Huber/Bisquare & WLS dengan perbandingan model.</p>
+      </div>
+    </div>
+    <div class="changelog-item">
+      <div class="changelog-version">v4.1</div>
+      <div class="changelog-entry">
+        <p><strong>Validitas ditingkatkan:</strong> Item-Total Statistics lengkap — CITC, α-if-deleted, inter-item correlation matrix, flag item bermasalah, dan interpretasi AI item-level.</p>
+        <p><strong>Konsistensi AI cache key</strong> di seluruh modul. regresi_result dan log_result menyimpan data lengkap termasuk y_actual, y_pred, residuals, fpr, tpr.</p>
+      </div>
+    </div>
+    <div class="changelog-item">
+      <div class="changelog-version">v4.0</div>
+      <div class="changelog-entry">
+        <p><strong>Arsitektur modular penuh</strong> — migrasi dari monolitik ke sistem modul independen. EFA (KMO, Bartlett, Scree, Varimax/Oblimin), OLS+ diagnostik lengkap, Mediasi Bootstrap (Preacher & Hayes), ANOVA Tukey HSD/Bonferroni, Moderasi Johnson-Neyman, Logistik ROC, SEM/CFA via semopy.</p>
+        <p><strong>Export multi-format:</strong> APA 7th, Skripsi Indonesia, Vancouver, Jurnal, Bisnis.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- AUTHOR -->
+<div class="section">
+  <div class="author-box">
+    <div class="author-avatar">Y</div>
+    <div class="author-text">
+      <h3>Yogo Aryo Jatmiko, SST, M.Stat</h3>
+      <div class="role">Statistisi Ahli · Demografer · Badan Pusat Statistik (BPS) Indonesia</div>
+      <p>Lebih dari 10 tahun pengalaman di BPS dalam bidang statistik populasi dan demografi. Pembicara webinar nasional JASP & AI untuk 500+ peserta dari berbagai universitas. Pengembang Ruang Statistika v4.5 — platform yang menggabungkan metodologi resmi BPS dengan kecerdasan buatan generatif untuk menghasilkan laporan akademis berkualitas jurnal.</p>
+      <p style="margin-top: 8px;"><a href="https://ruang-statistika.streamlit.app/" style="color: var(--gold); text-decoration: none; font-size: 13px;">🌐 ruang-statistika.streamlit.app</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="section" style="padding-top: 3rem;">
+  <div class="text-center">
+    <div class="section-eyebrow">FAQ</div>
+    <h2 class="section-title">Pertanyaan yang Sering Ditanyakan</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apa bedanya dengan pakai ChatGPT langsung?</div>
+      <div class="faq-a">ChatGPT tidak bisa membaca file CSV/Excel Anda, tidak menghasilkan uji statistik yang akurat, dan tidak tahu standar penulisan APA 7th. Ruang Statistika mengintegrasikan library statistik scikit-learn, scipy, statsmodels, dan semopy yang teruji secara ilmiah, lalu mengirim hasilnya ke AI untuk diinterpretasikan dalam bahasa akademis Indonesia yang tepat. Ini kolaborasi terbaik antara presisi statistik dan kecerdasan bahasa.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Berapa biaya API Key untuk AI-nya?</div>
+      <div class="faq-a">Groq (Llama 3.3 70B) sepenuhnya gratis untuk penggunaan normal — tidak perlu mengeluarkan biaya apapun. Google Gemini memiliki tier gratis yang generous. Anthropic Claude dan OpenAI GPT tersedia dengan bayar sesuai penggunaan. Untuk skripsi/tesis, biaya API biasanya di bawah Rp 10.000 total. Anda tidak berbagi kuota dengan pengguna lain — itu keuntungan model "Private by Design" kami.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah hasil statistiknya akurat untuk publikasi jurnal?</div>
+      <div class="faq-a">Ya. Kami menggunakan library Python standar industri: scipy untuk uji statistik dasar, statsmodels untuk regresi OLS, diagnostik dan RLM robust, pingouin untuk ANOVA dan effect size, dan semopy untuk SEM/CFA. Semua library ini adalah standar yang sama digunakan peneliti di seluruh dunia dan menghasilkan hasil identik dengan SPSS, R, dan AMOS untuk data yang sama.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah versi gratis benar-benar bisa dipakai tanpa bayar?</div>
+      <div class="faq-a">Ya, sepenuhnya. Modul analisis dasar (deskriptif, validitas, korelasi, uji beda, nonparametrik, regresi/ANOVA/logistik dasar, EDA, compute variabel) tersedia tanpa License Key. Sejak v4.5, pengguna Free juga bisa generate laporan .docx atau .md gratis 1 kali per hari (tanpa narasi AI). License Pro hanya diperlukan untuk fitur lanjutan: laporan tak terbatas, narasi AI, grafik tertanam, dan modul Pro seperti SEM, mediasi, moderasi.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Bagaimana cara aktivasi lisensi setelah pembayaran?</div>
+      <div class="faq-a">Setelah konfirmasi pembayaran, Anda akan menerima kode lisensi unik dalam 1×24 jam via WhatsApp atau email. Masukkan kode tersebut di sidebar aplikasi, dan akses Pro Anda langsung aktif sesuai paket yang dipilih.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah ada garansi uang kembali?</div>
+      <div class="faq-a">Ya, kami memberikan garansi 7 hari tanpa syarat. Jika dalam 7 hari Anda merasa Ruang Statistika tidak sesuai ekspektasi, hubungi kami dan kami akan proses refund penuh. Kami yakin dengan kualitas produk kami.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah Paket Starter (1 bulan) bisa diperpanjang?</div>
+      <div class="faq-a">Tentu saja. Anda bisa upgrade ke Paket Premium (6 bulan) atau Professional (1 tahun) kapan saja — bahkan sebelum masa aktif habis — dan hanya perlu membayar selisih harganya. Hubungi kami untuk mendapatkan harga upgrade terbaik.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Modul apa saja yang baru di v4.5?</div>
+      <div class="faq-a">v4.5 memperkenalkan sistem autentikasi Supabase penuh — Login email+password, Registrasi mandiri, Lupa Password (link reset via email), Kode Pro, dan Lanjut Gratis — semua dalam modal 5 tab dengan layout 2 kolom. Google OAuth dihapus agar setup lebih sederhana. Session token Supabase disimpan di session_state dan di-restore otomatis saat refresh. Nama pengguna diteruskan via ctx["user_name"] ke seluruh modul dan tercantum di cover laporan .docx & .md.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<section class="cta-section">
+  <div class="pill pill-gold" style="margin-bottom: 1rem;">🔥 Aktif & Terus Diperbarui — v4.5</div>
+  <h2>Mulai Riset Cerdas Anda Hari Ini</h2>
+  <p>Bergabunglah dengan 500+ peneliti & mahasiswa yang sudah membuktikan — dari data mentah ke laporan akademis dalam hitungan menit.</p>
+  <div class="cta-group">
+    <a href="#pricing" class="btn-hero btn-gold">Pilih Paket Saya — Mulai Rp 29rb →</a>
+    <a href="https://ruang-statistika.streamlit.app/" class="btn-hero btn-ghost" target="_blank">Coba Versi Gratis</a>
+  </div>
+  <p class="cta-note">💳 QRIS · Transfer Bank · OVO · Dana · ShopeePay &nbsp;·&nbsp; Aktivasi ≤ 24 jam &nbsp;·&nbsp; <a href="#faq">Garansi 7 hari</a></p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 Ruang Statistika v4.5 &nbsp;·&nbsp; <a href="https://ruang-statistika.streamlit.app/">ruang-statistika.streamlit.app</a></div>
+  <div>Dikembangkan oleh <strong style="color: rgba(255,255,255,0.7);">Yogo Aryo Jatmiko</strong> · Statistisi BPS Indonesia &nbsp;·&nbsp; Powered by Python, Streamlit & Claude AI</div>
+</footer>
+
+<script>
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+// Countdown timer — set to 12 hours from page load
+(function() {
+  const timerEl = document.getElementById('countdown-timer');
+  if (!timerEl) return;
+
+  // Use sessionStorage so timer persists on reload but resets on new session
+  const KEY = 'rs_promo_end';
+  let endTime = sessionStorage.getItem(KEY);
+  if (!endTime) {
+    endTime = Date.now() + 12 * 60 * 60 * 1000; // 12 hours
+    sessionStorage.setItem(KEY, endTime);
+  }
+  endTime = parseInt(endTime);
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function tick() {
+    const remaining = endTime - Date.now();
+    if (remaining <= 0) {
+      timerEl.textContent = '00:00:00';
+      return;
+    }
+    const h = Math.floor(remaining / 3600000);
+    const m = Math.floor((remaining % 3600000) / 60000);
+    const s = Math.floor((remaining % 60000) / 1000);
+    timerEl.textContent = pad(h) + ':' + pad(m) + ':' + pad(s);
+    setTimeout(tick, 1000);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>
