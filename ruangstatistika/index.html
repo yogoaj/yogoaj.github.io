@@ -273,7 +273,7 @@ body {
 
 /* ─── PRICING REVAMP ─── */
 .pricing-section { background: var(--navy); padding: 5rem 5%; }
-.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
 .price-card {
   background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1);
   border-radius: 24px; padding: 2.5rem 2rem;
@@ -489,6 +489,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
   .privacy-inner { flex-direction: column; text-align: center; }
   .hero-stats { gap: 24px; }
   .steps-grid { grid-template-columns: 1fr 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
   .steps-grid { grid-template-columns: 1fr; }
@@ -506,7 +507,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
 
 <!-- NAVBAR -->
 <nav class="nav">
-  <a href="#" class="nav-brand">Ruang <span>Statistika</span> <span class="version-tag">v4.5</span></a>
+  <a href="https://yogoaj.github.io/ruangstatistika/" class="nav-brand">Ruang <span>Statistika</span> <span class="version-tag">v4.5</span></a>
   <div class="nav-links">
     <a href="#fitur">Fitur</a>
     <a href="#modul">Modul</a>
@@ -833,7 +834,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
     <div class="demo-browser">
       <div class="demo-topbar">
         <div class="demo-dots"><span></span><span></span><span></span></div>
-        <div class="demo-url">🔒 ruangstatistika.streamlit.app</div>
+        <div class="demo-url">🔒 ruang-statistika.streamlit.app</div>
       </div>
       <div class="demo-content">
         <div class="demo-sidebar">
@@ -895,7 +896,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
     </div>
 
     <div class="entry-nudge">
-      💡 <strong style="color:#fff;">Mulai dari Rp 29.000</strong> — selesaikan laporan Anda hari ini, upgrade kapan saja jika perlu lebih lama.
+      💡 <strong style="color:#fff;">Mulai dari Rp 29.000</strong> — harga perdana bulan pertama, perpanjangan bulan berikutnya Rp 49rb/bulan. Upgrade kapan saja jika perlu lebih lama.
     </div>
 
     <div class="pricing-grid">
@@ -905,6 +906,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
         <div class="plan-headline">Satu Bulan Akses</div>
         <div class="plan-sub-copy">"Hanya seharga satu cup kopi untuk selesaikan laporan Anda."</div>
         <div class="plan-price">Rp29rb</div>
+        <div class="plan-price-micro" style="color:rgba(255,255,255,0.55); font-size:12px; margin-bottom:4px;">Harga perdana — perpanjangan Rp 49rb/bulan</div>
         <span class="plan-duration dur-trial">1 Bulan Penuh</span>
         <ul class="plan-features">
           <li>Akses penuh semua fitur AI</li>
@@ -916,7 +918,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
           <li class="dim">E-Book Bonus (tidak termasuk)</li>
           <li class="dim">Grup diskusi eksklusif</li>
         </ul>
-        <a href="mailto:yogoaj@gmail.com?subject=Beli Paket Starter - Rp29rb" class="btn-plan btn-plan-outline">Mulai Sekarang — Rp29rb</a>
+        <a href="https://wa.me/6289655003613?text=Halo%2C%20saya%20mau%20beli%20Paket%20Starter%20Ruang%20Statistika%20Rp29rb" target="_blank" class="btn-plan btn-plan-outline">Mulai Sekarang — Rp29rb</a>
       </div>
 
       <!-- PAKET PREMIUM (BEST SELLER) -->
@@ -938,7 +940,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
           <li>Grup diskusi eksklusif mahasiswa</li>
           <li>Update modul baru gratis</li>
         </ul>
-        <a href="mailto:yogoaj@gmail.com?subject=Beli Paket Premium - Rp99rb" class="btn-plan btn-plan-gold">Ambil Sekarang — Rp99rb</a>
+        <a href="https://wa.me/6289655003613?text=Halo%2C%20saya%20mau%20beli%20Paket%20Premium%20Ruang%20Statistika%20Rp99rb" target="_blank" class="btn-plan btn-plan-gold">Ambil Sekarang — Rp99rb</a>
       </div>
 
       <!-- PAKET PROFESSIONAL -->
@@ -953,17 +955,25 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
         <ul class="plan-features">
           <li><strong>Semua fitur Premium</strong></li>
           <li>Semua 4 E-Book Bonus Eksklusif</li>
-          <li>Konsultasi metodologi via WA</li>
+          <li>Konsultasi metodologi via WA (089655003613 / 087887533149)</li>
           <li>Support teknis prioritas (≤24 jam)</li>
           <li>Invoice resmi untuk reimbursement</li>
           <li>Prioritas akses fitur baru</li>
           <li>Update modul baru selamanya</li>
         </ul>
-        <a href="mailto:yogoaj@gmail.com?subject=Beli Paket Professional - Rp149rb" class="btn-plan btn-plan-green">Investasi Sekarang — Rp149rb</a>
+        <a href="https://wa.me/6289655003613?text=Halo%2C%20saya%20mau%20beli%20Paket%20Professional%20Ruang%20Statistika%20Rp149rb" target="_blank" class="btn-plan btn-plan-green">Investasi Sekarang — Rp149rb</a>
       </div>
     </div>
     
     <p class="pricing-note">💳 Pembayaran via Transfer Bank, QRIS, OVO, Dana, ShopeePay &nbsp;·&nbsp; Aktivasi lisensi dalam 1×24 jam &nbsp;·&nbsp; ✅ Garansi uang kembali 7 hari jika tidak puas</p>
+    <div style="text-align:center; margin-top: 1.5rem; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+      <a href="https://wa.me/6289655003613" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.35); color:#4ade80; padding:10px 20px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none; transition:.2s;" onmouseover="this.style.background='rgba(37,211,102,0.25)'" onmouseout="this.style.background='rgba(37,211,102,0.15)'">
+        💬 Konsultasi via WA: 089655003613
+      </a>
+      <a href="https://wa.me/6287887533149" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.35); color:#4ade80; padding:10px 20px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none; transition:.2s;" onmouseover="this.style.background='rgba(37,211,102,0.25)'" onmouseout="this.style.background='rgba(37,211,102,0.15)'">
+        💬 WA Ruang Statistika: 087887533149
+      </a>
+    </div>
   </div>
 </section>
 
@@ -1189,7 +1199,11 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
       <h3>Yogo Aryo Jatmiko, SST, M.Stat</h3>
       <div class="role">Statistisi Ahli · Demografer · Badan Pusat Statistik (BPS) Indonesia</div>
       <p>Lebih dari 10 tahun pengalaman di BPS dalam bidang statistik populasi dan demografi. Pembicara webinar nasional JASP & AI untuk 500+ peserta dari berbagai universitas. Pengembang Ruang Statistika v4.5 — platform yang menggabungkan metodologi resmi BPS dengan kecerdasan buatan generatif untuk menghasilkan laporan akademis berkualitas jurnal.</p>
-      <p style="margin-top: 8px;"><a href="https://ruang-statistika.streamlit.app/" style="color: var(--gold); text-decoration: none; font-size: 13px;">🌐 ruang-statistika.streamlit.app</a></p>
+      <p style="margin-top: 8px; display: flex; gap: 16px; flex-wrap: wrap;">
+        <a href="https://ruang-statistika.streamlit.app/" target="_blank" style="color: var(--gold); text-decoration: none; font-size: 13px;">🌐 ruang-statistika.streamlit.app</a>
+        <a href="https://yogoaj.github.io/ruangstatistika/" target="_blank" style="color: rgba(255,255,255,0.55); text-decoration: none; font-size: 13px;">👤 Tentang Penulis</a>
+        <a href="https://wa.me/6289655003613" target="_blank" style="color: rgba(255,255,255,0.55); text-decoration: none; font-size: 13px;">💬 WA: 089655003613</a>
+      </p>
     </div>
   </div>
 </div>
@@ -1243,15 +1257,16 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
   <p>Bergabunglah dengan 500+ peneliti & mahasiswa yang sudah membuktikan — dari data mentah ke laporan akademis dalam hitungan menit.</p>
   <div class="cta-group">
     <a href="#pricing" class="btn-hero btn-gold">Pilih Paket Saya — Mulai Rp 29rb →</a>
-    <a href="https://ruang-statistika.streamlit.app/" class="btn-hero btn-ghost" target="_blank">Coba Versi Gratis</a>
+    <a href="https://ruang-statistika.streamlit.app/" class="btn-hero btn-ghost" target="_blank">Coba Versi Gratis ↗</a>
   </div>
   <p class="cta-note">💳 QRIS · Transfer Bank · OVO · Dana · ShopeePay &nbsp;·&nbsp; Aktivasi ≤ 24 jam &nbsp;·&nbsp; <a href="#faq">Garansi 7 hari</a></p>
+  <p style="margin-top: 1rem; font-size: 13px; color: rgba(255,255,255,0.45);">Ada pertanyaan? Hubungi kami via WhatsApp: <a href="https://wa.me/6289655003613" target="_blank" style="color:#4ade80;">089655003613</a> &nbsp;·&nbsp; <a href="https://wa.me/6287887533149" target="_blank" style="color:#4ade80;">087887533149</a></p>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div>© 2026 Ruang Statistika v4.5 &nbsp;·&nbsp; <a href="https://ruang-statistika.streamlit.app/">ruang-statistika.streamlit.app</a></div>
-  <div>Dikembangkan oleh <strong style="color: rgba(255,255,255,0.7);">Yogo Aryo Jatmiko</strong> · Statistisi BPS Indonesia &nbsp;·&nbsp; Powered by Python, Streamlit & Claude AI</div>
+  <div>© 2026 Ruang Statistika v4.5 &nbsp;·&nbsp; <a href="https://ruang-statistika.streamlit.app/" target="_blank">ruang-statistika.streamlit.app</a></div>
+  <div>Dikembangkan oleh <a href="https://yogoaj.github.io/ruangstatistika/" target="_blank" style="color: rgba(255,255,255,0.7); font-weight:600;">Yogo Aryo Jatmiko</a> · Statistisi BPS Indonesia &nbsp;·&nbsp; Powered by Python, Streamlit & Claude AI</div>
 </footer>
 
 <script>
