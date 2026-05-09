@@ -1,1 +1,879 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validitas & Reliabilitas Instrumen Penelitian – Ruang Statistika</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
+  :root{--navy:#0d1f3c;--navy2:#132847;--gold:#f5c518;--gold2:#e6b800;--white:#ffffff;--light:#f8f9fc;--gray:#6b7280;--border:#e5e7eb;--accent:#1a3a6b;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;background:var(--light);color:#1a1a2e;line-height:1.7;}
 
+  .top-nav{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:10px 28px;box-shadow:0 2px 16px rgba(0,0,0,.25);}
+  .top-nav .brand{display:flex;align-items:center;gap:10px;}
+  .top-nav .brand span{color:var(--gold);font-weight:700;font-size:15px;}
+  .nav-links{display:flex;gap:4px;flex-wrap:wrap;}
+  .nav-links a{color:rgba(255,255,255,.75);font-size:11px;font-weight:500;text-decoration:none;padding:5px 9px;border-radius:6px;transition:all .2s;}
+  .nav-links a:hover{background:rgba(245,197,24,.15);color:var(--gold);}
+
+  .page{display:none;animation:fadeIn .4s ease;}
+  .page.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  .page-nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:var(--navy);border-radius:50px;padding:8px 18px;box-shadow:0 8px 32px rgba(0,0,0,.3);z-index:998;}
+  .page-nav button{background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+  .page-nav button:hover{background:var(--gold);color:var(--navy);}
+  .page-nav button:disabled{opacity:.3;cursor:not-allowed;}
+  .page-counter{color:rgba(255,255,255,.7);font-size:12px;min-width:60px;text-align:center;font-weight:500;}
+
+  /* COVER */
+  #cover{min-height:100vh;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:80px 40px 100px;text-align:center;}
+  .cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,197,24,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,197,24,.04) 1px,transparent 1px);background-size:40px 40px;}
+  .cover-glow{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(245,197,24,.12) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+  .cover-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,197,24,.15);border:1px solid rgba(245,197,24,.3);color:var(--gold);font-size:11px;font-weight:600;padding:6px 16px;border-radius:50px;letter-spacing:1px;text-transform:uppercase;margin-bottom:32px;position:relative;}
+  .cover-logo{width:72px;height:72px;margin-bottom:28px;filter:drop-shadow(0 4px 16px rgba(245,197,24,.3));position:relative;}
+  .cover-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,48px);font-weight:900;color:var(--white);line-height:1.15;max-width:680px;position:relative;margin-bottom:8px;}
+  .cover-title span{color:var(--gold);}
+  .cover-subtitle{color:rgba(255,255,255,.5);font-size:14px;max-width:520px;margin:20px auto 36px;position:relative;line-height:1.8;}
+  .cover-features{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:600px;position:relative;margin-bottom:40px;}
+  .cover-features .feat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.8);font-size:12px;font-weight:500;padding:8px 16px;border-radius:8px;display:flex;align-items:center;gap:6px;}
+  .cover-features .feat .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;}
+  .cover-divider{width:60px;height:3px;background:linear-gradient(90deg,var(--gold),transparent);border-radius:2px;margin:0 auto 20px;position:relative;}
+  .cover-author{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 20px;position:relative;}
+  .cover-author-ava{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy);font-size:16px;}
+  .cover-author-info .name{color:var(--white);font-weight:600;font-size:14px;}
+  .cover-author-info .role{color:rgba(255,255,255,.5);font-size:11px;}
+  .cover-no{position:absolute;top:90px;right:32px;font-size:11px;color:rgba(255,255,255,.2);font-weight:500;letter-spacing:1px;}
+
+  /* CONTENT */
+  .content-page{max-width:800px;margin:0 auto;padding:80px 32px 120px;min-height:100vh;}
+  .section-label{display:inline-flex;align-items:center;gap:8px;background:rgba(13,31,60,.07);color:var(--navy);font-size:11px;font-weight:700;padding:5px 14px;border-radius:50px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px;border-left:3px solid var(--gold);}
+  h1.page-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--navy);line-height:1.2;margin-bottom:8px;}
+  h1.page-title span{color:var(--gold2);}
+  .page-desc{color:var(--gray);font-size:14px;margin-bottom:36px;max-width:640px;}
+  h2.sec{font-size:18px;font-weight:700;color:var(--navy);margin:32px 0 14px;display:flex;align-items:center;gap:10px;}
+  h2.sec::before{content:'';display:block;width:4px;height:20px;background:var(--gold);border-radius:2px;flex-shrink:0;}
+  p{font-size:14px;color:#374151;margin-bottom:14px;}
+
+  /* SKALA CARDS */
+  .skala-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:12px;border-left:4px solid var(--gold);}
+  .skala-card .skala-title{font-weight:700;color:var(--navy);font-size:14px;margin-bottom:4px;}
+  .skala-card p{margin:0;font-size:13px;color:#374151;}
+
+  /* DECISION TABLE */
+  .dec-table{width:100%;border-collapse:collapse;font-size:13px;margin:20px 0;}
+  .dec-table th{background:var(--navy);color:var(--gold);padding:10px 14px;text-align:left;font-size:12px;}
+  .dec-table td{padding:10px 14px;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:top;}
+  .dec-table tr:last-child td{border-bottom:none;}
+  .dec-table tr:nth-child(even) td{background:#f9fafb;}
+  .tag-uji{display:inline-block;background:#eff6ff;color:#1e40af;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;border:1px solid #bfdbfe;}
+  .tag-ok{display:inline-block;background:#f0fdf4;color:#166534;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;border:1px solid #86efac;}
+  .tag-fail{display:inline-block;background:#fef2f2;color:#991b1b;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;border:1px solid #fca5a5;}
+
+  /* SCENARIO */
+  .scenario-card{background:var(--white);border:1px solid var(--border);border-radius:14px;margin-bottom:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+  .scenario-header{display:flex;align-items:center;gap:14px;padding:16px 20px;background:rgba(13,31,60,.03);border-bottom:1px solid var(--border);}
+  .scenario-num{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .scenario-header h3{font-size:14px;font-weight:700;color:var(--navy);}
+  .scenario-body{padding:16px 20px;}
+  .scenario-body ul{padding-left:20px;margin-bottom:0;}
+  .scenario-body ul li{font-size:13.5px;color:#374151;margin-bottom:6px;}
+
+  /* APA FORMAT BOXES */
+  .apa-box{background:var(--navy);border-radius:12px;padding:20px 24px;margin-bottom:14px;position:relative;overflow:hidden;}
+  .apa-box::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold);}
+  .apa-box .apa-label{display:inline-block;background:rgba(245,197,24,.2);color:var(--gold);font-size:10px;font-weight:700;padding:3px 10px;border-radius:50px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+  .apa-box .apa-title{font-size:12px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}
+  .apa-box .apa-text{font-size:13.5px;color:rgba(255,255,255,.88);line-height:1.75;}
+  .apa-box .apa-text strong{color:var(--gold);}
+
+  /* BOXES */
+  .box-info{background:#eff6ff;border-left:4px solid #3b82f6;border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:14px;font-size:13px;color:#1e40af;}
+  .box-warn{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:14px;font-size:13px;color:#92400e;}
+  .box-note{background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:14px;font-size:13px;color:#166534;}
+  .box-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;opacity:.7;}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+  @media(max-width:600px){.grid-2{grid-template-columns:1fr;}}
+  .card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px 20px;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+  .card h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .card p{font-size:13px;color:var(--gray);margin:0;}
+
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+  .badge{background:rgba(13,31,60,.07);color:var(--navy);font-size:12px;font-weight:600;padding:5px 14px;border-radius:50px;border:1px solid rgba(13,31,60,.1);}
+
+  ul.dot-list{padding-left:20px;margin-bottom:14px;}
+  ul.dot-list li{font-size:13.5px;color:#374151;margin-bottom:6px;}
+
+  ol.step-list{padding-left:20px;margin-bottom:14px;}
+  ol.step-list li{font-size:13.5px;color:#374151;margin-bottom:10px;}
+  ol.step-list li strong{color:var(--navy);}
+
+  .highlight{background:linear-gradient(135deg,rgba(13,31,60,.04),rgba(245,197,24,.08));border:1px solid rgba(245,197,24,.25);border-radius:12px;padding:18px 22px;margin:16px 0;font-size:13.5px;color:#374151;}
+
+  .modul-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:16px 0;}
+  .modul-item{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:13px;font-weight:600;color:var(--navy);display:flex;align-items:center;gap:8px;}
+  .modul-item .dot{width:8px;height:8px;background:var(--gold);border-radius:50%;flex-shrink:0;}
+
+  /* FORMULA BOX */
+  .formula-box{background:rgba(13,31,60,.04);border:1px solid rgba(13,31,60,.12);border-radius:10px;padding:14px 18px;margin:12px 0;font-family:'Courier New',monospace;font-size:14px;color:var(--navy);text-align:center;font-weight:700;}
+
+  /* STEP CARDS */
+  .step-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+  .step-num{width:32px;height:32px;border-radius:50%;background:var(--navy);color:var(--gold);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .step-content h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .step-content p{font-size:13px;color:#374151;margin:0;}
+
+  /* CTA */
+  .btn-cta{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy);font-weight:700;font-size:14px;padding:12px 28px;border-radius:10px;text-decoration:none;transition:all .2s;border:none;cursor:pointer;font-family:'Inter',sans-serif;}
+  .btn-cta:hover{background:#e6b800;}
+  .cta-box{background:var(--navy);border-radius:16px;padding:32px 30px;text-align:center;position:relative;overflow:hidden;margin-top:32px;}
+  .cta-box h3{font-size:20px;font-weight:800;color:var(--white);margin-bottom:10px;}
+  .cta-box p{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:20px;max-width:440px;margin-left:auto;margin-right:auto;}
+
+  /* PROGRESS */
+  .progress-bar{position:fixed;top:52px;left:0;right:0;height:3px;background:rgba(255,255,255,.1);z-index:997;}
+  .progress-fill{height:100%;background:var(--gold);transition:width .3s ease;}
+
+  .ebook-footer{text-align:center;padding:20px;font-size:11px;color:var(--gray);border-top:1px solid var(--border);margin-top:32px;}
+  .ebook-footer a{color:var(--navy);text-decoration:none;font-weight:600;}
+
+  .divider{height:1px;background:var(--border);margin:32px 0;}
+
+  /* INTERPRETASI BADGE */
+  .interp-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px;}
+  .interp-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:6px 14px;border-radius:8px;}
+  .interp-badge.sangat-tinggi{background:#f0fdf4;color:#15803d;border:1px solid #86efac;}
+  .interp-badge.tinggi{background:#eff6ff;color:#1d4ed8;border:1px solid #93c5fd;}
+  .interp-badge.sedang{background:#fffbeb;color:#b45309;border:1px solid #fcd34d;}
+  .interp-badge.rendah{background:#fff7ed;color:#c2410c;border:1px solid #fdba74;}
+  .interp-badge.sangat-rendah{background:#fef2f2;color:#b91c1c;border:1px solid #fca5a5;}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="brand">
+    <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="10" fill="#0d1f3c"/>
+      <rect x="18" y="52" width="18" height="32" rx="4" fill="#1a3a6b"/>
+      <rect x="42" y="36" width="18" height="48" rx="4" fill="#1a3a6b"/>
+      <rect x="66" y="18" width="18" height="66" rx="4" fill="#f5c518"/>
+      <path d="M27 58 Q44 44 57 38 Q66 32 75 22" stroke="#f5c518" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span>Ruang Statistika</span>
+  </div>
+  <div class="nav-links">
+    <a href="javascript:void(0)" onclick="goPage(0)">📖 Cover</a>
+    <a href="javascript:void(0)" onclick="goPage(1)">Pengantar</a>
+    <a href="javascript:void(0)" onclick="goPage(2)">Content Validity</a>
+    <a href="javascript:void(0)" onclick="goPage(3)">Construct Validity</a>
+    <a href="javascript:void(0)" onclick="goPage(4)">Reliabilitas</a>
+    <a href="javascript:void(0)" onclick="goPage(5)">Step-by-Step</a>
+    <a href="javascript:void(0)" onclick="goPage(6)">Template Pelaporan</a>
+    <a href="javascript:void(0)" onclick="goPage(7)">Ruang Statistika</a>
+    <a href="javascript:void(0)" onclick="goPage(8)">Tentang Penulis</a>
+  </div>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="pgbar" style="width:0%"></div></div>
+
+<!-- ======================== PAGE 0: COVER ======================== -->
+<div class="page active" id="page-0">
+<div id="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-glow"></div>
+  <div class="cover-no">No. 5 dari Seri Lead Magnet Gratis</div>
+
+  <svg class="cover-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(245,197,24,0.3)" stroke-width="1"/>
+    <rect x="14" y="52" width="18" height="34" rx="5" fill="#1a3a6b"/>
+    <rect x="40" y="36" width="18" height="50" rx="5" fill="#1a3a6b"/>
+    <rect x="66" y="16" width="18" height="70" rx="5" fill="#f5c518"/>
+    <path d="M23 64 Q50 44 60 38 Q68 32 75 22" stroke="#f5c518" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  </svg>
+
+  <div class="cover-badge">📙 FREE EBOOK · SERI #5</div>
+
+  <h1 class="cover-title">Validitas & <span>Reliabilitas</span><br>Instrumen Penelitian</h1>
+
+  <p class="cover-subtitle">
+    Panduan lengkap uji validitas (CVR, CITC, AVE, CR) dan reliabilitas (Cronbach Alpha) — disertai tabel interpretasi, step-by-step prosedur, dan template kalimat pelaporan siap pakai.
+  </p>
+
+  <div class="cover-features">
+    <div class="feat"><span class="dot"></span> Content Validity (CVR)</div>
+    <div class="feat"><span class="dot"></span> Construct Validity (CITC, AVE, CR)</div>
+    <div class="feat"><span class="dot"></span> Cronbach Alpha + Tabel Interpretasi</div>
+    <div class="feat"><span class="dot"></span> Step-by-Step Prosedur Uji</div>
+    <div class="feat"><span class="dot"></span> Template Kalimat Pelaporan</div>
+  </div>
+
+  <div class="cover-divider"></div>
+
+  <div class="cover-author">
+    <div class="cover-author-ava">Y</div>
+    <div class="cover-author-info">
+      <div class="name">Yogo Aryo Jatmiko, SST, M.Stat</div>
+      <div class="role">Statistisi BPS · Dosen Polstat STIS · Founder Ruang Statistika</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 1: PENGANTAR ======================== -->
+<div class="page" id="page-1">
+<div class="content-page">
+  <div class="section-label">📋 Bab 1 — Pengantar</div>
+  <h1 class="page-title">Mengapa <span>Validitas & Reliabilitas</span> Itu Penting?</h1>
+  <p class="page-desc">Sebelum menganalisis data, pastikan instrumen Anda benar-benar mengukur apa yang seharusnya diukur. Ini fondasi dari seluruh penelitian Anda.</p>
+
+  <h2 class="sec">1.1 Apa Itu Validitas?</h2>
+  <p>Validitas adalah sejauh mana instrumen (kuesioner, skala, tes) benar-benar mengukur konstruk yang ingin diukur. Instrumen yang valid artinya item-item di dalamnya <em>relevan, tepat, dan merepresentasikan</em> konsep yang diteliti.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>✅ Instrumen Valid</h3>
+      <p>Butir soal "Saya merasa pekerjaan saya bermakna" → mengukur <strong>kepuasan kerja intrinsik</strong> dengan tepat.</p>
+    </div>
+    <div class="card">
+      <h3>❌ Instrumen Tidak Valid</h3>
+      <p>Butir soal "Gaji saya mencukupi" digunakan untuk mengukur <strong>motivasi intrinsik</strong> — mengukur hal yang salah.</p>
+    </div>
+  </div>
+
+  <h2 class="sec">1.2 Apa Itu Reliabilitas?</h2>
+  <p>Reliabilitas adalah konsistensi pengukuran. Instrumen yang reliabel akan menghasilkan skor yang sama (atau hampir sama) jika digunakan pada kondisi yang setara. Reliabilitas tidak menjamin validitas, tapi <strong>validitas mensyaratkan reliabilitas</strong>.</p>
+
+  <div class="highlight">
+    <strong>🎯 Analogi Sederhana</strong><br>
+    Bayangkan timbangan badan. Timbangan yang setiap hari menunjukkan 60 kg padahal berat Anda 65 kg → <strong>reliabel tapi tidak valid</strong>. Timbangan yang kadang 60 kg, kadang 70 kg → <strong>tidak reliabel dan tidak valid</strong>. Yang kita inginkan: selalu menunjukkan 65 kg → <strong>reliabel sekaligus valid</strong>.
+  </div>
+
+  <h2 class="sec">1.3 Jenis-Jenis Validitas dalam Penelitian Sosial</h2>
+
+  <div class="skala-card">
+    <div class="skala-title">📋 Content Validity (Validitas Isi)</div>
+    <p>Apakah item-item mencakup seluruh domain/dimensi konstruk secara representatif? Dinilai oleh panel ahli. Diukur dengan <strong>Content Validity Ratio (CVR)</strong> dan <strong>Content Validity Index (CVI)</strong>.</p>
+  </div>
+  <div class="skala-card">
+    <div class="skala-title">🔬 Construct Validity (Validitas Konstruk)</div>
+    <p>Apakah item-item berkorelasi kuat dengan konstruk laten yang ingin diukur? Dinilai dari data empiris responden. Diukur melalui <strong>CITC</strong> (corrected item-total correlation), <strong>AVE</strong>, dan <strong>CR</strong>.</p>
+  </div>
+  <div class="skala-card">
+    <div class="skala-title">📊 Convergent Validity</div>
+    <p>Bukti bahwa indikator dari konstruk yang sama berkorelasi tinggi satu sama lain. Ditunjukkan oleh <strong>AVE ≥ 0.50</strong> dan <strong>factor loading ≥ 0.50</strong>.</p>
+  </div>
+  <div class="skala-card">
+    <div class="skala-title">🔀 Discriminant Validity</div>
+    <p>Bukti bahwa konstruk yang berbeda tidak terlalu berkorelasi. Ditunjukkan oleh <strong>√AVE > korelasi antar konstruk</strong> (kriteria Fornell-Larcker).</p>
+  </div>
+
+  <div class="box-info">
+    <div class="box-label">💡 Alur Pengujian yang Disarankan</div>
+    <strong>Langkah 1:</strong> Uji Content Validity (CVR) sebelum penyebaran kuesioner besar → <strong>Langkah 2:</strong> Uji Construct Validity (CITC) pada data empiris → <strong>Langkah 3:</strong> Uji Reliabilitas (Cronbach Alpha / CR) → <strong>Langkah 4:</strong> Laporkan hasilnya di Bab 3.
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 2: CONTENT VALIDITY (CVR) ======================== -->
+<div class="page" id="page-2">
+<div class="content-page">
+  <div class="section-label">📋 Bab 2 — Content Validity</div>
+  <h1 class="page-title">Content Validity Ratio <span>(CVR)</span></h1>
+  <p class="page-desc">Dilakukan sebelum kuesioner disebarkan ke responden. Melibatkan panel ahli (subject matter expert) untuk menilai relevansi setiap butir.</p>
+
+  <h2 class="sec">2.1 Apa Itu CVR?</h2>
+  <p>CVR (Content Validity Ratio) dikembangkan oleh Lawshe (1975) untuk mengkuantifikasi penilaian panel ahli terhadap relevansi setiap item instrumen. Setiap ahli diminta menjawab apakah item <em>"penting/esensial"</em>, <em>"berguna tapi tidak esensial"</em>, atau <em>"tidak perlu"</em>.</p>
+
+  <div class="formula-box">CVR = (n_e − N/2) / (N/2)</div>
+
+  <p>Di mana: <strong>n_e</strong> = jumlah ahli yang menilai "esensial", <strong>N</strong> = total jumlah ahli panel.</p>
+
+  <div class="box-info">
+    <div class="box-label">📌 Rentang Nilai CVR</div>
+    CVR berkisar antara <strong>−1.00</strong> hingga <strong>+1.00</strong>. Nilai CVR = 0 berarti setengah ahli menilai esensial. CVR = 1 berarti semua ahli menilai esensial. Nilai negatif berarti mayoritas ahli menilai item <em>tidak esensial</em>.
+  </div>
+
+  <h2 class="sec">2.2 Tabel Nilai CVR Minimum (Lawshe, 1975)</h2>
+  <p>Nilai CVR harus memenuhi nilai minimum berikut agar item dinyatakan valid secara isi (p &lt; .05, one-tailed):</p>
+
+  <table class="dec-table">
+    <thead>
+      <tr>
+        <th>Jumlah Ahli (N)</th>
+        <th>Nilai CVR Minimum</th>
+        <th>Keputusan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>5</td><td>0.99</td><td><span class="tag-ok">Butuhkan hampir semua setuju</span></td></tr>
+      <tr><td>6</td><td>0.99</td><td><span class="tag-ok">Hampir semua setuju</span></td></tr>
+      <tr><td>7</td><td>0.99</td><td><span class="tag-ok">Hampir semua setuju</span></td></tr>
+      <tr><td>8</td><td>0.75</td><td><span class="tag-uji">6 dari 8 ahli setuju</span></td></tr>
+      <tr><td>9</td><td>0.78</td><td><span class="tag-uji">7 dari 9 ahli setuju</span></td></tr>
+      <tr><td>10</td><td>0.62</td><td><span class="tag-uji">8 dari 10 ahli setuju</span></td></tr>
+      <tr><td>12</td><td>0.56</td><td><span class="tag-uji">10 dari 12 ahli setuju</span></td></tr>
+      <tr><td>15</td><td>0.49</td><td><span class="tag-uji">11 dari 15 ahli setuju</span></td></tr>
+      <tr><td>20</td><td>0.42</td><td><span class="tag-uji">15 dari 20 ahli setuju</span></td></tr>
+      <tr><td>40</td><td>0.29</td><td><span class="tag-uji">25 dari 40 ahli setuju</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sec">2.3 Content Validity Index (CVI)</h2>
+  <p>Setelah CVR per-item dihitung, <strong>CVI (Content Validity Index)</strong> dihitung sebagai rata-rata CVR seluruh item. Ini menggambarkan kualitas instrumen secara keseluruhan.</p>
+
+  <div class="formula-box">CVI = (Σ CVR per item) / Jumlah total item</div>
+
+  <table class="dec-table">
+    <thead>
+      <tr><th>Nilai CVI</th><th>Interpretasi</th><th>Rekomendasi</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>CVI ≥ 0.90</td><td><span class="tag-ok">Sangat Baik</span></td><td>Instrumen siap digunakan</td></tr>
+      <tr><td>0.80 ≤ CVI &lt; 0.90</td><td><span class="tag-uji">Baik</span></td><td>Revisi minor sebelum digunakan</td></tr>
+      <tr><td>CVI &lt; 0.80</td><td><span class="tag-fail">Tidak Memadai</span></td><td>Revisi substansial atau ganti item</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box-warn">
+    <div class="box-label">⚠️ Praktik di Lapangan</div>
+    Dalam penelitian skripsi/tesis Indonesia, panel ahli umumnya terdiri dari <strong>3–5 orang dosen/praktisi</strong>. Dengan N=5, CVR minimum = 0.99, artinya semua ahli harus setuju item itu esensial. Gunakan minimal 5 ahli, idealnya 7–10 untuk fleksibilitas lebih tinggi.
+  </div>
+
+  <h2 class="sec">2.4 Contoh Perhitungan CVR</h2>
+  <p>Misal panel terdiri dari <strong>8 ahli</strong> (N=8). Item X1 dinilai esensial oleh <strong>7 ahli</strong> (n_e = 7):</p>
+
+  <div class="formula-box">CVR = (7 − 8/2) / (8/2) = (7 − 4) / 4 = 3/4 = <strong>0.75</strong></div>
+
+  <p>Nilai CVR = 0.75 ≥ 0.75 (nilai minimum untuk N=8) → <span style="color:#166534;font-weight:700;">Item dinyatakan VALID secara isi ✓</span></p>
+</div>
+</div>
+
+<!-- ======================== PAGE 3: CONSTRUCT VALIDITY ======================== -->
+<div class="page" id="page-3">
+<div class="content-page">
+  <div class="section-label">🔬 Bab 3 — Construct Validity</div>
+  <h1 class="page-title">Validitas Konstruk: <span>CITC, AVE & CR</span></h1>
+  <p class="page-desc">Dilakukan pada data empiris (setelah kuesioner disebarkan). Menguji apakah setiap item benar-benar mengukur konstruk yang dituju.</p>
+
+  <h2 class="sec">3.1 Corrected Item-Total Correlation (CITC)</h2>
+  <p>CITC (sering disebut juga <em>item-rest correlation</em> atau nilai r dalam output SPSS) mengukur korelasi antara satu item dengan total skor instrumen setelah item tersebut dikeluarkan. Ini adalah cara paling umum untuk uji validitas konstruk pada penelitian sosial berbasis skripsi/tesis.</p>
+
+  <div class="formula-box">r_citc = korelasi(skor item_i , total skor − skor item_i)</div>
+
+  <table class="dec-table">
+    <thead>
+      <tr><th>Nilai CITC (r)</th><th>Interpretasi</th><th>Keputusan Item</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>r ≥ 0.30</td><td><span class="tag-ok">Valid</span></td><td>Pertahankan item</td></tr>
+      <tr><td>0.25 ≤ r &lt; 0.30</td><td><span class="tag-uji">Marginal</span></td><td>Revisi wording item, coba lagi</td></tr>
+      <tr><td>r &lt; 0.25 (atau &lt; 0.20)</td><td><span class="tag-fail">Tidak Valid</span></td><td>Buang item (drop)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box-info">
+    <div class="box-label">💡 Catatan SPSS</div>
+    Di SPSS, nilai CITC berada di kolom <strong>"Corrected Item-Total Correlation"</strong> dalam output Reliability Analysis (Analyze → Scale → Reliability Analysis). Kolom ini sudah mengoreksi kontribusi item itu sendiri.
+  </div>
+
+  <h2 class="sec">3.2 Average Variance Extracted (AVE)</h2>
+  <p>AVE mengukur seberapa besar varians indikator yang dapat dijelaskan oleh konstruk laten. Digunakan dalam analisis berbasis <strong>SEM / SmartPLS / CFA</strong>. Nilai AVE didapat dari factor loadings masing-masing indikator.</p>
+
+  <div class="formula-box">AVE = Σ(λ²) / [Σ(λ²) + Σ(1−λ²)]</div>
+  <p style="font-size:12px;color:var(--gray);text-align:center;margin-top:-8px;margin-bottom:16px;">λ = factor loading (standardized) masing-masing indikator</p>
+
+  <table class="dec-table">
+    <thead>
+      <tr><th>Nilai AVE</th><th>Interpretasi</th><th>Keputusan</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>AVE ≥ 0.50</td><td><span class="tag-ok">Convergent Validity Terpenuhi</span></td><td>Konstruk valid, lebih banyak varians dijelaskan oleh konstruk daripada error</td></tr>
+      <tr><td>AVE &lt; 0.50</td><td><span class="tag-fail">Convergent Validity Tidak Terpenuhi</span></td><td>Indikator terlalu lemah; pertimbangkan menghapus item dengan loading rendah</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sec">3.3 Composite Reliability (CR)</h2>
+  <p>CR (atau <em>Construct Reliability / Rho_c</em>) adalah alternatif Cronbach Alpha yang lebih akurat untuk model CFA/SEM karena memperhitungkan factor loading masing-masing indikator (tidak mengasumsikan semua indikator memiliki bobot sama).</p>
+
+  <div class="formula-box">CR = (Σλ)² / [(Σλ)² + Σ(1−λ²)]</div>
+
+  <table class="dec-table">
+    <thead>
+      <tr><th>Nilai CR</th><th>Interpretasi</th><th>Kesimpulan</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>CR ≥ 0.70</td><td><span class="tag-ok">Reliabilitas Komposit Baik</span></td><td>Konstruk reliabel — gunakan dalam analisis SEM/PLS</td></tr>
+      <tr><td>0.60 ≤ CR &lt; 0.70</td><td><span class="tag-uji">Dapat Diterima (Eksploratori)</span></td><td>Masih dapat digunakan untuk penelitian eksploratori</td></tr>
+      <tr><td>CR &lt; 0.60</td><td><span class="tag-fail">Tidak Memadai</span></td><td>Revisi instrumen, tambah indikator</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sec">3.4 Discriminant Validity (Fornell-Larcker)</h2>
+  <p>Untuk memastikan konstruk yang berbeda benar-benar mengukur hal yang berbeda, gunakan kriteria <strong>Fornell-Larcker</strong>:</p>
+
+  <div class="highlight">
+    <strong>Syarat Discriminant Validity:</strong><br>
+    √AVE setiap konstruk harus lebih besar dari korelasi konstruk tersebut dengan konstruk lainnya.<br><br>
+    Contoh: Konstruk A (AVE = 0.60) → √0.60 = 0.775. Maka korelasi A dengan B, A dengan C, dst. harus &lt; 0.775.
+  </div>
+
+  <div class="box-note">
+    <div class="box-label">✅ Ringkasan Kriteria Construct Validity</div>
+    <strong>CITC ≥ 0.30</strong> (untuk analisis skala SPSS) | <strong>Factor Loading ≥ 0.50</strong> (untuk CFA/SEM) | <strong>AVE ≥ 0.50</strong> | <strong>CR ≥ 0.70</strong> | <strong>√AVE &gt; r antar-konstruk</strong>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 4: CRONBACH ALPHA ======================== -->
+<div class="page" id="page-4">
+<div class="content-page">
+  <div class="section-label">🔁 Bab 4 — Reliabilitas</div>
+  <h1 class="page-title">Cronbach Alpha & <span>Tabel Interpretasi</span></h1>
+  <p class="page-desc">Cronbach Alpha (α) adalah indeks konsistensi internal yang paling banyak digunakan dalam penelitian sosial. Berikut panduan lengkapnya.</p>
+
+  <h2 class="sec">4.1 Rumus Cronbach Alpha</h2>
+  <p>Cronbach Alpha mengukur rata-rata korelasi antar seluruh pasangan item dalam instrumen, lalu mengestimasi konsistensi internal secara keseluruhan.</p>
+
+  <div class="formula-box">α = (k / (k−1)) × [1 − (Σσ²_i / σ²_total)]</div>
+  <p style="font-size:12px;color:var(--gray);text-align:center;margin-top:-8px;margin-bottom:16px;">k = jumlah item | σ²_i = varians tiap item | σ²_total = varians total skor</p>
+
+  <h2 class="sec">4.2 Tabel Interpretasi Cronbach Alpha</h2>
+  <p>Berikut tabel interpretasi yang paling umum digunakan dalam penelitian sosial Indonesia (mengacu pada George & Mallery, 2003 dan Nunnally, 1978):</p>
+
+  <table class="dec-table">
+    <thead>
+      <tr>
+        <th>Nilai Alpha (α)</th>
+        <th>Tingkat Reliabilitas</th>
+        <th>Rekomendasi Penggunaan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>α ≥ 0.90</strong></td>
+        <td><span class="tag-ok">Sangat Tinggi / Sempurna</span></td>
+        <td>Excellent — siap digunakan untuk penelitian klinis/kesehatan dan skripsi</td>
+      </tr>
+      <tr>
+        <td><strong>0.80 ≤ α &lt; 0.90</strong></td>
+        <td><span class="tag-ok">Tinggi / Baik</span></td>
+        <td>Good — memenuhi standar penelitian akademik dengan baik</td>
+      </tr>
+      <tr>
+        <td><strong>0.70 ≤ α &lt; 0.80</strong></td>
+        <td><span class="tag-uji">Cukup / Dapat Diterima</span></td>
+        <td>Acceptable — standar minimum untuk penelitian sosial dan skripsi</td>
+      </tr>
+      <tr>
+        <td><strong>0.60 ≤ α &lt; 0.70</strong></td>
+        <td><span class="tag-uji">Kurang / Dipertanyakan</span></td>
+        <td>Questionable — hanya diterima untuk penelitian eksploratori awal</td>
+      </tr>
+      <tr>
+        <td><strong>0.50 ≤ α &lt; 0.60</strong></td>
+        <td><span class="tag-fail">Rendah / Tidak Dapat Diterima</span></td>
+        <td>Poor — revisi instrumen disarankan</td>
+      </tr>
+      <tr>
+        <td><strong>α &lt; 0.50</strong></td>
+        <td><span class="tag-fail">Sangat Rendah / Ditolak</span></td>
+        <td>Unacceptable — instrumen harus dirancang ulang</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="interp-row">
+    <span class="interp-badge sangat-tinggi">α ≥ 0.90 — Excellent</span>
+    <span class="interp-badge tinggi">0.80–0.89 — Good</span>
+    <span class="interp-badge sedang">0.70–0.79 — Acceptable</span>
+    <span class="interp-badge rendah">0.60–0.69 — Questionable</span>
+    <span class="interp-badge sangat-rendah">α &lt; 0.60 — Unacceptable</span>
+  </div>
+
+  <h2 class="sec">4.3 Syarat dan Asumsi Cronbach Alpha</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>✅ Asumsi Terpenuhi</h3>
+      <p>Item-item mengukur konstruk yang <strong>sama dan unidimensional</strong>. Semua item memiliki skala yang sama (misal: semua Likert 1–5).</p>
+    </div>
+    <div class="card">
+      <h3>⚠️ Perhatikan Ini</h3>
+      <p>Alpha sangat dipengaruhi jumlah item — makin banyak item, makin tinggi alpha. <strong>Alpha tinggi belum tentu valid!</strong></p>
+    </div>
+  </div>
+
+  <h2 class="sec">4.4 Kapan Gunakan CR vs Cronbach Alpha?</h2>
+  <table class="dec-table">
+    <thead>
+      <tr><th>Kondisi</th><th>Gunakan</th><th>Alasan</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Analisis skala sederhana (SPSS)</td><td><strong>Cronbach Alpha</strong></td><td>Tersedia di semua software, mudah dilaporkan</td></tr>
+      <tr><td>SEM / CFA / SmartPLS</td><td><strong>CR (Composite Reliability)</strong></td><td>Lebih akurat karena mempertimbangkan loading berbeda-beda</td></tr>
+      <tr><td>Penelitian skripsi/tesis umum</td><td><strong>Cronbach Alpha</strong></td><td>Standar baku di Indonesia, diterima semua penguji</td></tr>
+      <tr><td>Jurnal internasional (SEM)</td><td><strong>CR + AVE</strong></td><td>Standar pelaporan untuk model measurement</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box-warn">
+    <div class="box-label">⚠️ Jangan Lakukan Ini</div>
+    Jangan menghapus item <em>hanya</em> karena nilai "Alpha if Item Deleted" naik. Pertimbangkan juga apakah item tersebut <strong>penting secara konten</strong> dan apakah CITC-nya cukup. Menghapus terlalu banyak item bisa mengorbankan validitas isi.
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 5: STEP-BY-STEP ======================== -->
+<div class="page" id="page-5">
+<div class="content-page">
+  <div class="section-label">🧪 Bab 5 — Prosedur</div>
+  <h1 class="page-title">Step-by-Step <span>Prosedur Uji Instrumen</span></h1>
+  <p class="page-desc">Panduan lengkap dari awal hingga laporan: cara menjalankan uji validitas dan reliabilitas menggunakan SPSS, Python, atau SmartPLS.</p>
+
+  <h2 class="sec">5.1 Prosedur Uji SPSS (Reliability Analysis)</h2>
+
+  <div class="step-card">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>Buka Data & Siapkan Kolom Item</h4>
+      <p>Pastikan setiap item instrumen memiliki kolom tersendiri (X1, X2, X3, …, Xk). Skala harus numerik. Reverse item harus sudah di-<em>recode</em> sebelum analisis.</p>
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>Buka Reliability Analysis</h4>
+      <p>Klik <strong>Analyze → Scale → Reliability Analysis</strong>. Pindahkan semua item konstruk ke kotak "Items". Pastikan Model = <strong>Alpha</strong>.</p>
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>Aktifkan Opsi Statistics</h4>
+      <p>Klik tombol <strong>Statistics</strong>. Centang: <em>Item</em>, <em>Scale</em>, <em>Scale if item deleted</em>. Klik Continue → OK. Output utama: <strong>Cronbach Alpha</strong> dan tabel <strong>Item-Total Statistics</strong>.</p>
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <h4>Baca Kolom "Corrected Item-Total Correlation"</h4>
+      <p>Ini adalah nilai <strong>CITC</strong>. Item dengan nilai r &lt; 0.30 → hapus. Setelah menghapus item, <strong>ulangi analisis</strong> hingga semua item memenuhi kriteria.</p>
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">5</div>
+    <div class="step-content">
+      <h4>Cek Cronbach Alpha Final</h4>
+      <p>Setelah item-item tidak valid dibuang, baca nilai <strong>Reliability Statistics → Cronbach's Alpha</strong>. Nilai ≥ 0.70 → instrumen reliabel. Catat nilai ini untuk dilaporkan di Bab 3.</p>
+    </div>
+  </div>
+
+  <h2 class="sec">5.2 Prosedur Uji SmartPLS / AMOS (AVE & CR)</h2>
+
+  <div class="step-card">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>Bangun Model Measurement (CFA)</h4>
+      <p>Di SmartPLS: buat outer model dengan semua indikator mengarah ke konstruk latennya. Di AMOS: buat CFA diagram dengan setiap indikator terhubung ke konstruk.</p>
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>Jalankan PLS Algorithm / CFA Run</h4>
+      <p>SmartPLS: klik <strong>Calculate → PLS Algorithm</strong>. AMOS: klik tombol <em>Calculate estimates</em>. Dapatkan nilai <strong>outer loading</strong> (standardized factor loading) untuk setiap indikator.</p>
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>Cek Outer Loading / Factor Loading</h4>
+      <p>Indikator dengan loading &lt; 0.50 → pertimbangkan untuk dihapus. Indikator dengan loading 0.50–0.70 → masih dapat diterima jika AVE ≥ 0.50. Loading &gt; 0.70 → ideal.</p>
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <h4>Hitung AVE dan CR</h4>
+      <p>SmartPLS otomatis menampilkan <strong>AVE</strong> dan <strong>Composite Reliability</strong> di tabel Construct Reliability and Validity. AMOS: hitung manual dari output standardized loading. Targetkan AVE ≥ 0.50 dan CR ≥ 0.70.</p>
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">5</div>
+    <div class="step-content">
+      <h4>Uji Discriminant Validity (Fornell-Larcker)</h4>
+      <p>SmartPLS: Lihat tabel <strong>Discriminant Validity → Fornell-Larcker Criterion</strong>. Pastikan nilai diagonal (√AVE) lebih besar dari semua nilai di baris/kolom yang sama.</p>
+    </div>
+  </div>
+
+  <div class="box-note">
+    <div class="box-label">✅ Tips Praktis</div>
+    Lakukan uji validitas dan reliabilitas pada <strong>data pilot study</strong> terlebih dahulu (30–50 responden) sebelum menyebarkan ke sampel penuh. Ini menghemat waktu dan memastikan instrumen sudah baik.
+  </div>
+
+  <h2 class="sec">5.3 Ringkasan Kriteria Keputusan</h2>
+  <table class="dec-table">
+    <thead>
+      <tr><th>Uji</th><th>Indikator</th><th>Nilai Minimum</th><th>Keputusan jika Tidak Terpenuhi</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Content Validity</td><td>CVR per item</td><td>≥ nilai kritis Lawshe (N ahli)</td><td>Revisi/hapus item</td></tr>
+      <tr><td>Content Validity</td><td>CVI instrumen</td><td>≥ 0.80</td><td>Revisi substansial instrumen</td></tr>
+      <tr><td>Construct Validity (SPSS)</td><td>CITC (r)</td><td>≥ 0.30</td><td>Hapus item, ulangi analisis</td></tr>
+      <tr><td>Construct Validity (SEM)</td><td>Factor Loading (λ)</td><td>≥ 0.50</td><td>Hapus indikator lemah</td></tr>
+      <tr><td>Convergent Validity</td><td>AVE</td><td>≥ 0.50</td><td>Hapus indikator loading rendah</td></tr>
+      <tr><td>Discriminant Validity</td><td>√AVE vs r antar-konstruk</td><td>√AVE &gt; r</td><td>Periksa multikolinearitas konstruk</td></tr>
+      <tr><td>Reliabilitas (SPSS)</td><td>Cronbach Alpha (α)</td><td>≥ 0.70</td><td>Revisi item, hapus yang melemahkan alpha</td></tr>
+      <tr><td>Reliabilitas (SEM)</td><td>Composite Reliability (CR)</td><td>≥ 0.70</td><td>Tambah/perbaiki indikator</td></tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<!-- ======================== PAGE 6: TEMPLATE PELAPORAN ======================== -->
+<div class="page" id="page-6">
+<div class="content-page">
+  <div class="section-label">📝 Bab 6 — Template Pelaporan</div>
+  <h1 class="page-title">Template Kalimat <span>Pelaporan Hasil Uji</span></h1>
+  <p class="page-desc">Kalimat siap pakai untuk Bab 3 (Metodologi) dan Bab 4 (Hasil) skripsi/tesis Anda. Ganti bagian yang dicetak tebal sesuai hasil analisis.</p>
+
+  <h2 class="sec">6.1 Template Pelaporan Content Validity (CVR)</h2>
+
+  <div class="apa-box">
+    <div class="apa-title">Laporan CVR — Bab 3 Metodologi</div>
+    <div class="apa-label">Template</div>
+    <div class="apa-text">
+      Uji validitas isi instrumen dilakukan oleh <strong>[jumlah] ahli</strong> di bidang <strong>[nama bidang]</strong>. Setiap item dinilai menggunakan Content Validity Ratio (CVR) mengacu pada kriteria Lawshe (1975). Hasil penilaian menunjukkan bahwa <strong>[jumlah item]</strong> dari <strong>[total item]</strong> item memenuhi nilai CVR minimum sebesar <strong>[nilai kritis]</strong> (N = <strong>[jumlah ahli]</strong>). Content Validity Index (CVI) instrumen secara keseluruhan sebesar <strong>[nilai CVI]</strong>, yang berada dalam kategori <strong>[baik/sangat baik]</strong>. Dengan demikian, instrumen dinilai memiliki validitas isi yang memadai.
+    </div>
+  </div>
+
+  <h2 class="sec">6.2 Template Pelaporan CITC dan Cronbach Alpha</h2>
+
+  <div class="apa-box">
+    <div class="apa-title">Laporan Validitas & Reliabilitas SPSS — Bab 3</div>
+    <div class="apa-label">Template Metodologi</div>
+    <div class="apa-text">
+      Uji validitas instrumen dilakukan menggunakan teknik Corrected Item-Total Correlation (CITC) pada data uji coba dengan <strong>N = [jumlah responden]</strong> responden. Item dinyatakan valid apabila nilai CITC ≥ 0.30 (Sugiyono, 2019). Uji reliabilitas menggunakan koefisien Cronbach Alpha dengan kriteria reliabel apabila α ≥ 0.70 (Nunnally, 1978).
+    </div>
+  </div>
+
+  <div class="apa-box">
+    <div class="apa-title">Laporan Hasil Uji Validitas CITC — Bab 4</div>
+    <div class="apa-label">Template Hasil</div>
+    <div class="apa-text">
+      Hasil uji validitas terhadap variabel <strong>[nama variabel]</strong> menunjukkan bahwa dari <strong>[total] item</strong> yang diuji, <strong>[jumlah item valid]</strong> item dinyatakan valid dengan nilai Corrected Item-Total Correlation berkisar antara <strong>[nilai min]</strong> hingga <strong>[nilai max]</strong> (r ≥ 0.30). Sebanyak <strong>[jumlah item gugur]</strong> item gugur karena memiliki nilai CITC di bawah 0.30, yaitu item <strong>[nomor item]</strong>. Item yang gugur tidak diikutsertakan dalam analisis selanjutnya.
+    </div>
+  </div>
+
+  <div class="apa-box">
+    <div class="apa-title">Laporan Cronbach Alpha — Bab 4</div>
+    <div class="apa-label">Template Hasil</div>
+    <div class="apa-text">
+      Uji reliabilitas terhadap variabel <strong>[nama variabel]</strong> menghasilkan nilai Cronbach Alpha sebesar <strong>α = [nilai]</strong>. Nilai ini berada di atas ambang batas reliabilitas yang ditetapkan (α ≥ 0.70), sehingga instrumen dinyatakan <strong>reliabel</strong> dan konsisten dalam mengukur konstruk yang dituju. Berdasarkan kategori George & Mallery (2003), tingkat reliabilitas instrumen ini tergolong <strong>[sangat tinggi/tinggi/cukup]</strong>.
+    </div>
+  </div>
+
+  <h2 class="sec">6.3 Template Pelaporan AVE & CR (SEM/PLS)</h2>
+
+  <div class="apa-box">
+    <div class="apa-title">Laporan Convergent Validity — AVE & CR</div>
+    <div class="apa-label">Template Hasil SEM/PLS</div>
+    <div class="apa-text">
+      Hasil uji convergent validity menunjukkan bahwa seluruh konstruk memiliki nilai Average Variance Extracted (AVE) di atas 0.50, berkisar antara <strong>[nilai min AVE]</strong> hingga <strong>[nilai max AVE]</strong>, yang mengindikasikan bahwa lebih dari 50% varians indikator dapat dijelaskan oleh konstruk latennya. Composite Reliability (CR) seluruh konstruk berada di atas 0.70, berkisar antara <strong>[nilai min CR]</strong> hingga <strong>[nilai max CR]</strong>, sehingga seluruh konstruk dinyatakan reliabel (Hair et al., 2019).
+    </div>
+  </div>
+
+  <div class="apa-box">
+    <div class="apa-title">Laporan Discriminant Validity — Fornell-Larcker</div>
+    <div class="apa-label">Template Hasil SEM/PLS</div>
+    <div class="apa-text">
+      Uji discriminant validity menggunakan kriteria Fornell-Larcker menunjukkan bahwa nilai akar kuadrat AVE (√AVE) setiap konstruk lebih besar dari korelasi konstruk tersebut dengan konstruk lainnya. Konstruk dengan √AVE terkecil adalah <strong>[nama konstruk]</strong> sebesar <strong>[nilai]</strong>, yang masih lebih besar dari korelasi tertinggi dengan konstruk lain sebesar <strong>[nilai korelasi]</strong>. Hasil ini mengkonfirmasi bahwa seluruh konstruk memiliki discriminant validity yang memadai (Fornell & Larcker, 1981).
+    </div>
+  </div>
+
+  <h2 class="sec">6.4 Referensi yang Sering Digunakan</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>CVR/CVI</h3>
+      <p>Lawshe, C. H. (1975). A quantitative approach to content validity. <em>Personnel Psychology, 28</em>(4), 563–575.</p>
+    </div>
+    <div class="card">
+      <h3>Cronbach Alpha</h3>
+      <p>Nunnally, J. C. (1978). <em>Psychometric theory</em> (2nd ed.). McGraw-Hill.<br>George, D., & Mallery, P. (2003). <em>SPSS for Windows</em>. Pearson.</p>
+    </div>
+    <div class="card">
+      <h3>AVE & CR</h3>
+      <p>Fornell, C., & Larcker, D. F. (1981). Evaluating structural equation models. <em>Journal of Marketing Research, 18</em>(1), 39–50.</p>
+    </div>
+    <div class="card">
+      <h3>SEM / PLS</h3>
+      <p>Hair, J. F., et al. (2019). <em>Multivariate Data Analysis</em> (8th ed.). Cengage.<br>Hair, J. F., et al. (2021). <em>A Primer on PLS-SEM</em>. Sage.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 7: RUANG STATISTIKA ======================== -->
+<div class="page" id="page-7">
+<div class="content-page">
+  <div class="section-label">🚀 Bab 7 — Platform</div>
+  <h1 class="page-title">Lakukan Semua Ini di <span>Ruang Statistika</span></h1>
+  <p class="page-desc">Setelah memahami teori validitas dan reliabilitas, langkah selanjutnya adalah menjalankan analisisnya. Tidak perlu instal SPSS atau belajar coding dari nol.</p>
+
+  <p>Ruang Statistika menyediakan <strong>30+ modul analisis statistik</strong> berbasis Python yang dapat diakses langsung dari browser — gratis untuk modul esensial.</p>
+
+  <h2 class="sec">Modul Terkait Validitas & Reliabilitas</h2>
+  <div class="modul-grid">
+    <div class="modul-item"><span class="dot"></span>Uji Validitas (CITC)</div>
+    <div class="modul-item"><span class="dot"></span>Cronbach Alpha</div>
+    <div class="modul-item"><span class="dot"></span>Hitung CVR & CVI</div>
+    <div class="modul-item"><span class="dot"></span>CFA (Confirmatory Factor Analysis)</div>
+    <div class="modul-item"><span class="dot"></span>AVE & Composite Reliability</div>
+    <div class="modul-item"><span class="dot"></span>Discriminant Validity</div>
+    <div class="modul-item"><span class="dot"></span>Analisis Faktor Eksploratori (EFA)</div>
+    <div class="modul-item"><span class="dot"></span>SEM (AMOS / SmartPLS)</div>
+    <div class="modul-item"><span class="dot"></span>Regresi Linier & Berganda</div>
+    <div class="modul-item"><span class="dot"></span>Narasi Otomatis AI (Pro)</div>
+  </div>
+
+  <h2 class="sec">Keunggulan Ruang Statistika</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>🖥️ Berbasis Browser</h3>
+      <p>Tidak perlu instal SPSS, Python, atau R. Cukup upload data Excel/CSV dan analisis langsung berjalan.</p>
+    </div>
+    <div class="card">
+      <h3>📄 Output Siap Laporan</h3>
+      <p>Hasil analisis disajikan dalam tabel terformat rapi dan interpretasi otomatis yang siap masuk ke Bab 3 dan Bab 4 skripsi.</p>
+    </div>
+    <div class="card">
+      <h3>🤖 AI Narasi (Pro)</h3>
+      <p>Setiap hasil diinterpretasikan otomatis oleh AI dalam Bahasa Indonesia akademis — format skripsi Indonesia atau APA 7th.</p>
+    </div>
+    <div class="card">
+      <h3>🎓 Konsultasi Langsung</h3>
+      <p>Stuck di analisis? Konsultasi langsung dengan Yogo via WhatsApp untuk panduan metodologi dan interpretasi hasil.</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>🤖 Fitur AI Narasi (Pro)</strong><br>
+    Setiap hasil analisis validitas dan reliabilitas dapat diinterpretasikan otomatis oleh AI dalam Bahasa Indonesia akademis yang siap masuk ke Bab 3 dan Bab 4 skripsi Anda — format APA 7th, Skripsi Indonesia, atau Jurnal.
+  </div>
+
+  <div class="cta-box">
+    <h3>Coba Sekarang — Gratis 🎓</h3>
+    <p>30+ modul analisis statistik berbasis Python, langsung dari browser. Tidak perlu instalasi apapun.</p>
+    <a href="https://yogoaj.github.io/ruangstatistika" class="btn-cta" target="_blank">🌐 Buka Ruang Statistika</a>
+    <br><br>
+    <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya mau konsultasi statistik." class="btn-cta" style="background:rgba(255,255,255,.1);color:var(--white);margin-top:8px;" target="_blank">💬 Konsultasi via WhatsApp</a>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 8: TENTANG PENULIS ======================== -->
+<div class="page" id="page-8">
+<div class="content-page">
+  <div class="section-label">👤 Penulis</div>
+  <h1 class="page-title">Tentang <span>Penulis</span></h1>
+
+  <div class="card" style="border:1px solid rgba(245,197,24,.3);margin-bottom:24px;">
+    <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--navy),#1a3a6b);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:var(--gold);flex-shrink:0;">Y</div>
+      <div>
+        <h3 style="font-size:18px;margin-bottom:4px;">Yogo Aryo Jatmiko, SST, M.Stat</h3>
+        <p style="font-size:13px;color:var(--gray);margin:0 0 10px;">Statistisi Ahli · Demografer · Founder Ruang Statistika</p>
+        <div class="badge-row">
+          <span class="badge">📊 10+ Tahun Pengalaman</span>
+          <span class="badge">📄 8+ Publikasi Jurnal</span>
+          <span class="badge" style="background:rgba(245,197,24,.15);color:#92400e;border-color:rgba(245,197,24,.4);">🎓 Pembicara Webinar Nasional</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>Yogo Aryo Jatmiko adalah seorang Statistisi Ahli di Badan Pusat Statistik (BPS) Indonesia dengan lebih dari 10 tahun pengalaman di bidang statistik populasi dan demografi. Ia juga merupakan Dosen Demografi di Politeknik Statistika STIS, lembaga kedinasan di bawah BPS.</p>
+
+  <p>Sebagai peneliti aktif dengan lebih dari 8 publikasi jurnal, Yogo memiliki keahlian mendalam dalam analisis data kependudukan, proyeksi penduduk, dan pemodelan statistik lanjutan. Ia terlibat langsung dalam Tim Proyeksi Penduduk SP2020 dan berbagai proyek strategis BPS. Dikenal sebagai pembicara webinar nasional, termasuk sesi analisis data JASP dan AI untuk 500+ peserta dari berbagai universitas di Indonesia.</p>
+
+  <h2 class="sec">Keahlian Utama</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Analisis Statistik</h3>
+      <p>Regresi, SEM, CFA, Mediasi, Moderasi, ANOVA</p>
+    </div>
+    <div class="card">
+      <h3>Demografi</h3>
+      <p>Life Table, Proyeksi Penduduk, Kohort-Komponen</p>
+    </div>
+    <div class="card">
+      <h3>Machine Learning</h3>
+      <p>ARIMA, Regresi Bayesian, SAE-HB</p>
+    </div>
+    <div class="card">
+      <h3>Tools</h3>
+      <p>SPSS, R/RStudio, Python, AMOS, SmartPLS, JASP, Stata</p>
+    </div>
+  </div>
+
+  <h2 class="sec">Kontak & Tautan</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>🌐 Website</h3>
+      <p><a href="https://yogoaj.github.io/ruangstatistika" target="_blank" style="color:var(--navy);">yogoaj.github.io/ruangstatistika</a></p>
+    </div>
+    <div class="card">
+      <h3>💬 WhatsApp</h3>
+      <p><a href="https://wa.me/6289655003613" target="_blank" style="color:var(--navy);">+62-896-5500-3613</a></p>
+    </div>
+    <div class="card">
+      <h3>📧 Email</h3>
+      <p><a href="mailto:yj29289@gmail.com" style="color:var(--navy);">yj29289@gmail.com</a></p>
+    </div>
+    <div class="card">
+      <h3>🔗 Profil Akademik</h3>
+      <p>LinkedIn · ResearchGate · ORCID · Google Scholar</p>
+    </div>
+  </div>
+
+  <div class="ebook-footer">
+    © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat<br>
+    Ebook ini boleh dibagikan secara gratis dengan mencantumkan sumber.
+  </div>
+</div>
+</div>
+
+<!-- PAGE NAV -->
+<div class="page-nav">
+  <button id="prevBtn" onclick="changePage(-1)" disabled>‹</button>
+  <span class="page-counter" id="pageCounter">1 / 9</span>
+  <button id="nextBtn" onclick="changePage(1)">›</button>
+</div>
+
+<script>
+  const pages=document.querySelectorAll('.page');
+  let cur=0;
+  const total=pages.length;
+  function showPage(n){
+    pages[cur].classList.remove('active');
+    cur=n;
+    pages[cur].classList.add('active');
+    document.getElementById('pageCounter').textContent=(cur+1)+' / '+total;
+    document.getElementById('prevBtn').disabled=cur===0;
+    document.getElementById('nextBtn').disabled=cur===total-1;
+    document.getElementById('pgbar').style.width=((cur/(total-1))*100)+'%';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function changePage(d){if(cur+d>=0&&cur+d<total)showPage(cur+d);}
+  function goPage(n){showPage(n);}
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight')changePage(1);
+    if(e.key==='ArrowLeft')changePage(-1);
+  });
+</script>
+</body>
+</html>
