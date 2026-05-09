@@ -1,1 +1,899 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEM, Mediasi & Moderasi untuk Tesis — Ruang Statistika</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
 
+  :root {
+    --navy: #0d1f3c;
+    --navy2: #132847;
+    --gold: #f5c518;
+    --gold2: #e6b800;
+    --white: #ffffff;
+    --light: #f8f9fc;
+    --gray: #6b7280;
+    --border: #e5e7eb;
+    --accent: #1a3a6b;
+    --green: #166534;
+    --red: #991b1b;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--light); color: #1a1a2e; line-height: 1.7; }
+
+  /* NAV */
+  .top-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 28px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.25);
+  }
+  .top-nav .brand { display:flex; align-items:center; gap:10px; }
+  .top-nav .brand span { color:var(--gold); font-weight:700; font-size:15px; letter-spacing:.3px; }
+  .nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+  .nav-links a {
+    color: rgba(255,255,255,.75); font-size: 12px; font-weight: 500;
+    text-decoration: none; padding: 5px 10px; border-radius: 6px; transition: all .2s;
+  }
+  .nav-links a:hover { background: rgba(245,197,24,.15); color: var(--gold); }
+
+  /* PAGES */
+  .page { display: none; animation: fadeIn .4s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  /* BOTTOM PAGE NAV */
+  .page-nav {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 10px;
+    background: var(--navy); border-radius: 50px;
+    padding: 8px 18px; box-shadow: 0 8px 32px rgba(0,0,0,.3); z-index: 998;
+  }
+  .page-nav button {
+    background: rgba(255,255,255,.1); border: none; color: #fff;
+    width: 36px; height: 36px; border-radius: 50%;
+    cursor: pointer; font-size: 16px; transition: all .2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .page-nav button:hover { background: var(--gold); color: var(--navy); }
+  .page-nav button:disabled { opacity:.3; cursor:not-allowed; }
+  .page-counter { color: rgba(255,255,255,.7); font-size: 12px; min-width: 60px; text-align:center; font-weight:500; }
+
+  /* PROGRESS BAR */
+  .progress-bar { position: fixed; top: 52px; left:0; right:0; height:3px; background: rgba(255,255,255,.1); z-index:997; }
+  .progress-fill { height:100%; background: var(--gold); transition: width .3s ease; }
+
+  /* ============ COVER ============ */
+  #cover {
+    min-height: 100vh; background: var(--navy);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; padding: 80px 40px 100px; text-align: center;
+  }
+  .cover-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(245,197,24,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,197,24,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .cover-glow {
+    position: absolute; width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(245,197,24,.12) 0%, transparent 70%);
+    top: -100px; right: -100px; pointer-events: none;
+  }
+  .cover-logo { width: 72px; height: 72px; margin-bottom: 28px; filter: drop-shadow(0 4px 16px rgba(245,197,24,.3)); position: relative; }
+  .cover-ebook-label { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; position: relative; }
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 48px); font-weight: 900;
+    color: var(--white); line-height: 1.15; max-width: 680px;
+    position: relative; margin-bottom: 8px;
+  }
+  .cover-title span { color: var(--gold); }
+  .cover-subtitle {
+    color: rgba(255,255,255,.5); font-size: 14px; font-weight: 400;
+    max-width: 520px; margin: 20px auto 36px; position: relative; line-height: 1.8;
+  }
+  .cover-features { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 600px; position: relative; margin-bottom: 40px; }
+  .cover-features .feat {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    color: rgba(255,255,255,.8); font-size: 12px; font-weight: 500;
+    padding: 8px 16px; border-radius: 8px; display: flex; align-items: center; gap: 6px;
+  }
+  .cover-features .feat .dot { width:6px; height:6px; background:var(--gold); border-radius:50%; }
+  .cover-divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--gold), transparent); border-radius: 2px; margin: 0 auto 20px; position: relative; }
+  .cover-author {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px; padding: 12px 20px; position: relative;
+  }
+  .cover-author-ava {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: var(--navy); font-size: 16px;
+  }
+  .cover-author-info .name { color: var(--white); font-weight: 600; font-size: 14px; }
+  .cover-author-info .role { color: rgba(255,255,255,.5); font-size: 11px; }
+  .cover-no { position: absolute; top: 90px; right: 32px; font-size: 11px; color: rgba(255,255,255,.2); font-weight: 500; letter-spacing: 1px; }
+
+  /* ============ CONTENT PAGES ============ */
+  .content-page { max-width: 800px; margin: 0 auto; padding: 80px 32px 120px; min-height: 100vh; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(13,31,60,.07); color: var(--navy); font-size: 11px; font-weight: 700;
+    padding: 5px 14px; border-radius: 50px; letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 20px; border-left: 3px solid var(--gold);
+  }
+  h1.page-title { font-family: 'Playfair Display', serif; font-size: clamp(24px, 4vw, 36px); font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 8px; }
+  h1.page-title span { color: var(--gold2); }
+  .page-desc { color: var(--gray); font-size: 14px; margin-bottom: 36px; max-width: 600px; }
+  h2.sec { font-size: 18px; font-weight: 700; color: var(--navy); margin: 32px 0 14px; display:flex; align-items:center; gap:10px; }
+  h2.sec::before { content:''; display:block; width:4px; height:20px; background:var(--gold); border-radius:2px; flex-shrink:0; }
+  p { font-size: 14px; color: #374151; margin-bottom: 14px; }
+
+  /* CARD */
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.04); transition: box-shadow .2s; }
+  .card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.09); }
+  .card-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .card-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .card h3 { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .card p { font-size: 13px; color: var(--gray); margin: 0; }
+
+  /* TEMPLATE BOX */
+  .template-box { background: var(--navy); border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .template-box::before { content: ''; position: absolute; left:0; top:0; bottom:0; width:4px; background: var(--gold); }
+  .template-box .tag { display: inline-block; background: rgba(245,197,24,.2); color: var(--gold); font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 50px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .template-box .tmpl { font-size: 13.5px; color: rgba(255,255,255,.88); line-height: 1.75; font-style: italic; }
+  .template-box .tmpl .var { background: rgba(245,197,24,.25); color: var(--gold); padding: 1px 6px; border-radius: 4px; font-style: normal; font-weight: 600; font-size: 12px; }
+  .copy-btn {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 12px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.7);
+    font-size: 11px; font-weight: 600; padding: 5px 14px; border-radius: 6px;
+    cursor: pointer; border:none; transition: all .2s; font-family: 'Inter', sans-serif;
+  }
+  .copy-btn:hover { background: var(--gold); color: var(--navy); }
+
+  /* TABLE */
+  .tbl-wrap { overflow-x: auto; margin: 16px 0 24px; }
+  .apa-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+  .apa-table caption { text-align: left; font-size: 13px; color: var(--navy); font-weight: 700; padding: 14px 16px 8px; background: var(--white); }
+  .apa-table thead tr { border-bottom: 2px solid var(--navy); }
+  .apa-table th { background: var(--navy); color: var(--gold); font-weight: 700; padding: 11px 14px; text-align: left; font-size: 12px; letter-spacing: .3px; }
+  .apa-table td { padding: 10px 14px; color: #374151; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+  .apa-table tr:last-child td { border-bottom: none; }
+  .apa-table tr:nth-child(even) td { background: #f9fafb; }
+  .apa-note { font-size: 12px; color: var(--gray); margin-top: 6px; font-style: italic; }
+  .badge-ok { background: #dcfce7; color: var(--green); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+  .badge-warn { background: #fef9c3; color: #854d0e; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+  .badge-info { background: #dbeafe; color: #1e40af; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+
+  /* STEP LIST */
+  .step-list { list-style: none; }
+  .step-list li { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--navy); color: var(--gold); font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step-list .step-txt h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .step-list .step-txt p { font-size: 13px; color: var(--gray); margin: 0; }
+
+  /* ALERT */
+  .alert { border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; }
+  .alert-warn { background: #fffbeb; border-left: 4px solid #f59e0b; color: #92400e; }
+  .alert-info { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e40af; }
+  .alert-success { background: #f0fdf4; border-left: 4px solid #22c55e; color: #166534; }
+  .alert-icon { font-size: 18px; flex-shrink:0; margin-top:1px; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; }
+  .checklist li { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: #374151; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f3f4f6; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist .ck { color: var(--gold); font-size: 16px; flex-shrink:0; margin-top:1px; }
+
+  /* GRID */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px; }
+  @media(max-width:600px) { .grid-2 { grid-template-columns:1fr; } }
+  .ci-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+  @media(max-width:600px) { .ci-grid { grid-template-columns:1fr; } }
+
+  /* CI CARD */
+  .ci-card { border-radius: 10px; padding: 14px 16px; font-size: 13px; line-height: 1.6; }
+  .ci-card.sig { background: #dcfce7; border: 1px solid #bbf7d0; }
+  .ci-card.nsig { background: #fee2e2; border: 1px solid #fecaca; }
+  .ci-card h5 { font-size: 12px; font-weight: 700; margin-bottom: 5px; }
+  .ci-card.sig h5 { color: var(--green); }
+  .ci-card.nsig h5 { color: var(--red); }
+  .ci-card.info-blue { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .ci-card.info-blue h5 { color: #1d4ed8; }
+
+  /* HIGHLIGHT */
+  .highlight { background: linear-gradient(135deg, rgba(13,31,60,.04), rgba(245,197,24,.08)); border: 1px solid rgba(245,197,24,.25); border-radius: 12px; padding: 18px 22px; margin: 16px 0; }
+  .highlight strong { color: var(--navy); }
+
+  /* JN BOX */
+  .jn-box { background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #bfdbfe; border-radius: 12px; padding: 18px 20px; margin: 14px 0; }
+  .jn-box h4 { font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+  .jn-box p { font-size: 13px; color: #1e3a5f; line-height: 1.7; margin:0; }
+
+  /* PATH DIAGRAM */
+  .path-diagram { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 24px 20px; text-align: center; margin: 16px 0; }
+  .path-diagram svg { max-width: 100%; overflow: visible; }
+  .path-diagram p { font-size: 12px; color: #6b7280; margin-top: 8px; margin-bottom: 0; }
+
+  /* BADGE */
+  .badge-row { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+  .badge { background: rgba(13,31,60,.07); color: var(--navy); font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 50px; border: 1px solid rgba(13,31,60,.1); }
+  .badge-gold { background: rgba(245,197,24,.15); color: #92400e; border-color: rgba(245,197,24,.4); }
+
+  /* TOC */
+  .toc-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all .2s; border: 1px solid var(--border); background: var(--white); }
+  .toc-item:hover { border-color: var(--gold); background: rgba(245,197,24,.04); }
+  .toc-item .toc-left { display:flex; align-items:center; gap:12px; }
+  .toc-item .toc-num { font-size:11px; font-weight:700; color:var(--gold); background:var(--navy); padding:4px 9px; border-radius:6px; }
+  .toc-item .toc-title { font-size:14px; font-weight:600; color:var(--navy); }
+  .toc-item .toc-arr { color:var(--gray); font-size:16px; }
+
+  /* CTA */
+  .cta-box { background: var(--navy); border-radius: 16px; padding: 32px 30px; text-align: center; position: relative; overflow: hidden; margin-top: 32px; }
+  .cta-box::after { content:''; position: absolute; top:-60px; right:-60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(245,197,24,.15) 0%, transparent 70%); pointer-events: none; }
+  .cta-box h3 { font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 10px; }
+  .cta-box p { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 20px; max-width: 440px; margin-left:auto; margin-right:auto; }
+  .btn-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--gold); color: var(--navy); font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 10px; text-decoration: none; transition: all .2s; border: none; cursor: pointer; font-family: 'Inter', sans-serif; }
+  .btn-cta:hover { background: #e6b800; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245,197,24,.4); }
+  .cta-link { color: rgba(255,255,255,.5); font-size: 12px; margin-top: 12px; display:block; }
+  .cta-link a { color: var(--gold); text-decoration: none; }
+
+  .ebook-footer { text-align: center; padding: 20px; font-size: 11px; color: var(--gray); border-top: 1px solid var(--border); }
+  .ebook-footer a { color: var(--navy); text-decoration:none; font-weight:600; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <div class="brand">
+    <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="10" fill="#0d1f3c"/>
+      <rect x="18" y="52" width="18" height="32" rx="4" fill="#1a3a6b"/>
+      <rect x="42" y="36" width="18" height="48" rx="4" fill="#1a3a6b"/>
+      <rect x="66" y="18" width="18" height="66" rx="4" fill="#f5c518"/>
+      <path d="M27 58 Q44 44 57 38 Q66 32 75 22" stroke="#f5c518" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span>Ruang Statistika</span>
+  </div>
+  <div class="nav-links">
+    <a href="javascript:void(0)" onclick="goPage(0)">📖 Cover</a>
+    <a href="javascript:void(0)" onclick="goPage(1)">Daftar Isi</a>
+    <a href="javascript:void(0)" onclick="goPage(2)">CFA</a>
+    <a href="javascript:void(0)" onclick="goPage(3)">GoF</a>
+    <a href="javascript:void(0)" onclick="goPage(4)">Mediasi</a>
+    <a href="javascript:void(0)" onclick="goPage(5)">Moderasi</a>
+    <a href="javascript:void(0)" onclick="goPage(6)">J-N</a>
+    <a href="javascript:void(0)" onclick="goPage(7)">Template</a>
+  </div>
+</nav>
+
+<!-- PROGRESS -->
+<div class="progress-bar"><div class="progress-fill" id="pgbar" style="width:0%"></div></div>
+
+<!-- ======================== PAGE 0: COVER ======================== -->
+<div class="page active" id="page-0">
+<div id="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-glow"></div>
+  <div class="cover-no">No. 4 dari Seri Lead Magnet Gratis</div>
+
+  <svg class="cover-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(245,197,24,0.3)" stroke-width="1"/>
+    <rect x="14" y="52" width="18" height="34" rx="5" fill="#1a3a6b"/>
+    <rect x="40" y="36" width="18" height="50" rx="5" fill="#1a3a6b"/>
+    <rect x="66" y="16" width="18" height="70" rx="5" fill="#f5c518"/>
+    <path d="M23 64 Q50 44 60 38 Q68 32 75 22" stroke="#f5c518" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  </svg>
+
+  <div class="cover-ebook-label">📗 FREE EBOOK · SERI #4</div>
+
+  <h1 class="cover-title">
+    SEM, <span>Mediasi</span> &<br>Moderasi untuk Tesis
+  </h1>
+
+  <p class="cover-subtitle">
+    Panduan Praktis CFA, Goodness of Fit, Bootstrap CI,<br>
+    dan Johnson-Neyman — lengkap dengan template pelaporan
+  </p>
+
+  <div class="cover-features">
+    <div class="feat"><span class="dot"></span> CFA & Validitas Konstruk</div>
+    <div class="feat"><span class="dot"></span> GoF Indices Lengkap</div>
+    <div class="feat"><span class="dot"></span> Mediasi Bootstrap CI</div>
+    <div class="feat"><span class="dot"></span> Moderasi & Interaksi</div>
+    <div class="feat"><span class="dot"></span> Johnson-Neyman Point</div>
+    <div class="feat"><span class="dot"></span> Template Kalimat Siap Pakai</div>
+  </div>
+
+  <div class="cover-divider"></div>
+
+  <div class="cover-author">
+    <div class="cover-author-ava">Y</div>
+    <div class="cover-author-info">
+      <div class="name">Yogo Aryo Jatmiko, SST, M.Stat</div>
+      <div class="role">Founder Ruang Statistika · Statistisi BPS · Dosen Demografi Polstat STIS</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 1: DAFTAR ISI ======================== -->
+<div class="page" id="page-1">
+<div class="content-page">
+  <div class="section-label">📋 Navigasi Ebook</div>
+  <h1 class="page-title">Daftar <span>Isi</span></h1>
+  <p class="page-desc">Klik bagian mana pun untuk langsung menuju halaman tersebut.</p>
+
+  <div class="toc-item" onclick="goPage(2)">
+    <div class="toc-left"><span class="toc-num">01</span><span class="toc-title">Confirmatory Factor Analysis (CFA)</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(3)">
+    <div class="toc-left"><span class="toc-num">02</span><span class="toc-title">Goodness of Fit (GoF) Indices</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(4)">
+    <div class="toc-left"><span class="toc-num">03</span><span class="toc-title">Mediasi & Bootstrap Confidence Interval</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(5)">
+    <div class="toc-left"><span class="toc-num">04</span><span class="toc-title">Moderasi & Uji Interaksi</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(6)">
+    <div class="toc-left"><span class="toc-num">05</span><span class="toc-title">Metode Johnson-Neyman</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(7)">
+    <div class="toc-left"><span class="toc-num">06</span><span class="toc-title">Template Kalimat Pelaporan Lengkap</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(8)">
+    <div class="toc-left"><span class="toc-num">07</span><span class="toc-title">Tentang Penulis & Konsultasi</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+
+  <div class="alert alert-info" style="margin-top:28px;">
+    <span class="alert-icon">💡</span>
+    <div><strong>Tips membaca:</strong> Ebook ini dirancang sebagai referensi cepat — loncat langsung ke topik yang kamu butuhkan. Template kalimat bisa langsung disalin dengan tombol "Salin".</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 2: CFA ======================== -->
+<div class="page" id="page-2">
+<div class="content-page">
+  <div class="section-label">📐 Bab 1</div>
+  <h1 class="page-title">Confirmatory Factor <span>Analysis (CFA)</span></h1>
+  <p class="page-desc">Validasi konstruk sebelum masuk ke model SEM utama.</p>
+
+  <h2 class="sec">Apa itu CFA?</h2>
+  <p>CFA adalah teknik untuk menguji apakah indikator-indikator yang kamu buat benar-benar mengukur konstruk laten yang dimaksud. Berbeda dengan EFA, di CFA kamu <strong>sudah punya hipotesis</strong> tentang struktur faktornya.</p>
+
+  <div class="ci-grid">
+    <div class="ci-card sig">
+      <h5>✅ CFA (Confirmatory)</h5>
+      Kamu sudah tahu indikator mana yang mengukur konstruk mana — diuji konfirmasinya dengan data.
+    </div>
+    <div class="ci-card nsig">
+      <h5>🔍 EFA (Exploratory)</h5>
+      Belum tahu strukturnya — biarkan data yang menentukan pengelompokan faktor.
+    </div>
+  </div>
+
+  <h2 class="sec">Kriteria Validitas dalam CFA</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Kriteria</th><th>Nilai Ideal</th><th>Keterangan</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Loading Factor (λ)</strong></td><td><span class="badge-ok">≥ 0.50</span> (ideal ≥ 0.70)</td><td>Kontribusi indikator terhadap konstruk</td></tr>
+        <tr><td><strong>AVE</strong></td><td><span class="badge-ok">≥ 0.50</span></td><td>Validitas konvergen — konstruk menjelaskan ≥50% varians indikatornya</td></tr>
+        <tr><td><strong>CR</strong> (Composite Reliability)</td><td><span class="badge-ok">≥ 0.70</span></td><td>Reliabilitas konstruk (pengganti Alpha Cronbach di SEM)</td></tr>
+        <tr><td><strong>Discriminant Validity</strong></td><td>√AVE > korelasi antar konstruk</td><td>Konstruk berbeda cukup dari konstruk lain</td></tr>
+        <tr><td><strong>HTMT</strong></td><td><span class="badge-ok">< 0.85</span> atau < 0.90</td><td>Alternatif uji discriminant validity (SmartPLS)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sec">Rumus AVE & CR</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🔢</div><h3>Rumus AVE</h3></div>
+      <p style="font-family:monospace; font-size:13px; color:#1a1a2e;">AVE = Σλ² / (Σλ² + Σε)<br><span style="font-size:12px; color:var(--gray);">λ = loading, ε = 1 − λ²</span></p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🔢</div><h3>Rumus CR</h3></div>
+      <p style="font-family:monospace; font-size:13px; color:#1a1a2e;">CR = (Σλ)² / [(Σλ)² + Σ(1−λ²)]</p>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">💡</span>
+    <div>Di <strong>SmartPLS</strong>, AVE dan CR sudah otomatis muncul di tabel <em>Construct Reliability and Validity</em>. Di <strong>AMOS</strong>, kamu perlu menghitung manual atau pakai plugin/Excel.</div>
+  </div>
+
+  <h2 class="sec">Contoh Tabel CFA</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 1</strong></em><br>Hasil Confirmatory Factor Analysis</caption>
+      <thead><tr><th>Konstruk</th><th>Indikator</th><th>Loading (λ)</th><th>AVE</th><th>CR</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="3">Kepuasan Kerja</td><td>KK1</td><td>0.812</td><td rowspan="3">0.634</td><td rowspan="3">0.839</td><td rowspan="3"><span class="badge-ok">Valid & Reliabel</span></td></tr>
+        <tr><td>KK2</td><td>0.779</td></tr>
+        <tr><td>KK3</td><td>0.803</td></tr>
+        <tr><td rowspan="3">Komitmen Org.</td><td>KO1</td><td>0.841</td><td rowspan="3">0.661</td><td rowspan="3">0.853</td><td rowspan="3"><span class="badge-ok">Valid & Reliabel</span></td></tr>
+        <tr><td>KO2</td><td>0.760</td></tr>
+        <tr><td>KO3</td><td>0.832</td></tr>
+      </tbody>
+    </table>
+    <p class="apa-note"><em>Note.</em> AVE = Average Variance Extracted; CR = Composite Reliability. Seluruh nilai memenuhi kriteria cut-off.</p>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 3: GOF ======================== -->
+<div class="page" id="page-3">
+<div class="content-page">
+  <div class="section-label">📊 Bab 2</div>
+  <h1 class="page-title">Goodness of Fit <span>(GoF) Indices</span></h1>
+  <p class="page-desc">Tabel referensi lengkap nilai ideal untuk menilai kelayakan model SEM.</p>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div>Pembimbing dan penguji hampir pasti akan menanyakan GoF. Laporkan minimal <strong>3–5 indeks</strong> dari kategori yang berbeda — bukan hanya satu.</div>
+  </div>
+
+  <h2 class="sec">Tabel Referensi Nilai Ideal GoF</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Indeks</th><th>Nilai Ideal</th><th>Kategori</th><th>Catatan</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Chi-Square (χ²)</strong></td><td><span class="badge-warn">p > 0.05</span></td><td>Absolute</td><td>Sensitif terhadap n besar; tidak bisa berdiri sendiri</td></tr>
+        <tr><td><strong>χ²/df (CMIN/DF)</strong></td><td><span class="badge-ok">≤ 2.0</span> (maks 3.0)</td><td>Absolute</td><td>Rasio chi-square terhadap derajat bebas</td></tr>
+        <tr><td><strong>RMSEA</strong></td><td><span class="badge-ok">< 0.08</span> (ideal < 0.05)</td><td>Absolute</td><td>Root Mean Square Error of Approximation</td></tr>
+        <tr><td><strong>SRMR</strong></td><td><span class="badge-ok">< 0.08</span></td><td>Absolute</td><td>Standardized Root Mean Square Residual</td></tr>
+        <tr><td><strong>GFI</strong></td><td><span class="badge-ok">≥ 0.90</span></td><td>Absolute</td><td>Goodness of Fit Index — mirip R² di regresi</td></tr>
+        <tr><td><strong>AGFI</strong></td><td><span class="badge-ok">≥ 0.90</span></td><td>Absolute</td><td>Adjusted GFI (memperhitungkan kompleksitas model)</td></tr>
+        <tr><td><strong>CFI</strong></td><td><span class="badge-ok">≥ 0.95</span> (min 0.90)</td><td>Incremental</td><td>Comparative Fit Index — paling sering dilaporkan</td></tr>
+        <tr><td><strong>TLI (NNFI)</strong></td><td><span class="badge-ok">≥ 0.90</span></td><td>Incremental</td><td>Tucker-Lewis Index — penalti model kompleks</td></tr>
+        <tr><td><strong>NFI</strong></td><td><span class="badge-ok">≥ 0.90</span></td><td>Incremental</td><td>Normed Fit Index — terpengaruh ukuran sampel</td></tr>
+        <tr><td><strong>AIC</strong></td><td><span class="badge-info">Makin kecil makin baik</span></td><td>Parsimony</td><td>Untuk perbandingan model saja</td></tr>
+        <tr><td><strong>PNFI</strong></td><td><span class="badge-ok">≥ 0.50</span></td><td>Parsimony</td><td>Parsimony Normed Fit Index</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sec">Strategi Pelaporan GoF</h2>
+  <ul class="step-list">
+    <li><div class="step-num">1</div><div class="step-txt"><h4>Laporkan dari 3 kategori berbeda</h4><p>Absolute, incremental, dan parsimony — masing-masing minimal satu indeks.</p></div></li>
+    <li><div class="step-num">2</div><div class="step-txt"><h4>Prioritaskan indeks utama</h4><p>RMSEA, CFI, TLI, dan CMIN/DF adalah yang paling sering diminta pembimbing.</p></div></li>
+    <li><div class="step-num">3</div><div class="step-txt"><h4>Jangan sembunyikan indeks yang tidak fit</h4><p>Jika ada indeks yang tidak memenuhi, jelaskan konteksnya: n besar, kompleksitas model, dll.</p></div></li>
+    <li><div class="step-num">4</div><div class="step-txt"><h4>Model fit = mayoritas indeks terpenuhi</h4><p>Tidak harus semua indeks memenuhi cut-off — yang penting mayoritas dan indeks kunci terpenuhi.</p></div></li>
+  </ul>
+
+  <h2 class="sec">Contoh Tabel Ringkasan Fit Model</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 2</strong></em><br>Hasil Evaluasi Goodness of Fit Model SEM</caption>
+      <thead><tr><th>Indeks</th><th>Nilai Cut-off</th><th>Hasil Model</th><th>Kesimpulan</th></tr></thead>
+      <tbody>
+        <tr><td>CMIN/DF</td><td>≤ 3.00</td><td>2.341</td><td><span class="badge-ok">Fit</span></td></tr>
+        <tr><td>RMSEA</td><td>< 0.08</td><td>0.063</td><td><span class="badge-ok">Fit</span></td></tr>
+        <tr><td>CFI</td><td>≥ 0.90</td><td>0.947</td><td><span class="badge-ok">Fit</span></td></tr>
+        <tr><td>TLI</td><td>≥ 0.90</td><td>0.932</td><td><span class="badge-ok">Fit</span></td></tr>
+        <tr><td>GFI</td><td>≥ 0.90</td><td>0.887</td><td><span class="badge-warn">Marginal</span></td></tr>
+        <tr><td>SRMR</td><td>< 0.08</td><td>0.071</td><td><span class="badge-ok">Fit</span></td></tr>
+      </tbody>
+    </table>
+    <p class="apa-note"><em>Note.</em> GFI yang marginal dapat diterima mengingat 5 dari 6 indeks lainnya memenuhi nilai cut-off.</p>
+  </div>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div><strong>Perhatian:</strong> Chi-Square saja tidak cukup sebagai indikator fit. Pada n > 200, Chi-Square hampir selalu signifikan meski model sebenarnya baik. Selalu kombinasikan dengan RMSEA dan CFI.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 4: MEDIASI ======================== -->
+<div class="page" id="page-4">
+<div class="content-page">
+  <div class="section-label">🔗 Bab 3</div>
+  <h1 class="page-title">Mediasi & <span>Bootstrap CI</span></h1>
+  <p class="page-desc">Cara kerja uji mediasi modern dan interpretasi Confidence Interval Bootstrap.</p>
+
+  <h2 class="sec">Konsep Dasar Mediasi</h2>
+  <p>Mediasi menjelaskan <em>mekanisme</em> bagaimana variabel X mempengaruhi Y melalui variabel mediator M.</p>
+
+  <div class="path-diagram">
+    <svg viewBox="0 0 500 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px;">
+      <rect x="185" y="10" width="130" height="44" rx="8" fill="#f5c518"/>
+      <text x="250" y="37" text-anchor="middle" font-size="13" font-weight="700" fill="#0d1f3c">Mediator (M)</text>
+      <rect x="10" y="90" width="100" height="44" rx="8" fill="#0d1f3c"/>
+      <text x="60" y="117" text-anchor="middle" font-size="13" font-weight="700" fill="white">X</text>
+      <rect x="390" y="90" width="100" height="44" rx="8" fill="#0d1f3c"/>
+      <text x="440" y="117" text-anchor="middle" font-size="13" font-weight="700" fill="white">Y</text>
+      <path d="M 90 90 Q 150 55 185 42" stroke="#1a3a6b" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
+      <text x="115" y="60" font-size="11" fill="#1a3a6b" font-weight="700">a</text>
+      <path d="M 315 42 Q 370 55 415 90" stroke="#1a3a6b" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
+      <text x="375" y="60" font-size="11" fill="#1a3a6b" font-weight="700">b</text>
+      <path d="M 110 112 L 390 112" stroke="#9ca3af" stroke-width="2" fill="none" stroke-dasharray="6,4" marker-end="url(#ah2)"/>
+      <text x="250" y="108" text-anchor="middle" font-size="10" fill="#9ca3af">c' (direct effect)</text>
+      <defs>
+        <marker id="ah" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#1a3a6b"/></marker>
+        <marker id="ah2" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#9ca3af"/></marker>
+      </defs>
+    </svg>
+    <p>Indirect effect = a × b &nbsp;|&nbsp; Total effect = a×b + c'</p>
+  </div>
+
+  <h2 class="sec">Jenis Mediasi</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Jenis</th><th>Kondisi</th><th>Artinya</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Mediasi Penuh</strong></td><td>c' tidak signifikan, a×b signifikan</td><td>M sepenuhnya menjelaskan pengaruh X→Y</td></tr>
+        <tr><td><strong>Mediasi Parsial</strong></td><td>c' signifikan, a×b signifikan</td><td>M memediasi sebagian; jalur langsung tetap ada</td></tr>
+        <tr><td><strong>Tidak Ada Mediasi</strong></td><td>a×b tidak signifikan</td><td>M bukan mediator yang valid</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sec">Mengapa Bootstrap? Bukan Sobel?</h2>
+  <p>Uji Sobel mengasumsikan distribusi normal untuk indirect effect — padahal distribusi perkalian (a×b) cenderung <em>non-normal</em>. Bootstrap tidak butuh asumsi tersebut, sehingga lebih akurat dan lebih direkomendasikan literatur modern (Hayes, 2022).</p>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">💡</span>
+    <div>Gunakan <strong>5.000 bootstrap samples</strong> (minimum) atau 10.000 untuk hasil lebih stabil. Di PROCESS Macro, SmartPLS, dan AMOS sudah tersedia fitur ini.</div>
+  </div>
+
+  <h2 class="sec">Cara Baca Confidence Interval Bootstrap</h2>
+  <div class="ci-grid">
+    <div class="ci-card sig">
+      <h5>✅ Efek Mediasi SIGNIFIKAN</h5>
+      <strong>CI tidak mencakup nol (0)</strong><br>
+      Contoh: LLCI = 0.023, ULCI = 0.187<br>
+      → Indirect effect ada dan signifikan
+    </div>
+    <div class="ci-card nsig">
+      <h5>❌ Efek Mediasi TIDAK Signifikan</h5>
+      <strong>CI mencakup nol (0)</strong><br>
+      Contoh: LLCI = −0.045, ULCI = 0.134<br>
+      → Indirect effect tidak terbukti
+    </div>
+  </div>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div>Di Bootstrap, kamu <strong>tidak melihat p-value</strong> untuk indirect effect. Cukup periksa apakah <em>nol (0) ada di antara LLCI dan ULCI</em>. Jika tidak ada → signifikan.</div>
+  </div>
+
+  <h2 class="sec">Contoh Output Mediasi</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 3</strong></em><br>Hasil Uji Mediasi Bootstrap (5.000 resamples, 95% CI)</caption>
+      <thead><tr><th>Efek</th><th>Koefisien</th><th>SE</th><th>LLCI</th><th>ULCI</th><th>Kesimpulan</th></tr></thead>
+      <tbody>
+        <tr><td>Total Effect (c)</td><td>0.421</td><td>0.089</td><td>0.247</td><td>0.595</td><td><span class="badge-ok">Signifikan</span></td></tr>
+        <tr><td>Direct Effect (c')</td><td>0.198</td><td>0.094</td><td>0.013</td><td>0.383</td><td><span class="badge-ok">Signifikan</span></td></tr>
+        <tr><td>Indirect Effect (a×b)</td><td>0.223</td><td>0.071</td><td>0.097</td><td>0.378</td><td><span class="badge-ok">Mediasi Parsial</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 5: MODERASI ======================== -->
+<div class="page" id="page-5">
+<div class="content-page">
+  <div class="section-label">⚙️ Bab 4</div>
+  <h1 class="page-title">Moderasi & <span>Uji Interaksi</span></h1>
+  <p class="page-desc">Kapan dan bagaimana pengaruh X terhadap Y berubah tergantung nilai Z.</p>
+
+  <h2 class="sec">Apa itu Moderasi?</h2>
+  <p>Moderasi terjadi ketika <strong>kekuatan atau arah</strong> pengaruh X terhadap Y berubah tergantung nilai variabel ketiga (moderator Z). Model moderasi mengandung <em>interaction term</em>: X×Z.</p>
+
+  <div class="path-diagram">
+    <svg viewBox="0 0 400 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:400px;">
+      <rect x="10" y="48" width="90" height="38" rx="8" fill="#0d1f3c"/>
+      <text x="55" y="72" text-anchor="middle" font-size="13" fill="white" font-weight="700">X</text>
+      <rect x="300" y="48" width="90" height="38" rx="8" fill="#0d1f3c"/>
+      <text x="345" y="72" text-anchor="middle" font-size="13" fill="white" font-weight="700">Y</text>
+      <rect x="155" y="5" width="90" height="38" rx="8" fill="#f5c518"/>
+      <text x="200" y="29" text-anchor="middle" font-size="12" fill="#0d1f3c" font-weight="700">Z (Mod)</text>
+      <path d="M 100 67 L 300 67" stroke="#1a3a6b" stroke-width="2.5" fill="none" marker-end="url(#ah3)"/>
+      <path d="M 200 43 L 200 67" stroke="#c8a000" stroke-width="2" fill="none" marker-end="url(#ah4)" stroke-dasharray="5,3"/>
+      <defs>
+        <marker id="ah3" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#1a3a6b"/></marker>
+        <marker id="ah4" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#c8a000"/></marker>
+      </defs>
+      <text x="200" y="95" font-size="11" fill="#6b7280" text-anchor="middle">X×Z (interaction term)</text>
+    </svg>
+    <p>Persamaan: Y = β₀ + β₁X + β₂Z + β₃(X×Z) + ε</p>
+  </div>
+
+  <h2 class="sec">Langkah Uji Moderasi</h2>
+  <ul class="step-list">
+    <li><div class="step-num">1</div><div class="step-txt"><h4>Mean-center variabel X dan Z</h4><p>Lakukan sebelum membuat interaction term untuk mengurangi multikolinearitas.</p></div></li>
+    <li><div class="step-num">2</div><div class="step-txt"><h4>Buat interaction term</h4><p>XZ = X_centered × Z_centered</p></div></li>
+    <li><div class="step-num">3</div><div class="step-txt"><h4>Masukkan X, Z, dan XZ ke model regresi secara bersamaan</h4><p>Jangan memasukkan secara bertahap kecuali untuk tujuan perbandingan model.</p></div></li>
+    <li><div class="step-num">4</div><div class="step-txt"><h4>Cek signifikansi β₃ (interaction term)</h4><p>Jika <strong>p &lt; 0.05</strong>, moderasi terbukti secara statistik.</p></div></li>
+    <li><div class="step-num">5</div><div class="step-txt"><h4>Visualisasi simple slope plot</h4><p>Gambar garis X→Y pada Z tinggi (+1 SD), Z sedang (Mean), dan Z rendah (−1 SD).</p></div></li>
+  </ul>
+
+  <div class="highlight">
+    <strong>📌 Tips PROCESS Macro:</strong> Gunakan <strong>Model 1</strong> di PROCESS MACRO SPSS (Hayes) untuk pure moderation. Output sudah otomatis menyertakan simple slope analysis dan Johnson-Neyman point.
+  </div>
+
+  <h2 class="sec">Cara Baca Simple Slope Plot</h2>
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📈</div><h3>Tiga Garis di Plot Moderasi</h3></div>
+    <p>Visualisasikan pada tiga level moderator Z: <strong>Tinggi (+1 SD), Sedang (Mean), Rendah (−1 SD)</strong>. Jika ketiga garis memiliki kemiringan berbeda, moderasi ada. Garis-garis yang sejajar mengindikasikan moderasi lemah atau tidak ada.</p>
+  </div>
+
+  <div class="alert alert-success">
+    <span class="alert-icon">✅</span>
+    <div>Semakin berbeda kemiringan (slope) antar ketiga garis, semakin kuat efek moderasi yang ditemukan. Lanjut ke halaman berikut untuk analisis Johnson-Neyman yang lebih mendalam.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 6: JOHNSON-NEYMAN ======================== -->
+<div class="page" id="page-6">
+<div class="content-page">
+  <div class="section-label">🎯 Bab 4 — Lanjutan</div>
+  <h1 class="page-title">Metode <span>Johnson-Neyman</span></h1>
+  <p class="page-desc">Menemukan titik kritis moderator: di mana pengaruh X terhadap Y mulai signifikan.</p>
+
+  <h2 class="sec">Mengapa Johnson-Neyman?</h2>
+  <p>Simple slope analysis hanya melihat pengaruh pada 3 titik tetap (tinggi/sedang/rendah). <strong>Johnson-Neyman</strong> lebih canggih: ia memberikan <em>rentang nilai moderator</em> di mana pengaruh X→Y menjadi signifikan atau tidak signifikan secara statistik — di seluruh range moderator.</p>
+
+  <div class="ci-grid">
+    <div class="ci-card sig">
+      <h5>Simple Slope Analysis</h5>
+      Cek di 3 titik tetap (±1SD, mean). Mudah divisualisasikan. Cocok untuk laporan standar.
+    </div>
+    <div class="ci-card info-blue">
+      <h5>Johnson-Neyman</h5>
+      Cek di <em>seluruh range</em> moderator. Menemukan titik kritis exact. Lebih kaya informasi.
+    </div>
+  </div>
+
+  <h2 class="sec">Cara Interpretasi Output Johnson-Neyman</h2>
+
+  <div class="jn-box">
+    <h4>📍 Contoh Interpretasi Johnson-Neyman</h4>
+    <p>Ketika nilai moderator Z berada <strong>di bawah 2.34</strong> dan <strong>di atas 6.71</strong>, pengaruh X terhadap Y <em>signifikan (p &lt; 0.05)</em>. Pada rentang 2.34–6.71, pengaruh tidak signifikan secara statistik.</p>
+  </div>
+
+  <ul class="step-list">
+    <li><div class="step-num">1</div><div class="step-txt"><h4>Temukan Johnson-Neyman Point</h4><p>Lihat baris dalam output di mana tanda p-value berubah dari &lt; 0.05 menjadi &gt; 0.05 (atau sebaliknya). Itulah titik kritisnya.</p></div></li>
+    <li><div class="step-num">2</div><div class="step-txt"><h4>Hitung persentase sampel dalam rentang signifikan</h4><p>Jika mayoritas sampel berada di rentang signifikan, efek moderasi kuat secara praktis.</p></div></li>
+    <li><div class="step-num">3</div><div class="step-txt"><h4>Visualisasi Floodlight (opsional)</h4><p>Grafik floodlight menampilkan rentang J-N secara visual — sangat memukau di mata pembimbing dan penguji.</p></div></li>
+  </ul>
+
+  <h2 class="sec">Contoh Tabel Output Johnson-Neyman</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 4</strong></em><br>Analisis Johnson-Neyman: Conditional Effects X→Y</caption>
+      <thead><tr><th>Nilai Z (Moderator)</th><th>Effect X→Y</th><th>SE</th><th>p-value</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1.00</td><td>0.421</td><td>0.102</td><td>.000</td><td><span class="badge-ok">Signifikan</span></td></tr>
+        <tr><td><strong>2.34</strong> ← <em>JN Point</em></td><td>0.281</td><td>0.143</td><td>.050</td><td><span class="badge-warn">Batas Kritis</span></td></tr>
+        <tr><td>4.00</td><td>0.187</td><td>0.156</td><td>.231</td><td><span class="badge-warn">Tidak Sig.</span></td></tr>
+        <tr><td><strong>6.71</strong> ← <em>JN Point</em></td><td>0.051</td><td>0.143</td><td>.050</td><td><span class="badge-warn">Batas Kritis</span></td></tr>
+        <tr><td>8.00</td><td>−0.134</td><td>0.089</td><td>.032</td><td><span class="badge-ok">Signifikan (negatif)</span></td></tr>
+      </tbody>
+    </table>
+    <p class="apa-note"><em>Note.</em> Johnson-Neyman points pada Z = 2.34 dan Z = 6.71. Di luar rentang ini, pengaruh X terhadap Y signifikan secara statistik (p &lt; .05).</p>
+  </div>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">💡</span>
+    <div>Di PROCESS Macro, Johnson-Neyman output muncul otomatis di bawah bagian <em>Regions of significance</em>. Cukup ambil nilai batas atas dan bawah, lalu interpretasikan berapa persen sampel berada di tiap zona.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 7: TEMPLATE ======================== -->
+<div class="page" id="page-7">
+<div class="content-page">
+  <div class="section-label">✍️ Bab 5</div>
+  <h1 class="page-title">Template Kalimat <span>Pelaporan</span></h1>
+  <p class="page-desc">Ganti teks berwarna kuning dengan nilai dari outputmu — siap masuk ke bab hasil & pembahasan.</p>
+
+  <!-- CFA -->
+  <h2 class="sec">Template #1 — CFA: Validitas Konvergen</h2>
+  <div class="template-box">
+    <div class="tag">📐 CFA — Validitas Konvergen</div>
+    <div class="tmpl">
+      Hasil pengujian CFA menunjukkan bahwa seluruh indikator konstruk <span class="var">[nama konstruk]</span> memiliki nilai loading factor di atas <span class="var">[nilai minimum, misal 0.70]</span>, dengan nilai AVE sebesar <span class="var">[nilai AVE]</span> dan Composite Reliability sebesar <span class="var">[nilai CR]</span>. Dengan demikian, konstruk <span class="var">[nama konstruk]</span> memenuhi kriteria validitas konvergen dan reliabilitas komposit.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Hasil pengujian CFA menunjukkan bahwa seluruh indikator konstruk [nama konstruk] memiliki nilai loading factor di atas [nilai minimum], dengan nilai AVE sebesar [nilai AVE] dan Composite Reliability sebesar [nilai CR]. Dengan demikian, konstruk [nama konstruk] memenuhi kriteria validitas konvergen dan reliabilitas komposit.')">📋 Salin Template</button>
+  </div>
+
+  <!-- Discriminant -->
+  <h2 class="sec">Template #2 — CFA: Discriminant Validity</h2>
+  <div class="template-box">
+    <div class="tag">📐 CFA — Discriminant Validity</div>
+    <div class="tmpl">
+      Uji validitas diskriminan dilakukan dengan membandingkan nilai akar AVE (√AVE = <span class="var">[nilai]</span>) dengan korelasi antar konstruk. Hasil menunjukkan bahwa nilai √AVE lebih besar dari korelasi tertinggi antar konstruk (<span class="var">[nilai korelasi]</span>), sehingga validitas diskriminan terpenuhi.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Uji validitas diskriminan dilakukan dengan membandingkan nilai akar AVE (√AVE = [nilai]) dengan korelasi antar konstruk. Hasil menunjukkan bahwa nilai √AVE lebih besar dari korelasi tertinggi antar konstruk ([nilai korelasi]), sehingga validitas diskriminan terpenuhi.')">📋 Salin Template</button>
+  </div>
+
+  <!-- GoF -->
+  <h2 class="sec">Template #3 — Goodness of Fit</h2>
+  <div class="template-box">
+    <div class="tag">📊 GoF — Fit Model SEM</div>
+    <div class="tmpl">
+      Evaluasi kelayakan model struktural menunjukkan hasil yang baik, dengan nilai CMIN/DF = <span class="var">[nilai]</span> (&lt;3.00), RMSEA = <span class="var">[nilai]</span> (&lt;0.08), CFI = <span class="var">[nilai]</span> (≥0.90), dan TLI = <span class="var">[nilai]</span> (≥0.90). Berdasarkan kriteria tersebut, model penelitian dinyatakan <em>fit</em> dan layak digunakan untuk pengujian hipotesis.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Evaluasi kelayakan model struktural menunjukkan hasil yang baik, dengan nilai CMIN/DF = [nilai] (<3.00), RMSEA = [nilai] (<0.08), CFI = [nilai] (≥0.90), dan TLI = [nilai] (≥0.90). Berdasarkan kriteria tersebut, model penelitian dinyatakan fit dan layak digunakan untuk pengujian hipotesis.')">📋 Salin Template</button>
+  </div>
+
+  <!-- Mediasi Signifikan -->
+  <h2 class="sec">Template #4 — Mediasi Signifikan (CI tidak mencakup 0)</h2>
+  <div class="template-box">
+    <div class="tag">🔗 Mediasi — Terbukti</div>
+    <div class="tmpl">
+      Pengujian efek mediasi dilakukan menggunakan teknik bootstrapping dengan <span class="var">[5.000]</span> resamples. Hasil menunjukkan bahwa efek tidak langsung (indirect effect) variabel <span class="var">[X]</span> terhadap variabel <span class="var">[Y]</span> melalui <span class="var">[M]</span> adalah sebesar <span class="var">[nilai koefisien]</span> dengan 95% Confidence Interval [LLCI = <span class="var">[nilai]</span>, ULCI = <span class="var">[nilai]</span>]. Karena interval kepercayaan tidak mencakup nilai nol, dapat disimpulkan bahwa <span class="var">[M]</span> terbukti memediasi pengaruh <span class="var">[X]</span> terhadap <span class="var">[Y]</span> secara signifikan. Mengingat efek langsung (direct effect) <span class="var">[masih / tidak lagi]</span> signifikan (β = <span class="var">[nilai]</span>, p <span class="var">[< / >]</span> 0.05), jenis mediasi yang terjadi adalah <span class="var">[parsial / penuh]</span>.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Pengujian efek mediasi dilakukan menggunakan teknik bootstrapping dengan [5.000] resamples. Hasil menunjukkan bahwa efek tidak langsung variabel [X] terhadap [Y] melalui [M] adalah sebesar [nilai] dengan 95% CI [LLCI = [nilai], ULCI = [nilai]]. Karena CI tidak mencakup nilai nol, [M] terbukti memediasi pengaruh [X] terhadap [Y] secara signifikan. Jenis mediasi yang terjadi adalah [parsial / penuh].')">📋 Salin Template</button>
+  </div>
+
+  <!-- Mediasi Tidak Signifikan -->
+  <h2 class="sec">Template #5 — Mediasi Tidak Signifikan (CI mencakup 0)</h2>
+  <div class="template-box">
+    <div class="tag">🔗 Mediasi — Tidak Terbukti</div>
+    <div class="tmpl">
+      Hasil bootstrap dengan <span class="var">[5.000]</span> resamples menunjukkan efek tidak langsung sebesar <span class="var">[nilai]</span> dengan 95% CI [LLCI = <span class="var">[nilai]</span>, ULCI = <span class="var">[nilai]</span>]. Karena interval kepercayaan mencakup nilai nol, disimpulkan bahwa <span class="var">[M]</span> tidak terbukti sebagai mediator yang signifikan dalam hubungan <span class="var">[X]</span> dan <span class="var">[Y]</span>.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Hasil bootstrap dengan [5.000] resamples menunjukkan efek tidak langsung sebesar [nilai] dengan 95% CI [LLCI = [nilai], ULCI = [nilai]]. Karena CI mencakup nilai nol, disimpulkan bahwa [M] tidak terbukti sebagai mediator yang signifikan dalam hubungan [X] dan [Y].')">📋 Salin Template</button>
+  </div>
+
+  <!-- Moderasi -->
+  <h2 class="sec">Template #6 — Moderasi Terbukti</h2>
+  <div class="template-box">
+    <div class="tag">⚙️ Moderasi — Terbukti</div>
+    <div class="tmpl">
+      Hasil uji interaksi menunjukkan bahwa koefisien interaction term antara <span class="var">[X]</span> dan <span class="var">[Z]</span> adalah signifikan (β = <span class="var">[nilai]</span>, t = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>). Hal ini mengindikasikan bahwa variabel <span class="var">[Z]</span> terbukti memoderasi pengaruh <span class="var">[X]</span> terhadap <span class="var">[Y]</span>. Analisis simple slope menunjukkan bahwa pengaruh <span class="var">[X]</span> terhadap <span class="var">[Y]</span> lebih kuat pada kondisi <span class="var">[Z]</span> tinggi (β = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>) dibandingkan kondisi <span class="var">[Z]</span> rendah (β = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>).
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Hasil uji interaksi menunjukkan bahwa koefisien interaction term antara [X] dan [Z] adalah signifikan (β = [nilai], t = [nilai], p = [nilai]). Hal ini mengindikasikan bahwa variabel [Z] terbukti memoderasi pengaruh [X] terhadap [Y]. Analisis simple slope menunjukkan bahwa pengaruh [X] terhadap [Y] lebih kuat pada kondisi [Z] tinggi (β = [nilai], p = [nilai]) dibandingkan kondisi [Z] rendah (β = [nilai], p = [nilai]).')">📋 Salin Template</button>
+  </div>
+
+  <!-- Johnson-Neyman -->
+  <h2 class="sec">Template #7 — Johnson-Neyman Point</h2>
+  <div class="template-box">
+    <div class="tag">🎯 Johnson-Neyman</div>
+    <div class="tmpl">
+      Analisis Johnson-Neyman menunjukkan bahwa pengaruh <span class="var">[X]</span> terhadap <span class="var">[Y]</span> signifikan secara statistik ketika nilai moderator <span class="var">[Z]</span> berada di bawah <span class="var">[nilai JN point 1]</span> dan di atas <span class="var">[nilai JN point 2]</span>. Sebanyak <span class="var">[persentase]</span>% dari total sampel berada dalam rentang yang memberikan pengaruh signifikan, yang mengindikasikan bahwa moderasi memiliki relevansi praktis yang <span class="var">[kuat / moderat / lemah]</span>.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Analisis Johnson-Neyman menunjukkan bahwa pengaruh [X] terhadap [Y] signifikan secara statistik ketika nilai moderator [Z] berada di bawah [JN point 1] dan di atas [JN point 2]. Sebanyak [persentase]% dari total sampel berada dalam rentang yang memberikan pengaruh signifikan, yang mengindikasikan bahwa moderasi memiliki relevansi praktis yang [kuat / moderat / lemah].')">📋 Salin Template</button>
+  </div>
+
+  <div class="alert alert-success">
+    <span class="alert-icon">✅</span>
+    <div><strong>Pro Tip:</strong> Ganti teks dalam <span style="background:#dcfce7; padding:1px 5px; border-radius:3px; font-weight:600; font-size:12px;">[kurung]</span> dengan angka dari outputmu. Struktur kalimatnya sudah APA-friendly dan siap dipakai langsung di bab hasil.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 8: TENTANG ======================== -->
+<div class="page" id="page-8">
+<div class="content-page">
+  <div class="section-label">👤 Tentang Penulis</div>
+  <h1 class="page-title">Ruang <span>Statistika</span></h1>
+  <p class="page-desc">Platform konsultasi statistik untuk mahasiswa S1 hingga S3.</p>
+
+  <div class="card" style="border: 1px solid rgba(245,197,24,.3);">
+    <div style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
+      <div style="width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg, var(--navy), #1a3a6b); display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:900; color:var(--gold); flex-shrink:0;">Y</div>
+      <div>
+        <h3 style="font-size:18px; margin-bottom:4px;">Yogo Aryo Jatmiko, SST, M.Stat</h3>
+        <p style="font-size:13px; color:var(--gray); margin:0;">Founder Ruang Statistika · AI Enthusiast · Statistisi BPS · Dosen Demografi Polstat STIS Jakarta</p>
+        <div class="badge-row" style="margin-top:10px;">
+          <span class="badge">📊 10+ Tahun Pengalaman</span>
+          <span class="badge">📄 8+ Publikasi Jurnal</span>
+          <span class="badge badge-gold">🎓 S1–S3 Dibimbing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:20px;">Halo! Saya Yogo Aryo Jatmiko — Founder dari <strong>Ruang Statistika</strong>, Statistisi di BPS dan Dosen Demografi di Polstat STIS Jakarta. Sudah lebih dari 10 tahun bekerja dengan data dan statistik di lingkungan akademis dan pemerintahan.</p>
+  <p>Ruang Statistika lahir karena saya melihat banyak mahasiswa yang cerdas tapi tersandung di statistik — bukan karena tidak mampu, tapi karena kurang mendapat penjelasan yang tepat dan terjangkau. Di sini, saya tidak hanya mengerjakan datamu — saya ingin kamu <em>benar-benar paham</em> dan bisa menjelaskan ke pembimbing dengan percaya diri.</p>
+
+  <h2 class="sec">Tools yang Dibantu</h2>
+  <div class="badge-row" style="margin-bottom:24px;">
+    <span class="badge">SPSS</span>
+    <span class="badge">AMOS</span>
+    <span class="badge">SmartPLS</span>
+    <span class="badge">R / RStudio</span>
+    <span class="badge">JASP</span>
+    <span class="badge">Stata</span>
+    <span class="badge">Eviews</span>
+  </div>
+
+  <h2 class="sec">Paket Layanan</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Paket</th><th>Harga</th><th>Cocok untuk</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Konsultasi Singkat</strong></td><td>Mulai Rp 250K / sesi</td><td>Pertanyaan spesifik, interpretasi output</td></tr>
+        <tr><td><strong>Olah Data</strong></td><td>Mulai Rp 500K / paket</td><td>Pengolahan data lengkap + interpretasi</td></tr>
+        <tr><td><strong>Pendampingan Penuh</strong></td><td>Mulai Rp 1,2 Jt</td><td>S2/S3, multi-sesi, dari awal sampai sidang</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cta-box">
+    <h3>SEM-mu beres sebelum sidang. 🎓</h3>
+    <p>Dari CFA sampai Johnson-Neyman — kita selesaikan bersama. Chat sekarang, gratis tanpa komitmen.</p>
+    <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya baca ebook SEM dan ingin konsultasi." class="btn-cta" target="_blank">💬 Chat WhatsApp Sekarang</a>
+    <span class="cta-link">Atau kunjungi <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">yogoaj.github.io/ruangstatistika</a></span>
+  </div>
+
+  <div class="ebook-footer" style="margin-top:32px;">
+    © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Bebas disebarkan untuk keperluan non-komersial
+  </div>
+</div>
+</div>
+
+<!-- BOTTOM PAGE NAV -->
+<div class="page-nav">
+  <button id="prevBtn" onclick="changePage(-1)" disabled>‹</button>
+  <span class="page-counter" id="pageCounter">1 / 9</span>
+  <button id="nextBtn" onclick="changePage(1)">›</button>
+</div>
+
+<script>
+  const pages = document.querySelectorAll('.page');
+  let cur = 0;
+  const total = pages.length;
+
+  function showPage(n) {
+    pages[cur].classList.remove('active');
+    cur = n;
+    pages[cur].classList.add('active');
+    document.getElementById('pageCounter').textContent = (cur+1) + ' / ' + total;
+    document.getElementById('prevBtn').disabled = cur === 0;
+    document.getElementById('nextBtn').disabled = cur === total-1;
+    document.getElementById('pgbar').style.width = ((cur/(total-1))*100) + '%';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function changePage(d) { if(cur+d>=0 && cur+d<total) showPage(cur+d); }
+  function goPage(n) { showPage(n); }
+
+  function copyText(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✅ Tersalin!';
+      btn.style.background = '#22c55e';
+      btn.style.color = '#fff';
+      setTimeout(() => { btn.innerHTML = orig; btn.style.background=''; btn.style.color=''; }, 2000);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.innerHTML = '✅ Tersalin!';
+      setTimeout(() => { btn.innerHTML = '📋 Salin Template'; }, 2000);
+    });
+  }
+
+  document.addEventListener('keydown', e => {
+    if(e.key==='ArrowRight') changePage(1);
+    if(e.key==='ArrowLeft') changePage(-1);
+  });
+</script>
+</body>
+</html>
