@@ -1,1 +1,757 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publish atau Perish – Ruang Statistika</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
+  :root{--navy:#0d1f3c;--navy2:#132847;--gold:#f5c518;--gold2:#e6b800;--white:#ffffff;--light:#f8f9fc;--gray:#6b7280;--border:#e5e7eb;--accent:#1a3a6b;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;background:var(--light);color:#1a1a2e;line-height:1.7;}
 
+  .top-nav{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:10px 28px;box-shadow:0 2px 16px rgba(0,0,0,.25);}
+  .top-nav .brand{display:flex;align-items:center;gap:10px;}
+  .top-nav .brand span{color:var(--gold);font-weight:700;font-size:15px;}
+  .nav-links{display:flex;gap:4px;flex-wrap:wrap;}
+  .nav-links a{color:rgba(255,255,255,.75);font-size:11px;font-weight:500;text-decoration:none;padding:5px 9px;border-radius:6px;transition:all .2s;}
+  .nav-links a:hover{background:rgba(245,197,24,.15);color:var(--gold);}
+
+  .page{display:none;animation:fadeIn .4s ease;}
+  .page.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  .page-nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:var(--navy);border-radius:50px;padding:8px 18px;box-shadow:0 8px 32px rgba(0,0,0,.3);z-index:998;}
+  .page-nav button{background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+  .page-nav button:hover{background:var(--gold);color:var(--navy);}
+  .page-nav button:disabled{opacity:.3;cursor:not-allowed;}
+  .page-counter{color:rgba(255,255,255,.7);font-size:12px;min-width:60px;text-align:center;font-weight:500;}
+  .progress-bar{position:fixed;top:52px;left:0;right:0;height:3px;background:rgba(255,255,255,.1);z-index:997;}
+  .progress-fill{height:100%;background:var(--gold);transition:width .3s ease;}
+
+  /* COVER */
+  #cover{min-height:100vh;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:80px 40px 100px;text-align:center;}
+  .cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,197,24,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,197,24,.04) 1px,transparent 1px);background-size:40px 40px;}
+  .cover-glow{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(245,197,24,.12) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+  .cover-no{position:absolute;top:90px;right:32px;font-size:11px;color:rgba(255,255,255,.2);font-weight:500;letter-spacing:1px;}
+  .cover-logo{width:72px;height:72px;margin-bottom:28px;filter:drop-shadow(0 4px 16px rgba(245,197,24,.3));position:relative;}
+  .cover-ebook-label{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;position:relative;}
+  .cover-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,50px);font-weight:900;color:var(--white);line-height:1.12;max-width:700px;position:relative;margin-bottom:8px;}
+  .cover-title span{color:var(--gold);}
+  .cover-subtitle{color:rgba(255,255,255,.5);font-size:14px;max-width:520px;margin:20px auto 36px;position:relative;line-height:1.8;}
+  .cover-features{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:620px;position:relative;margin-bottom:40px;}
+  .cover-features .feat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.8);font-size:12px;font-weight:500;padding:8px 16px;border-radius:8px;display:flex;align-items:center;gap:6px;}
+  .cover-features .feat .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;}
+  .cover-divider{width:60px;height:3px;background:linear-gradient(90deg,var(--gold),transparent);border-radius:2px;margin:0 auto 20px;position:relative;}
+  .cover-author{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 20px;position:relative;}
+  .cover-author-ava{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy);font-size:16px;}
+  .cover-author-info .name{color:var(--white);font-weight:600;font-size:14px;}
+  .cover-author-info .role{color:rgba(255,255,255,.5);font-size:11px;}
+
+  /* CONTENT */
+  .content-page{max-width:800px;margin:0 auto;padding:80px 32px 120px;min-height:100vh;}
+  .section-label{display:inline-flex;align-items:center;gap:8px;background:rgba(13,31,60,.07);color:var(--navy);font-size:11px;font-weight:700;padding:5px 14px;border-radius:50px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px;border-left:3px solid var(--gold);}
+  h1.page-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--navy);line-height:1.2;margin-bottom:8px;}
+  h1.page-title span{color:var(--gold2);}
+  .page-desc{color:var(--gray);font-size:14px;margin-bottom:36px;max-width:640px;}
+  h2.sec{font-size:18px;font-weight:700;color:var(--navy);margin:32px 0 14px;display:flex;align-items:center;gap:10px;}
+  h2.sec::before{content:'';display:block;width:4px;height:20px;background:var(--gold);border-radius:2px;flex-shrink:0;}
+  h3.subsec{font-size:15px;font-weight:700;color:var(--accent);margin:18px 0 8px;}
+  p{font-size:14px;color:#374151;margin-bottom:14px;}
+
+  /* CARDS */
+  .card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px 22px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+  .card h3{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .card p{font-size:13px;color:var(--gray);margin:0;}
+  .card-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .card-icon{width:40px;height:40px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+  @media(max-width:600px){.grid-2{grid-template-columns:1fr;}}
+
+  /* IMRAD STRIP */
+  .imrad-strip{display:flex;gap:0;margin:24px 0;border-radius:12px;overflow:hidden;border:1px solid var(--border);}
+  .imrad-block{flex:1;padding:16px 12px;text-align:center;background:var(--white);border-right:1px solid var(--border);cursor:pointer;transition:all .2s;}
+  .imrad-block:last-child{border-right:none;}
+  .imrad-block.active,.imrad-block:hover{background:var(--navy);}
+  .imrad-block.active .ib-letter,.imrad-block:hover .ib-letter{color:var(--gold);}
+  .imrad-block.active .ib-name,.imrad-block:hover .ib-name{color:rgba(255,255,255,.7);}
+  .ib-letter{font-size:22px;font-weight:900;color:var(--navy);display:block;line-height:1;}
+  .imrad-block.active .ib-letter{color:var(--gold);}
+  .ib-name{font-size:11px;font-weight:600;color:var(--gray);letter-spacing:.5px;margin-top:4px;display:block;}
+  .imrad-content{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:24px;}
+  .imrad-content .ic-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+  .imrad-content .ic-title span{background:var(--gold);color:var(--navy);font-size:10px;font-weight:800;padding:3px 10px;border-radius:50px;letter-spacing:.5px;}
+  .imrad-content ul{padding-left:18px;}
+  .imrad-content ul li{font-size:13.5px;color:#374151;margin-bottom:7px;}
+
+  /* TEMPLATE DARK BOXES */
+  .tmpl-box{background:var(--navy);border-radius:12px;padding:20px 24px;margin-bottom:14px;position:relative;overflow:hidden;}
+  .tmpl-box::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold);}
+  .tmpl-box .t-tag{display:inline-block;background:rgba(245,197,24,.2);color:var(--gold);font-size:10px;font-weight:700;padding:3px 10px;border-radius:50px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+  .tmpl-box .t-txt{font-size:13.5px;color:rgba(255,255,255,.88);line-height:1.8;font-style:italic;}
+  .tmpl-box .t-txt .v{background:rgba(245,197,24,.25);color:var(--gold);padding:1px 6px;border-radius:4px;font-style:normal;font-weight:600;font-size:12px;}
+  .copy-btn{display:inline-flex;align-items:center;gap:5px;margin-top:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);font-size:11px;font-weight:600;padding:5px 14px;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+  .copy-btn:hover{background:var(--gold);color:var(--navy);}
+
+  /* ALERT */
+  .alert{border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start;font-size:13px;}
+  .alert-warn{background:#fffbeb;border-left:4px solid #f59e0b;color:#92400e;}
+  .alert-info{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e40af;}
+  .alert-success{background:#f0fdf4;border-left:4px solid #22c55e;color:#166534;}
+  .alert-red{background:#fff1f2;border-left:4px solid #f43f5e;color:#9f1239;}
+  .alert-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+
+  /* CHECKLIST */
+  .cl-section{margin-bottom:28px;}
+  .cl-section h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .cl-section h3 .badge-sec{background:var(--navy);color:var(--gold);font-size:10px;font-weight:700;padding:3px 9px;border-radius:50px;}
+  .cl-item{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:8px;margin-bottom:6px;background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all .2s;user-select:none;}
+  .cl-item:hover{border-color:var(--gold);}
+  .cl-item.checked{background:#f0fdf4;border-color:#22c55e;}
+  .cl-cb{width:20px;height:20px;border-radius:4px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;font-size:12px;}
+  .cl-item.checked .cl-cb{background:#22c55e;border-color:#22c55e;color:#fff;}
+  .cl-txt{font-size:13.5px;color:#374151;}
+  .cl-item.checked .cl-txt{color:#166534;text-decoration:line-through;}
+  .cl-progress{background:#e5e7eb;border-radius:50px;height:8px;margin-bottom:24px;overflow:hidden;}
+  .cl-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),#22c55e);transition:width .4s ease;border-radius:50px;}
+  .cl-stat{font-size:13px;color:var(--gray);margin-bottom:8px;}
+
+  /* COMPARISON TABLE */
+  .comp-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+  .comp-table th{background:var(--navy);color:var(--gold);padding:10px 14px;text-align:left;font-size:12px;}
+  .comp-table td{padding:10px 14px;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:top;}
+  .comp-table tr:last-child td{border-bottom:none;}
+  .comp-table tr:nth-child(even) td{background:#f9fafb;}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:50px;}
+  .pill-green{background:#dcfce7;color:#166534;}
+  .pill-red{background:#fee2e2;color:#991b1b;}
+  .pill-yellow{background:#fef9c3;color:#854d0e;}
+
+  /* JOURNAL PICKER */
+  .j-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start;transition:all .2s;}
+  .j-card:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(0,0,0,.06);}
+  .j-q{width:48px;height:48px;border-radius:10px;background:var(--navy);color:var(--gold);font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .j-info h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .j-info p{font-size:12.5px;color:var(--gray);margin:0 0 8px;}
+  .j-tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .j-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;border:1px solid;}
+  .j-tag-gold{background:rgba(245,197,24,.1);color:#92400e;border-color:rgba(245,197,24,.4);}
+  .j-tag-blue{background:#eff6ff;color:#1e40af;border-color:#bfdbfe;}
+  .j-tag-green{background:#f0fdf4;color:#166534;border-color:#bbf7d0;}
+
+  /* HIGHLIGHT */
+  .highlight{background:linear-gradient(135deg,rgba(13,31,60,.04),rgba(245,197,24,.08));border:1px solid rgba(245,197,24,.25);border-radius:12px;padding:18px 22px;margin:16px 0;}
+
+  /* STEP LIST */
+  .step-list{list-style:none;}
+  .step-list li{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px;}
+  .step-num{width:32px;height:32px;border-radius:50%;background:var(--navy);color:var(--gold);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .step-list .step-txt h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .step-list .step-txt p{font-size:13px;color:var(--gray);margin:0;}
+
+  /* TOC */
+  .toc-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:10px;margin-bottom:8px;cursor:pointer;transition:all .2s;border:1px solid var(--border);background:var(--white);}
+  .toc-item:hover{border-color:var(--gold);background:rgba(245,197,24,.04);}
+  .toc-item .toc-left{display:flex;align-items:center;gap:12px;}
+  .toc-item .toc-num{font-size:11px;font-weight:700;color:var(--gold);background:var(--navy);padding:4px 9px;border-radius:6px;}
+  .toc-item .toc-title{font-size:14px;font-weight:600;color:var(--navy);}
+  .toc-item .toc-arr{color:var(--gray);font-size:16px;}
+
+  /* CTA */
+  .cta-box{background:var(--navy);border-radius:16px;padding:32px 30px;text-align:center;position:relative;overflow:hidden;margin-top:32px;}
+  .cta-box::after{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(245,197,24,.15) 0%,transparent 70%);pointer-events:none;}
+  .cta-box h3{font-size:20px;font-weight:800;color:var(--white);margin-bottom:10px;}
+  .cta-box p{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:20px;max-width:440px;margin-left:auto;margin-right:auto;}
+  .btn-cta{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy);font-weight:700;font-size:14px;padding:12px 28px;border-radius:10px;text-decoration:none;transition:all .2s;border:none;cursor:pointer;font-family:'Inter',sans-serif;}
+  .btn-cta:hover{background:#e6b800;transform:translateY(-2px);}
+  .cta-link{color:rgba(255,255,255,.5);font-size:12px;margin-top:12px;display:block;}
+  .cta-link a{color:var(--gold);text-decoration:none;}
+
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+  .badge{background:rgba(13,31,60,.07);color:var(--navy);font-size:12px;font-weight:600;padding:5px 14px;border-radius:50px;border:1px solid rgba(13,31,60,.1);}
+  .badge-gold{background:rgba(245,197,24,.15);color:#92400e;border-color:rgba(245,197,24,.4);}
+  .divider{height:1px;background:var(--border);margin:28px 0;}
+  .ebook-footer{text-align:center;padding:20px;font-size:11px;color:var(--gray);border-top:1px solid var(--border);margin-top:32px;}
+  .ebook-footer a{color:var(--navy);text-decoration:none;font-weight:600;}
+  ul.dot-list{padding-left:18px;margin-bottom:14px;}
+  ul.dot-list li{font-size:13.5px;color:#374151;margin-bottom:7px;}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="brand">
+    <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+      <rect width="100" height="100" rx="10" fill="#0d1f3c"/>
+      <rect x="18" y="52" width="18" height="32" rx="4" fill="#1a3a6b"/>
+      <rect x="42" y="36" width="18" height="48" rx="4" fill="#1a3a6b"/>
+      <rect x="66" y="18" width="18" height="66" rx="4" fill="#f5c518"/>
+      <path d="M27 58 Q44 44 57 38 Q66 32 75 22" stroke="#f5c518" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span>Ruang Statistika</span>
+  </div>
+  <div class="nav-links">
+    <a href="javascript:void(0)" onclick="goPage(0)">📖 Cover</a>
+    <a href="javascript:void(0)" onclick="goPage(1)">Daftar Isi</a>
+    <a href="javascript:void(0)" onclick="goPage(2)">IMRaD</a>
+    <a href="javascript:void(0)" onclick="goPage(3)">Regresi & SEM</a>
+    <a href="javascript:void(0)" onclick="goPage(4)">Bahasa Akademis</a>
+    <a href="javascript:void(0)" onclick="goPage(5)">Pilih Jurnal</a>
+    <a href="javascript:void(0)" onclick="goPage(6)">Checklist Submit</a>
+    <a href="javascript:void(0)" onclick="goPage(7)">Tentang Penulis</a>
+  </div>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="pgbar" style="width:0%"></div></div>
+
+<!-- ======== PAGE 0: COVER ======== -->
+<div class="page active" id="page-0">
+<div id="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-glow"></div>
+  <div class="cover-no">No. 8 dari Seri Lead Magnet Gratis</div>
+
+  <svg class="cover-logo" viewBox="0 0 100 100" fill="none">
+    <rect width="100" height="100" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(245,197,24,0.3)" stroke-width="1"/>
+    <rect x="14" y="52" width="18" height="34" rx="5" fill="#1a3a6b"/>
+    <rect x="40" y="36" width="18" height="50" rx="5" fill="#1a3a6b"/>
+    <rect x="66" y="16" width="18" height="70" rx="5" fill="#f5c518"/>
+    <path d="M23 64 Q50 44 60 38 Q68 32 75 22" stroke="#f5c518" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  </svg>
+
+  <div class="cover-ebook-label">📔 FREE EBOOK · SERI #8</div>
+
+  <h1 class="cover-title">
+    <span>Publish</span> atau Perish:<br>Standar Jurnal Scopus
+  </h1>
+
+  <p class="cover-subtitle">
+    Struktur IMRaD lengkap · Standar pelaporan regresi & SEM untuk jurnal · Bahasa akademis yang tepat · Checklist sebelum submit · Tips memilih jurnal target
+  </p>
+
+  <div class="cover-features">
+    <div class="feat"><span class="dot"></span> Struktur IMRaD Lengkap</div>
+    <div class="feat"><span class="dot"></span> Pelaporan Regresi & SEM</div>
+    <div class="feat"><span class="dot"></span> Bahasa Akademis Jurnal</div>
+    <div class="feat"><span class="dot"></span> Tips Memilih Jurnal</div>
+    <div class="feat"><span class="dot"></span> Checklist Submit Interaktif</div>
+  </div>
+
+  <div class="cover-divider"></div>
+
+  <div class="cover-author">
+    <div class="cover-author-ava">Y</div>
+    <div class="cover-author-info">
+      <div class="name">Yogo Aryo Jatmiko, SST, M.Stat</div>
+      <div class="role">Founder Ruang Statistika · Statistisi BPS · Dosen Demografi Polstat STIS</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======== PAGE 1: DAFTAR ISI ======== -->
+<div class="page" id="page-1">
+<div class="content-page">
+  <div class="section-label">📋 Navigasi Ebook</div>
+  <h1 class="page-title">Daftar <span>Isi</span></h1>
+  <p class="page-desc">Panduan lengkap dari struktur naskah hingga tombol submit. Klik untuk langsung melompat.</p>
+
+  <div class="toc-item" onclick="goPage(2)">
+    <div class="toc-left"><span class="toc-num">01</span><span class="toc-title">Struktur IMRaD — Anatomi Artikel Jurnal Internasional</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(3)">
+    <div class="toc-left"><span class="toc-num">02</span><span class="toc-title">Standar Pelaporan Regresi & SEM untuk Jurnal Scopus</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(4)">
+    <div class="toc-left"><span class="toc-num">03</span><span class="toc-title">Bahasa Akademis yang Tepat — Frasa Siap Pakai</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(5)">
+    <div class="toc-left"><span class="toc-num">04</span><span class="toc-title">Tips Strategis Memilih Jurnal Target</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(6)">
+    <div class="toc-left"><span class="toc-num">05</span><span class="toc-title">Checklist Interaktif Sebelum Submit</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(7)">
+    <div class="toc-left"><span class="toc-num">06</span><span class="toc-title">Tentang Penulis & Konsultasi</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+
+  <div class="alert alert-info" style="margin-top:28px;">
+    <span class="alert-icon">💡</span>
+    <div><strong>Siapa yang butuh ebook ini?</strong> Dosen, mahasiswa S2/S3, dan peneliti yang ingin mempublikasikan karya di jurnal terindeks Scopus atau Web of Science — terutama yang baru pertama kali atau pernah ditolak reviewer.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======== PAGE 2: IMRAD ======== -->
+<div class="page" id="page-2">
+<div class="content-page">
+  <div class="section-label">📐 Bagian 01</div>
+  <h1 class="page-title">Struktur <span>IMRaD</span></h1>
+  <p class="page-desc">Hampir semua jurnal Scopus Q1–Q3 di bidang sains, sosial, dan manajemen menggunakan struktur IMRaD. Memahaminya adalah syarat pertama sebelum menulis.</p>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">📌</span>
+    <div><strong>IMRaD</strong> = Introduction · Methods · Results · and Discussion. Ini bukan hanya urutan bab — ini adalah logika argumentasi ilmiah yang diakui secara global.</div>
+  </div>
+
+  <!-- IMRaD Interactive Strip -->
+  <div class="imrad-strip" id="imradStrip">
+    <div class="imrad-block active" onclick="showIMRaD(0)"><span class="ib-letter">I</span><span class="ib-name">Introduction</span></div>
+    <div class="imrad-block" onclick="showIMRaD(1)"><span class="ib-letter">M</span><span class="ib-name">Methods</span></div>
+    <div class="imrad-block" onclick="showIMRaD(2)"><span class="ib-letter">R</span><span class="ib-name">Results</span></div>
+    <div class="imrad-block" onclick="showIMRaD(3)"><span class="ib-letter">aD</span><span class="ib-name">Discussion</span></div>
+  </div>
+
+  <div class="imrad-content" id="imradContent">
+    <div class="ic-title">Introduction <span>Mulai dari sini</span></div>
+    <ul>
+      <li><strong>Paragraf 1–2:</strong> Konteks dan urgensi — mengapa topik ini penting secara global dan lokal?</li>
+      <li><strong>Paragraf 3–4:</strong> Research gap — apa yang belum dijawab oleh penelitian terdahulu?</li>
+      <li><strong>Paragraf 5:</strong> Tujuan penelitian — rumuskan dengan kata kerja aktif: <em>This study aims to examine / investigate / explore…</em></li>
+      <li><strong>Paragraf 6 (opsional):</strong> Kontribusi — apa novelty artikel ini secara teoritis dan praktis?</li>
+      <li>⚠️ Hindari: merangkum semua literatur tanpa arah, atau langsung loncat ke tujuan tanpa membangun argumen gap.</li>
+    </ul>
+  </div>
+
+  <h2 class="sec">Proporsi Ideal Setiap Bagian</h2>
+  <div class="grid-2">
+    <div class="card"><div class="card-header"><div class="card-icon">📝</div><h3>Introduction</h3></div><p>10–15% total kata. Padat, terarah, tidak bertele-tele. Reviewer membaca ini pertama kali.</p></div>
+    <div class="card"><div class="card-header"><div class="card-icon">⚗️</div><h3>Methods</h3></div><p>20–25%. Cukup detail agar dapat direplikasi. Sertakan justifikasi pemilihan metode.</p></div>
+    <div class="card"><div class="card-header"><div class="card-icon">📊</div><h3>Results</h3></div><p>25–30%. Paparkan fakta — bukan interpretasi. Tabel dan gambar harus bisa berdiri sendiri.</p></div>
+    <div class="card"><div class="card-header"><div class="card-icon">💬</div><h3>Discussion</h3></div><p>30–35%. Ini bagian terberat. Kaitkan hasil dengan teori, jelaskan temuan tak terduga, akui limitasi.</p></div>
+  </div>
+
+  <h2 class="sec">Komponen Lain yang Wajib Ada</h2>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">A</div>
+      <div class="step-txt"><h4>Abstract (150–250 kata)</h4><p>Ikuti format IMRAD mini: 1–2 kalimat per bagian. Sertakan tujuan, metode utama, temuan kunci, dan implikasi.</p></div>
+    </li>
+    <li>
+      <div class="step-num">K</div>
+      <div class="step-txt"><h4>Keywords (4–6 kata kunci)</h4><p>Gunakan istilah yang ada di MeSH, Thesaurus APA, atau yang sering muncul di judul jurnal target. Hindari kata generik seperti "penelitian" atau "analisis".</p></div>
+    </li>
+    <li>
+      <div class="step-num">C</div>
+      <div class="step-txt"><h4>Conclusion (bukan ringkasan)</h4><p>Jawab langsung pertanyaan penelitian. Implikasi teoritis dan praktis. Agenda penelitian masa depan. Bukan mengulang hasil.</p></div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ======== PAGE 3: REGRESI & SEM ======== -->
+<div class="page" id="page-3">
+<div class="content-page">
+  <div class="section-label">📈 Bagian 02</div>
+  <h1 class="page-title">Standar Pelaporan <span>Regresi & SEM</span></h1>
+  <p class="page-desc">Jurnal Scopus memiliki standar pelaporan statistik yang lebih ketat dari skripsi. Berikut yang diharapkan reviewer.</p>
+
+  <h2 class="sec">Pelaporan Regresi untuk Jurnal</h2>
+
+  <div class="tmpl-box">
+    <div class="t-tag">📊 Regresi Linear — Standar Jurnal</div>
+    <div class="t-txt">
+      A multiple linear regression was conducted to examine the effects of <span class="v">[X1]</span>, <span class="v">[X2]</span>, and <span class="v">[X3]</span> on <span class="v">[Y]</span>. The overall model was statistically significant, F(<span class="v">[df1]</span>, <span class="v">[df2]</span>) = <span class="v">[F-value]</span>, p &lt; .001, explaining <span class="v">[R²×100]</span>% of the variance in <span class="v">[Y]</span> (R² = <span class="v">[nilai]</span>, adjusted R² = <span class="v">[nilai]</span>). <span class="v">[X1]</span> was the strongest predictor (β = <span class="v">[β]</span>, t = <span class="v">[t]</span>, p = <span class="v">[p]</span>, 95% CI [<span class="v">[LL]</span>, <span class="v">[UL]</span>]).
+    </div>
+    <button class="copy-btn" onclick="copyText(this,'A multiple linear regression was conducted to examine the effects of [X1], [X2], and [X3] on [Y]. The overall model was statistically significant, F([df1], [df2]) = [F-value], p < .001, explaining [R²×100]% of the variance in [Y] (R² = [nilai], adjusted R² = [nilai]). [X1] was the strongest predictor (β = [β], t = [t], p = [p], 95% CI [[LL], [UL]]).')">📋 Salin Template</button>
+  </div>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div><strong>Wajib tambahkan untuk jurnal:</strong> Confidence Interval (CI 95%) untuk setiap koefisien, effect size (f² Cohen), dan pemeriksaan influential outliers (Cook's D). Tanpa ini, reviewer Q1 hampir pasti mengembalikan naskah.</div>
+  </div>
+
+  <h2 class="sec">Pelaporan SEM (Structural Equation Modeling)</h2>
+
+  <div class="tmpl-box">
+    <div class="t-tag">🧩 SEM / CFA — Standar Jurnal</div>
+    <div class="t-txt">
+      Confirmatory factor analysis (CFA) was conducted using <span class="v">[AMOS/R lavaan/Mplus]</span>. The measurement model demonstrated acceptable fit: χ²(<span class="v">[df]</span>) = <span class="v">[χ²]</span>, p = <span class="v">[p]</span>, CFI = <span class="v">[nilai]</span>, TLI = <span class="v">[nilai]</span>, RMSEA = <span class="v">[nilai]</span> [90% CI: <span class="v">[LL–UL]</span>], SRMR = <span class="v">[nilai]</span>. All factor loadings were statistically significant (λ = <span class="v">[range]</span>, p &lt; .001), with AVE values exceeding the .50 threshold, indicating convergent validity.
+    </div>
+    <button class="copy-btn" onclick="copyText(this,'Confirmatory factor analysis (CFA) was conducted using [AMOS/lavaan]. The measurement model demonstrated acceptable fit: χ²([df]) = [χ²], p = [p], CFI = [nilai], TLI = [nilai], RMSEA = [nilai] [90% CI: LL–UL], SRMR = [nilai]. All factor loadings were statistically significant (λ = [range], p < .001), with AVE values exceeding the .50 threshold, indicating convergent validity.')">📋 Salin Template</button>
+  </div>
+
+  <h2 class="sec">Indeks Fit SEM — Ambang Batas yang Diterima</h2>
+  <table class="comp-table">
+    <thead><tr><th>Indeks</th><th>Cutoff Diterima</th><th>Ideal</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td><strong>CFI</strong></td><td>≥ 0.90</td><td><span class="pill pill-green">≥ 0.95</span></td><td>Comparative Fit Index</td></tr>
+      <tr><td><strong>TLI</strong></td><td>≥ 0.90</td><td><span class="pill pill-green">≥ 0.95</span></td><td>Tucker–Lewis Index</td></tr>
+      <tr><td><strong>RMSEA</strong></td><td>≤ 0.08</td><td><span class="pill pill-green">≤ 0.06</span></td><td>Root Mean Square Error</td></tr>
+      <tr><td><strong>SRMR</strong></td><td>≤ 0.10</td><td><span class="pill pill-green">≤ 0.08</span></td><td>Standardized Root Mean Residual</td></tr>
+      <tr><td><strong>χ²/df</strong></td><td>≤ 5.0</td><td><span class="pill pill-yellow">≤ 3.0</span></td><td>Chi-square ratio</td></tr>
+      <tr><td><strong>AVE</strong></td><td>≥ 0.50</td><td><span class="pill pill-green">≥ 0.50</span></td><td>Convergent validity</td></tr>
+      <tr><td><strong>CR</strong></td><td>≥ 0.70</td><td><span class="pill pill-green">≥ 0.70</span></td><td>Composite Reliability</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tmpl-box">
+    <div class="t-tag">🔗 Mediasi (Bootstrap) — Standar Jurnal</div>
+    <div class="t-txt">
+      Mediation analysis was conducted using bootstrapping (N = <span class="v">5,000</span> resamples) with 95% bias-corrected confidence intervals (Hayes, 2018, PROCESS Model <span class="v">[4/6/8]</span>). The indirect effect of <span class="v">[X]</span> on <span class="v">[Y]</span> through <span class="v">[M]</span> was statistically significant (indirect effect = <span class="v">[nilai]</span>, SE = <span class="v">[SE]</span>, 95% CI [<span class="v">[LL]</span>, <span class="v">[UL]</span>]), as the confidence interval excluded zero. This indicates partial mediation, with the direct effect remaining significant (b = <span class="v">[nilai]</span>, p = <span class="v">[p]</span>).
+    </div>
+    <button class="copy-btn" onclick="copyText(this,'Mediation analysis was conducted using bootstrapping (N = 5,000 resamples) with 95% bias-corrected confidence intervals (Hayes, 2018, PROCESS Model [4/6/8]). The indirect effect of [X] on [Y] through [M] was statistically significant (indirect effect = [nilai], SE = [SE], 95% CI [[LL], [UL]]), as the confidence interval excluded zero.')">📋 Salin Template</button>
+  </div>
+</div>
+</div>
+
+<!-- ======== PAGE 4: BAHASA AKADEMIS ======== -->
+<div class="page" id="page-4">
+<div class="content-page">
+  <div class="section-label">✍️ Bagian 03</div>
+  <h1 class="page-title">Bahasa Akademis <span>yang Tepat</span></h1>
+  <p class="page-desc">Reviewer jurnal internasional menilai tulisan dalam hitungan menit pertama. Bahasa yang lemah = kesan yang buruk, terlepas dari kualitas data.</p>
+
+  <div class="alert alert-red">
+    <span class="alert-icon">🚫</span>
+    <div><strong>Kesalahan paling fatal:</strong> Langsung terjemahkan kalimat Bahasa Indonesia ke Inggris kata per kata. Hasilnya selalu terdengar kaku, non-native, dan sering ditolak dengan alasan "language quality".</div>
+  </div>
+
+  <h2 class="sec">Frasa Standar Per Bagian Artikel</h2>
+
+  <h3 class="subsec">Introduction — Membangun Research Gap</h3>
+  <div class="tmpl-box">
+    <div class="t-tag">💬 Frasa Introduction</div>
+    <div class="t-txt">
+      • <em>Despite extensive research on <span class="v">[topik]</span>, little attention has been paid to <span class="v">[gap]</span>.</em><br>
+      • <em>Prior studies have primarily focused on <span class="v">[A]</span>, yet the relationship between <span class="v">[B]</span> and <span class="v">[C]</span> remains underexplored.</em><br>
+      • <em>To address this gap, the present study examines <span class="v">[tujuan]</span> using data from <span class="v">[konteks/populasi]</span>.</em><br>
+      • <em>This study contributes to the literature in three ways: first, <span class="v">[…]</span>; second, <span class="v">[…]</span>; third, <span class="v">[…]</span>.</em>
+    </div>
+    <button class="copy-btn" onclick="copyText(this,'Despite extensive research on [topik], little attention has been paid to [gap]. Prior studies have primarily focused on [A], yet the relationship between [B] and [C] remains underexplored. To address this gap, the present study examines [tujuan].')">📋 Salin Frasa</button>
+  </div>
+
+  <h3 class="subsec">Methods — Justifikasi Pemilihan Metode</h3>
+  <div class="tmpl-box">
+    <div class="t-tag">⚗️ Frasa Methods</div>
+    <div class="t-txt">
+      • <em>A cross-sectional survey design was employed, as it allows for the simultaneous assessment of multiple variables at a single point in time (Creswell, 2014).</em><br>
+      • <em>Structural equation modeling (SEM) was selected due to its capacity to simultaneously estimate multiple relationships and account for measurement error (Hair et al., 2019).</em><br>
+      • <em>Data were collected from a purposive sample of <span class="v">[N]</span> participants drawn from <span class="v">[populasi]</span>. The sample size exceeds the minimum threshold recommended by <span class="v">[Cohen, 1992 / Hair et al., 2014]</span> for the planned analyses.</em>
+    </div>
+    <button class="copy-btn" onclick="copyText(this,'A cross-sectional survey design was employed, as it allows for the simultaneous assessment of multiple variables at a single point in time (Creswell, 2014). Data were collected from a purposive sample of [N] participants drawn from [populasi].')">📋 Salin Frasa</button>
+  </div>
+
+  <h3 class="subsec">Results — Melaporkan Temuan Tanpa Interpretasi</h3>
+  <div class="tmpl-box">
+    <div class="t-tag">📊 Frasa Results</div>
+    <div class="t-txt">
+      • <em>Table <span class="v">[N]</span> presents the descriptive statistics and intercorrelations among the study variables.</em><br>
+      • <em>As shown in Table <span class="v">[N]</span>, <span class="v">[X]</span> was positively and significantly associated with <span class="v">[Y]</span> (β = <span class="v">[nilai]</span>, p &lt; .001).</em><br>
+      • <em>The results provide support for H<span class="v">[N]</span>, indicating that <span class="v">[temuan]</span>. However, H<span class="v">[N]</span> was not supported (β = <span class="v">[nilai]</span>, p = <span class="v">[nilai]</span>).</em>
+    </div>
+    <button class="copy-btn" onclick="copyText(this,'As shown in Table [N], [X] was positively and significantly associated with [Y] (β = [nilai], p < .001). The results provide support for H[N], indicating that [temuan]. However, H[N] was not supported (β = [nilai], p = [nilai]).')">📋 Salin Frasa</button>
+  </div>
+
+  <h3 class="subsec">Discussion — Menginterpretasikan & Mengaitkan Teori</h3>
+  <div class="tmpl-box">
+    <div class="t-tag">💬 Frasa Discussion</div>
+    <div class="t-txt">
+      • <em>These findings are consistent with <span class="v">[teori/penelitian]</span>, which posits that <span class="v">[pernyataan teori]</span>.</em><br>
+      • <em>In contrast to <span class="v">[penelitian terdahulu]</span>, the present study found <span class="v">[temuan berbeda]</span>. One plausible explanation is that <span class="v">[argumen]</span>.</em><br>
+      • <em>This study has several limitations that warrant acknowledgment. First, the cross-sectional design precludes causal inferences. Second, <span class="v">[limitasi lain]</span>. Future research should address these limitations by <span class="v">[saran]</span>.</em>
+    </div>
+    <button class="copy-btn" onclick="copyText(this,'These findings are consistent with [teori/penelitian], which posits that [pernyataan teori]. In contrast to [penelitian terdahulu], the present study found [temuan berbeda]. One plausible explanation is that [argumen]. This study has several limitations that warrant acknowledgment.')">📋 Salin Frasa</button>
+  </div>
+
+  <div class="highlight">
+    <strong>🔑 Tips Bahasa:</strong> Gunakan <em>hedging language</em> (bahasa penyangga) dalam diskusi: <em>suggest, indicate, appear to, may be, it is possible that…</em> — ini tanda tulisan akademis yang matang, bukan keraguan.
+  </div>
+</div>
+</div>
+
+<!-- ======== PAGE 5: PILIH JURNAL ======== -->
+<div class="page" id="page-5">
+<div class="content-page">
+  <div class="section-label">🎯 Bagian 04</div>
+  <h1 class="page-title">Tips Memilih <span>Jurnal Target</span></h1>
+  <p class="page-desc">Memilih jurnal yang salah membuang waktu berbulan-bulan. Strategi yang tepat bisa mempersingkat proses dari submit hingga accept.</p>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div><strong>Hindari "shotgun approach"</strong> — mengirim ke jurnal mana saja berharap ada yang terima. Setiap jurnal memiliki scope, audiens, dan standar spesifik. Submit yang tidak cocok akan langsung ditolak di desk review.</div>
+  </div>
+
+  <h2 class="sec">Kriteria Memilih Jurnal</h2>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-txt"><h4>Sesuaikan Scope & Topik</h4><p>Baca 5–10 artikel terbitan terbaru jurnal target. Apakah topik, metode, dan konteks penelitianmu relevan? Jika tidak ada artikel serupa, kemungkinan besar out of scope.</p></div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-txt"><h4>Cek Quartile di Scimago / Scopus</h4><p>Q1 = paling bergengsi, acceptance rate 5–15%. Q2 = standar internasional baik, acceptance 15–25%. Q3–Q4 = lebih terbuka, cocok untuk submisi pertama atau metodologi yang lebih sederhana.</p></div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-txt"><h4>Perhatikan APC (Article Processing Charge)</h4><p>OA jurnal Scopus bisa Rp 5–50 juta per artikel. Cek apakah institusimu memiliki MOU atau waiver. Beberapa jurnal hybrid memungkinkan publikasi tanpa biaya jika tanpa OA.</p></div>
+    </li>
+    <li>
+      <div class="step-num">4</div>
+      <div class="step-txt"><h4>Cek Time to Decision</h4><p>Gunakan fitur <em>journal insights</em> di Elsevier atau Springer untuk melihat rata-rata waktu review. Hindari jurnal yang tidak transparan soal proses ini.</p></div>
+    </li>
+    <li>
+      <div class="step-num">5</div>
+      <div class="step-txt"><h4>Waspadai Predatory Journals</h4><p>Cek di <em>Beall's List</em>, verifikasi di Scopus source list resmi (scopus.com/sources). Jika jurnal menerima dalam 24 jam tanpa review, itu tanda bahaya besar.</p></div>
+    </li>
+  </ul>
+
+  <h2 class="sec">Rekomendasi Jurnal Scopus untuk Peneliti Indonesia</h2>
+
+  <div class="j-card">
+    <div class="j-q">Q2</div>
+    <div class="j-info">
+      <h4>Heliyon (Elsevier)</h4>
+      <p>Multidisiplin, open access, desk review cepat (~2 minggu), reviewer cenderung konstruktif.</p>
+      <div class="j-tags">
+        <span class="j-tag j-tag-blue">Multidisiplin</span>
+        <span class="j-tag j-tag-green">OA Terjangkau</span>
+        <span class="j-tag j-tag-gold">Cocok Pemula</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="j-card">
+    <div class="j-q">Q2</div>
+    <div class="j-info">
+      <h4>Cogent Social Sciences (Taylor & Francis)</h4>
+      <p>Sosial, manajemen, pendidikan. Proses review 4–8 minggu. APC waiver tersedia untuk negara berkembang.</p>
+      <div class="j-tags">
+        <span class="j-tag j-tag-blue">Sosial & Manajemen</span>
+        <span class="j-tag j-tag-green">Waiver Tersedia</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="j-card">
+    <div class="j-q">Q1</div>
+    <div class="j-info">
+      <h4>PLOS ONE</h4>
+      <p>Standar tinggi. Hanya menilai soundness metodologi, bukan novelty. Cocok untuk studi dengan metode kuat meski topiknya spesifik.</p>
+      <div class="j-tags">
+        <span class="j-tag j-tag-blue">Sains & Sosial</span>
+        <span class="j-tag j-tag-gold">Soundness-Based Review</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="j-card">
+    <div class="j-q">Q2</div>
+    <div class="j-info">
+      <h4>Frontiers in Psychology / Public Health</h4>
+      <p>Review berbasis komunitas, relatif ramah penulis Asia. Timeline reviewnya transparan via platform Frontiers.</p>
+      <div class="j-tags">
+        <span class="j-tag j-tag-blue">Psikologi & Kesehatan</span>
+        <span class="j-tag j-tag-green">Transparan</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======== PAGE 6: CHECKLIST ======== -->
+<div class="page" id="page-6">
+<div class="content-page">
+  <div class="section-label">✅ Bagian 05</div>
+  <h1 class="page-title">Checklist Interaktif <span>Sebelum Submit</span></h1>
+  <p class="page-desc">Centang setiap item yang sudah selesai. Progress tersimpan selama sesi ini.</p>
+
+  <div class="cl-stat" id="clStat">0 dari 28 item selesai</div>
+  <div class="cl-progress"><div class="cl-progress-fill" id="clBar" style="width:0%"></div></div>
+
+  <div class="cl-section">
+    <h3>📝 Naskah & Struktur <span class="badge-sec">IMRaD</span></h3>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Struktur IMRaD lengkap: Introduction, Methods, Results, Discussion, Conclusion</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Abstract ≤ 250 kata, mencakup tujuan, metode, temuan, dan implikasi</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Keywords 4–6 kata, menggunakan istilah terstandar (bukan kata generik)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Research gap diidentifikasi secara eksplisit di Introduction</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Kontribusi/novelty artikel dinyatakan secara jelas</div></div>
+  </div>
+
+  <div class="cl-section">
+    <h3>📊 Statistik & Metode</h3>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Justifikasi pemilihan metode statistik disertakan (bukan hanya menyebut nama uji)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Semua asumsi statistik diperiksa dan dilaporkan (normalitas, homoskedastisitas, dll.)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Effect size dilaporkan (Cohen's d, η², f², atau r) — bukan hanya p-value</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Confidence interval (CI 95%) disertakan untuk semua estimasi utama</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Untuk SEM: seluruh indeks fit dilaporkan (CFI, TLI, RMSEA, SRMR)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Untuk mediasi: bootstrap CI disertakan, jumlah resample disebutkan</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Sample size memenuhi minimal power analysis (G*Power atau Krejcie-Morgan)</div></div>
+  </div>
+
+  <div class="cl-section">
+    <h3>📋 Tabel & Gambar</h3>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Tabel tanpa garis vertikal, caption di atas, note di bawah (APA 7th)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Setiap tabel dan gambar direferensikan di dalam teks</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Gambar/figure resolusi minimal 300 DPI (untuk versi final)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Tidak ada duplikasi informasi antara tabel dan teks narasi</div></div>
+  </div>
+
+  <div class="cl-section">
+    <h3>✍️ Bahasa & Referensi</h3>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Proofreading bahasa Inggris selesai (Grammarly Pro / native speaker)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Konsistensi tense: Past tense untuk Methods & Results; Present tense untuk Introduction & Discussion</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Seluruh referensi dalam teks ada di daftar pustaka (dan sebaliknya)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Format sitasi sesuai gaya yang diminta jurnal (APA, AMA, Vancouver, dll.)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Referensi minimal 70% dari 10 tahun terakhir</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Self-citation tidak dominan (maksimal 10–15%)</div></div>
+  </div>
+
+  <div class="cl-section">
+    <h3>🎯 Kesiapan Submit</h3>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Scope artikel sesuai dengan aims & scope jurnal target (baca dengan seksama)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Format file sesuai template jurnal (Word / LaTeX, spasi, margin, font)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Cover letter disiapkan: highlight novelty + kesesuaian scope dalam 200–300 kata</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Semua penulis telah menyetujui versi final dan urutan penulis (authorship)</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Conflict of interest statement dan pernyataan etika (jika diminta) sudah disiapkan</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Plagiarism check selesai (Turnitin/iThenticate), similarity ≤ 20%</div></div>
+    <div class="cl-item" onclick="toggleCl(this)"><div class="cl-cb"></div><div class="cl-txt">Sudah memverifikasi jurnal ada di Scopus source list resmi (bukan predatory)</div></div>
+  </div>
+</div>
+</div>
+
+<!-- ======== PAGE 7: TENTANG PENULIS ======== -->
+<div class="page" id="page-7">
+<div class="content-page">
+  <div class="section-label">👤 Penulis</div>
+  <h1 class="page-title">Tentang <span>Penulis</span></h1>
+
+  <div class="card" style="border:1px solid rgba(245,197,24,.3);">
+    <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--navy),#1a3a6b);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:var(--gold);flex-shrink:0;">Y</div>
+      <div>
+        <h3 style="font-size:18px;margin-bottom:4px;">Yogo Aryo Jatmiko, SST, M.Stat</h3>
+        <p style="font-size:13px;color:var(--gray);margin:0 0 10px;">Founder Ruang Statistika · AI Enthusiast · Statistisi BPS · Dosen Demografi Polstat STIS Jakarta</p>
+        <div class="badge-row">
+          <span class="badge">📊 10+ Tahun Pengalaman</span>
+          <span class="badge">📄 8+ Publikasi Jurnal</span>
+          <span class="badge badge-gold">🌐 Publikasi Springer Nature</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:20px;">Halo! Saya Yogo Aryo Jatmiko — Founder dari <strong>Ruang Statistika</strong>, statistisi di BPS dan dosen demografi di Polstat STIS Jakarta. Saya telah mempublikasikan artikel di berbagai jurnal terindeks Scopus, termasuk Springer Nature, dengan topik demografi, statistik terapan, dan ekonomi kependudukan.</p>
+
+  <p>Ebook ini lahir dari pengalaman nyata — mulai dari desk rejection pertama, revisi berulang, hingga akhirnya accepted. Saya ingin memperpendek kurva belajar peneliti Indonesia agar tidak perlu mengulangi kesalahan yang sama.</p>
+
+  <h2 class="sec">Publikasi Terpilih</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Springer Nature Singapore</h3>
+      <p>Migrant Characteristics in Flux: The Influence of Covid-19 Across Indonesia</p>
+    </div>
+    <div class="card">
+      <h3>Indonesian Journal of Applied Statistics</h3>
+      <p>Modeling Household Food Vulnerability with Ordinal Logistic Regression</p>
+    </div>
+    <div class="card">
+      <h3>Jurnal Aplikasi Statistika STIS</h3>
+      <p>Quantile Regression with Constrained B-Splines for Modelling Years of Schooling</p>
+    </div>
+    <div class="card">
+      <h3>Jurnal Sains Matematika & Statistika</h3>
+      <p>Application of Multinomial Logistic Regression on Age Determinants of Childbirth Complications</p>
+    </div>
+  </div>
+
+  <h2 class="sec">Butuh Bantuan Lebih?</h2>
+  <div class="grid-2">
+    <div class="card"><div class="card-header"><div class="card-icon">🔍</div><h3>Review Naskah Jurnal</h3></div><p>Kami bantu review bagian statistik, tabel, dan pelaporan sebelum kamu submit ke jurnal.</p></div>
+    <div class="card"><div class="card-header"><div class="card-icon">📦</div><h3>Konsultasi Metodologi</h3></div><p>Dari pemilihan metode, justifikasi statistik, hingga interpretasi indeks fit SEM — siap untuk review editor.</p></div>
+  </div>
+
+  <div class="cta-box">
+    <h3>Siap Publish? Kami bantu dari data sampai accepted. 🎓</h3>
+    <p>Konsultasi statistik & review naskah jurnal oleh statistisi berpengalaman. Langsung chat, gratis tanpa komitmen.</p>
+    <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya mau konsultasi untuk persiapan submit jurnal Scopus." class="btn-cta" target="_blank">💬 Chat WhatsApp Sekarang</a>
+    <span class="cta-link">Kunjungi <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">yogoaj.github.io/ruangstatistika</a></span>
+  </div>
+
+  <div class="ebook-footer">
+    © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Bebas disebarkan untuk keperluan non-komersial
+  </div>
+</div>
+</div>
+
+<!-- PAGE NAV -->
+<div class="page-nav">
+  <button id="prevBtn" onclick="changePage(-1)" disabled>‹</button>
+  <span class="page-counter" id="pageCounter">1 / 8</span>
+  <button id="nextBtn" onclick="changePage(1)">›</button>
+</div>
+
+<script>
+const pages=document.querySelectorAll('.page');
+let cur=0;
+const total=pages.length;
+
+function showPage(n){
+  pages[cur].classList.remove('active');
+  cur=n;
+  pages[cur].classList.add('active');
+  document.getElementById('pageCounter').textContent=(cur+1)+' / '+total;
+  document.getElementById('prevBtn').disabled=cur===0;
+  document.getElementById('nextBtn').disabled=cur===total-1;
+  document.getElementById('pgbar').style.width=((cur/(total-1))*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function changePage(d){if(cur+d>=0&&cur+d<total)showPage(cur+d);}
+function goPage(n){showPage(n);}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')changePage(1);
+  if(e.key==='ArrowLeft')changePage(-1);
+});
+
+// IMRaD interactive
+const imradData=[
+  {title:'Introduction',badge:'Mulai dari sini',items:['<strong>Paragraf 1–2:</strong> Konteks dan urgensi — mengapa topik ini penting secara global dan lokal?','<strong>Paragraf 3–4:</strong> Research gap — apa yang belum dijawab oleh penelitian terdahulu?','<strong>Paragraf 5:</strong> Tujuan penelitian — rumuskan dengan kata kerja aktif: <em>This study aims to examine / investigate / explore…</em>','<strong>Paragraf 6 (opsional):</strong> Kontribusi — apa novelty artikel ini secara teoritis dan praktis?','⚠️ Hindari: merangkum semua literatur tanpa arah, atau langsung loncat ke tujuan tanpa membangun argumen gap.']},
+  {title:'Methods',badge:'Transparansi & Replikasi',items:['<strong>Desain penelitian:</strong> Sebutkan dan justifikasi (cross-sectional, longitudinal, experimental, dll.)','<strong>Populasi & sampel:</strong> Teknik sampling, kriteria inklusi/eksklusi, ukuran sampel dan justifikasinya (power analysis)','<strong>Instrumen:</strong> Sumber skala, validitas dan reliabilitas (Cronbach α, CFA loading), dan adaptasi jika ada','<strong>Prosedur pengumpulan data:</strong> Cukup detail agar dapat direplikasi oleh peneliti lain','<strong>Analisis data:</strong> Sebutkan perangkat lunak, versi, dan metode statistik beserta justifikasinya','⚠️ Hindari: hanya menyebut nama uji tanpa justifikasi mengapa uji tersebut dipilih.']},
+  {title:'Results',badge:'Fakta, Bukan Interpretasi',items:['<strong>Urutan logis:</strong> Biasanya dimulai dari deskriptif → asumsi → analisis utama → pengujian hipotesis','<strong>Setiap tabel/gambar:</strong> Direferensikan dalam teks dengan kalimat pengantar sebelum tabel muncul','<strong>Pelaporan statistik:</strong> Selalu sertakan F/t/χ², df, p-value, CI 95%, dan effect size','<strong>Tidak boleh ada interpretasi:</strong> Section ini hanya menyajikan data — interpretasi masuk di Discussion','⚠️ Hindari: mencampur hasil dan interpretasi di satu bagian. Reviewer akan mempermasalahkan ini.']},
+  {title:'Discussion',badge:'Bagian Terpenting',items:['<strong>Kalimat pembuka:</strong> Ringkaskan temuan utama dalam 1–2 kalimat, lalu langsung hubungkan dengan teori','<strong>Konfirmasi atau kontradiksi:</strong> Bandingkan setiap temuan dengan penelitian terdahulu — jika berbeda, berikan penjelasan','<strong>Mekanisme:</strong> Jelaskan <em>mengapa</em> hubungan tersebut terjadi, bukan hanya <em>bahwa</em> hubungan itu ada','<strong>Limitasi:</strong> Sebutkan secara jujur — reviewer akan lebih menghargai penulis yang self-aware','<strong>Implikasi:</strong> Teoritis (kontribusi ke literatur) dan praktis (saran untuk praktisi/kebijakan)','⚠️ Hindari: hanya merangkum ulang Results tanpa memberikan interpretasi mendalam.']}
+];
+
+function showIMRaD(i){
+  const blocks=document.querySelectorAll('.imrad-block');
+  blocks.forEach((b,idx)=>b.classList.toggle('active',idx===i));
+  const d=imradData[i];
+  const c=document.getElementById('imradContent');
+  c.innerHTML='<div class="ic-title">'+d.title+' <span>'+d.badge+'</span></div><ul>'+d.items.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+}
+
+// Checklist
+let total_cl=0;
+function toggleCl(el){
+  el.classList.toggle('checked');
+  el.querySelector('.cl-cb').textContent=el.classList.contains('checked')?'✓':'';
+  updateProgress();
+}
+function updateProgress(){
+  const all=document.querySelectorAll('.cl-item');
+  const done=document.querySelectorAll('.cl-item.checked');
+  const pct=Math.round((done.length/all.length)*100);
+  document.getElementById('clBar').style.width=pct+'%';
+  document.getElementById('clStat').textContent=done.length+' dari '+all.length+' item selesai ('+pct+'%)';
+}
+
+// Copy
+function copyText(btn,text){
+  navigator.clipboard.writeText(text).then(()=>{
+    const o=btn.innerHTML;btn.innerHTML='✅ Tersalin!';btn.style.background='#22c55e';btn.style.color='#fff';
+    setTimeout(()=>{btn.innerHTML=o;btn.style.background='';btn.style.color='';},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    btn.innerHTML='✅ Tersalin!';setTimeout(()=>{btn.innerHTML='📋 Salin Template';},2000);
+  });
+}
+</script>
+</body>
+</html>
