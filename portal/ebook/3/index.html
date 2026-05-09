@@ -1,1 +1,1089 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eBook Bab 4 Skripsi – Ruang Statistika</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
 
+  :root {
+    --navy: #0d1f3c;
+    --navy2: #132847;
+    --gold: #f5c518;
+    --gold2: #e6b800;
+    --white: #ffffff;
+    --light: #f8f9fc;
+    --gray: #6b7280;
+    --border: #e5e7eb;
+    --accent: #1a3a6b;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--light);
+    color: #1a1a2e;
+    line-height: 1.7;
+  }
+
+  /* ---- NAV ---- */
+  .top-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 28px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  }
+  .top-nav .brand { display:flex; align-items:center; gap:10px; }
+  .top-nav .brand img { width:32px; height:32px; border-radius:6px; }
+  .top-nav .brand span { color:var(--gold); font-weight:700; font-size:15px; letter-spacing:.3px; }
+  .nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+  .nav-links a {
+    color: rgba(255,255,255,.75);
+    font-size: 12px; font-weight: 500;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    transition: all .2s;
+  }
+  .nav-links a:hover { background: rgba(245,197,24,.15); color: var(--gold); }
+
+  /* ---- PAGES ---- */
+  .page { display: none; animation: fadeIn .4s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ---- PAGE NAVIGATION ---- */
+  .page-nav {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 10px;
+    background: var(--navy); border-radius: 50px;
+    padding: 8px 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.3);
+    z-index: 998;
+  }
+  .page-nav button {
+    background: rgba(255,255,255,.1);
+    border: none; color: #fff;
+    width: 36px; height: 36px; border-radius: 50%;
+    cursor: pointer; font-size: 16px;
+    transition: all .2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .page-nav button:hover { background: var(--gold); color: var(--navy); }
+  .page-nav button:disabled { opacity:.3; cursor:not-allowed; }
+  .page-counter { color: rgba(255,255,255,.7); font-size: 12px; min-width: 60px; text-align:center; font-weight:500; }
+
+  /* ============ COVER PAGE ============ */
+  #cover {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 80px 40px 100px;
+    text-align: center;
+  }
+  .cover-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(245,197,24,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,197,24,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .cover-glow {
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(245,197,24,.12) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+  }
+  .cover-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(245,197,24,.15);
+    border: 1px solid rgba(245,197,24,.3);
+    color: var(--gold);
+    font-size: 11px; font-weight: 600;
+    padding: 6px 16px; border-radius: 50px;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .cover-logo {
+    width: 72px; height: 72px;
+    margin-bottom: 28px;
+    filter: drop-shadow(0 4px 16px rgba(245,197,24,.3));
+    position: relative;
+  }
+  .cover-ebook-label {
+    color: var(--gold); font-size: 12px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 16px; position: relative;
+  }
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.15;
+    max-width: 680px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .cover-title span { color: var(--gold); }
+  .cover-subtitle {
+    color: rgba(255,255,255,.5);
+    font-size: 14px; font-weight: 400;
+    max-width: 520px;
+    margin: 20px auto 36px;
+    position: relative;
+    line-height: 1.8;
+  }
+  .cover-features {
+    display: flex; flex-wrap: wrap;
+    justify-content: center; gap: 10px;
+    max-width: 600px;
+    position: relative;
+    margin-bottom: 40px;
+  }
+  .cover-features .feat {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    color: rgba(255,255,255,.8);
+    font-size: 12px; font-weight: 500;
+    padding: 8px 16px; border-radius: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .cover-features .feat .dot { width:6px; height:6px; background:var(--gold); border-radius:50%; }
+  .cover-divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    border-radius: 2px;
+    margin: 0 auto 20px;
+    position: relative;
+  }
+  .cover-author {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    padding: 12px 20px;
+    position: relative;
+  }
+  .cover-author-ava {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: var(--navy); font-size: 16px;
+  }
+  .cover-author-info .name { color: var(--white); font-weight: 600; font-size: 14px; }
+  .cover-author-info .role { color: rgba(255,255,255,.5); font-size: 11px; }
+  .cover-no {
+    position: absolute; top: 90px; right: 32px;
+    font-size: 11px; color: rgba(255,255,255,.2);
+    font-weight: 500; letter-spacing: 1px;
+  }
+
+  /* ============ CONTENT PAGES ============ */
+  .content-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 32px 120px;
+    min-height: 100vh;
+  }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(13,31,60,.07);
+    color: var(--navy); font-size: 11px; font-weight: 700;
+    padding: 5px 14px; border-radius: 50px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 20px;
+    border-left: 3px solid var(--gold);
+  }
+  h1.page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  h1.page-title span { color: var(--gold2); }
+  .page-desc {
+    color: var(--gray);
+    font-size: 14px;
+    margin-bottom: 36px;
+    max-width: 600px;
+  }
+  .divider { width: 100%; height: 1px; background: var(--border); margin: 28px 0; }
+
+  /* CONTENT BLOCKS */
+  h2.sec { font-size: 18px; font-weight: 700; color: var(--navy); margin: 32px 0 14px; display:flex; align-items:center; gap:10px; }
+  h2.sec::before { content:''; display:block; width:4px; height:20px; background:var(--gold); border-radius:2px; flex-shrink:0; }
+  h3.subsec { font-size: 15px; font-weight: 600; color: var(--accent); margin: 22px 0 10px; }
+  p { font-size: 14px; color: #374151; margin-bottom: 14px; }
+
+  /* CARD */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    transition: box-shadow .2s;
+  }
+  .card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.09); }
+  .card-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .card-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .card h3 { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .card p { font-size: 13px; color: var(--gray); margin: 0; }
+
+  /* TEMPLATE BOXES */
+  .template-box {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .template-box::before {
+    content: '';
+    position: absolute; left:0; top:0; bottom:0; width:4px;
+    background: var(--gold);
+  }
+  .template-box .tag {
+    display: inline-block;
+    background: rgba(245,197,24,.2);
+    color: var(--gold);
+    font-size: 10px; font-weight: 700;
+    padding: 3px 10px; border-radius: 50px;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .template-box .tmpl {
+    font-size: 13.5px; color: rgba(255,255,255,.88);
+    line-height: 1.75;
+    font-style: italic;
+  }
+  .template-box .tmpl .var {
+    background: rgba(245,197,24,.25);
+    color: var(--gold);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .copy-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    margin-top: 12px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.15);
+    color: rgba(255,255,255,.7);
+    font-size: 11px; font-weight: 600;
+    padding: 5px 14px; border-radius: 6px;
+    cursor: pointer; border:none;
+    transition: all .2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .copy-btn:hover { background: var(--gold); color: var(--navy); }
+
+  /* TABLE APA */
+  .apa-table-wrap { overflow-x: auto; margin: 16px 0 24px; }
+  .apa-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  }
+  .apa-table caption {
+    text-align: left;
+    font-size: 13px;
+    color: var(--navy);
+    font-weight: 700;
+    padding: 14px 16px 8px;
+    background: var(--white);
+  }
+  .apa-table thead tr {
+    border-bottom: 2px solid var(--navy);
+  }
+  .apa-table th {
+    background: var(--navy);
+    color: var(--gold);
+    font-weight: 700;
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: .3px;
+  }
+  .apa-table td {
+    padding: 10px 14px;
+    color: #374151;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .apa-table tr:last-child td { border-bottom: none; }
+  .apa-table tr:nth-child(even) td { background: #f9fafb; }
+  .apa-note {
+    font-size: 12px; color: var(--gray); margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* STEP LIST */
+  .step-list { list-style: none; }
+  .step-list li {
+    display: flex; gap: 16px; align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .step-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--navy);
+    color: var(--gold); font-weight: 800; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .step-list .step-txt h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .step-list .step-txt p { font-size: 13px; color: var(--gray); margin: 0; }
+
+  /* ALERT */
+  .alert {
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+    font-size: 13px;
+  }
+  .alert-warn { background: #fffbeb; border-left: 4px solid #f59e0b; color: #92400e; }
+  .alert-info { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e40af; }
+  .alert-success { background: #f0fdf4; border-left: 4px solid #22c55e; color: #166534; }
+  .alert-icon { font-size: 18px; flex-shrink:0; margin-top:1px; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex; gap: 10px; align-items: flex-start;
+    font-size: 13.5px; color: #374151;
+    margin-bottom: 10px; padding-bottom: 10px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist .ck { color: var(--gold); font-size: 16px; flex-shrink:0; margin-top:1px; }
+
+  /* BADGE ROW */
+  .badge-row { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+  .badge {
+    background: rgba(13,31,60,.07);
+    color: var(--navy); font-size: 12px; font-weight: 600;
+    padding: 5px 14px; border-radius: 50px;
+    border: 1px solid rgba(13,31,60,.1);
+  }
+  .badge-gold { background: rgba(245,197,24,.15); color: #92400e; border-color: rgba(245,197,24,.4); }
+
+  /* CTA */
+  .cta-box {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 32px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 32px;
+  }
+  .cta-box::after {
+    content:'';
+    position: absolute; top:-60px; right:-60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(245,197,24,.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-box h3 { font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 10px; }
+  .cta-box p { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 20px; max-width: 440px; margin-left:auto; margin-right:auto; }
+  .btn-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--gold);
+    color: var(--navy); font-weight: 700; font-size: 14px;
+    padding: 12px 28px; border-radius: 10px;
+    text-decoration: none;
+    transition: all .2s;
+    border: none; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+  .btn-cta:hover { background: #e6b800; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245,197,24,.4); }
+  .cta-link { color: rgba(255,255,255,.5); font-size: 12px; margin-top: 12px; display:block; }
+  .cta-link a { color: var(--gold); text-decoration: none; }
+
+  /* GRID 2 */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px; }
+  @media(max-width:600px) { .grid-2 { grid-template-columns:1fr; } }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: linear-gradient(135deg, rgba(13,31,60,.04), rgba(245,197,24,.08));
+    border: 1px solid rgba(245,197,24,.25);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin: 16px 0;
+  }
+  .highlight strong { color: var(--navy); }
+
+  /* FORMULA */
+  .formula {
+    background: #f8f9fc;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--navy);
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: var(--navy);
+    margin: 12px 0;
+  }
+
+  /* TOC */
+  .toc-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all .2s;
+    border: 1px solid var(--border);
+    background: var(--white);
+  }
+  .toc-item:hover { border-color: var(--gold); background: rgba(245,197,24,.04); }
+  .toc-item .toc-left { display:flex; align-items:center; gap:12px; }
+  .toc-item .toc-num { font-size:11px; font-weight:700; color:var(--gold); background:var(--navy); padding:4px 9px; border-radius:6px; }
+  .toc-item .toc-title { font-size:14px; font-weight:600; color:var(--navy); }
+  .toc-item .toc-arr { color:var(--gray); font-size:16px; }
+
+  /* FOOTER */
+  .ebook-footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 11px;
+    color: var(--gray);
+    border-top: 1px solid var(--border);
+  }
+  .ebook-footer a { color: var(--navy); text-decoration:none; font-weight:600; }
+
+  /* PROGRESS */
+  .progress-bar {
+    position: fixed; top: 52px; left:0; right:0; height:3px;
+    background: rgba(255,255,255,.1); z-index:997;
+  }
+  .progress-fill { height:100%; background: var(--gold); transition: width .3s ease; }
+
+  /* NUMBER BAR */
+  .num-pill {
+    display: inline-flex; align-items:center; gap:6px;
+    background: var(--navy); color: var(--gold);
+    font-weight: 800; font-size: 13px;
+    padding: 6px 16px; border-radius: 50px;
+    margin-bottom: 18px;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <div class="brand">
+    <!-- Logo inline SVG dari gambar terlampir (bar chart + gold bar) -->
+    <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="10" fill="#0d1f3c"/>
+      <rect x="18" y="52" width="18" height="32" rx="4" fill="#1a3a6b"/>
+      <rect x="42" y="36" width="18" height="48" rx="4" fill="#1a3a6b"/>
+      <rect x="66" y="18" width="18" height="66" rx="4" fill="#f5c518"/>
+      <path d="M27 58 Q44 44 57 38 Q66 32 75 22" stroke="#f5c518" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span>Ruang Statistika</span>
+  </div>
+  <div class="nav-links">
+    <a href="javascript:void(0)" onclick="goPage(0)">📖 Cover</a>
+    <a href="javascript:void(0)" onclick="goPage(1)">Daftar Isi</a>
+    <a href="javascript:void(0)" onclick="goPage(2)">Struktur</a>
+    <a href="javascript:void(0)" onclick="goPage(3)">Template</a>
+    <a href="javascript:void(0)" onclick="goPage(6)">Tabel APA</a>
+    <a href="javascript:void(0)" onclick="goPage(7)">Checklist</a>
+  </div>
+</nav>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar"><div class="progress-fill" id="pgbar" style="width:0%"></div></div>
+
+<!-- ======================== PAGE 0: COVER ======================== -->
+<div class="page active" id="page-0">
+<div id="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-glow"></div>
+  <div class="cover-no">No. 3 dari Seri Lead Magnet Gratis</div>
+
+  <!-- Logo -->
+  <svg class="cover-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(245,197,24,0.3)" stroke-width="1"/>
+    <rect x="14" y="52" width="18" height="34" rx="5" fill="#1a3a6b"/>
+    <rect x="40" y="36" width="18" height="50" rx="5" fill="#1a3a6b"/>
+    <rect x="66" y="16" width="18" height="70" rx="5" fill="#f5c518"/>
+    <path d="M23 64 Q50 44 60 38 Q68 32 75 22" stroke="#f5c518" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  </svg>
+
+  <div class="cover-ebook-label">📘 FREE EBOOK · SERI #3</div>
+
+  <h1 class="cover-title">
+    Cara Menulis <span>Bab 4 Skripsi</span><br>yang Lulus Sidang
+  </h1>
+
+  <p class="cover-subtitle">
+    Struktur baku Bab 4 lengkap · 9 template kalimat interpretasi siap pakai ·
+    Format tabel APA 7th Edition
+  </p>
+
+  <div class="cover-features">
+    <div class="feat"><span class="dot"></span> Struktur Bab 4 Baku</div>
+    <div class="feat"><span class="dot"></span> 9 Template Kalimat</div>
+    <div class="feat"><span class="dot"></span> Format Tabel APA 7th</div>
+    <div class="feat"><span class="dot"></span> Checklist Sidang</div>
+    <div class="feat"><span class="dot"></span> Contoh Nyata</div>
+  </div>
+
+  <div class="cover-divider"></div>
+
+  <div class="cover-author">
+    <div class="cover-author-ava">Y</div>
+    <div class="cover-author-info">
+      <div class="name">Yogo Aryo Jatmiko, SST, M.Stat</div>
+      <div class="role">Founder Ruang Statistika · Statistisi BPS · Dosen Demografi Polstat STIS</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 1: DAFTAR ISI ======================== -->
+<div class="page" id="page-1">
+<div class="content-page">
+  <div class="section-label">📋 Navigasi Ebook</div>
+  <h1 class="page-title">Daftar <span>Isi</span></h1>
+  <p class="page-desc">Klik bagian mana pun untuk langsung menuju halaman tersebut.</p>
+
+  <div class="toc-item" onclick="goPage(2)">
+    <div class="toc-left">
+      <span class="toc-num">01</span>
+      <span class="toc-title">Struktur Baku Bab 4 Skripsi</span>
+    </div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(3)">
+    <div class="toc-left">
+      <span class="toc-num">02</span>
+      <span class="toc-title">Template Kalimat: Statistik Deskriptif & Normalitas</span>
+    </div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(4)">
+    <div class="toc-left">
+      <span class="toc-num">03</span>
+      <span class="toc-title">Template: Multikolinearitas, Regresi & Uji F/t</span>
+    </div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(5)">
+    <div class="toc-left">
+      <span class="toc-num">04</span>
+      <span class="toc-title">Template: ANOVA, Korelasi & Chi-Square</span>
+    </div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(6)">
+    <div class="toc-left">
+      <span class="toc-num">05</span>
+      <span class="toc-title">Format Tabel APA 7th Edition</span>
+    </div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(7)">
+    <div class="toc-left">
+      <span class="toc-num">06</span>
+      <span class="toc-title">Checklist Bab 4 Siap Sidang</span>
+    </div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(8)">
+    <div class="toc-left">
+      <span class="toc-num">07</span>
+      <span class="toc-title">Tentang Penulis & Konsultasi</span>
+    </div>
+    <span class="toc-arr">›</span>
+  </div>
+
+  <div class="alert alert-info" style="margin-top:28px;">
+    <span class="alert-icon">💡</span>
+    <div><strong>Tips membaca:</strong> Gunakan tombol navigasi di bawah atau klik item daftar isi untuk berpindah halaman. Template kalimat bisa langsung disalin dengan tombol "Salin".</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 2: STRUKTUR BAB 4 ======================== -->
+<div class="page" id="page-2">
+<div class="content-page">
+  <div class="section-label">📐 Bagian 01</div>
+  <h1 class="page-title">Struktur Baku <span>Bab 4</span></h1>
+  <p class="page-desc">Kerangka standar yang diterima hampir semua program studi di Indonesia.</p>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div>Bab 4 adalah "wajah" risetmu di hadapan penguji. Struktur yang rapi = presentasi data yang meyakinkan.</div>
+  </div>
+
+  <h2 class="sec">Gambaran Umum Bab 4</h2>
+  <p>Bab 4 berfungsi menjawab rumusan masalah secara sistematis melalui data dan analisis. Bab ini biasanya berjudul <strong>"Hasil Penelitian dan Pembahasan"</strong> atau dipecah menjadi <em>Bab 4: Hasil</em> dan <em>Bab 5: Pembahasan</em> tergantung program studi.</p>
+
+  <h2 class="sec">Subbab Standar Bab 4</h2>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">4.1</div>
+      <div class="step-txt">
+        <h4>Gambaran Umum / Deskripsi Objek Penelitian</h4>
+        <p>Menjelaskan lokasi, populasi, sampel, dan karakteristik responden. Sertakan tabel distribusi frekuensi demografis (usia, jenis kelamin, pendidikan, dll.).</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">4.2</div>
+      <div class="step-txt">
+        <h4>Statistik Deskriptif Variabel Penelitian</h4>
+        <p>Sajikan tabel mean, median, modus, standar deviasi, nilai min-max untuk setiap variabel. Interpretasikan kecenderungan data.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">4.3</div>
+      <div class="step-txt">
+        <h4>Uji Asumsi Klasik / Uji Prasyarat</h4>
+        <p>Normalitas (K-S / Shapiro-Wilk), homoskedastisitas, multikolinearitas (VIF), autokorelasi (Durbin-Watson). Setiap uji harus disertai keputusan.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">4.4</div>
+      <div class="step-txt">
+        <h4>Hasil Analisis Utama</h4>
+        <p>Hasil regresi / ANOVA / korelasi / chi-square — sesuai metode yang digunakan. Sertakan tabel output lengkap dengan format APA 7th.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">4.5</div>
+      <div class="step-txt">
+        <h4>Pengujian Hipotesis</h4>
+        <p>Nyatakan H₀ dan H₁, laporkan nilai statistik uji, p-value, dan simpulkan apakah H₀ ditolak atau gagal ditolak.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">4.6</div>
+      <div class="step-txt">
+        <h4>Pembahasan</h4>
+        <p>Interpretasikan hasil secara substansif — kaitkan dengan teori dan penelitian terdahulu. Ini bagian yang paling menentukan kualitas sidang.</p>
+      </div>
+    </li>
+  </ul>
+
+  <div class="highlight">
+    <strong>🔑 Kunci Penguji Puas:</strong> Setiap tabel harus ada narasi interpretasinya. Jangan hanya tampilkan angka tanpa menjelaskan apa artinya bagi penelitianmu.
+  </div>
+
+  <h2 class="sec">Alur Penulisan yang Disarankan</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📊</div>
+        <h3>Dari Output → Narasi</h3>
+      </div>
+      <p>Ambil output SPSS/R, lalu tulis kalimat interpretasinya menggunakan template di bab berikutnya.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📋</div>
+        <h3>Dari Narasi → Tabel APA</h3>
+      </div>
+      <p>Format tabel sesuai APA 7th — tanpa garis vertikal, caption di atas tabel, catatan di bawah.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 3: TEMPLATE 1-3 ======================== -->
+<div class="page" id="page-3">
+<div class="content-page">
+  <div class="section-label">✍️ Bagian 02</div>
+  <h1 class="page-title">Template Kalimat <span>Interpretasi</span></h1>
+  <p class="page-desc">Ganti teks berwarna kuning dengan nilai dari output analisismu.</p>
+
+  <!-- Template 1 -->
+  <h2 class="sec">Template #1 — Statistik Deskriptif</h2>
+  <div class="template-box">
+    <div class="tag">📊 Deskriptif</div>
+    <div class="tmpl">
+      Berdasarkan hasil analisis statistik deskriptif, variabel <span class="var">[nama variabel]</span> memiliki nilai rata-rata sebesar <span class="var">[mean]</span> (SD = <span class="var">[std. dev]</span>), dengan nilai minimum <span class="var">[min]</span> dan maksimum <span class="var">[max]</span>. Hal ini mengindikasikan bahwa rata-rata <span class="var">[interpretasi substantif]</span>.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Berdasarkan hasil analisis statistik deskriptif, variabel [nama variabel] memiliki nilai rata-rata sebesar [mean] (SD = [std. dev]), dengan nilai minimum [min] dan maksimum [max]. Hal ini mengindikasikan bahwa rata-rata [interpretasi substantif].')">📋 Salin Template</button>
+  </div>
+
+  <!-- Template 2 -->
+  <h2 class="sec">Template #2 — Uji Normalitas</h2>
+  <div class="template-box">
+    <div class="tag">🔔 Normalitas</div>
+    <div class="tmpl">
+      Hasil uji normalitas <span class="var">[Kolmogorov-Smirnov / Shapiro-Wilk]</span> menunjukkan nilai signifikansi sebesar <span class="var">[p-value]</span>. Karena nilai p <span class="var">[> / <]</span> 0,05, dapat disimpulkan bahwa residual data <span class="var">[berdistribusi normal / tidak berdistribusi normal]</span>, sehingga asumsi normalitas <span class="var">[terpenuhi / tidak terpenuhi]</span>.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Hasil uji normalitas [K-S/Shapiro-Wilk] menunjukkan nilai signifikansi sebesar [p-value]. Karena nilai p [> / <] 0,05, dapat disimpulkan bahwa residual data [berdistribusi normal / tidak berdistribusi normal], sehingga asumsi normalitas [terpenuhi / tidak terpenuhi].')">📋 Salin Template</button>
+  </div>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">💡</span>
+    <div><strong>Catatan K-S vs Shapiro-Wilk:</strong> Untuk n ≤ 50, gunakan Shapiro-Wilk. Untuk n > 50, Kolmogorov-Smirnov lebih tepat. Jika data tidak normal → pertimbangkan transformasi atau uji non-parametrik.</div>
+  </div>
+
+  <!-- Template 3 -->
+  <h2 class="sec">Template #3 — Deskripsi Karakteristik Responden</h2>
+  <div class="template-box">
+    <div class="tag">👥 Responden</div>
+    <div class="tmpl">
+      Berdasarkan data yang dikumpulkan dari <span class="var">[N]</span> responden, sebagian besar responden berjenis kelamin <span class="var">[laki-laki/perempuan]</span> sebanyak <span class="var">[n]</span> orang (<span class="var">[%]</span>%). Dilihat dari kelompok usia, mayoritas responden berada pada rentang usia <span class="var">[x–y tahun]</span> sebanyak <span class="var">[n]</span> orang (<span class="var">[%]</span>%). Adapun berdasarkan tingkat pendidikan, <span class="var">[pendidikan dominan]</span> merupakan kelompok terbesar dengan proporsi <span class="var">[%]</span>%.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Berdasarkan data yang dikumpulkan dari [N] responden, sebagian besar responden berjenis kelamin [laki-laki/perempuan] sebanyak [n] orang ([%]%). Dilihat dari kelompok usia, mayoritas responden berada pada rentang usia [x–y tahun] sebanyak [n] orang ([%]%). Adapun berdasarkan tingkat pendidikan, [pendidikan dominan] merupakan kelompok terbesar dengan proporsi [%]%.')">📋 Salin Template</button>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 4: TEMPLATE 4-6 ======================== -->
+<div class="page" id="page-4">
+<div class="content-page">
+  <div class="section-label">✍️ Bagian 03</div>
+  <h1 class="page-title">Template: <span>Regresi & VIF</span></h1>
+  <p class="page-desc">Template untuk uji multikolinearitas, regresi linear berganda, dan pengujian koefisien.</p>
+
+  <!-- Template 4 -->
+  <h2 class="sec">Template #4 — Uji Multikolinearitas (VIF)</h2>
+  <div class="template-box">
+    <div class="tag">🔗 Multikolinearitas</div>
+    <div class="tmpl">
+      Hasil uji multikolinearitas menunjukkan bahwa seluruh variabel independen memiliki nilai <em>Variance Inflation Factor</em> (VIF) di bawah 10 dan nilai <em>Tolerance</em> di atas 0,1. Variabel <span class="var">[X1]</span> memperoleh VIF = <span class="var">[nilai]</span>, variabel <span class="var">[X2]</span> memperoleh VIF = <span class="var">[nilai]</span>, dan variabel <span class="var">[X3]</span> memperoleh VIF = <span class="var">[nilai]</span>. Dengan demikian, tidak terdapat masalah multikolinearitas dalam model regresi ini.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Hasil uji multikolinearitas menunjukkan bahwa seluruh variabel independen memiliki nilai VIF di bawah 10 dan nilai Tolerance di atas 0,1. Variabel [X1] memperoleh VIF = [nilai], variabel [X2] memperoleh VIF = [nilai]. Dengan demikian, tidak terdapat masalah multikolinearitas dalam model regresi ini.')">📋 Salin Template</button>
+  </div>
+
+  <!-- Template 5 -->
+  <h2 class="sec">Template #5 — Persamaan & Koefisien Regresi</h2>
+  <div class="template-box">
+    <div class="tag">📈 Regresi Linear</div>
+    <div class="tmpl">
+      Berdasarkan hasil analisis regresi linear berganda, diperoleh persamaan:
+      <br><br>
+      <span style="color:#f5c518; font-weight:700;">Ŷ = <span class="var">[a]</span> + <span class="var">[b₁]</span>X₁ + <span class="var">[b₂]</span>X₂ + <span class="var">[b₃]</span>X₃</span>
+      <br><br>
+      Nilai koefisien <span class="var">[X1]</span> sebesar <span class="var">[b₁]</span> menunjukkan bahwa setiap peningkatan satu satuan <span class="var">[X1]</span> akan meningkatkan <span class="var">[Y]</span> sebesar <span class="var">[b₁]</span> satuan, dengan asumsi variabel lain konstan. Model ini memiliki koefisien determinasi (R²) sebesar <span class="var">[R²]</span>, yang berarti <span class="var">[R² × 100]</span>% variasi dalam <span class="var">[Y]</span> dapat dijelaskan oleh variabel independen dalam model.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Berdasarkan hasil analisis regresi linear berganda, diperoleh persamaan: Ŷ = [a] + [b₁]X₁ + [b₂]X₂. Nilai koefisien [X1] sebesar [b₁] menunjukkan bahwa setiap peningkatan satu satuan [X1] akan meningkatkan [Y] sebesar [b₁] satuan, dengan asumsi variabel lain konstan. Model ini memiliki R² sebesar [R²], yang berarti [R²×100]% variasi dalam [Y] dapat dijelaskan oleh variabel independen.')">📋 Salin Template</button>
+  </div>
+
+  <!-- Template 6 -->
+  <h2 class="sec">Template #6 — Uji F (Simultan) & Uji t (Parsial)</h2>
+  <div class="template-box">
+    <div class="tag">📊 Uji F & Uji t</div>
+    <div class="tmpl">
+      <strong style="color:#f5c518;">Uji F (Simultan):</strong><br>
+      Hasil uji F menunjukkan nilai F = <span class="var">[F-hitung]</span> dengan signifikansi <span class="var">[p-value]</span>. Karena nilai p &lt; 0,05, dapat disimpulkan bahwa secara simultan variabel <span class="var">[X1, X2, X3]</span> berpengaruh signifikan terhadap <span class="var">[Y]</span>, sehingga model regresi yang digunakan layak (fit).
+      <br><br>
+      <strong style="color:#f5c518;">Uji t (Parsial):</strong><br>
+      Variabel <span class="var">[X1]</span> memperoleh nilai t = <span class="var">[t-hitung]</span> (p = <span class="var">[p-value]</span>), yang menunjukkan bahwa <span class="var">[X1]</span> <span class="var">[berpengaruh / tidak berpengaruh]</span> secara signifikan terhadap <span class="var">[Y]</span> pada taraf signifikansi 5%.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Hasil uji F menunjukkan nilai F = [F-hitung] dengan signifikansi [p-value]. Karena nilai p < 0,05, dapat disimpulkan bahwa secara simultan variabel [X1, X2] berpengaruh signifikan terhadap [Y]. Variabel [X1] memperoleh nilai t = [t-hitung] (p = [p-value]), yang menunjukkan bahwa [X1] berpengaruh secara signifikan terhadap [Y] pada taraf signifikansi 5%.')">📋 Salin Template</button>
+  </div>
+
+  <div class="highlight">
+    <strong>📌 Ingat:</strong> Ketika melaporkan uji t, selalu sertakan nilai t, df (derajat kebebasan), dan p-value. Contoh: <em>t(98) = 3.21, p = .002</em>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 5: TEMPLATE 7-9 ======================== -->
+<div class="page" id="page-5">
+<div class="content-page">
+  <div class="section-label">✍️ Bagian 04</div>
+  <h1 class="page-title">Template: <span>ANOVA, Korelasi & Chi-Square</span></h1>
+  <p class="page-desc">Tiga template terakhir untuk uji perbedaan dan asosiasi.</p>
+
+  <!-- Template 7 -->
+  <h2 class="sec">Template #7 — ANOVA (One-Way)</h2>
+  <div class="template-box">
+    <div class="tag">📊 ANOVA</div>
+    <div class="tmpl">
+      Hasil analisis varians satu arah (One-Way ANOVA) menunjukkan nilai F(<span class="var">[df antar kelompok]</span>, <span class="var">[df dalam kelompok]</span>) = <span class="var">[F-hitung]</span>, p = <span class="var">[p-value]</span>. Karena nilai p <span class="var">[< / >]</span> 0,05, terdapat <span class="var">[perbedaan / tidak ada perbedaan]</span> yang signifikan pada <span class="var">[variabel dependen]</span> antar kelompok <span class="var">[faktor/kategori]</span>. <span class="var">[Jika signifikan:]</span> Uji post-hoc Tukey menunjukkan bahwa kelompok <span class="var">[A]</span> berbeda secara signifikan dari kelompok <span class="var">[B]</span> (p = <span class="var">[nilai]</span>).
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Hasil analisis varians satu arah (One-Way ANOVA) menunjukkan nilai F([df1], [df2]) = [F-hitung], p = [p-value]. Karena nilai p [< / >] 0,05, terdapat [perbedaan / tidak ada perbedaan] yang signifikan pada [variabel dependen] antar kelompok [faktor]. Uji post-hoc Tukey menunjukkan bahwa kelompok [A] berbeda secara signifikan dari kelompok [B] (p = [nilai]).')">📋 Salin Template</button>
+  </div>
+
+  <!-- Template 8 -->
+  <h2 class="sec">Template #8 — Korelasi Pearson / Spearman</h2>
+  <div class="template-box">
+    <div class="tag">🔄 Korelasi</div>
+    <div class="tmpl">
+      Hasil uji korelasi <span class="var">[Pearson / Spearman]</span> antara variabel <span class="var">[X]</span> dan <span class="var">[Y]</span> menunjukkan nilai koefisien korelasi r = <span class="var">[nilai r]</span> dengan signifikansi p = <span class="var">[p-value]</span>. Nilai r tersebut mengindikasikan adanya hubungan <span class="var">[sangat lemah / lemah / sedang / kuat / sangat kuat]</span> yang bersifat <span class="var">[positif / negatif]</span> antara kedua variabel. Karena p &lt; 0,05, hubungan tersebut signifikan secara statistik.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Hasil uji korelasi [Pearson / Spearman] antara variabel [X] dan [Y] menunjukkan nilai koefisien korelasi r = [nilai] dengan signifikansi p = [p-value]. Nilai r tersebut mengindikasikan adanya hubungan [kuat/lemah] yang bersifat [positif/negatif] antara kedua variabel. Karena p < 0,05, hubungan tersebut signifikan secara statistik.')">📋 Salin Template</button>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-header"><div class="card-icon">📏</div><h3>Panduan Kekuatan Korelasi (Cohen, 1988)</h3></div>
+    <div class="badge-row">
+      <span class="badge">|r| = 0,10–0,29 → Lemah</span>
+      <span class="badge">|r| = 0,30–0,49 → Sedang</span>
+      <span class="badge badge-gold">|r| ≥ 0,50 → Kuat</span>
+    </div>
+  </div>
+
+  <!-- Template 9 -->
+  <h2 class="sec">Template #9 — Chi-Square (Uji Independensi)</h2>
+  <div class="template-box">
+    <div class="tag">🔲 Chi-Square</div>
+    <div class="tmpl">
+      Hasil uji chi-square menunjukkan nilai χ²(<span class="var">[df]</span>) = <span class="var">[nilai chi-square]</span>, p = <span class="var">[p-value]</span>. Karena nilai p <span class="var">[< / >]</span> 0,05, dapat disimpulkan bahwa terdapat <span class="var">[hubungan / tidak ada hubungan]</span> yang signifikan antara <span class="var">[variabel kategori 1]</span> dan <span class="var">[variabel kategori 2]</span>. Kekuatan hubungan ditunjukkan oleh nilai Cramer's V = <span class="var">[nilai]</span>, yang mengindikasikan asosiasi <span class="var">[lemah / sedang / kuat]</span>.
+    </div>
+    <button class="copy-btn" onclick="copyText(this, 'Hasil uji chi-square menunjukkan nilai χ²([df]) = [nilai], p = [p-value]. Karena nilai p [< / >] 0,05, dapat disimpulkan bahwa terdapat [hubungan / tidak ada hubungan] yang signifikan antara [variabel 1] dan [variabel 2]. Kekuatan hubungan ditunjukkan oleh nilai Cramér\'s V = [nilai], yang mengindikasikan asosiasi [lemah / sedang / kuat].')">📋 Salin Template</button>
+  </div>
+
+  <div class="alert alert-success">
+    <span class="alert-icon">✅</span>
+    <div>Kamu sudah punya 9 template lengkap! Kombinasikan sesuai metode yang kamu gunakan di skripsimu.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 6: TABEL APA ======================== -->
+<div class="page" id="page-6">
+<div class="content-page">
+  <div class="section-label">📋 Bagian 05</div>
+  <h1 class="page-title">Format Tabel <span>APA 7th</span></h1>
+  <p class="page-desc">Aturan wajib yang sering membuat skripsi dikembalikan pembimbing.</p>
+
+  <h2 class="sec">Aturan Emas Tabel APA 7th</h2>
+  <ul class="checklist">
+    <li><span class="ck">★</span> <div><strong>Caption di atas tabel</strong> — ditulis miring dan tebal: <em><strong>Tabel 1</strong></em> di baris pertama, lalu judul deskriptif di baris berikutnya</div></li>
+    <li><span class="ck">★</span> <div><strong>Tidak ada garis vertikal</strong> — hanya ada 3 garis horizontal: atas, bawah header, dan bawah tabel</div></li>
+    <li><span class="ck">★</span> <div><strong>Catatan (Note) di bawah tabel</strong> — gunakan <em>Note.</em> miring untuk menjelaskan singkatan, transformasi, atau sumber data</div></li>
+    <li><span class="ck">★</span> <div><strong>Angka desimal konsisten</strong> — minimal 2 desimal untuk semua angka statistik dalam tabel yang sama</div></li>
+    <li><span class="ck">★</span> <div><strong>p-value</strong> dilaporkan tepat: p = .003 (bukan p &lt; .005), kecuali p &lt; .001</div></li>
+    <li><span class="ck">★</span> <div><strong>Penomoran berurutan</strong> — Tabel 1, Tabel 2, dst. sesuai urutan kemunculan dalam teks</div></li>
+  </ul>
+
+  <h2 class="sec">Contoh: Tabel Statistik Deskriptif (APA 7th)</h2>
+  <div class="apa-table-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 1</strong></em><br>Statistik Deskriptif Variabel Penelitian</caption>
+      <thead><tr><th>Variabel</th><th>N</th><th>M</th><th>SD</th><th>Min</th><th>Maks</th></tr></thead>
+      <tbody>
+        <tr><td>Kepuasan Kerja (Y)</td><td>120</td><td>3.84</td><td>0.62</td><td>2.00</td><td>5.00</td></tr>
+        <tr><td>Motivasi (X₁)</td><td>120</td><td>3.71</td><td>0.58</td><td>1.80</td><td>5.00</td></tr>
+        <tr><td>Lingkungan Kerja (X₂)</td><td>120</td><td>3.55</td><td>0.71</td><td>1.60</td><td>5.00</td></tr>
+        <tr><td>Kompensasi (X₃)</td><td>120</td><td>3.29</td><td>0.79</td><td>1.40</td><td>5.00</td></tr>
+      </tbody>
+    </table>
+    <p class="apa-note"><em>Note.</em> M = mean; SD = standar deviasi. Skala pengukuran menggunakan Likert 1–5.</p>
+  </div>
+
+  <h2 class="sec">Contoh: Tabel Hasil Regresi (APA 7th)</h2>
+  <div class="apa-table-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 2</strong></em><br>Hasil Analisis Regresi Linear Berganda</caption>
+      <thead><tr><th>Variabel</th><th>B</th><th>SE</th><th>β</th><th>t</th><th>p</th></tr></thead>
+      <tbody>
+        <tr><td>Konstan</td><td>0.82</td><td>0.31</td><td>—</td><td>2.65</td><td>.009</td></tr>
+        <tr><td>Motivasi (X₁)</td><td>0.42</td><td>0.08</td><td>.38</td><td>5.25</td><td>&lt; .001</td></tr>
+        <tr><td>Lingkungan Kerja (X₂)</td><td>0.31</td><td>0.07</td><td>.29</td><td>4.43</td><td>&lt; .001</td></tr>
+        <tr><td>Kompensasi (X₃)</td><td>0.18</td><td>0.06</td><td>.21</td><td>3.00</td><td>.003</td></tr>
+      </tbody>
+    </table>
+    <p class="apa-note"><em>Note.</em> B = koefisien tidak terstandar; SE = standard error; β = koefisien terstandar. R² = .71, F(3, 116) = 94.58, p &lt; .001.</p>
+  </div>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div><strong>Kesalahan paling umum:</strong> Menyalin tabel langsung dari SPSS ke Word tanpa mengubah format. Output SPSS bukan format APA — selalu reformatkan sebelum masuk ke naskah!</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 7: CHECKLIST ======================== -->
+<div class="page" id="page-7">
+<div class="content-page">
+  <div class="section-label">✅ Bagian 06</div>
+  <h1 class="page-title">Checklist Bab 4 <span>Siap Sidang</span></h1>
+  <p class="page-desc">Pastikan semua poin ini terpenuhi sebelum kamu naik sidang.</p>
+
+  <h2 class="sec">📊 Deskriptif & Data</h2>
+  <ul class="checklist">
+    <li><span class="ck">□</span> Tabel distribusi frekuensi karakteristik responden sudah ada</li>
+    <li><span class="ck">□</span> Statistik deskriptif (mean, SD, min, max) untuk setiap variabel</li>
+    <li><span class="ck">□</span> Semua tabel sudah diformat APA 7th (tanpa garis vertikal, caption di atas)</li>
+    <li><span class="ck">□</span> Setiap tabel memiliki narasi interpretasi di paragraf sebelumnya</li>
+  </ul>
+
+  <h2 class="sec">🔍 Uji Asumsi</h2>
+  <ul class="checklist">
+    <li><span class="ck">□</span> Uji normalitas: dilaporkan nilai statistik uji + p-value + keputusan</li>
+    <li><span class="ck">□</span> Uji multikolinearitas: VIF dan Tolerance untuk setiap prediktor</li>
+    <li><span class="ck">□</span> Uji homoskedastisitas (jika regresi): scatter plot atau Breusch-Pagan</li>
+    <li><span class="ck">□</span> Uji autokorelasi (jika data time series): Durbin-Watson dilaporkan</li>
+    <li><span class="ck">□</span> Setiap uji asumsi disertai <em>keputusan</em> (asumsi terpenuhi/tidak terpenuhi)</li>
+  </ul>
+
+  <h2 class="sec">📈 Analisis Utama & Hipotesis</h2>
+  <ul class="checklist">
+    <li><span class="ck">□</span> Persamaan regresi dituliskan secara eksplisit</li>
+    <li><span class="ck">□</span> Nilai R² dan Adjusted R² dilaporkan + diinterpretasikan</li>
+    <li><span class="ck">□</span> Uji F (simultan) dilaporkan: F(df1, df2) = nilai, p = nilai</li>
+    <li><span class="ck">□</span> Uji t (parsial) dilaporkan untuk setiap variabel independen</li>
+    <li><span class="ck">□</span> Setiap hipotesis memiliki keputusan eksplisit (H₀ ditolak/gagal ditolak)</li>
+  </ul>
+
+  <h2 class="sec">💬 Pembahasan</h2>
+  <ul class="checklist">
+    <li><span class="ck">□</span> Setiap temuan dikaitkan dengan teori yang digunakan</li>
+    <li><span class="ck">□</span> Hasil dibandingkan dengan penelitian terdahulu (minimal 2–3 penelitian)</li>
+    <li><span class="ck">□</span> Temuan yang tidak sesuai ekspektasi dijelaskan alasannya</li>
+    <li><span class="ck">□</span> Implikasi praktis dari temuan disebutkan</li>
+  </ul>
+
+  <div class="highlight">
+    <strong>🎯 Tip Sidang:</strong> Penguji biasanya menguji pemahamanmu lewat pertanyaan "kenapa hasilnya begini?" — pastikan kamu bisa menjelaskan setiap angka di tabelmu, bukan hanya membacanya.
+  </div>
+
+  <div class="grid-2" style="margin-top:24px;">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">❓</div><h3>Pertanyaan Sidang Umum</h3></div>
+      <p style="font-size:12.5px;">"Kenapa pilih metode ini?", "Apa arti VIF 1,32?", "Kenapa R² kamu kecil?", "Apa implikasi penelitian ini?"</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🛡️</div><h3>Persiapan Jawaban</h3></div>
+      <p style="font-size:12.5px;">Hafal nilai R², F, t, dan p-value utama. Siapkan argumen alternatif jika asumsi tidak terpenuhi.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 8: TENTANG ======================== -->
+<div class="page" id="page-8">
+<div class="content-page">
+  <div class="section-label">👤 Penulis</div>
+  <h1 class="page-title">Tentang <span>Penulis</span></h1>
+
+  <div class="card" style="border: 1px solid rgba(245,197,24,.3);">
+    <div style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
+      <div style="width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg, var(--navy), #1a3a6b); display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:900; color:var(--gold); flex-shrink:0;">Y</div>
+      <div>
+        <h3 style="font-size:18px; margin-bottom:4px;">Yogo Aryo Jatmiko, SST, M.Stat</h3>
+        <p style="font-size:13px; color:var(--gray); margin:0;">Founder Ruang Statistika · AI Enthusiast · Statistisi BPS · Dosen Demografi Polstat STIS Jakarta</p>
+        <div class="badge-row" style="margin-top:10px;">
+          <span class="badge">📊 10+ Tahun Pengalaman</span>
+          <span class="badge">📄 8+ Publikasi Jurnal</span>
+          <span class="badge badge-gold">🎓 S1–S3 Dibimbing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:20px;">Halo! Saya Yogo Aryo Jatmiko — Founder dari <strong>Ruang Statistika</strong>, seorang statistisi di BPS (Badan Pusat Statistik) dan dosen demografi di Polstat STIS Jakarta. Sudah lebih dari 10 tahun bekerja dengan data dan statistik di lingkungan akademis dan pemerintahan.</p>
+
+  <p>Ruang Statistika lahir karena saya melihat banyak mahasiswa yang cerdas tapi tersandung di statistik — bukan karena mereka tidak mampu, tapi karena kurang mendapat penjelasan yang tepat dan terjangkau. Di sini, saya tidak hanya mengerjakan datamu — saya ingin kamu <em>paham</em> apa yang terjadi, sehingga kamu bisa jelaskan dengan percaya diri ke pembimbing dan penguji.</p>
+
+  <h2 class="sec">Butuh Bantuan Lebih Lanjut?</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">💬</div><h3>Konsultasi Singkat</h3></div>
+      <p>Mulai Rp 250K / sesi 1 jam via Zoom atau WhatsApp. Cocok untuk interpretasi output atau diskusi metode spesifik.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📦</div><h3>Paket Olah Data</h3></div>
+      <p>Mulai Rp 500K. Input, cleaning, uji asumsi, analisis utama + interpretasi siap tulis + revisi 1x gratis.</p>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h3>Siap? Statistikmu beres sebelum sidang. 🎓</h3>
+    <p>Jangan biarkan angka-angka menghalangi kelulusanmu. Chat sekarang — gratis tanpa komitmen.</p>
+    <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya mau konsultasi untuk Bab 4 skripsi saya." class="btn-cta" target="_blank">💬 Chat WhatsApp Sekarang</a>
+    <span class="cta-link">Atau kunjungi <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">yogoaj.github.io/ruangstatistika</a></span>
+  </div>
+
+  <div class="ebook-footer" style="margin-top:32px;">
+    © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Bebas disebarkan untuk keperluan non-komersial
+  </div>
+</div>
+</div>
+
+<!-- PAGE NAV -->
+<div class="page-nav">
+  <button id="prevBtn" onclick="changePage(-1)" disabled>‹</button>
+  <span class="page-counter" id="pageCounter">1 / 9</span>
+  <button id="nextBtn" onclick="changePage(1)">›</button>
+</div>
+
+<script>
+  const pages = document.querySelectorAll('.page');
+  let cur = 0;
+  const total = pages.length;
+
+  function showPage(n) {
+    pages[cur].classList.remove('active');
+    cur = n;
+    pages[cur].classList.add('active');
+    document.getElementById('pageCounter').textContent = (cur+1) + ' / ' + total;
+    document.getElementById('prevBtn').disabled = cur === 0;
+    document.getElementById('nextBtn').disabled = cur === total-1;
+    document.getElementById('pgbar').style.width = ((cur/(total-1))*100) + '%';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function changePage(d) { if(cur+d>=0 && cur+d<total) showPage(cur+d); }
+  function goPage(n) { showPage(n); }
+
+  function copyText(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✅ Tersalin!';
+      btn.style.background = '#22c55e';
+      btn.style.color = '#fff';
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 2000);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.innerHTML = '✅ Tersalin!';
+      setTimeout(() => { btn.innerHTML = '📋 Salin Template'; }, 2000);
+    });
+  }
+
+  // keyboard nav
+  document.addEventListener('keydown', e => {
+    if(e.key==='ArrowRight') changePage(1);
+    if(e.key==='ArrowLeft') changePage(-1);
+  });
+</script>
+</body>
+</html>
