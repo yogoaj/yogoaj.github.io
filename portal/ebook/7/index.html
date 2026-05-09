@@ -1,1 +1,783 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Scraping untuk Penelitian – Ruang Statistika</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
+  :root{--navy:#0d1f3c;--navy2:#132847;--gold:#f5c518;--gold2:#e6b800;--white:#ffffff;--light:#f8f9fc;--gray:#6b7280;--border:#e5e7eb;--accent:#1a3a6b;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;background:var(--light);color:#1a1a2e;line-height:1.7;}
 
+  .top-nav{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:10px 20px;box-shadow:0 2px 16px rgba(0,0,0,.25);}
+  .top-nav .brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+  .top-nav .brand span{color:var(--gold);font-weight:700;font-size:14px;}
+  .nav-links{display:flex;gap:2px;flex-wrap:nowrap;overflow-x:auto;}
+  .nav-links a{color:rgba(255,255,255,.7);font-size:11px;font-weight:500;text-decoration:none;padding:5px 9px;border-radius:6px;white-space:nowrap;transition:all .2s;}
+  .nav-links a:hover,.nav-links a.active{background:rgba(245,197,24,.18);color:var(--gold);}
+
+  .page{display:none;animation:fadeIn .35s ease;}
+  .page.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .page-nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:var(--navy);border-radius:50px;padding:8px 18px;box-shadow:0 8px 32px rgba(0,0,0,.3);z-index:998;}
+  .page-nav button{background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+  .page-nav button:hover{background:var(--gold);color:var(--navy);}
+  .page-nav button:disabled{opacity:.3;cursor:not-allowed;}
+  .page-counter{color:rgba(255,255,255,.7);font-size:12px;min-width:52px;text-align:center;font-weight:500;}
+
+  #cover{min-height:100vh;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:80px 40px 100px;text-align:center;}
+  .cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,197,24,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,197,24,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+  .cover-glow{position:absolute;width:480px;height:480px;background:radial-gradient(circle,rgba(245,197,24,.1) 0%,transparent 70%);top:-80px;right:-80px;pointer-events:none;}
+  .cover-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,197,24,.15);border:1px solid rgba(245,197,24,.3);color:var(--gold);font-size:11px;font-weight:600;padding:6px 16px;border-radius:50px;letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;position:relative;}
+  .cover-logo{width:72px;height:72px;margin-bottom:24px;position:relative;}
+  .cover-title{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,46px);font-weight:900;color:var(--white);line-height:1.15;max-width:640px;position:relative;margin-bottom:8px;}
+  .cover-title span{color:var(--gold);}
+  .cover-subtitle{color:rgba(255,255,255,.5);font-size:14px;max-width:500px;margin:16px auto 32px;position:relative;line-height:1.8;}
+  .cover-features{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:580px;position:relative;margin-bottom:36px;}
+  .feat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.8);font-size:12px;font-weight:500;padding:7px 15px;border-radius:8px;display:flex;align-items:center;gap:6px;}
+  .feat .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0;}
+  .cover-divider{width:56px;height:3px;background:linear-gradient(90deg,var(--gold),transparent);border-radius:2px;margin:0 auto 20px;position:relative;}
+  .cover-author{display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 20px;position:relative;}
+  .cover-author-ava{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy);font-size:16px;}
+  .cover-author-info .name{color:var(--white);font-weight:600;font-size:13px;}
+  .cover-author-info .role{color:rgba(255,255,255,.45);font-size:11px;}
+  .cover-no{position:absolute;top:88px;right:28px;font-size:11px;color:rgba(255,255,255,.2);font-weight:500;letter-spacing:1px;}
+
+  .content-page{max-width:800px;margin:0 auto;padding:80px 28px 120px;min-height:100vh;}
+  .section-label{display:inline-flex;align-items:center;gap:8px;background:rgba(13,31,60,.07);color:var(--navy);font-size:11px;font-weight:700;padding:5px 14px;border-radius:50px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px;border-left:3px solid var(--gold);}
+  h1.page-title{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,34px);font-weight:900;color:var(--navy);line-height:1.2;margin-bottom:8px;}
+  h1.page-title span{color:var(--gold2);}
+  .page-desc{color:var(--gray);font-size:14px;margin-bottom:32px;max-width:640px;}
+  h2.sec{font-size:17px;font-weight:700;color:var(--navy);margin:30px 0 13px;display:flex;align-items:center;gap:10px;}
+  h2.sec::before{content:'';display:block;width:4px;height:20px;background:var(--gold);border-radius:2px;flex-shrink:0;}
+  p{font-size:14px;color:#374151;margin-bottom:12px;line-height:1.75;}
+
+  /* CARDS */
+  .card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:12px;}
+  .card h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:5px;}
+  .card p{margin:0;font-size:13px;color:#4b5563;}
+  .card-left{border-left:4px solid var(--gold);}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+  @media(max-width:600px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+
+  /* BOXES */
+  .box-info{background:#eff6ff;border-left:4px solid #3b82f6;border-radius:0 8px 8px 0;padding:13px 16px;margin-bottom:14px;font-size:13px;color:#1e40af;line-height:1.7;}
+  .box-warn{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 8px 8px 0;padding:13px 16px;margin-bottom:14px;font-size:13px;color:#92400e;line-height:1.7;}
+  .box-ok{background:#f0fdf4;border-left:4px solid #22c55e;border-radius:0 8px 8px 0;padding:13px 16px;margin-bottom:14px;font-size:13px;color:#166534;line-height:1.7;}
+  .box-navy{background:var(--navy);border-radius:12px;padding:18px 22px;margin-bottom:14px;position:relative;overflow:hidden;}
+  .box-navy::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold);}
+  .box-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.65;margin-bottom:5px;}
+
+  /* APA BOX */
+  .apa-box{background:var(--navy);border-radius:12px;padding:18px 22px;margin-bottom:14px;position:relative;overflow:hidden;}
+  .apa-box::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold);}
+  .apa-box .apa-label{display:inline-block;background:rgba(245,197,24,.2);color:var(--gold);font-size:10px;font-weight:700;padding:3px 10px;border-radius:50px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+  .apa-box .apa-title{font-size:12px;font-weight:700;color:rgba(255,255,255,.45);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}
+  .apa-box .apa-text{font-size:13px;color:rgba(255,255,255,.88);line-height:1.8;}
+  .apa-box .apa-text strong{color:var(--gold);}
+  .apa-box .apa-text em{color:rgba(255,255,255,.55);font-style:italic;}
+
+  /* CODE BLOCK */
+  .code-wrap{background:#0f172a;border-radius:10px;overflow:hidden;margin-bottom:16px;}
+  .code-header{background:#1e293b;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;}
+  .code-header .lang{color:#94a3b8;font-size:11px;font-weight:600;font-family:monospace;letter-spacing:.5px;}
+  .code-header .code-badge{background:rgba(245,197,24,.2);color:var(--gold);font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;}
+  .code-body{padding:16px 18px;overflow-x:auto;}
+  .code-body pre{font-family:'Courier New',monospace;font-size:12.5px;line-height:1.8;color:#e2e8f0;margin:0;white-space:pre;}
+  .code-body .cm{color:#64748b;}
+  .code-body .ck{color:#7dd3fc;}
+  .code-body .cs{color:#a5f3fc;}
+  .code-body .cv{color:#fde68a;}
+  .code-body .cf{color:#c084fc;}
+  .code-body .cn{color:#86efac;}
+
+  /* API TABLE */
+  .api-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+  .api-table th{background:var(--navy);color:var(--gold);padding:9px 13px;text-align:left;font-size:12px;font-weight:700;}
+  .api-table td{padding:9px 13px;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:top;}
+  .api-table tr:last-child td{border-bottom:none;}
+  .api-table tr:nth-child(even) td{background:#f9fafb;}
+  .tag-free{display:inline-block;background:#d1fae5;color:#065f46;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;}
+  .tag-reg{display:inline-block;background:#eff6ff;color:#1e40af;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;}
+  .tag-key{display:inline-block;background:#fef3c7;color:#92400e;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;}
+
+  /* TOOL COMPARE */
+  .tool-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;height:100%;}
+  .tool-card .tool-name{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .tool-card .tool-tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:10px;margin-bottom:8px;}
+  .tool-card .no-code{background:#d1fae5;color:#065f46;}
+  .tool-card .low-code{background:#eff6ff;color:#1e40af;}
+  .tool-card .code{background:#fef3c7;color:#92400e;}
+  .tool-card p{font-size:12.5px;color:#4b5563;margin:0;}
+
+  /* STEPS */
+  .step-list{list-style:none;padding:0;}
+  .step-list li{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;}
+  .step-num{min-width:28px;height:28px;background:var(--gold);color:var(--navy);border-radius:50%;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .step-list .step-text{font-size:13.5px;color:#374151;line-height:1.7;}
+  .step-list .step-text strong{color:var(--navy);}
+
+  /* ETIKA GRID */
+  .etika-row{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+  .etika-icon{min-width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+  .etika-icon.ok{background:#d1fae5;}
+  .etika-icon.warn{background:#fef3c7;}
+  .etika-icon.bad{background:#fee2e2;}
+  .etika-text{font-size:13px;color:#374151;line-height:1.65;}
+  .etika-text strong{color:var(--navy);}
+
+  /* CTA */
+  .cta-box{background:var(--navy);border-radius:16px;padding:30px 28px;text-align:center;margin-top:28px;position:relative;overflow:hidden;}
+  .cta-box h3{font-size:20px;font-weight:800;color:#fff;margin-bottom:10px;}
+  .cta-box p{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:20px;max-width:420px;margin-left:auto;margin-right:auto;}
+  .btn-cta{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy);font-weight:700;font-size:13px;padding:11px 26px;border-radius:9px;text-decoration:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;}
+  .btn-cta:hover{background:#e6b800;}
+  .btn-wa{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.15);margin-top:8px;}
+  .btn-wa:hover{background:rgba(255,255,255,.15);}
+
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+  .badge{background:rgba(13,31,60,.07);color:var(--navy);font-size:12px;font-weight:600;padding:4px 13px;border-radius:50px;border:1px solid rgba(13,31,60,.1);}
+
+  ul.dot-list{padding-left:20px;margin-bottom:14px;}
+  ul.dot-list li{font-size:13.5px;color:#374151;margin-bottom:6px;}
+
+  .progress-bar{position:fixed;top:52px;left:0;right:0;height:3px;background:rgba(255,255,255,.08);z-index:997;}
+  .progress-fill{height:100%;background:var(--gold);transition:width .3s ease;}
+  .ebook-footer{text-align:center;padding:18px;font-size:11px;color:var(--gray);border-top:1px solid var(--border);margin-top:32px;}
+  .ebook-footer a{color:var(--navy);text-decoration:none;font-weight:600;}
+  .highlight{background:linear-gradient(135deg,rgba(13,31,60,.04),rgba(245,197,24,.08));border:1px solid rgba(245,197,24,.25);border-radius:12px;padding:16px 20px;margin:14px 0;font-size:13.5px;color:#374151;}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="brand">
+    <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="10" fill="#0d1f3c"/>
+      <rect x="18" y="52" width="18" height="32" rx="4" fill="#1a3a6b"/>
+      <rect x="42" y="36" width="18" height="48" rx="4" fill="#1a3a6b"/>
+      <rect x="66" y="18" width="18" height="66" rx="4" fill="#f5c518"/>
+      <path d="M27 58 Q44 44 57 38 Q66 32 75 22" stroke="#f5c518" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span>Ruang Statistika</span>
+  </div>
+  <div class="nav-links">
+    <a href="javascript:void(0)" onclick="goPage(0)" class="active" id="nav0">Cover</a>
+    <a href="javascript:void(0)" onclick="goPage(1)" id="nav1">Jenis Data</a>
+    <a href="javascript:void(0)" onclick="goPage(2)" id="nav2">API Publik</a>
+    <a href="javascript:void(0)" onclick="goPage(3)" id="nav3">Tools</a>
+    <a href="javascript:void(0)" onclick="goPage(4)" id="nav4">Python</a>
+    <a href="javascript:void(0)" onclick="goPage(5)" id="nav5">Etika & Legal</a>
+    <a href="javascript:void(0)" onclick="goPage(6)" id="nav6">Sitasi APA</a>
+    <a href="javascript:void(0)" onclick="goPage(7)" id="nav7">Penulis</a>
+  </div>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="pgbar" style="width:0%"></div></div>
+
+<!-- =========== PAGE 0: COVER =========== -->
+<div class="page active" id="page-0">
+<div id="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-glow"></div>
+  <div class="cover-no">No. 7 dari Seri Lead Magnet Gratis</div>
+
+  <svg class="cover-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(245,197,24,0.3)" stroke-width="1"/>
+    <rect x="14" y="52" width="18" height="34" rx="5" fill="#1a3a6b"/>
+    <rect x="40" y="36" width="18" height="50" rx="5" fill="#1a3a6b"/>
+    <rect x="66" y="16" width="18" height="70" rx="5" fill="#f5c518"/>
+    <path d="M23 64 Q50 44 60 38 Q68 32 75 22" stroke="#f5c518" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  </svg>
+
+  <div class="cover-badge">📓 FREE EBOOK · SERI #7</div>
+  <h1 class="cover-title">Web Scraping untuk <span>Penelitian</span></h1>
+  <p class="cover-subtitle">Dari jenis data web, API publik berguna, tools tanpa coding, hingga kode Python siap pakai dan cara mensitasi data web dengan format APA 7th.</p>
+
+  <div class="cover-features">
+    <div class="feat"><span class="dot"></span> Jenis Data dari Web</div>
+    <div class="feat"><span class="dot"></span> 10+ API Publik Gratis</div>
+    <div class="feat"><span class="dot"></span> Tools Tanpa Coding</div>
+    <div class="feat"><span class="dot"></span> Kode Python Siap Pakai</div>
+    <div class="feat"><span class="dot"></span> Etika & Legal Scraping</div>
+    <div class="feat"><span class="dot"></span> Sitasi APA 7th</div>
+  </div>
+
+  <div class="cover-divider"></div>
+  <div class="cover-author">
+    <div class="cover-author-ava">Y</div>
+    <div class="cover-author-info">
+      <div class="name">Yogo Aryo Jatmiko, SST, M.Stat</div>
+      <div class="role">Statistisi BPS · Dosen Polstat STIS · Founder Ruang Statistika</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- =========== PAGE 1: JENIS DATA =========== -->
+<div class="page" id="page-1">
+<div class="content-page">
+  <div class="section-label">Bab 1 — Jenis Data Web</div>
+  <h1 class="page-title">Data Apa Saja yang Bisa <span>Diambil dari Web?</span></h1>
+  <p class="page-desc">Sebelum scraping, pahami dulu jenis datanya. Ini menentukan tools dan metode yang tepat — serta apakah data tersebut legal untuk diambil.</p>
+
+  <h2 class="sec">Tiga sumber utama data web</h2>
+
+  <div class="card card-left" style="margin-bottom:10px;">
+    <h4>1. HTML Statis — Halaman web biasa</h4>
+    <p>Konten langsung ada di dalam kode HTML saat halaman dibuka. Contoh: tabel BPS, artikel berita, daftar harga di toko online, profil perusahaan. Paling mudah di-scrape dengan BeautifulSoup.</p>
+  </div>
+  <div class="card card-left" style="margin-bottom:10px;">
+    <h4>2. HTML Dinamis — Konten yang dimuat JavaScript</h4>
+    <p>Konten baru muncul setelah halaman dimuat, biasanya via JavaScript/AJAX. Contoh: Twitter/X, Instagram, Google Maps, marketplace. Butuh Selenium atau Playwright untuk scrape.</p>
+  </div>
+  <div class="card card-left" style="margin-bottom:10px;">
+    <h4>3. API (Application Programming Interface)</h4>
+    <p>Website menyediakan "pintu" resmi untuk mengambil data dalam format JSON/XML. Contoh: Twitter API, BPS API, World Bank API. Cara paling bersih, cepat, dan legal.</p>
+  </div>
+
+  <h2 class="sec">Jenis data penelitian yang bisa dikumpulkan</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h4>Data Teks & Sentimen</h4>
+      <p>Ulasan produk, komentar media sosial, berita online — untuk analisis sentimen, topik modeling, NLP.</p>
+    </div>
+    <div class="card">
+      <h4>Data Tabular / Statistik</h4>
+      <p>Tabel angka dari BPS, World Bank, WHO, OECD — langsung bisa masuk ke SPSS atau R.</p>
+    </div>
+    <div class="card">
+      <h4>Data Harga & Ekonomi</h4>
+      <p>Harga saham, komoditas, e-commerce — untuk penelitian ekonomi, manajemen, keuangan.</p>
+    </div>
+    <div class="card">
+      <h4>Data Spasial & Demografi</h4>
+      <p>Data wilayah, populasi, fasilitas publik dari OpenStreetMap, Geoportal BIG.</p>
+    </div>
+    <div class="card">
+      <h4>Data Bibliografi</h4>
+      <p>Metadata jurnal, sitasi, abstrak dari Semantic Scholar API, CrossRef, OpenAlex.</p>
+    </div>
+    <div class="card">
+      <h4>Data Media Sosial</h4>
+      <p>Tweet, posting, hashtag — untuk penelitian komunikasi, pemasaran, perilaku konsumen.</p>
+    </div>
+  </div>
+
+  <div class="box-info">
+    <div class="box-label">Tips untuk Tesis/Disertasi</div>
+    Data web dianggap <strong>data sekunder</strong>. Kamu tetap harus menjelaskan sumber, tanggal akses, metode pengumpulan, dan cara validasi data di Bab 3 Metodologi — persis seperti data survei.
+  </div>
+
+  <h2 class="sec">Format data yang dihasilkan</h2>
+  <div class="grid-3">
+    <div class="card" style="text-align:center;">
+      <h4 style="color:var(--navy);">JSON</h4>
+      <p>Output API — paling umum. Mudah dikonversi ke DataFrame pandas.</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <h4 style="color:var(--navy);">CSV / Excel</h4>
+      <p>Siap langsung buka di SPSS, Excel, atau R.</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <h4 style="color:var(--navy);">XML / HTML</h4>
+      <p>Perlu parsing dulu. Bisa dengan BeautifulSoup atau lxml.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- =========== PAGE 2: API PUBLIK =========== -->
+<div class="page" id="page-2">
+<div class="content-page">
+  <div class="section-label">Bab 2 — API Publik Berguna</div>
+  <h1 class="page-title">10+ API Publik <span>Gratis untuk Penelitian</span></h1>
+  <p class="page-desc">Berikut daftar API yang paling berguna untuk penelitian akademis di Indonesia dan internasional — lengkap dengan jenis data dan cara akses.</p>
+
+  <h2 class="sec">Data Indonesia & Nasional</h2>
+  <table class="api-table">
+    <thead><tr><th>API / Sumber</th><th>Jenis Data</th><th>Akses</th><th>URL</th></tr></thead>
+    <tbody>
+      <tr><td><strong>BPS Web API</strong></td><td>Statistik resmi Indonesia (ekonomi, demografi, sosial)</td><td><span class="tag-key">API Key</span></td><td>webapi.bps.go.id</td></tr>
+      <tr><td><strong>SATU DATA Indonesia</strong></td><td>Data pemerintah lintas K/L</td><td><span class="tag-free">Gratis</span></td><td>data.go.id</td></tr>
+      <tr><td><strong>DJPPR Kemenkeu</strong></td><td>Data APBN, utang, obligasi</td><td><span class="tag-free">Gratis</span></td><td>djppr.kemenkeu.go.id</td></tr>
+      <tr><td><strong>BMKG Open Data</strong></td><td>Cuaca, gempa, iklim</td><td><span class="tag-free">Gratis</span></td><td>data.bmkg.go.id</td></tr>
+      <tr><td><strong>IDX (Bursa Efek)</strong></td><td>Data saham, emiten, laporan keuangan</td><td><span class="tag-free">Gratis</span></td><td>idx.co.id/data-market</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sec">Data Internasional & Ekonomi Global</h2>
+  <table class="api-table">
+    <thead><tr><th>API / Sumber</th><th>Jenis Data</th><th>Akses</th><th>URL</th></tr></thead>
+    <tbody>
+      <tr><td><strong>World Bank API</strong></td><td>Indikator pembangunan dunia (200+ negara)</td><td><span class="tag-free">Gratis</span></td><td>data.worldbank.org/developers</td></tr>
+      <tr><td><strong>WHO GHO API</strong></td><td>Data kesehatan global</td><td><span class="tag-free">Gratis</span></td><td>ghoapi.azureedge.net</td></tr>
+      <tr><td><strong>FRED (US Fed)</strong></td><td>Data ekonomi makro AS & global</td><td><span class="tag-key">API Key</span></td><td>fred.stlouisfed.org/docs/api</td></tr>
+      <tr><td><strong>Open Exchange Rates</strong></td><td>Nilai tukar mata uang</td><td><span class="tag-reg">Registrasi</span></td><td>openexchangerates.org</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sec">Data Bibliografi & Akademik</h2>
+  <table class="api-table">
+    <thead><tr><th>API / Sumber</th><th>Jenis Data</th><th>Akses</th><th>URL</th></tr></thead>
+    <tbody>
+      <tr><td><strong>OpenAlex API</strong></td><td>250 juta paper, sitasi, author, institusi</td><td><span class="tag-free">Gratis</span></td><td>api.openalex.org</td></tr>
+      <tr><td><strong>Semantic Scholar</strong></td><td>Metadata jurnal, sitasi, abstrak</td><td><span class="tag-free">Gratis</span></td><td>api.semanticscholar.org</td></tr>
+      <tr><td><strong>CrossRef API</strong></td><td>DOI, metadata publikasi</td><td><span class="tag-free">Gratis</span></td><td>api.crossref.org</td></tr>
+      <tr><td><strong>arXiv API</strong></td><td>Preprint sains, CS, ekonomi</td><td><span class="tag-free">Gratis</span></td><td>arxiv.org/help/api</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box-ok">
+    <div class="box-label">Rekomendasi untuk Mahasiswa</div>
+    Mulailah dengan <strong>World Bank API</strong> atau <strong>OpenAlex API</strong> — keduanya gratis tanpa batas, tidak perlu API key, dan dokumentasinya ramah pemula. Cocok untuk skripsi dan tesis.
+  </div>
+
+  <h2 class="sec">Cara panggil API tanpa coding (cukup browser)</h2>
+  <p>Banyak API bisa dipanggil langsung dari browser. Contoh untuk World Bank — data GDP Indonesia:</p>
+  <div class="code-wrap">
+    <div class="code-header"><span class="lang">URL</span><span class="code-badge">Browser / Postman</span></div>
+    <div class="code-body"><pre>https://api.worldbank.org/v2/country/ID/indicator/NY.GDP.MKTP.CD?format=json</pre></div>
+  </div>
+  <p>Buka URL tersebut di browser, hasil berupa JSON yang bisa langsung di-copy atau disimpan. Gunakan Postman untuk eksplorasi yang lebih nyaman.</p>
+</div>
+</div>
+
+<!-- =========== PAGE 3: TOOLS =========== -->
+<div class="page" id="page-3">
+<div class="content-page">
+  <div class="section-label">Bab 3 — Tools</div>
+  <h1 class="page-title">Tools Scraping: <span>Dari Tanpa Coding hingga Python</span></h1>
+  <p class="page-desc">Pilih tools sesuai kemampuan dan kebutuhan. Tidak semua penelitian butuh coding — banyak tools GUI yang powerful untuk kebutuhan akademis dasar.</p>
+
+  <h2 class="sec">Tools tanpa coding (No-Code)</h2>
+  <div class="grid-2">
+    <div class="tool-card">
+      <div class="tool-name">Import.io</div>
+      <span class="tool-tag no-code">No-Code</span>
+      <p>Ekstrak tabel dari website dengan klik. Output langsung ke CSV/Excel. Cocok untuk data tabel sederhana.</p>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">ParseHub</div>
+      <span class="tool-tag no-code">No-Code</span>
+      <p>Antarmuka point-and-click. Bisa menangani halaman dinamis (JS). Versi gratis cukup untuk penelitian kecil.</p>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Octoparse</div>
+      <span class="tool-tag no-code">No-Code</span>
+      <p>Template scraping siap pakai (Amazon, Twitter, dll). Scheduler otomatis. Populer di kalangan mahasiswa manajemen.</p>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Google Sheets ImportXML</div>
+      <span class="tool-tag no-code">No-Code</span>
+      <p>Formula bawaan Google Sheets. Cocok untuk mengambil data dari halaman statis langsung ke spreadsheet.</p>
+    </div>
+  </div>
+
+  <h2 class="sec">Tools berbasis spreadsheet / low-code</h2>
+  <div class="grid-2">
+    <div class="tool-card">
+      <div class="tool-name">Power Query (Excel)</div>
+      <span class="tool-tag low-code">Low-Code</span>
+      <p>Bawaan Excel/Power BI. Bisa ambil data dari web, JSON, XML. Sangat powerful untuk akademisi yang familiar Excel.</p>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Postman</div>
+      <span class="tool-tag low-code">Low-Code</span>
+      <p>GUI untuk mengakses API. Tidak perlu coding — tinggal masukkan URL API dan klik Send. Ekspor ke JSON/CSV.</p>
+    </div>
+  </div>
+
+  <h2 class="sec">Ekosistem Python (direkomendasikan untuk tesis)</h2>
+  <div class="grid-3">
+    <div class="tool-card">
+      <div class="tool-name">Requests</div>
+      <span class="tool-tag code">Python</span>
+      <p>Mengambil konten halaman web (HTTP requests). Fondasi dari semua scraping Python.</p>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">BeautifulSoup</div>
+      <span class="tool-tag code">Python</span>
+      <p>Parsing HTML. Ekstrak elemen spesifik dari halaman web statis dengan sangat mudah.</p>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Pandas</div>
+      <span class="tool-tag code">Python</span>
+      <p>Manipulasi dan ekspor data. <code>pd.read_html()</code> bisa baca tabel HTML langsung.</p>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Selenium</div>
+      <span class="tool-tag code">Python</span>
+      <p>Otomasi browser. Perlu untuk halaman yang butuh login atau render JavaScript.</p>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Scrapy</div>
+      <span class="tool-tag code">Python</span>
+      <p>Framework scraping skala besar. Lebih kompleks tapi sangat powerful untuk dataset besar.</p>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">HTTPX / aiohttp</div>
+      <span class="tool-tag code">Python</span>
+      <p>HTTP client asinkron. Jauh lebih cepat untuk memanggil banyak URL sekaligus.</p>
+    </div>
+  </div>
+
+  <div class="box-warn">
+    <div class="box-label">Panduan Memilih Tools</div>
+    Data tabel statis → <strong>Pandas pd.read_html()</strong> atau Power Query.<br>
+    API publik → <strong>Requests + json</strong>.<br>
+    Halaman dinamis (scroll, login) → <strong>Selenium</strong>.<br>
+    Ratusan halaman sekaligus → <strong>Scrapy</strong>.
+  </div>
+</div>
+</div>
+
+<!-- =========== PAGE 4: PYTHON CODE =========== -->
+<div class="page" id="page-4">
+<div class="content-page">
+  <div class="section-label">Bab 4 — Contoh Kode Python</div>
+  <h1 class="page-title">Kode Python <span>Siap Pakai</span></h1>
+  <p class="page-desc">Empat contoh lengkap — dari yang paling sederhana hingga yang menggunakan API. Semua bisa langsung dijalankan di Google Colab (gratis, tanpa instalasi).</p>
+
+  <h2 class="sec">Contoh 1 — Baca tabel HTML langsung ke DataFrame</h2>
+  <p>Cara termudah mengambil tabel dari halaman web tanpa parsing manual.</p>
+  <div class="code-wrap">
+    <div class="code-header"><span class="lang">Python</span><span class="code-badge">pandas · 5 baris</span></div>
+    <div class="code-body"><pre><span class="ck">import</span> pandas <span class="ck">as</span> pd
+
+<span class="cm"># Ambil semua tabel dari halaman Wikipedia</span>
+url = <span class="cs">"https://en.wikipedia.org/wiki/List_of_countries_by_GDP"</span>
+tables = pd.read_html(url)
+
+<span class="cm"># Tabel pertama (index 0)</span>
+df = tables[<span class="cv">0</span>]
+df.to_csv(<span class="cs">"gdp_data.csv"</span>, index=<span class="cf">False</span>)
+<span class="cn">print</span>(df.head())</pre>
+    </div>
+  </div>
+
+  <h2 class="sec">Contoh 2 — Panggil API World Bank</h2>
+  <p>Mengambil data indikator pembangunan Indonesia dari API World Bank yang gratis.</p>
+  <div class="code-wrap">
+    <div class="code-header"><span class="lang">Python</span><span class="code-badge">requests · World Bank API</span></div>
+    <div class="code-body"><pre><span class="ck">import</span> requests
+<span class="ck">import</span> pandas <span class="ck">as</span> pd
+
+<span class="cm"># GDP per kapita Indonesia 2000-2023</span>
+url = (<span class="cs">"https://api.worldbank.org/v2/country/ID"</span>
+       <span class="cs">"/indicator/NY.GDP.PCAP.CD"</span>
+       <span class="cs">"?format=json&per_page=30&mrv=24"</span>)
+
+resp = requests.get(url)
+data = resp.json()[<span class="cv">1</span>]  <span class="cm"># index 1 = data aktual</span>
+
+df = pd.DataFrame([{
+    <span class="cs">"tahun"</span>: d[<span class="cs">"date"</span>],
+    <span class="cs">"gdp_per_kapita_usd"</span>: d[<span class="cs">"value"</span>]
+} <span class="ck">for</span> d <span class="ck">in</span> data <span class="ck">if</span> d[<span class="cs">"value"</span>]])
+
+df.to_csv(<span class="cs">"indonesia_gdp_perkapita.csv"</span>, index=<span class="cf">False</span>)
+<span class="cn">print</span>(df)</pre>
+    </div>
+  </div>
+
+  <h2 class="sec">Contoh 3 — Scraping HTML statis dengan BeautifulSoup</h2>
+  <p>Mengambil judul dan ringkasan berita dari halaman berita sederhana.</p>
+  <div class="code-wrap">
+    <div class="code-header"><span class="lang">Python</span><span class="code-badge">requests + BeautifulSoup</span></div>
+    <div class="code-body"><pre><span class="ck">import</span> requests
+<span class="ck">from</span> bs4 <span class="ck">import</span> BeautifulSoup
+<span class="ck">import</span> pandas <span class="ck">as</span> pd
+
+url = <span class="cs">"https://example-news-site.com/ekonomi"</span>
+headers = {<span class="cs">"User-Agent"</span>: <span class="cs">"Mozilla/5.0"</span>}
+resp = requests.get(url, headers=headers)
+soup = BeautifulSoup(resp.text, <span class="cs">"html.parser"</span>)
+
+hasil = []
+<span class="ck">for</span> artikel <span class="ck">in</span> soup.find_all(<span class="cs">"article"</span>):
+    judul = artikel.find(<span class="cs">"h2"</span>)
+    tanggal = artikel.find(<span class="cs">"time"</span>)
+    <span class="ck">if</span> judul:
+        hasil.append({
+            <span class="cs">"judul"</span>: judul.text.strip(),
+            <span class="cs">"tanggal"</span>: tanggal[<span class="cs">"datetime"</span>] <span class="ck">if</span> tanggal <span class="ck">else</span> <span class="cs">"N/A"</span>
+        })
+
+pd.DataFrame(hasil).to_csv(<span class="cs">"berita.csv"</span>, index=<span class="cf">False</span>)</pre>
+    </div>
+  </div>
+
+  <h2 class="sec">Contoh 4 — Ambil data bibliografi via OpenAlex API</h2>
+  <p>Cari paper berdasarkan kata kunci — berguna untuk systematic review atau bibliometrics.</p>
+  <div class="code-wrap">
+    <div class="code-header"><span class="lang">Python</span><span class="code-badge">OpenAlex API · gratis tanpa key</span></div>
+    <div class="code-body"><pre><span class="ck">import</span> requests
+<span class="ck">import</span> pandas <span class="ck">as</span> pd
+
+keyword = <span class="cs">"structural equation modeling Indonesia"</span>
+url = <span class="cs">f"https://api.openalex.org/works?search={keyword}&per-page=50"</span>
+
+resp = requests.get(url)
+results = resp.json()[<span class="cs">"results"</span>]
+
+papers = [{
+    <span class="cs">"judul"</span>: r.get(<span class="cs">"title"</span>, <span class="cs">""</span>),
+    <span class="cs">"tahun"</span>: r.get(<span class="cs">"publication_year"</span>),
+    <span class="cs">"sitasi"</span>: r.get(<span class="cs">"cited_by_count"</span>),
+    <span class="cs">"doi"</span>: r.get(<span class="cs">"doi"</span>, <span class="cs">""</span>)
+} <span class="ck">for</span> r <span class="ck">in</span> results]
+
+df = pd.DataFrame(papers)
+df.to_csv(<span class="cs">"paper_sem_indonesia.csv"</span>, index=<span class="cf">False</span>)
+<span class="cn">print</span>(f<span class="cs">"Ditemukan {len(df)} paper"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="box-ok">
+    <div class="box-label">Jalankan di Google Colab</div>
+    Semua kode di atas bisa langsung dijalankan di <strong>Google Colab</strong> (colab.research.google.com) tanpa instalasi apapun. Cukup install library yang dibutuhkan dengan <code>!pip install requests beautifulsoup4 pandas</code> di cell pertama.
+  </div>
+</div>
+</div>
+
+<!-- =========== PAGE 5: ETIKA =========== -->
+<div class="page" id="page-5">
+<div class="content-page">
+  <div class="section-label">Bab 5 — Etika & Legal</div>
+  <h1 class="page-title">Etika & Aspek Legal <span>Web Scraping</span></h1>
+  <p class="page-desc">Ini bagian yang paling sering diabaikan mahasiswa. Pembimbing dan reviewer jurnal semakin kritis terhadap sumber data web — pastikan kamu aman secara etis dan legal.</p>
+
+  <h2 class="sec">Apa yang boleh dan tidak boleh di-scrape?</h2>
+
+  <div class="etika-row">
+    <div class="etika-icon ok">✅</div>
+    <div class="etika-text"><strong>Boleh:</strong> Data publik yang tidak dilindungi login, data dari API resmi, data pemerintah (BPS, data.go.id), data yang disediakan untuk publik secara eksplisit.</div>
+  </div>
+  <div class="etika-row">
+    <div class="etika-icon warn">⚠️</div>
+    <div class="etika-text"><strong>Perlu perhatian:</strong> Konten berita dan blog (cek robots.txt dan ToS), data e-commerce, media sosial (ada API resmi — gunakan itu), data yang bisa diidentifikasi individu (GDPR/UU PDP).</div>
+  </div>
+  <div class="etika-row">
+    <div class="etika-icon bad">❌</div>
+    <div class="etika-text"><strong>Tidak boleh:</strong> Konten di balik login tanpa izin, data yang Terms of Service-nya eksplisit melarang scraping, data yang mengidentifikasi individu tanpa consent, konten yang dilindungi copyright untuk dipublikasi ulang.</div>
+  </div>
+
+  <h2 class="sec">Cek robots.txt sebelum scraping</h2>
+  <p>File <code>robots.txt</code> adalah dokumen yang website gunakan untuk memberi tahu bot/scraper mana bagian yang boleh dan tidak boleh diakses. Selalu cek dulu sebelum mulai.</p>
+
+  <div class="code-wrap">
+    <div class="code-header"><span class="lang">URL</span><span class="code-badge">Cek manual di browser</span></div>
+    <div class="code-body"><pre>https://www.namadomain.com/robots.txt
+
+<span class="cm"># Contoh isi robots.txt:</span>
+User-agent: *
+Disallow: /private/
+Disallow: /user-data/
+Allow: /public/</pre>
+    </div>
+  </div>
+
+  <h2 class="sec">Checklist etika sebelum scraping</h2>
+  <ul class="step-list">
+    <li><div class="step-num">1</div><div class="step-text"><strong>Baca Terms of Service (ToS)</strong> website yang akan di-scrape. Banyak platform (Twitter/X, LinkedIn) melarang scraping selain lewat API resmi mereka.</div></li>
+    <li><div class="step-num">2</div><div class="step-text"><strong>Cek robots.txt</strong> dan hormati instruksi <code>Disallow</code>.</div></li>
+    <li><div class="step-num">3</div><div class="step-text"><strong>Gunakan delay antar request</strong> (minimal 1–2 detik) agar server tidak terbebani. Ini juga mencegah IP kamu diblokir.</div></li>
+    <li><div class="step-num">4</div><div class="step-text"><strong>Jangan simpan atau publikasikan data pribadi</strong> yang mengidentifikasi individu, sesuai UU Perlindungan Data Pribadi Indonesia.</div></li>
+    <li><div class="step-num">5</div><div class="step-text"><strong>Cantumkan sumber dengan jelas</strong> di metodologi penelitian — tanggal akses, URL, dan metode pengumpulan.</div></li>
+    <li><div class="step-num">6</div><div class="step-text"><strong>Gunakan API resmi jika tersedia</strong> — lebih aman, stabil, dan sesuai ToS. API biasanya lebih cepat dari scraping.</div></li>
+  </ul>
+
+  <div class="box-warn">
+    <div class="box-label">Catatan untuk Jurnal Internasional</div>
+    Reviewer jurnal Q1/Q2 sering menanyakan persetujuan etis (ethical clearance) untuk penelitian yang melibatkan data pengguna dari media sosial, bahkan jika datanya "publik". Siapkan argumen etis yang jelas di bagian metodologi.
+  </div>
+</div>
+</div>
+
+<!-- =========== PAGE 6: SITASI APA =========== -->
+<div class="page" id="page-6">
+<div class="content-page">
+  <div class="section-label">Bab 6 — Sitasi & Pelaporan</div>
+  <h1 class="page-title">Cara Melaporkan & <span>Mensitasi Data Web (APA 7th)</span></h1>
+  <p class="page-desc">Data dari web harus disitasi dan dilaporkan dengan benar di Bab 3 Metodologi dan Daftar Pustaka. Berikut format yang benar sesuai APA 7th edition.</p>
+
+  <h2 class="sec">Format sitasi untuk berbagai sumber web</h2>
+
+  <div class="apa-box">
+    <div class="apa-title">Data dari API Lembaga Resmi (World Bank, BPS)</div>
+    <div class="apa-label">Format APA 7th</div>
+    <div class="apa-text">
+      <strong>World Bank.</strong> (2024). <em>GDP per capita (current US$) — Indonesia</em> [Data set]. World Bank Open Data. <strong>https://data.worldbank.org/indicator/NY.GDP.PCAP.CD?locations=ID</strong><br><br>
+      <em>Catatan: Sertakan tahun akses di teks ("diakses pada 15 Januari 2025") karena data bisa diperbarui.</em>
+    </div>
+  </div>
+
+  <div class="apa-box">
+    <div class="apa-title">Data dari BPS</div>
+    <div class="apa-label">Format APA 7th</div>
+    <div class="apa-text">
+      <strong>Badan Pusat Statistik.</strong> (2024). <em>Produk Domestik Bruto atas Dasar Harga Berlaku menurut Lapangan Usaha 2020–2023</em> [Data set]. BPS Web API. <strong>https://webapi.bps.go.id</strong>
+    </div>
+  </div>
+
+  <div class="apa-box">
+    <div class="apa-title">Artikel berita yang di-scrape</div>
+    <div class="apa-label">Format APA 7th</div>
+    <div class="apa-text">
+      <strong>Nama Penulis/Redaksi.</strong> (Tahun, Bulan Tanggal). <em>Judul artikel</em>. Nama Media. URL<br><br>
+      Contoh:<br>
+      <strong>Kompas Ekonomi.</strong> (2024, 10 Maret). <em>Inflasi Indonesia turun ke 2,5 persen pada Februari 2024</em>. Kompas.com. https://ekonomi.kompas.com/...
+    </div>
+  </div>
+
+  <div class="apa-box">
+    <div class="apa-title">Data dari media sosial (Twitter/X)</div>
+    <div class="apa-label">Format APA 7th</div>
+    <div class="apa-text">
+      <strong>Nama Akun [@username].</strong> (Tahun, Bulan Tanggal). <em>Isi tweet/post</em> [Tweet]. Platform. URL<br><br>
+      Contoh:<br>
+      <strong>Bank Indonesia [@bank_indonesia].</strong> (2024, 5 Februari). <em>BI rate dipertahankan di level 6,00%</em> [Tweet]. X (formerly Twitter). https://x.com/...
+    </div>
+  </div>
+
+  <div class="apa-box">
+    <div class="apa-title">Dataset hasil scraping yang kamu buat sendiri</div>
+    <div class="apa-label">Format APA 7th</div>
+    <div class="apa-text">
+      <strong>Nama Kamu.</strong> (Tahun). <em>Judul dataset [Data set]</em>. Institusi/Repositori. URL atau "Dataset tidak dipublikasikan"<br><br>
+      <em>Bila dataset disimpan di repositori (GitHub, Zenodo, OSF), cantumkan DOI-nya. Ini juga meningkatkan reproducibility penelitianmu.</em>
+    </div>
+  </div>
+
+  <h2 class="sec">Cara melaporkan metode scraping di Bab 3</h2>
+  <div class="card card-left">
+    <h4>Template paragraf metodologi pengumpulan data web</h4>
+    <p style="margin-top:8px;">Data penelitian ini dikumpulkan melalui teknik <em>[web scraping / akses API]</em> terhadap <em>[nama sumber]</em> pada periode <em>[rentang tanggal]</em>. Pengambilan data menggunakan bahasa pemrograman Python dengan library <em>[nama library]</em>. Data yang dikumpulkan meliputi <em>[sebutkan variabel]</em> dengan total <em>[N]</em> observasi. Sebelum scraping dilakukan, Terms of Service dan file robots.txt dari sumber data telah diperiksa dan tidak ditemukan larangan penggunaan untuk keperluan penelitian akademis non-komersial. Data disimpan dalam format <em>[CSV/JSON]</em> dan diproses menggunakan <em>[nama software]</em>.</p>
+  </div>
+
+  <h2 class="sec">Hal wajib disebutkan di metodologi</h2>
+  <ul class="dot-list">
+    <li>Nama sumber data (URL lengkap)</li>
+    <li>Tanggal atau rentang waktu pengambilan data</li>
+    <li>Tools/bahasa pemrograman yang digunakan</li>
+    <li>Jumlah observasi yang berhasil dikumpulkan</li>
+    <li>Cara validasi/pembersihan data (cleaning)</li>
+    <li>Pertimbangan etis dan kepatuhan ToS</li>
+  </ul>
+
+  <div class="box-info">
+    <div class="box-label">Tips Reproducibility</div>
+    Simpan kode scraping kamu di <strong>GitHub</strong> dan cantumkan linknya di lampiran tesis. Ini standar transparansi penelitian modern dan sering diapresiasi reviewer jurnal. Kamu juga bisa simpan dataset di <strong>Zenodo.org</strong> untuk mendapatkan DOI permanen.
+  </div>
+
+  <div class="cta-box">
+    <h3>Butuh Bantuan Olah Data Web?</h3>
+    <p>Dari scraping, cleaning, sampai analisis dan interpretasi — Ruang Statistika siap mendampingi.</p>
+    <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya butuh bantuan olah data web/scraping untuk penelitian saya." class="btn-cta" target="_blank">💬 Chat WhatsApp</a>
+    <br>
+    <a href="https://yogoaj.github.io/ruangstatistika" class="btn-cta btn-wa" target="_blank">🌐 Ruang Statistika</a>
+  </div>
+</div>
+</div>
+
+<!-- =========== PAGE 7: PENULIS =========== -->
+<div class="page" id="page-7">
+<div class="content-page">
+  <div class="section-label">Tentang Penulis</div>
+  <h1 class="page-title">Tentang <span>Penulis</span></h1>
+
+  <div class="card" style="border:1px solid rgba(245,197,24,.35);margin-bottom:22px;">
+    <div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;">
+      <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--accent));display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:var(--gold);flex-shrink:0;">Y</div>
+      <div style="flex:1;">
+        <h3 style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:4px;">Yogo Aryo Jatmiko, SST, M.Stat</h3>
+        <p style="font-size:12px;color:var(--gray);margin:0 0 10px;">Statistisi Ahli · Demografer · Founder Ruang Statistika · AI Enthusiast</p>
+        <div class="badge-row">
+          <span class="badge">10+ Tahun Pengalaman</span>
+          <span class="badge">8+ Publikasi Jurnal</span>
+          <span class="badge">Pembicara Webinar Nasional</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>Yogo Aryo Jatmiko adalah Statistisi Ahli di BPS Indonesia dan Dosen Demografi di Politeknik Statistika STIS Jakarta. Dengan lebih dari 10 tahun pengalaman di bidang statistik dan data, ia aktif membantu mahasiswa S1–S3 dalam olah data, metodologi, dan pelaporan hasil penelitian.</p>
+
+  <p>Ruang Statistika lahir dari kepedulian bahwa banyak mahasiswa cerdas tersandung di statistik bukan karena tidak mampu, tapi karena kurang mendapat penjelasan yang tepat dan terjangkau.</p>
+
+  <h2 class="sec">Layanan Konsultasi</h2>
+  <div class="grid-3">
+    <div class="card" style="text-align:center;">
+      <h4>Konsultasi Singkat</h4>
+      <p style="color:var(--gold2);font-weight:700;font-size:15px;margin:6px 0 4px;">Rp 250K</p>
+      <p>Per sesi 1 jam via Zoom/WA</p>
+    </div>
+    <div class="card" style="text-align:center;border-color:var(--gold);">
+      <h4>Olah Data</h4>
+      <p style="color:var(--gold2);font-weight:700;font-size:15px;margin:6px 0 4px;">Rp 500K</p>
+      <p>Analisis lengkap + interpretasi</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <h4>Pendampingan Penuh</h4>
+      <p style="color:var(--gold2);font-weight:700;font-size:15px;margin:6px 0 4px;">Rp 1,2 Jt</p>
+      <p>Multi-sesi, awal sampai sidang</p>
+    </div>
+  </div>
+
+  <h2 class="sec">Kontak & Temukan Saya</h2>
+  <div class="grid-2">
+    <div class="card"><h4>🌐 Website</h4><p><a href="https://yogoaj.github.io/ruangstatistika" target="_blank" style="color:var(--navy);">yogoaj.github.io/ruangstatistika</a></p></div>
+    <div class="card"><h4>💬 WhatsApp</h4><p><a href="https://wa.me/6289655003613" target="_blank" style="color:var(--navy);">+62-896-5500-3613</a></p></div>
+    <div class="card"><h4>📸 Instagram</h4><p><a href="https://instagram.com/ruangstatistika01" target="_blank" style="color:var(--navy);">@ruangstatistika01</a></p></div>
+    <div class="card"><h4>📧 Email</h4><p><a href="mailto:yj29289@gmail.com" style="color:var(--navy);">yj29289@gmail.com</a></p></div>
+  </div>
+
+  <div class="ebook-footer">
+    © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat<br>
+    Ebook ini boleh dibagikan secara gratis dengan mencantumkan sumber.
+  </div>
+</div>
+</div>
+
+<!-- PAGE NAV -->
+<div class="page-nav">
+  <button id="prevBtn" onclick="changePage(-1)" disabled>‹</button>
+  <span class="page-counter" id="pageCounter">1 / 8</span>
+  <button id="nextBtn" onclick="changePage(1)">›</button>
+</div>
+
+<script>
+  const pages = document.querySelectorAll('.page');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  let cur = 0;
+  const total = pages.length;
+
+  function showPage(n) {
+    pages[cur].classList.remove('active');
+    navLinks[cur].classList.remove('active');
+    cur = n;
+    pages[cur].classList.add('active');
+    navLinks[cur].classList.add('active');
+    document.getElementById('pageCounter').textContent = (cur + 1) + ' / ' + total;
+    document.getElementById('prevBtn').disabled = cur === 0;
+    document.getElementById('nextBtn').disabled = cur === total - 1;
+    document.getElementById('pgbar').style.width = ((cur / (total - 1)) * 100) + '%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function changePage(d) { if (cur + d >= 0 && cur + d < total) showPage(cur + d); }
+  function goPage(n) { showPage(n); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changePage(1);
+    if (e.key === 'ArrowLeft') changePage(-1);
+  });
+</script>
+</body>
+</html>
