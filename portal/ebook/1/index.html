@@ -1,1 +1,683 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 Kesalahan Analisis SPSS – Ruang Statistika</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
+  :root{--navy:#0d1f3c;--navy2:#132847;--gold:#f5c518;--gold2:#e6b800;--white:#ffffff;--light:#f8f9fc;--gray:#6b7280;--border:#e5e7eb;--accent:#1a3a6b;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;background:var(--light);color:#1a1a2e;line-height:1.7;}
 
+  .top-nav{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:10px 28px;box-shadow:0 2px 16px rgba(0,0,0,.25);}
+  .top-nav .brand{display:flex;align-items:center;gap:10px;}
+  .top-nav .brand span{color:var(--gold);font-weight:700;font-size:15px;}
+  .nav-links{display:flex;gap:4px;flex-wrap:wrap;}
+  .nav-links a{color:rgba(255,255,255,.75);font-size:11px;font-weight:500;text-decoration:none;padding:5px 9px;border-radius:6px;transition:all .2s;}
+  .nav-links a:hover{background:rgba(245,197,24,.15);color:var(--gold);}
+
+  .page{display:none;animation:fadeIn .4s ease;}
+  .page.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  .page-nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:var(--navy);border-radius:50px;padding:8px 18px;box-shadow:0 8px 32px rgba(0,0,0,.3);z-index:998;}
+  .page-nav button{background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+  .page-nav button:hover{background:var(--gold);color:var(--navy);}
+  .page-nav button:disabled{opacity:.3;cursor:not-allowed;}
+  .page-counter{color:rgba(255,255,255,.7);font-size:12px;min-width:60px;text-align:center;font-weight:500;}
+
+  /* COVER */
+  #cover{min-height:100vh;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:80px 40px 100px;text-align:center;}
+  .cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,197,24,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,197,24,.04) 1px,transparent 1px);background-size:40px 40px;}
+  .cover-glow{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(245,197,24,.12) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+  .cover-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,197,24,.15);border:1px solid rgba(245,197,24,.3);color:var(--gold);font-size:11px;font-weight:600;padding:6px 16px;border-radius:50px;letter-spacing:1px;text-transform:uppercase;margin-bottom:32px;position:relative;}
+  .cover-logo{width:72px;height:72px;margin-bottom:28px;filter:drop-shadow(0 4px 16px rgba(245,197,24,.3));position:relative;}
+  .cover-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,48px);font-weight:900;color:var(--white);line-height:1.15;max-width:680px;position:relative;margin-bottom:8px;}
+  .cover-title span{color:var(--gold);}
+  .cover-subtitle{color:rgba(255,255,255,.5);font-size:14px;max-width:520px;margin:20px auto 36px;position:relative;line-height:1.8;}
+  .cover-features{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:600px;position:relative;margin-bottom:40px;}
+  .cover-features .feat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.8);font-size:12px;font-weight:500;padding:8px 16px;border-radius:8px;display:flex;align-items:center;gap:6px;}
+  .cover-features .feat .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;}
+  .cover-divider{width:60px;height:3px;background:linear-gradient(90deg,var(--gold),transparent);border-radius:2px;margin:0 auto 20px;position:relative;}
+  .cover-author{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 20px;position:relative;}
+  .cover-author-ava{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy);font-size:16px;}
+  .cover-author-info .name{color:var(--white);font-weight:600;font-size:14px;}
+  .cover-author-info .role{color:rgba(255,255,255,.5);font-size:11px;}
+.cover-no {
+    position: absolute; top: 90px; right: 32px;
+    font-size: 11px; color: rgba(255,255,255,.2);
+    font-weight: 500; letter-spacing: 1px;
+  }
+  /* CONTENT */
+  .content-page{max-width:800px;margin:0 auto;padding:80px 32px 120px;min-height:100vh;}
+  .section-label{display:inline-flex;align-items:center;gap:8px;background:rgba(13,31,60,.07);color:var(--navy);font-size:11px;font-weight:700;padding:5px 14px;border-radius:50px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px;border-left:3px solid var(--gold);}
+  h1.page-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--navy);line-height:1.2;margin-bottom:8px;}
+  h1.page-title span{color:var(--gold2);}
+  .page-desc{color:var(--gray);font-size:14px;margin-bottom:36px;max-width:600px;}
+  h2.sec{font-size:18px;font-weight:700;color:var(--navy);margin:32px 0 14px;display:flex;align-items:center;gap:10px;}
+  h2.sec::before{content:'';display:block;width:4px;height:20px;background:var(--gold);border-radius:2px;flex-shrink:0;}
+  p{font-size:14px;color:#374151;margin-bottom:14px;}
+
+  /* ERROR CARD */
+  .error-card{background:var(--white);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);cursor:pointer;transition:box-shadow .2s;}
+  .error-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.09);}
+  .error-card-header{display:flex;align-items:center;gap:14px;padding:16px 20px;}
+  .error-num{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .error-card-header h3{font-size:14px;font-weight:700;color:var(--navy);flex:1;}
+  .error-card-header .arr{color:var(--gray);font-size:18px;transition:transform .3s;}
+  .error-card.open .arr{transform:rotate(90deg);}
+  .error-body{display:none;padding:0 20px 18px 20px;}
+  .error-card.open .error-body{display:block;}
+
+  /* BOX */
+  .box-wrong{background:#fff5f5;border-left:4px solid #e53e3e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:12px;font-size:13px;color:#742a2a;}
+  .box-right{background:#f0fff4;border-left:4px solid #38a169;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:12px;font-size:13px;color:#1c4532;}
+  .box-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+
+  /* TABLE */
+  .sum-table{width:100%;border-collapse:collapse;font-size:13px;margin:24px 0;}
+  .sum-table th{background:var(--navy);color:var(--gold);padding:10px 14px;text-align:left;font-size:12px;}
+  .sum-table td{padding:10px 14px;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:top;}
+  .sum-table tr:last-child td{border-bottom:none;}
+  .sum-table tr:nth-child(even) td{background:#f9fafb;}
+  .tag-wrong{display:inline-block;background:#fff5f5;color:#c53030;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;border:1px solid #fed7d7;}
+  .tag-right{display:inline-block;background:#f0fff4;color:#276749;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;border:1px solid #c6f6d5;}
+
+  /* TEMPLATE / HIGHLIGHT */
+  .template-box{background:var(--navy);border-radius:12px;padding:20px 24px;margin-bottom:14px;position:relative;overflow:hidden;}
+  .template-box::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold);}
+  .template-box .tag{display:inline-block;background:rgba(245,197,24,.2);color:var(--gold);font-size:10px;font-weight:700;padding:3px 10px;border-radius:50px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+  .template-box .tmpl{font-size:13.5px;color:rgba(255,255,255,.88);line-height:1.75;}
+  .template-box .tmpl strong{color:var(--gold);}
+
+  .highlight{background:linear-gradient(135deg,rgba(13,31,60,.04),rgba(245,197,24,.08));border:1px solid rgba(245,197,24,.25);border-radius:12px;padding:18px 22px;margin:16px 0;}
+  .alert{border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start;font-size:13px;}
+  .alert-warn{background:#fffbeb;border-left:4px solid #f59e0b;color:#92400e;}
+  .alert-info{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e40af;}
+  .alert-success{background:#f0fdf4;border-left:4px solid #22c55e;color:#166534;}
+  .alert-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+  .badge{background:rgba(13,31,60,.07);color:var(--navy);font-size:12px;font-weight:600;padding:5px 14px;border-radius:50px;border:1px solid rgba(13,31,60,.1);}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+  @media(max-width:600px){.grid-2{grid-template-columns:1fr;}}
+  .card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px 20px;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+  .card h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .card p{font-size:13px;color:var(--gray);margin:0;}
+
+  /* CHECKLIST */
+  .checklist{list-style:none;}
+  .checklist li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:#374151;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f3f4f6;}
+  .checklist li:last-child{border-bottom:none;}
+  .checklist .ck{color:var(--gold);font-size:16px;flex-shrink:0;margin-top:1px;}
+
+  /* CTA */
+  .cta-box{background:var(--navy);border-radius:16px;padding:32px 30px;text-align:center;position:relative;overflow:hidden;margin-top:32px;}
+  .cta-box h3{font-size:20px;font-weight:800;color:var(--white);margin-bottom:10px;}
+  .cta-box p{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:20px;max-width:440px;margin-left:auto;margin-right:auto;}
+  .btn-cta{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy);font-weight:700;font-size:14px;padding:12px 28px;border-radius:10px;text-decoration:none;transition:all .2s;border:none;cursor:pointer;font-family:'Inter',sans-serif;}
+  .btn-cta:hover{background:#e6b800;}
+  .cta-link{color:rgba(255,255,255,.5);font-size:12px;margin-top:12px;display:block;}
+  .cta-link a{color:var(--gold);text-decoration:none;}
+
+  /* TOC */
+  .toc-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:10px;margin-bottom:8px;cursor:pointer;transition:all .2s;border:1px solid var(--border);background:var(--white);}
+  .toc-item:hover{border-color:var(--gold);background:rgba(245,197,24,.04);}
+  .toc-left{display:flex;align-items:center;gap:12px;}
+  .toc-num{font-size:11px;font-weight:700;color:var(--gold);background:var(--navy);padding:4px 9px;border-radius:6px;}
+  .toc-title{font-size:14px;font-weight:600;color:var(--navy);}
+  .toc-arr{color:var(--gray);font-size:16px;}
+
+  /* PROGRESS */
+  .progress-bar{position:fixed;top:52px;left:0;right:0;height:3px;background:rgba(255,255,255,.1);z-index:997;}
+  .progress-fill{height:100%;background:var(--gold);transition:width .3s ease;}
+
+  .ebook-footer{text-align:center;padding:20px;font-size:11px;color:var(--gray);border-top:1px solid var(--border);}
+  .ebook-footer a{color:var(--navy);text-decoration:none;font-weight:600;}
+
+  /* Subbadge for errors */
+  .kesalahan-num{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:var(--gold);font-weight:800;font-size:13px;padding:6px 16px;border-radius:50px;margin-bottom:18px;}
+
+  ul.dot-list{padding-left:20px;margin-bottom:14px;}
+  ul.dot-list li{font-size:13.5px;color:#374151;margin-bottom:6px;}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="brand">
+    <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="10" fill="#0d1f3c"/>
+      <rect x="18" y="52" width="18" height="32" rx="4" fill="#1a3a6b"/>
+      <rect x="42" y="36" width="18" height="48" rx="4" fill="#1a3a6b"/>
+      <rect x="66" y="18" width="18" height="66" rx="4" fill="#f5c518"/>
+      <path d="M27 58 Q44 44 57 38 Q66 32 75 22" stroke="#f5c518" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span>Ruang Statistika</span>
+  </div>
+  <div class="nav-links">
+    <a href="javascript:void(0)" onclick="goPage(0)">📖 Cover</a>
+    <a href="javascript:void(0)" onclick="goPage(1)">Ringkasan</a>
+    <a href="javascript:void(0)" onclick="goPage(2)">Kesalahan #1–3</a>
+    <a href="javascript:void(0)" onclick="goPage(3)">Kesalahan #4–6</a>
+    <a href="javascript:void(0)" onclick="goPage(4)">Kesalahan #7–10</a>
+    <a href="javascript:void(0)" onclick="goPage(5)">Tentang Penulis</a>
+  </div>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="pgbar" style="width:0%"></div></div>
+
+<!-- ======================== PAGE 0: COVER ======================== -->
+<div class="page active" id="page-0">
+<div id="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-glow"></div>
+    <div class="cover-no">No. 1 dari Seri Lead Magnet Gratis</div>
+
+  <svg class="cover-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(245,197,24,0.3)" stroke-width="1"/>
+    <rect x="14" y="52" width="18" height="34" rx="5" fill="#1a3a6b"/>
+    <rect x="40" y="36" width="18" height="50" rx="5" fill="#1a3a6b"/>
+    <rect x="66" y="16" width="18" height="70" rx="5" fill="#f5c518"/>
+    <path d="M23 64 Q50 44 60 38 Q68 32 75 22" stroke="#f5c518" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  </svg>
+
+  <div class="cover-badge">📘 FREE EBOOK · SERI #1</div>
+
+  <h1 class="cover-title">10 Kesalahan <span>Analisis SPSS</span><br>yang Sering Dilakukan Mahasiswa</h1>
+
+  <p class="cover-subtitle">
+    Panduan praktis menghindari jebakan umum analisis statistik — dari uji asumsi yang terlewat hingga interpretasi yang keliru — dilengkapi solusi modern berbasis Python.
+  </p>
+
+  <div class="cover-features">
+    <div class="feat"><span class="dot"></span> 10 Kesalahan Umum</div>
+    <div class="feat"><span class="dot"></span> Solusi Praktis</div>
+    <div class="feat"><span class="dot"></span> Tabel Ringkasan</div>
+    <div class="feat"><span class="dot"></span> Uji Asumsi Lengkap</div>
+    <div class="feat"><span class="dot"></span> Tips Sidang</div>
+  </div>
+
+  <div class="cover-divider"></div>
+
+  <div class="cover-author">
+    <div class="cover-author-ava">Y</div>
+    <div class="cover-author-info">
+      <div class="name">Yogo Aryo Jatmiko, SST, M.Stat</div>
+      <div class="role">Statistisi BPS · Dosen Polstat STIS · Founder Ruang Statistika</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 1: RINGKASAN ======================== -->
+<div class="page" id="page-1">
+<div class="content-page">
+  <div class="section-label">📋 Kata Pengantar & Ringkasan</div>
+  <h1 class="page-title">Tabel <span>Ringkasan</span></h1>
+  <p class="page-desc">Lebih dari sepuluh tahun bekerja sebagai statistisi di BPS dan mendampingi ratusan mahasiswa, satu pola terus berulang: mahasiswa yang cerdas terjebak pada kesalahan statistik yang sama. SPSS tidak memberikan peringatan saat Anda melakukan sesuatu yang kurang tepat — ia tetap menampilkan output yang terlihat "valid" meskipun asumsi dasarnya dilanggar.</p>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">💡</span>
+    <div><strong>Cara membaca ebook ini:</strong> Gunakan tombol ‹ › di bawah atau klik menu navigasi untuk berpindah halaman. Setiap kesalahan dapat diklik untuk melihat detail penjelasan.</div>
+  </div>
+
+  <h2 class="sec">Ringkasan 10 Kesalahan</h2>
+  <table class="sum-table">
+    <thead>
+      <tr><th>#</th><th>❌ Yang Salah di SPSS</th><th>✅ Yang Benar</th></tr>
+    </thead>
+    <tbody>
+      <tr><td style="font-weight:700;color:var(--navy);">1</td><td><span class="tag-wrong">Langsung regresi tanpa uji asumsi normalitas</span></td><td><span class="tag-right">Lakukan uji K-S atau Shapiro-Wilk terlebih dahulu</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">2</td><td><span class="tag-wrong">p &lt; 0,05 selalu berarti 'penting'</span></td><td><span class="tag-right">Laporkan juga effect size (Cohen's d, η², dll.)</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">3</td><td><span class="tag-wrong">Abaikan multikolinearitas (VIF tidak dicek)</span></td><td><span class="tag-right">Selalu cek VIF; jika VIF > 10 ada masalah serius</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">4</td><td><span class="tag-wrong">Pakai t-test meski data tidak normal & sampel kecil</span></td><td><span class="tag-right">Gunakan Mann-Whitney U sebagai alternatif nonparametrik</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">5</td><td><span class="tag-wrong">R² rendah langsung 'modelnya buruk'</span></td><td><span class="tag-right">R² rendah bisa wajar pada data sosial; jelaskan konteksnya</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">6</td><td><span class="tag-wrong">Chi-square dengan sel expected &lt; 5</span></td><td><span class="tag-right">Gunakan Fisher's Exact Test jika ada sel dengan E &lt; 5</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">7</td><td><span class="tag-wrong">Copy-paste output SPSS tanpa reformatting ke APA</span></td><td><span class="tag-right">Tabel harus diformat ulang sesuai standar APA 7th</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">8</td><td><span class="tag-wrong">Abaikan outlier karena 'data sudah dikumpulkan'</span></td><td><span class="tag-right">Identifikasi outlier dengan boxplot/Z-score, laporkan keputusan</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">9</td><td><span class="tag-wrong">Pilih one-tailed karena p-value lebih kecil</span></td><td><span class="tag-right">Gunakan one-tailed hanya jika hipotesis memang directional</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">10</td><td><span class="tag-wrong">Tidak lakukan uji homogenitas sebelum ANOVA</span></td><td><span class="tag-right">Lakukan Levene's Test sebelum ANOVA</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="highlight">
+    <strong>🎯 Ingat:</strong> Sebagian besar kesalahan ini bukan karena mahasiswa tidak pintar — tapi karena SPSS tidak memberikan peringatan. Gunakan ebook ini sebagai checklist sebelum setiap analisis.
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 2: KESALAHAN #1–3 ======================== -->
+<div class="page" id="page-2">
+<div class="content-page">
+  <div class="section-label">⚠️ Bagian 01</div>
+  <h1 class="page-title">Kesalahan <span>#1 – #3</span></h1>
+  <p class="page-desc">Tiga kesalahan paling mendasar yang sering terlewat sebelum memulai analisis.</p>
+
+  <!-- KESALAHAN 1 -->
+  <div class="kesalahan-num">Kesalahan #1</div>
+  <h2 class="sec">Langsung Analisis Tanpa Uji Asumsi</h2>
+
+  <div class="box-wrong">
+    <div class="box-label">❌ Yang Terjadi</div>
+    Mahasiswa langsung menjalankan regresi atau ANOVA di SPSS tanpa memeriksa apakah asumsi-asumsi dasar terpenuhi. Outputnya keluar, p-value tampak bagus, laporan ditulis. Tapi hasil tersebut mungkin tidak valid.
+  </div>
+
+  <p>Setiap uji statistik parametrik memiliki asumsi yang harus dipenuhi agar hasilnya valid. Melanggar asumsi tanpa mengakuinya adalah kesalahan metodologis yang serius — dan bisa menjadi bahan kritik tajam di sidang.</p>
+
+  <h2 class="sec" style="margin-top:16px;">Asumsi Wajib Dicek Sebelum Regresi OLS</h2>
+  <ul class="dot-list">
+    <li><strong>Normalitas residual</strong> → Shapiro-Wilk atau Kolmogorov-Smirnov pada residual</li>
+    <li><strong>Homoskedastisitas</strong> → Breusch-Pagan Test atau plot residual vs fitted</li>
+    <li><strong>Tidak ada multikolinearitas</strong> → Variance Inflation Factor (VIF) &lt; 10</li>
+    <li><strong>Tidak ada autokorelasi</strong> → Durbin-Watson statistic (nilai ideal: 1.5–2.5)</li>
+    <li><strong>Linearitas</strong> → scatter plot variabel independen vs dependen</li>
+  </ul>
+
+  <div class="box-right">
+    <div class="box-label">✅ Solusi</div>
+    Jadikan "Uji Asumsi Pra-Analisis" sebagai langkah pertama yang wajib sebelum setiap analisis. Modul Uji Asumsi di Ruang Statistika tersedia gratis dan akan langsung memberi tahu apakah asumsi terpenuhi beserta saran tindak lanjutnya.
+  </div>
+
+  <div style="height:1px;background:var(--border);margin:32px 0;"></div>
+
+  <!-- KESALAHAN 2 -->
+  <div class="kesalahan-num">Kesalahan #2</div>
+  <h2 class="sec">p &lt; 0.05 Dianggap 'Signifikan Secara Praktis'</h2>
+
+  <div class="box-wrong">
+    <div class="box-label">❌ Yang Terjadi</div>
+    Mahasiswa menemukan p = .032 dan langsung menulis: "Terdapat pengaruh yang signifikan dan kuat antara X dan Y." Padahal signifikan secara statistik tidak berarti efeknya besar atau penting secara praktis.
+  </div>
+
+  <p>Nilai p hanya memberitahu Anda probabilitas mendapatkan hasil tersebut jika hipotesis nol benar. Dengan sampel yang sangat besar, efek yang sangat kecil pun bisa menghasilkan p &lt; 0.05. Itulah mengapa Anda harus melaporkan effect size.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Cohen's d (t-test)</h3>
+      <p>Kecil: 0.2 · Sedang: 0.5 · Besar: 0.8</p>
+    </div>
+    <div class="card">
+      <h3>η² eta squared (ANOVA)</h3>
+      <p>Kecil: 0.01 · Sedang: 0.06 · Besar: 0.14</p>
+    </div>
+    <div class="card">
+      <h3>r (korelasi)</h3>
+      <p>Kecil: 0.1 · Sedang: 0.3 · Besar: 0.5</p>
+    </div>
+    <div class="card">
+      <h3>R² (regresi)</h3>
+      <p>Proporsi varians yang dijelaskan model</p>
+    </div>
+  </div>
+
+  <div class="template-box">
+    <div class="tag">✅ Contoh Pelaporan yang Benar</div>
+    <div class="tmpl">"Terdapat perbedaan yang signifikan secara statistik (p = .032) namun efeknya kecil (d = 0.23), sehingga relevansi praktisnya terbatas."</div>
+  </div>
+
+  <div style="height:1px;background:var(--border);margin:32px 0;"></div>
+
+  <!-- KESALAHAN 3 -->
+  <div class="kesalahan-num">Kesalahan #3</div>
+  <h2 class="sec">Abaikan Multikolinearitas</h2>
+
+  <div class="box-wrong">
+    <div class="box-label">❌ Yang Terjadi</div>
+    Dalam regresi berganda dengan banyak variabel independen, VIF tidak pernah dicek. Hasilnya: koefisien yang tidak stabil, standar error yang menggelembung, dan kesimpulan yang bisa berkebalikan dari kenyataan.
+  </div>
+
+  <p>Multikolinearitas terjadi ketika dua atau lebih variabel independen dalam model regresi saling berkorelasi tinggi. Ini menyebabkan SPSS tidak bisa memisahkan efek masing-masing variabel dengan akurat.</p>
+
+  <div class="badge-row">
+    <span class="badge" style="background:#f0fff4;color:#276749;border-color:#c6f6d5;">VIF &lt; 5 → Aman</span>
+    <span class="badge" style="background:#fffbeb;color:#92400e;border-color:#fbd38d;">VIF 5–10 → Perlu Perhatian</span>
+    <span class="badge" style="background:#fff5f5;color:#c53030;border-color:#fed7d7;">VIF &gt; 10 → Masalah Serius</span>
+  </div>
+
+  <div class="box-right">
+    <div class="box-label">✅ Cara Penanganan</div>
+    Cek VIF dan Tolerance (= 1/VIF, harus > 0.1) untuk setiap variabel. Jika VIF tinggi: pertimbangkan menghapus satu variabel, ridge regression, atau PCA terlebih dahulu.
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 3: KESALAHAN #4–6 ======================== -->
+<div class="page" id="page-3">
+<div class="content-page">
+  <div class="section-label">⚠️ Bagian 02</div>
+  <h1 class="page-title">Kesalahan <span>#4 – #6</span></h1>
+  <p class="page-desc">Kesalahan dalam pemilihan uji statistik dan interpretasi hasil yang paling sering memicu pertanyaan tajam penguji.</p>
+
+  <!-- KESALAHAN 4 -->
+  <div class="kesalahan-num">Kesalahan #4</div>
+  <h2 class="sec">Pakai t-test Meski Data Tidak Memenuhi Syarat</h2>
+
+  <div class="box-wrong">
+    <div class="box-label">❌ Yang Terjadi</div>
+    Data tidak normal, sampel kecil (N = 15 per kelompok), tapi mahasiswa tetap menggunakan independent t-test karena "lebih dikenal" atau "sudah diajarkan di kuliah".
+  </div>
+
+  <h2 class="sec" style="margin-top:16px;">Kapan t-test Boleh Digunakan?</h2>
+  <ul class="dot-list">
+    <li>Data interval atau rasio</li>
+    <li>Distribusi normal (atau N ≥ 30 berdasarkan CLT)</li>
+    <li>Homogenitas varians antar kelompok (cek dengan Levene's Test)</li>
+  </ul>
+
+  <h2 class="sec">Alternatif Nonparametrik</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Independent t-test</h3>
+      <p>→ <strong>Mann-Whitney U</strong><br>untuk 2 kelompok independen</p>
+    </div>
+    <div class="card">
+      <h3>Paired t-test</h3>
+      <p>→ <strong>Wilcoxon Signed-Rank</strong><br>untuk 2 kelompok berpasangan</p>
+    </div>
+    <div class="card" style="grid-column:1/-1;">
+      <h3>One-way ANOVA</h3>
+      <p>→ <strong>Kruskal-Wallis</strong> untuk 3+ kelompok</p>
+    </div>
+  </div>
+
+  <div class="box-right">
+    <div class="box-label">✅ Solusi</div>
+    Tentukan normalitas data sebelum memilih uji. Jika ragu, gunakan uji nonparametrik — hasilnya lebih konservatif tapi lebih aman secara metodologis.
+  </div>
+
+  <div style="height:1px;background:var(--border);margin:32px 0;"></div>
+
+  <!-- KESALAHAN 5 -->
+  <div class="kesalahan-num">Kesalahan #5</div>
+  <h2 class="sec">Salah Interpretasi R² yang Kecil</h2>
+
+  <div class="box-wrong">
+    <div class="box-label">❌ Yang Terjadi</div>
+    R² = 0.18 keluar dari SPSS, dan mahasiswa panik karena merasa "modelnya jelek". Pembimbing bertanya, mahasiswa tidak bisa menjelaskan, sidang jadi menegangkan.
+  </div>
+
+  <p>R² mengukur proporsi varians variabel dependen yang dijelaskan oleh variabel-variabel independen. Interpretasinya sangat bergantung pada konteks bidang penelitian.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Psikologi & Perilaku</h3>
+      <p>R² = 0.10–0.20 sudah dianggap baik. Perilaku manusia sangat kompleks.</p>
+    </div>
+    <div class="card">
+      <h3>Ekonomi & Keuangan</h3>
+      <p>R² = 0.40–0.70 biasa ditemui.</p>
+    </div>
+    <div class="card">
+      <h3>Fisika / Engineering</h3>
+      <p>R² > 0.90 sering dicapai karena variabel lebih terkontrol.</p>
+    </div>
+    <div class="card">
+      <h3>Data Survei Lintas Seksi</h3>
+      <p>R² rendah sangat wajar dan dapat diterima.</p>
+    </div>
+  </div>
+
+  <div class="template-box">
+    <div class="tag">✅ Contoh Interpretasi yang Benar</div>
+    <div class="tmpl">"Model regresi mampu menjelaskan 18% varians kinerja karyawan (R² = .18), F(3,96) = 7.02, p &lt; .001. Meskipun proporsi yang dijelaskan relatif kecil, hal ini wajar pada data perilaku organisasi dan model secara keseluruhan tetap signifikan."</div>
+  </div>
+
+  <div style="height:1px;background:var(--border);margin:32px 0;"></div>
+
+  <!-- KESALAHAN 6 -->
+  <div class="kesalahan-num">Kesalahan #6</div>
+  <h2 class="sec">Chi-Square dengan Sel Expected &lt; 5</h2>
+
+  <div class="box-wrong">
+    <div class="box-label">❌ Yang Terjadi</div>
+    Mahasiswa memiliki data kategori dengan sampel kecil, lalu menjalankan chi-square. SPSS memberikan peringatan kecil (sering diabaikan) bahwa ada sel dengan expected frequency &lt; 5. Hasil tetap dilaporkan.
+  </div>
+
+  <p>Chi-square memiliki syarat: expected frequency (E) pada setiap sel harus ≥ 5. Jika syarat ini dilanggar, distribusi chi-square tidak lagi valid sebagai aproksimasi, dan nilai p menjadi tidak akurat.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Tabel 2×2 dengan E &lt; 5</h3>
+      <p>→ Gunakan <strong>Fisher's Exact Test</strong></p>
+    </div>
+    <div class="card">
+      <h3>Tabel lebih besar</h3>
+      <p>→ Gabungkan kategori yang jarang hingga semua E ≥ 5, atau gunakan Yates' Continuity Correction</p>
+    </div>
+  </div>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div>SPSS sendiri sudah memberikan peringatan jika ada pelanggaran — <strong>jangan pernah abaikan peringatan itu!</strong> Periksa tabel Expected Count di output sebelum melaporkan chi-square.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 4: KESALAHAN #7–10 ======================== -->
+<div class="page" id="page-4">
+<div class="content-page">
+  <div class="section-label">⚠️ Bagian 03</div>
+  <h1 class="page-title">Kesalahan <span>#7 – #10</span></h1>
+  <p class="page-desc">Empat kesalahan terakhir — dari format pelaporan hingga pemilihan uji yang salah arah.</p>
+
+  <!-- KESALAHAN 7 -->
+  <div class="kesalahan-num">Kesalahan #7</div>
+  <h2 class="sec">Copy-Paste Tabel SPSS Langsung ke Skripsi</h2>
+
+  <div class="box-wrong">
+    <div class="box-label">❌ Yang Terjadi</div>
+    Output SPSS ditangkap layar atau dicopy langsung ke dokumen Word. Tabelnya bergaris-garis, fontnya berbeda, ada kolom yang tidak relevan, dan sama sekali tidak sesuai standar APA 7th.
+  </div>
+
+  <h2 class="sec" style="margin-top:16px;">Prinsip Tabel APA 7th</h2>
+  <ul class="checklist">
+    <li><span class="ck">★</span> Hanya garis horisontal: di atas header, di bawah header, dan di bawah tabel</li>
+    <li><span class="ck">★</span> <strong>Tidak ada garis vertikal</strong> di dalam tabel</li>
+    <li><span class="ck">★</span> Judul di atas tabel (italic), catatan <em>Note.</em> di bawah tabel</li>
+    <li><span class="ck">★</span> Kolom: hanya yang relevan untuk pelaporan (buang kolom internal SPSS)</li>
+    <li><span class="ck">★</span> Angka: bulatkan ke 2 desimal; gunakan p = .001 bukan p = 0.001</li>
+  </ul>
+
+  <div class="box-right">
+    <div class="box-label">✅ Solusi</div>
+    Ruang Statistika secara otomatis menghasilkan tabel dalam format APA 7th yang siap masuk ke dokumen Word — tidak perlu format ulang manual.
+  </div>
+
+  <div style="height:1px;background:var(--border);margin:32px 0;"></div>
+
+  <!-- KESALAHAN 8 -->
+  <div class="kesalahan-num">Kesalahan #8</div>
+  <h2 class="sec">Abaikan atau Salah Tangani Outlier</h2>
+
+  <div class="box-wrong">
+    <div class="box-label">❌ Yang Terjadi</div>
+    "Data sudah dikumpulkan susah payah, tidak mungkin dihapus." Outlier dibiarkan tanpa penjelasan, padahal outlier bisa sangat memengaruhi hasil regresi, mean, dan standar deviasi.
+  </div>
+
+  <h2 class="sec" style="margin-top:16px;">Cara Identifikasi Outlier</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Boxplot</h3>
+      <p>Titik di luar 'whisker' adalah outlier potensial</p>
+    </div>
+    <div class="card">
+      <h3>Z-score</h3>
+      <p>Nilai |Z| > 3 biasanya dianggap outlier</p>
+    </div>
+    <div class="card">
+      <h3>IQR Method</h3>
+      <p>Nilai di luar Q1 − 1.5×IQR atau Q3 + 1.5×IQR</p>
+    </div>
+    <div class="card">
+      <h3>Cook's Distance</h3>
+      <p>Untuk outlier berpengaruh dalam regresi (D > 4/N)</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>📌 Alur yang Benar:</strong> Jangan langsung hapus — identifikasi dulu apakah outlier karena error input atau memang nilai ekstrem yang valid. Jika error: perbaiki/hapus dan dokumentasikan. Jika valid: jalankan analisis dengan dan tanpa outlier, lalu bandingkan hasilnya. Gunakan regresi robust (RLM) jika outlier tidak bisa dihapus.
+  </div>
+
+  <div style="height:1px;background:var(--border);margin:32px 0;"></div>
+
+  <!-- KESALAHAN 9 -->
+  <div class="kesalahan-num">Kesalahan #9</div>
+  <h2 class="sec">Salah Pilih One-Tailed vs Two-Tailed</h2>
+
+  <div class="box-wrong">
+    <div class="box-label">❌ Yang Terjadi</div>
+    Mahasiswa memilih one-tailed test karena p-value-nya lebih kecil — bukan karena hipotesisnya memang directional. Ini manipulasi implisit yang disebut 'p-hacking'.
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Two-tailed (Default)</h3>
+      <p>Menguji apakah ada perbedaan dalam arah manapun. Digunakan untuk hipotesis "berbeda dari" (≠). <strong>Ini default SPSS dan yang paling umum.</strong></p>
+    </div>
+    <div class="card">
+      <h3>One-tailed</h3>
+      <p>Menguji perbedaan dalam satu arah spesifik. Hanya valid jika hipotesis sebelum melihat data sudah menyatakan arah yang jelas.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">📏</span>
+    <div><strong>Kapan Boleh One-Tailed?</strong> Hanya jika: (1) hipotesis secara eksplisit menyatakan arah (mis. 'motivasi berpengaruh positif terhadap kinerja'), (2) keputusan dibuat SEBELUM melihat data, dan (3) ada justifikasi teoritis yang kuat.</div>
+  </div>
+
+  <div style="height:1px;background:var(--border);margin:32px 0;"></div>
+
+  <!-- KESALAHAN 10 -->
+  <div class="kesalahan-num">Kesalahan #10</div>
+  <h2 class="sec">Tidak Lakukan Uji Homogenitas Sebelum ANOVA</h2>
+
+  <div class="box-wrong">
+    <div class="box-label">❌ Yang Terjadi</div>
+    ANOVA dijalankan langsung tanpa uji homogenitas varians (Levene's Test). Salah satu asumsi ANOVA adalah varians antar kelompok harus homogen — jika dilanggar, F-statistik tidak valid.
+  </div>
+
+  <h2 class="sec" style="margin-top:16px;">Alur yang Benar untuk ANOVA</h2>
+  <ul class="dot-list">
+    <li>Uji normalitas dalam setiap kelompok (Shapiro-Wilk per kelompok)</li>
+    <li>Uji homogenitas varians: <strong>Levene's Test</strong> (p > .05 berarti varians homogen)</li>
+    <li>Jika varians tidak homogen → gunakan <strong>Welch's ANOVA</strong></li>
+    <li>Jika ANOVA signifikan → post-hoc <strong>Tukey HSD</strong> (homogen) atau <strong>Games-Howell</strong> (tidak homogen)</li>
+    <li>Laporkan beserta effect size (η² atau ω²)</li>
+  </ul>
+
+  <div class="box-right">
+    <div class="box-label">✅ Solusi</div>
+    Modul ANOVA di Ruang Statistika (Pro) otomatis menjalankan Levene's Test dan memilih post-hoc yang tepat sesuai hasil uji homogenitas, lengkap dengan narasi AI dalam bahasa akademis Indonesia.
+  </div>
+
+  <div class="alert alert-success" style="margin-top:24px;">
+    <span class="alert-icon">✅</span>
+    <div>Kamu sudah membaca semua 10 kesalahan! Yang membedakan penelitian yang baik bukan sempurna sejak awal, tapi <strong>kemauan untuk memverifikasi asumsi, melaporkan dengan jujur, dan terus belajar</strong> dari setiap proses.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 5: TENTANG PENULIS ======================== -->
+<div class="page" id="page-5">
+<div class="content-page">
+  <div class="section-label">👤 Penulis</div>
+  <h1 class="page-title">Tentang <span>Penulis</span></h1>
+
+  <div class="card" style="border:1px solid rgba(245,197,24,.3);margin-bottom:24px;">
+    <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--navy),#1a3a6b);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:var(--gold);flex-shrink:0;">Y</div>
+      <div>
+        <h3 style="font-size:18px;margin-bottom:4px;">Yogo Aryo Jatmiko, SST, M.Stat</h3>
+        <p style="font-size:13px;color:var(--gray);margin:0 0 10px;">Statistisi Ahli · Demografer · Founder Ruang Statistika</p>
+        <div class="badge-row">
+          <span class="badge">📊 10+ Tahun Pengalaman</span>
+          <span class="badge">📄 8+ Publikasi Jurnal</span>
+          <span class="badge" style="background:rgba(245,197,24,.15);color:#92400e;border-color:rgba(245,197,24,.4);">🎓 S1–S3 Dibimbing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>Yogo Aryo Jatmiko adalah seorang Statistisi Ahli di Badan Pusat Statistik (BPS) Indonesia dengan lebih dari 10 tahun pengalaman di bidang statistik populasi dan demografi. Ia juga merupakan Dosen Demografi di Politeknik Statistika STIS, lembaga kedinasan di bawah BPS.</p>
+
+  <p>Sebagai peneliti aktif dengan lebih dari 8 publikasi jurnal, Yogo memiliki keahlian mendalam dalam analisis data kependudukan, proyeksi penduduk, dan pemodelan statistik lanjutan. Ia terlibat langsung dalam Tim Proyeksi Penduduk SP2020 dan berbagai proyek strategis BPS.</p>
+
+  <h2 class="sec">Keahlian Utama</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Analisis Statistik</h3>
+      <p>Regresi, SEM, CFA, Mediasi, Moderasi, ANOVA</p>
+    </div>
+    <div class="card">
+      <h3>Demografi</h3>
+      <p>Life Table, Proyeksi Penduduk, Kohort-Komponen</p>
+    </div>
+    <div class="card">
+      <h3>Machine Learning</h3>
+      <p>ARIMA, Regresi Bayesian, SAE-HB</p>
+    </div>
+    <div class="card">
+      <h3>Tools</h3>
+      <p>SPSS, R/RStudio, Python, AMOS, SmartPLS, JASP, Stata</p>
+    </div>
+  </div>
+
+  <h2 class="sec">Butuh Bantuan Lebih Lanjut?</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>💬 Konsultasi Singkat</h3>
+      <p>Mulai Rp 250K / sesi 1 jam via Zoom atau WhatsApp. Cocok untuk interpretasi output atau diskusi metode spesifik.</p>
+    </div>
+    <div class="card">
+      <h3>📦 Paket Olah Data</h3>
+      <p>Mulai Rp 500K. Input, cleaning, uji asumsi, analisis utama + interpretasi siap tulis + revisi 1× gratis.</p>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h3>Statistikmu beres sebelum sidang. 🎓</h3>
+    <p>Jangan biarkan angka-angka menghalangi kelulusanmu. Chat sekarang — gratis tanpa komitmen.</p>
+    <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya mau konsultasi analisis SPSS." class="btn-cta" target="_blank">💬 Chat WhatsApp Sekarang</a>
+    <span class="cta-link">Atau kunjungi <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">yogoaj.github.io/ruangstatistika</a></span>
+  </div>
+
+  <div class="ebook-footer" style="margin-top:32px;">
+    © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Bebas disebarkan untuk keperluan non-komersial dengan mencantumkan sumber.
+  </div>
+</div>
+</div>
+
+<!-- PAGE NAV -->
+<div class="page-nav">
+  <button id="prevBtn" onclick="changePage(-1)" disabled>‹</button>
+  <span class="page-counter" id="pageCounter">1 / 6</span>
+  <button id="nextBtn" onclick="changePage(1)">›</button>
+</div>
+
+<script>
+  const pages=document.querySelectorAll('.page');
+  let cur=0;
+  const total=pages.length;
+  function showPage(n){
+    pages[cur].classList.remove('active');
+    cur=n;
+    pages[cur].classList.add('active');
+    document.getElementById('pageCounter').textContent=(cur+1)+' / '+total;
+    document.getElementById('prevBtn').disabled=cur===0;
+    document.getElementById('nextBtn').disabled=cur===total-1;
+    document.getElementById('pgbar').style.width=((cur/(total-1))*100)+'%';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function changePage(d){if(cur+d>=0&&cur+d<total)showPage(cur+d);}
+  function goPage(n){showPage(n);}
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight')changePage(1);
+    if(e.key==='ArrowLeft')changePage(-1);
+  });
+</script>
+</body>
+</html>
