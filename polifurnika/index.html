@@ -1,1 +1,1149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panduan JASP untuk Pengajar & Tendik — Ruang Statistika</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
 
+  :root {
+    --navy: #0d1f3c;
+    --navy2: #132847;
+    --gold: #f5c518;
+    --gold2: #e6b800;
+    --white: #ffffff;
+    --light: #f8f9fc;
+    --gray: #6b7280;
+    --border: #e5e7eb;
+    --accent: #1a3a6b;
+    --green: #166534;
+    --red: #991b1b;
+    --teal: #0d7377;
+    --teal-pale: #e0f5f4;
+    --blue: #1a56db;
+    --blue-pale: #ebf5ff;
+    --amber: #b45309;
+    --amber-pale: #fffbeb;
+    --violet: #5b21b6;
+    --violet-pale: #f5f3ff;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--light); color: #1a1a2e; line-height: 1.7; }
+
+  /* NAV */
+  .top-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 20px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.25);
+    flex-wrap: wrap; gap: 6px;
+  }
+  .top-nav .brand { display:flex; align-items:center; gap:10px; }
+  .top-nav .brand span { color:var(--gold); font-weight:700; font-size:15px; letter-spacing:.3px; }
+  .nav-links { display:flex; gap:4px; flex-wrap:wrap; }
+  .nav-links a {
+    color: rgba(255,255,255,.75); font-size: 11.5px; font-weight: 500;
+    text-decoration: none; padding: 5px 9px; border-radius: 6px; transition: all .2s;
+  }
+  .nav-links a:hover { background: rgba(245,197,24,.15); color: var(--gold); }
+  .nav-links a.tips-link {
+    background: rgba(245,197,24,.12); color: var(--gold);
+    border: 1px solid rgba(245,197,24,.25);
+  }
+  .nav-links a.tips-link:hover { background: rgba(245,197,24,.25); }
+
+  /* PAGES */
+  .page { display: none; animation: fadeIn .4s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  /* BOTTOM PAGE NAV */
+  .page-nav {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 10px;
+    background: var(--navy); border-radius: 50px;
+    padding: 8px 18px; box-shadow: 0 8px 32px rgba(0,0,0,.3); z-index: 998;
+  }
+  .page-nav button {
+    background: rgba(255,255,255,.1); border: none; color: #fff;
+    width: 36px; height: 36px; border-radius: 50%;
+    cursor: pointer; font-size: 16px; transition: all .2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .page-nav button:hover { background: var(--gold); color: var(--navy); }
+  .page-nav button:disabled { opacity:.3; cursor:not-allowed; }
+  .page-counter { color: rgba(255,255,255,.7); font-size: 12px; min-width: 60px; text-align:center; font-weight:500; }
+
+  /* PROGRESS BAR */
+  .progress-bar { position: fixed; top: 52px; left:0; right:0; height:3px; background: rgba(255,255,255,.1); z-index:997; }
+  .progress-fill { height:100%; background: var(--gold); transition: width .3s ease; }
+
+  /* ============ COVER ============ */
+  #cover {
+    min-height: 100vh; background: var(--navy);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; padding: 80px 40px 100px; text-align: center;
+  }
+  .cover-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(245,197,24,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,197,24,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .cover-glow {
+    position: absolute; width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(245,197,24,.12) 0%, transparent 70%);
+    top: -100px; right: -100px; pointer-events: none;
+  }
+  .cover-logo { width: 72px; height: 72px; margin-bottom: 28px; filter: drop-shadow(0 4px 16px rgba(245,197,24,.3)); position: relative; }
+  .cover-ebook-label { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; position: relative; }
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 48px); font-weight: 900;
+    color: var(--white); line-height: 1.15; max-width: 700px;
+    position: relative; margin-bottom: 8px;
+  }
+  .cover-title span { color: var(--gold); }
+  .cover-subtitle {
+    color: rgba(255,255,255,.5); font-size: 14px; font-weight: 400;
+    max-width: 540px; margin: 20px auto 36px; position: relative; line-height: 1.8;
+  }
+  .cover-features { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 640px; position: relative; margin-bottom: 40px; }
+  .cover-features .feat {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    color: rgba(255,255,255,.8); font-size: 12px; font-weight: 500;
+    padding: 8px 16px; border-radius: 8px; display: flex; align-items: center; gap: 6px;
+  }
+  .cover-features .feat .dot { width:6px; height:6px; background:var(--gold); border-radius:50%; }
+  .cover-divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--gold), transparent); border-radius: 2px; margin: 0 auto 20px; position: relative; }
+  .cover-author {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px; padding: 12px 20px; position: relative;
+  }
+  .cover-author-ava {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: var(--navy); font-size: 16px;
+  }
+  .cover-author-info .name { color: var(--white); font-weight: 600; font-size: 14px; }
+  .cover-author-info .role { color: rgba(255,255,255,.5); font-size: 11px; }
+  .cover-meta-row {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+    margin-bottom: 30px; position: relative;
+  }
+  .cover-meta-item {
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+    color: rgba(255,255,255,.65); font-size: 11px; padding: 5px 14px; border-radius: 20px;
+  }
+  .cover-meta-item strong { color: var(--gold); }
+
+  /* ============ CONTENT PAGES ============ */
+  .content-page { max-width: 800px; margin: 0 auto; padding: 80px 32px 120px; min-height: 100vh; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(13,31,60,.07); color: var(--navy); font-size: 11px; font-weight: 700;
+    padding: 5px 14px; border-radius: 50px; letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 20px; border-left: 3px solid var(--gold);
+  }
+  h1.page-title { font-family: 'Playfair Display', serif; font-size: clamp(24px, 4vw, 36px); font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 8px; }
+  h1.page-title span { color: var(--gold2); }
+  .page-desc { color: var(--gray); font-size: 14px; margin-bottom: 36px; max-width: 600px; }
+  h2.sec { font-size: 18px; font-weight: 700; color: var(--navy); margin: 32px 0 14px; display:flex; align-items:center; gap:10px; }
+  h2.sec::before { content:''; display:block; width:4px; height:20px; background:var(--gold); border-radius:2px; flex-shrink:0; }
+  p { font-size: 14px; color: #374151; margin-bottom: 14px; }
+
+  /* CARD */
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.04); transition: box-shadow .2s; }
+  .card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.09); }
+  .card-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .card-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .card h3 { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .card p { font-size: 13px; color: var(--gray); margin: 0; }
+
+  /* CARD GRID */
+  .card-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 16px; }
+  .card-grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-bottom: 16px; }
+  @media(max-width:600px) { .card-grid-3, .card-grid-2 { grid-template-columns: 1fr; } }
+
+  /* UI CARD */
+  .ui-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px;
+    border-left: 4px solid transparent;
+    box-shadow: 0 2px 8px rgba(0,0,0,.04);
+  }
+  .ui-card.teal { border-left-color: var(--teal); }
+  .ui-card.blue { border-left-color: var(--blue); }
+  .ui-card.amber { border-left-color: var(--amber); }
+  .ui-card.violet { border-left-color: var(--violet); }
+  .ui-card h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .ui-card p { font-size: 13px; color: var(--gray); margin: 0; }
+
+  /* TABLE */
+  .tbl-wrap { overflow-x: auto; margin: 16px 0 24px; }
+  .apa-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+  .apa-table caption { text-align: left; font-size: 13px; color: var(--navy); font-weight: 700; padding: 14px 16px 8px; background: var(--white); }
+  .apa-table thead tr { border-bottom: 2px solid var(--navy); }
+  .apa-table th { background: var(--navy); color: var(--gold); font-weight: 700; padding: 11px 14px; text-align: left; font-size: 12px; letter-spacing: .3px; }
+  .apa-table td { padding: 10px 14px; color: #374151; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+  .apa-table tr:last-child td { border-bottom: none; }
+  .apa-table tr:nth-child(even) td { background: #f9fafb; }
+  .apa-note { font-size: 12px; color: var(--gray); margin-top: 6px; font-style: italic; }
+  .badge-ok { background: #dcfce7; color: var(--green); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+  .badge-warn { background: #fef9c3; color: #854d0e; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+  .badge-info { background: #dbeafe; color: #1e40af; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+
+  /* STEP LIST */
+  .step-list { list-style: none; }
+  .step-list li { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--navy); color: var(--gold); font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step-list .step-txt h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .step-list .step-txt p { font-size: 13px; color: var(--gray); margin: 0; }
+
+  /* ALERT */
+  .alert { border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; }
+  .alert-warn { background: #fffbeb; border-left: 4px solid #f59e0b; color: #92400e; }
+  .alert-info { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e40af; }
+  .alert-success { background: #f0fdf4; border-left: 4px solid #22c55e; color: #166534; }
+  .alert-teal { background: var(--teal-pale); border-left: 4px solid var(--teal); color: #0d5c60; }
+  .alert-icon { font-size: 18px; flex-shrink:0; margin-top:1px; }
+
+  /* BADGE */
+  .badge-row { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+  .badge { background: rgba(13,31,60,.07); color: var(--navy); font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 50px; border: 1px solid rgba(13,31,60,.1); }
+  .badge-gold { background: rgba(245,197,24,.15); color: #92400e; border-color: rgba(245,197,24,.4); }
+  .badge-teal { background: var(--teal-pale); color: var(--teal); border-color: #a8dbd9; }
+  .badge-blue { background: var(--blue-pale); color: var(--blue); border-color: #93c5fd; }
+  .badge-amber { background: var(--amber-pale); color: var(--amber); border-color: #fcd34d; }
+  .badge-violet { background: var(--violet-pale); color: var(--violet); border-color: #c4b5fd; }
+
+  /* PILLS */
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .pill { font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 1px solid; }
+  .pill-teal { background: var(--teal-pale); color: var(--teal); border-color: #a8dbd9; }
+  .pill-gray { background: #f3f4f6; color: var(--gray); border-color: #d1d5db; }
+
+  /* VARIABLE TYPE CARDS */
+  .var-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 16px; }
+  @media(max-width:600px){ .var-row { grid-template-columns: 1fr; } }
+  .var-card { border-radius: 12px; padding: 18px 16px; text-align: center; border: 1px solid; }
+  .var-card.nominal { background: #fffbeb; border-color: #fcd34d; }
+  .var-card.ordinal  { background: var(--blue-pale); border-color: #93c5fd; }
+  .var-card.scale    { background: var(--teal-pale); border-color: #a8dbd9; }
+  .var-sym { width: 38px; height: 38px; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: #fff; }
+  .sym-nominal { background: var(--amber); }
+  .sym-ordinal  { background: var(--blue); }
+  .sym-scale    { background: var(--teal); }
+  .var-card h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+  .var-card p { font-size: 12px; color: var(--gray); margin: 0; }
+
+  /* CODE BLOCK */
+  .code-block { background: #0f172a; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+  .code-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; background: rgba(255,255,255,.05);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .code-lang { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.4); letter-spacing: .08em; text-transform: uppercase; }
+  .code-copy {
+    font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+    color: rgba(255,255,255,.5); cursor: pointer; transition: all .15s; font-family: 'Inter', sans-serif;
+  }
+  .code-copy:hover { background: rgba(255,255,255,.14); color: rgba(255,255,255,.7); }
+  .code-body {
+    font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 12.5px; line-height: 1.8;
+    color: #e2e8f5; padding: 1.25rem; overflow-x: auto; white-space: pre;
+  }
+  .cm { color: #64748b; }
+  .kw { color: #7dd3fc; }
+  .fn { color: #a5f3fc; }
+  .st { color: #86efac; }
+  .nm { color: #fbbf24; }
+  .op { color: #94a3b8; }
+
+  /* DECISION TREE */
+  .stat-chooser {
+    background: #f9fafb; border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px; overflow-x: auto; margin-bottom: 16px;
+  }
+  .tree { display: flex; flex-direction: column; gap: 16px; }
+  .tree-q {
+    display: inline-block;
+    background: var(--white); border: 1px solid #d1d5db;
+    border-radius: 8px; padding: 8px 18px;
+    font-size: 13px; font-weight: 600; color: var(--navy);
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  }
+  .tree-branches { display: flex; gap: 12px; padding-left: 20px; flex-wrap: wrap; margin-top: 6px; }
+  .tree-branch { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 140px; }
+  .branch-label { font-size: 11px; color: var(--gray); font-weight: 500; }
+  .tree-result { font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 6px; }
+  .res-teal { background: var(--teal-pale); color: var(--teal); }
+  .res-blue { background: var(--blue-pale); color: var(--blue); }
+  .res-amber { background: var(--amber-pale); color: var(--amber); }
+  .res-violet { background: var(--violet-pale); color: var(--violet); }
+
+  /* CI GRID */
+  .ci-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+  @media(max-width:600px){ .ci-grid { grid-template-columns:1fr; } }
+  .ci-card { border-radius: 10px; padding: 14px 16px; font-size: 13px; line-height: 1.6; }
+  .ci-card.sig { background: #dcfce7; border: 1px solid #bbf7d0; }
+  .ci-card.nsig { background: #fee2e2; border: 1px solid #fecaca; }
+  .ci-card h5 { font-size: 12px; font-weight: 700; margin-bottom: 5px; }
+  .ci-card.sig h5 { color: var(--green); }
+  .ci-card.nsig h5 { color: var(--red); }
+
+  /* TOC */
+  .toc-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all .2s; border: 1px solid var(--border); background: var(--white); }
+  .toc-item:hover { border-color: var(--gold); background: rgba(245,197,24,.04); }
+  .toc-item .toc-left { display:flex; align-items:center; gap:12px; }
+  .toc-item .toc-num { font-size:11px; font-weight:700; color:var(--gold); background:var(--navy); padding:4px 9px; border-radius:6px; }
+  .toc-item .toc-title { font-size:14px; font-weight:600; color:var(--navy); }
+  .toc-item .toc-arr { color:var(--gray); font-size:16px; }
+
+  /* CTA */
+  .cta-box { background: var(--navy); border-radius: 16px; padding: 32px 30px; text-align: center; position: relative; overflow: hidden; margin-top: 32px; }
+  .cta-box::after { content:''; position: absolute; top:-60px; right:-60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(245,197,24,.15) 0%, transparent 70%); pointer-events: none; }
+  .cta-box h3 { font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 10px; }
+  .cta-box p { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 20px; max-width: 440px; margin-left:auto; margin-right:auto; }
+  .btn-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--gold); color: var(--navy); font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 10px; text-decoration: none; transition: all .2s; }
+  .btn-cta:hover { background: #e6b800; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245,197,24,.4); }
+  .cta-link { color: rgba(255,255,255,.5); font-size: 12px; margin-top: 12px; display:block; }
+  .cta-link a { color: var(--gold); text-decoration: none; }
+
+  /* EBOOK FOOTER */
+  .ebook-footer { text-align: center; padding: 20px; font-size: 11px; color: var(--gray); border-top: 1px solid var(--border); }
+  .ebook-footer a { color: var(--navy); text-decoration:none; font-weight:600; }
+
+  /* TIPS & TRIK PAGE */
+  .tips-link-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-bottom: 20px; }
+  @media(max-width:600px){ .tips-link-grid { grid-template-columns: 1fr; } }
+  .tips-link-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 24px; text-decoration: none; display: block;
+    transition: all .2s; box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    border-top: 4px solid var(--gold);
+  }
+  .tips-link-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.1); transform: translateY(-2px); border-top-color: var(--gold2); }
+  .tips-link-card .tl-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+  .tips-link-card .tl-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .tips-link-card .tl-desc { font-size: 12px; color: var(--gray); }
+  .tips-link-card .tl-url { font-size: 11px; color: var(--gold2); font-weight: 600; margin-top: 8px; }
+
+  .ext-link-box {
+    background: var(--navy); border-radius: 16px; padding: 28px 28px;
+    text-align: center; margin-bottom: 20px; position: relative; overflow: hidden;
+  }
+  .ext-link-box::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(245,197,24,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,197,24,.04) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  .ext-link-box h3 { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 8px; position: relative; }
+  .ext-link-box p { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 20px; max-width: 480px; margin-left:auto; margin-right:auto; position: relative; }
+  .ext-link-box a.btn-ext {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--gold); color: var(--navy); font-weight: 700; font-size: 14px;
+    padding: 12px 28px; border-radius: 10px; text-decoration: none;
+    transition: all .2s; position: relative;
+  }
+  .ext-link-box a.btn-ext:hover { background: #e6b800; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245,197,24,.4); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="10" fill="#132847"/>
+      <rect x="18" y="52" width="18" height="32" rx="4" fill="#1a3a6b"/>
+      <rect x="42" y="36" width="18" height="48" rx="4" fill="#1a3a6b"/>
+      <rect x="66" y="18" width="18" height="66" rx="4" fill="#f5c518"/>
+      <path d="M27 58 Q44 44 57 38 Q66 32 75 22" stroke="#f5c518" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span>Ruang Statistika</span>
+  </div>
+  <div class="nav-links">
+    <a href="javascript:void(0)" onclick="goPage(0)">📖 Cover</a>
+    <a href="javascript:void(0)" onclick="goPage(1)">Daftar Isi</a>
+    <a href="javascript:void(0)" onclick="goPage(2)">Pengantar</a>
+    <a href="javascript:void(0)" onclick="goPage(3)">Antarmuka</a>
+    <a href="javascript:void(0)" onclick="goPage(4)">Data</a>
+    <a href="javascript:void(0)" onclick="goPage(5)">Analisis</a>
+    <a href="javascript:void(0)" onclick="goPage(6)">Grafik & Tabel</a>
+    <a href="javascript:void(0)" onclick="goPage(7)">R for JASP</a>
+    <a href="javascript:void(0)" onclick="goPage(8)">Tugas</a>
+    <a href="https://yogoaj.github.io" target="_blank" class="tips-link">💡 Tips & Trik</a>
+    <a href="javascript:void(0)" onclick="goPage(9)">Tentang</a>
+  </div>
+</nav>
+
+<!-- PROGRESS -->
+<div class="progress-bar"><div class="progress-fill" id="pgbar" style="width:0%"></div></div>
+
+<!-- ======================== PAGE 0: COVER ======================== -->
+<div class="page active" id="page-0">
+<div id="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-glow"></div>
+
+  <svg class="cover-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(245,197,24,0.3)" stroke-width="1"/>
+    <rect x="14" y="52" width="18" height="34" rx="5" fill="#1a3a6b"/>
+    <rect x="40" y="36" width="18" height="50" rx="5" fill="#1a3a6b"/>
+    <rect x="66" y="16" width="18" height="70" rx="5" fill="#f5c518"/>
+    <path d="M23 64 Q50 44 60 38 Q68 32 75 22" stroke="#f5c518" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  </svg>
+
+  <div class="cover-ebook-label">🎓 PANDUAN WORKSHOP · JASP</div>
+
+  <h1 class="cover-title">
+    Analisis Data dengan<br><span>JASP</span> dari Nol
+  </h1>
+
+  <p class="cover-subtitle">
+    Panduan Lengkap Pengolahan Data Statistik untuk Pengajar & Tendik —<br>
+    dari Install hingga Grafik Siap Publikasi. Tidak Perlu Kode, Cukup Klik.
+  </p>
+
+  <div class="cover-meta-row">
+    <span class="cover-meta-item"><strong>Level:</strong> Beginner → Advanced</span>
+    <span class="cover-meta-item"><strong>Durasi:</strong> ± 3–4 Jam</span>
+    <span class="cover-meta-item"><strong>Tools:</strong> JASP + R for JASP</span>
+    <span class="cover-meta-item"><strong>Event:</strong> Polifurnika · 22 Mei 2026</span>
+  </div>
+
+  <div class="cover-features">
+    <div class="feat"><span class="dot"></span> Instalasi & Antarmuka JASP</div>
+    <div class="feat"><span class="dot"></span> Manajemen & Tipe Variabel</div>
+    <div class="feat"><span class="dot"></span> Statistik Deskriptif Lengkap</div>
+    <div class="feat"><span class="dot"></span> Uji T, ANOVA & Regresi</div>
+    <div class="feat"><span class="dot"></span> Grafik & Tabel APA Siap Pakai</div>
+    <div class="feat"><span class="dot"></span> R for JASP — Sintaks & Skrip</div>
+    <div class="feat"><span class="dot"></span> Dataset Latihan Popularity.csv</div>
+    <div class="feat"><span class="dot"></span> Tugas Praktik Mandiri</div>
+  </div>
+
+  <div class="cover-divider"></div>
+
+  <div class="cover-author">
+    <div class="cover-author-ava">Y</div>
+    <div class="cover-author-info">
+      <div class="name">Yogo Aryo Jatmiko, SST, M.Stat</div>
+      <div class="role">Founder Ruang Statistika · Statistisi BPS · Dosen Demografi Polstat STIS</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 1: DAFTAR ISI ======================== -->
+<div class="page" id="page-1">
+<div class="content-page">
+  <div class="section-label">📋 Navigasi Panduan</div>
+  <h1 class="page-title">Daftar <span>Isi</span></h1>
+  <p class="page-desc">Klik bagian mana pun untuk langsung menuju halaman tersebut.</p>
+
+  <div class="toc-item" onclick="goPage(2)">
+    <div class="toc-left"><span class="toc-num">01</span><span class="toc-title">Pengantar — Apa itu JASP & Instalasi</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(3)">
+    <div class="toc-left"><span class="toc-num">02</span><span class="toc-title">Memahami Antarmuka JASP</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(4)">
+    <div class="toc-left"><span class="toc-num">03</span><span class="toc-title">Manajemen & Tipe Data — Popularity Dataset</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(5)">
+    <div class="toc-left"><span class="toc-num">04</span><span class="toc-title">Memilih & Menjalankan Analisis Statistik</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(6)">
+    <div class="toc-left"><span class="toc-num">05</span><span class="toc-title">Grafik, Tabel & Ekspor Hasil</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(7)">
+    <div class="toc-left"><span class="toc-num">06</span><span class="toc-title">R for JASP — Sintaks & Kode R</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(8)">
+    <div class="toc-left"><span class="toc-num">07</span><span class="toc-title">Tugas Latihan Mandiri</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(9)">
+    <div class="toc-left"><span class="toc-num">08</span><span class="toc-title">Tentang Penulis & Konsultasi</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+
+  <div class="alert alert-info" style="margin-top:28px;">
+    <span class="alert-icon">💡</span>
+    <div><strong>Tips membaca:</strong> Panduan ini bisa dibaca linear atau langsung lompat ke topik yang dibutuhkan. Gunakan tombol navigasi bawah atau menu di atas untuk berpindah halaman.</div>
+  </div>
+
+  <div class="alert alert-teal">
+    <span class="alert-icon">🎯</span>
+    <div><strong>Tips & Trik:</strong> Kunjungi koleksi Tips & Trik JASP, statistik, dan R di <a href="https://yogoaj.github.io" target="_blank" style="color: var(--teal); font-weight: 700;">yogoaj.github.io</a> untuk tips tambahan dan konten terkini.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 2: PENGANTAR ======================== -->
+<div class="page" id="page-2">
+<div class="content-page">
+  <div class="section-label">📌 Bab 1</div>
+  <h1 class="page-title">Apa itu <span>JASP?</span></h1>
+  <p class="page-desc">Pengantar, keunggulan, perbandingan, dan panduan instalasi JASP untuk pemula.</p>
+
+  <h2 class="sec">Tentang JASP</h2>
+  <p>JASP (<em>Jeffreys's Amazing Statistics Program</em>) adalah perangkat lunak statistik yang <strong>gratis, open source</strong>, dan dikembangkan oleh Universitas Amsterdam. Didesain untuk ilmuwan sosial — cukup drag variabel, output muncul real-time dalam format APA. Bayesian dan Frequentist berdampingan dalam satu antarmuka.</p>
+
+  <div class="ci-grid">
+    <div class="ci-card sig">
+      <h5>✅ Keunggulan JASP</h5>
+      Gratis selamanya, antarmuka visual tanpa kode, output APA otomatis, Bayesian terintegrasi, R sudah bundled di dalamnya.
+    </div>
+    <div class="ci-card nsig">
+      <h5>⚠️ Keterbatasan</h5>
+      Tidak mendukung .xlsx langsung (perlu konversi ke .csv), fitur lanjutan membutuhkan pemahaman R untuk kustomisasi lebih jauh.
+    </div>
+  </div>
+
+  <h2 class="sec">Perbandingan dengan Software Lain</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Kriteria</th><th>JASP</th><th>R / RStudio</th><th>SPSS</th><th>Stata</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Biaya</strong></td><td><span class="badge-ok">✓ Gratis</span></td><td><span class="badge-ok">✓ Gratis</span></td><td>Berbayar</td><td>Berbayar</td></tr>
+        <tr><td><strong>Perlu Kode</strong></td><td><span class="badge-ok">✗ Tidak</span></td><td>Ya</td><td>Sebagian</td><td>Ya</td></tr>
+        <tr><td><strong>Output APA</strong></td><td><span class="badge-ok">✓ Otomatis</span></td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
+        <tr><td><strong>Bayesian</strong></td><td><span class="badge-ok">✓ Terintegrasi</span></td><td>Via paket</td><td style="color:#9ca3af;">—</td><td style="color:#9ca3af;">—</td></tr>
+        <tr><td><strong>Cocok untuk</strong></td><td>Pengajar, peneliti</td><td>Data scientist</td><td>Akademisi lama</td><td>Ekonometrika</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-teal">
+    <span class="alert-icon">💡</span>
+    <div>Untuk <strong>pengajar dan tendik</strong>, JASP adalah pilihan terbaik: gratis, antarmuka visual, output langsung bisa disalin ke laporan Word atau PowerPoint tanpa format ulang.</div>
+  </div>
+
+  <h2 class="sec">Langkah Instalasi JASP</h2>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-txt"><h4>Buka jasp-stats.org/download/</h4><p>Pilih installer sesuai sistem operasi: Windows (.exe), macOS (.dmg), atau Linux (.AppImage).</p></div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-txt"><h4>Jalankan Installer</h4><p>Double-click file installer. Ikuti wizard instalasi. JASP tidak memerlukan R yang terpisah — sudah terintegrasi dalam paket instalasi.</p></div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-txt"><h4>Buka JASP & Cek Versi</h4><p>Buka JASP, pergi ke Menu (☰) → About JASP. Pastikan menggunakan versi terbaru (0.19+).</p></div>
+    </li>
+    <li>
+      <div class="step-num">4</div>
+      <div class="step-txt"><h4>Atur Bahasa Indonesia</h4><p>☰ → Preferences → Interface → Language → Bahasa Indonesia. Restart JASP agar perubahan berlaku.</p></div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ======================== PAGE 3: ANTARMUKA ======================== -->
+<div class="page" id="page-3">
+<div class="content-page">
+  <div class="section-label">🖥️ Bab 2</div>
+  <h1 class="page-title">Memahami <span>Antarmuka JASP</span></h1>
+  <p class="page-desc">Kenali setiap elemen antarmuka JASP dan cara mengkustomisasinya.</p>
+
+  <h2 class="sec">Elemen Utama Antarmuka</h2>
+  <div class="card-grid-2">
+    <div class="ui-card teal">
+      <h3>☰ Hamburger Menu (kiri atas)</h3>
+      <p>Buka/simpan file, ekspor hasil ke Word/PDF, koneksi OSF (Open Science Framework), dan Preferences.</p>
+    </div>
+    <div class="ui-card blue">
+      <h3>⊞ Top Bar Analisis</h3>
+      <p>Akses semua menu analisis: Descriptives, T-Tests, ANOVA, Regression, Frequencies, Factor, dsb.</p>
+    </div>
+    <div class="ui-card amber">
+      <h3>✚ Plus Button (kanan atas)</h3>
+      <p>Tambah modul analisis lanjutan: SEM, Meta-Analysis, Machine Learning, Network Analysis, dan lainnya.</p>
+    </div>
+    <div class="ui-card violet">
+      <h3>⚙ Preferences</h3>
+      <p>Kustomisasi tema, bahasa, desimal, resolusi grafik, dan nilai hilang. Akses via ☰ → Preferences.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">📋</span>
+    <div><strong>Tata letak layar:</strong> Panel kiri = <em>Control Panel</em> (pilih variabel & opsi analisis). Panel kanan = <em>Output Panel</em> (hasil analisis muncul otomatis, real-time saat opsi diubah).</div>
+  </div>
+
+  <h2 class="sec">Kustomisasi Preferences</h2>
+  <div class="card-grid-3">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📊</div><h3>Data Preferences</h3></div>
+      <p>Atur editor default, ambang batas kategori vs skala, dan kode missing value kustom (mis. 99, 999).</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📋</div><h3>Result Preferences</h3></div>
+      <p>Tampilkan p-value tepat, jumlah desimal, resolusi grafik, dan latar transparan/putih untuk grafik.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🖥️</div><h3>Interface Preferences</h3></div>
+      <p>Pilih tema light/dark, bahasa (Indonesia tersedia), ukuran zoom, dan font untuk aksesibilitas.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-success">
+    <span class="alert-icon">✅</span>
+    <div><strong>Pro Tip:</strong> Atur resolusi grafik ke <strong>300+ DPI</strong> di Preferences → Results sebelum mulai analisis agar grafik siap publikasi tanpa perlu redo.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 4: DATA ======================== -->
+<div class="page" id="page-4">
+<div class="content-page">
+  <div class="section-label">📁 Bab 3</div>
+  <h1 class="page-title">Manajemen <span>Data</span></h1>
+  <p class="page-desc">Format file, tipe variabel, dan dataset latihan Popularity.csv.</p>
+
+  <h2 class="sec">Format File yang Didukung JASP</h2>
+  <div class="pills">
+    <span class="pill pill-teal">.csv / .txt / .tsv</span>
+    <span class="pill pill-teal">.sav (SPSS)</span>
+    <span class="pill pill-teal">.dta (Stata)</span>
+    <span class="pill pill-teal">.ods</span>
+    <span class="pill pill-gray">.sas7bdat</span>
+    <span class="pill pill-gray">.xpt</span>
+  </div>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div>JASP <strong>tidak mendukung .xlsx</strong> secara langsung. Simpan dulu sebagai .csv dari Excel (<em>Save As → CSV UTF-8</em>), lalu buka di JASP.</div>
+  </div>
+
+  <h2 class="sec">Tipe Variabel di JASP</h2>
+  <div class="var-row">
+    <div class="var-card nominal">
+      <div class="var-sym sym-nominal">N</div>
+      <h3>Nominal</h3>
+      <p>Kategori tanpa urutan. Contoh: jenis kelamin, agama, etnis.<br><em>Simbol: ◉ oranye</em></p>
+    </div>
+    <div class="var-card ordinal">
+      <div class="var-sym sym-ordinal">O</div>
+      <h3>Ordinal</h3>
+      <p>Kategori berurutan. Contoh: tingkat pendidikan, skala Likert 1–5.<br><em>Simbol: ≡ biru</em></p>
+    </div>
+    <div class="var-card scale">
+      <div class="var-sym sym-scale">S</div>
+      <h3>Scale / Kontinu</h3>
+      <p>Angka terukur. Contoh: usia, skor nilai, pendapatan.<br><em>Simbol: ↗ hijau</em></p>
+    </div>
+  </div>
+
+  <div class="alert alert-teal">
+    <span class="alert-icon">💡</span>
+    <div><strong>Tips:</strong> Klik ikon tipe variabel di header kolom untuk mengubahnya. JASP otomatis mendeteksi, tapi selalu verifikasi manual sebelum analisis.</div>
+  </div>
+
+  <h2 class="sec">Dataset Latihan: Popularity Dataset</h2>
+  <p>Kita menggunakan <strong>Popularity Dataset</strong> (Van de Schoot, 2020) — studi tentang hubungan antara popularitas dan perilaku antisosial pada remaja (<em>n</em> = 1.491 siswa).</p>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 1</strong></em><br>Variabel dalam Popularity Dataset</caption>
+      <thead><tr><th>Variabel</th><th>Tipe</th><th>Deskripsi</th></tr></thead>
+      <tbody>
+        <tr><td><strong>respnr</strong></td><td>Scale</td><td>Nomor responden (ID unik)</td></tr>
+        <tr><td><strong>Dutch</strong></td><td>Nominal</td><td>Etnis: 0 = Belanda, 1 = non-Belanda</td></tr>
+        <tr><td><strong>gender</strong></td><td>Nominal</td><td>Jenis kelamin: 0 = laki-laki, 1 = perempuan</td></tr>
+        <tr><td><strong>sd</strong></td><td>Scale</td><td>Keinginan sosial (social desirability)</td></tr>
+        <tr><td><strong>covert</strong></td><td>Scale</td><td>Perilaku antisosial tersembunyi</td></tr>
+        <tr><td><strong>overt</strong></td><td>Scale</td><td>Perilaku antisosial terbuka</td></tr>
+        <tr><td><strong>texp</strong></td><td>Scale</td><td>Pengalaman guru (tahun)</td></tr>
+        <tr><td><strong>popular</strong></td><td>Scale</td><td>Skor popularitas (peer-rated)</td></tr>
+        <tr><td><strong>popteach</strong></td><td>Scale</td><td>Popularitas menurut guru</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+    <a href="https://jasp-stats.org/wp-content/uploads/2020/02/Popularity.csv" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--navy); color:var(--gold); font-weight:700; font-size:13px; padding:10px 20px; border-radius:8px; text-decoration:none;">⬇ Unduh Popularity Dataset (.csv)</a>
+    <a href="https://jasp-stats.org/how-to-use-jasp/" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--blue-pale); color:var(--blue); border:1px solid #93c5fd; font-weight:700; font-size:13px; padding:10px 20px; border-radius:8px; text-decoration:none;">📖 Panduan Resmi JASP</a>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 5: ANALISIS ======================== -->
+<div class="page" id="page-5">
+<div class="content-page">
+  <div class="section-label">📊 Bab 4</div>
+  <h1 class="page-title">Memilih & Menjalankan <span>Analisis</span></h1>
+  <p class="page-desc">Pohon keputusan uji statistik dan walkthrough analisis deskriptif, t-test, ANOVA, korelasi, dan regresi.</p>
+
+  <h2 class="sec">Pohon Keputusan Uji Statistik</h2>
+  <div class="stat-chooser">
+    <div class="tree">
+      <span class="tree-q">1 · Komparasi satu sampel vs nilai populasi</span>
+      <div class="tree-branches">
+        <div class="tree-branch"><span class="branch-label">Kontinu (scale)</span><span class="tree-result res-teal">One-sample t-test</span></div>
+        <div class="tree-branch"><span class="branch-label">Nominal (2 kat.)</span><span class="tree-result res-amber">Binomial test</span></div>
+        <div class="tree-branch"><span class="branch-label">Nominal (&gt;2 kat.)</span><span class="tree-result res-blue">Chi-square GoF</span></div>
+      </div>
+
+      <span class="tree-q">2 · Komparasi dua kelompok independen</span>
+      <div class="tree-branches">
+        <div class="tree-branch"><span class="branch-label">Kontinu</span><span class="tree-result res-teal">Independent t-test</span></div>
+        <div class="tree-branch"><span class="branch-label">Ordinal / Non-normal</span><span class="tree-result res-amber">Mann-Whitney U</span></div>
+        <div class="tree-branch"><span class="branch-label">Nominal × Nominal</span><span class="tree-result res-blue">Chi-square test</span></div>
+      </div>
+
+      <span class="tree-q">3 · Komparasi dua pengukuran pada grup yang sama</span>
+      <div class="tree-branches">
+        <div class="tree-branch"><span class="branch-label">Kontinu (pre-post)</span><span class="tree-result res-teal">Paired t-test</span></div>
+        <div class="tree-branch"><span class="branch-label">Ordinal</span><span class="tree-result res-amber">Wilcoxon signed-rank</span></div>
+      </div>
+
+      <span class="tree-q">4 · Komparasi 3+ kelompok</span>
+      <div class="tree-branches">
+        <div class="tree-branch"><span class="branch-label">1 faktor</span><span class="tree-result res-teal">One-way ANOVA</span></div>
+        <div class="tree-branch"><span class="branch-label">2+ faktor</span><span class="tree-result res-blue">Factorial ANOVA</span></div>
+        <div class="tree-branch"><span class="branch-label">Pengukuran berulang</span><span class="tree-result res-violet">Repeated-measures ANOVA</span></div>
+      </div>
+
+      <span class="tree-q">5 · Hubungan antar variabel kontinu</span>
+      <div class="tree-branches">
+        <div class="tree-branch"><span class="branch-label">1 prediktor</span><span class="tree-result res-teal">Simple Regression</span></div>
+        <div class="tree-branch"><span class="branch-label">2+ prediktor</span><span class="tree-result res-blue">Multiple Regression</span></div>
+        <div class="tree-branch"><span class="branch-label">Hanya korelasi</span><span class="tree-result res-amber">Pearson / Spearman r</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sec">Walkthrough: Statistik Deskriptif</h2>
+  <ul class="step-list">
+    <li><div class="step-num">1</div><div class="step-txt"><h4>Buka Dataset</h4><p>☰ → Open → pilih file <code style="font-family:monospace; font-size:12px; background:#f3f4f6; padding:1px 6px; border-radius:3px;">Popularity.csv</code>. Data muncul di panel kiri seperti spreadsheet.</p></div></li>
+    <li><div class="step-num">2</div><div class="step-txt"><h4>Buka Descriptives</h4><p>Klik <strong>Descriptives</strong> di top bar → pilih <em>Descriptive Statistics</em>.</p></div></li>
+    <li><div class="step-num">3</div><div class="step-txt"><h4>Drag Variabel</h4><p>Drag variabel <em>popular, covert, overt, sd</em> ke kotak <strong>Variables</strong>. Output langsung muncul real-time di panel kanan.</p></div></li>
+    <li><div class="step-num">4</div><div class="step-txt"><h4>Centang Statistik</h4><p>Di panel kiri, centang: <strong>Mean, SD, Median, Minimum, Maximum, Skewness, Kurtosis</strong>.</p></div></li>
+    <li><div class="step-num">5</div><div class="step-txt"><h4>Salin ke Word</h4><p>Klik kanan tabel di panel kanan → <em>Copy</em>. Paste ke Word — format APA otomatis dengan garis tabel yang tepat.</p></div></li>
+  </ul>
+
+  <h2 class="sec">Analisis yang Tersedia di JASP</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Menu</th><th>Analisis Tersedia</th><th>Catatan</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Descriptives</strong></td><td>Deskriptif, distribusi frekuensi, histogram, boxplot, QQ plot</td><td>Titik awal wajib untuk semua analisis</td></tr>
+        <tr><td><strong>T-Tests</strong></td><td>One-sample, Independent, Paired — Frequentist & Bayesian</td><td>Termasuk effect size otomatis (Cohen's d)</td></tr>
+        <tr><td><strong>ANOVA</strong></td><td>One-way, Factorial, Repeated-measures, ANCOVA, MANOVA</td><td>Post-hoc test tersedia (Tukey, Bonferroni, dll.)</td></tr>
+        <tr><td><strong>Regression</strong></td><td>Linear, Logistic, Ordinal, Correlation Matrix</td><td>Diagnostik asumsi dan stepwise selection</td></tr>
+        <tr><td><strong>Frequencies</strong></td><td>Chi-square, Binomial, Multinomial, Log-linear</td><td>Untuk data kategorik</td></tr>
+        <tr><td><strong>Factor</strong></td><td>CFA, EFA, Reliability (Alpha Cronbach, McDonald's ω)</td><td>Validitas & reliabilitas instrumen</td></tr>
+        <tr><td><strong>+ Modul Tambahan</strong></td><td>SEM (lavaan), Meta-Analysis, Network, Machine Learning, Mediation</td><td>Install via tombol ✚ di kanan atas</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">ℹ️</span>
+    <div>Setiap analisis di JASP memiliki versi <strong>Frequentist</strong> (klasik) dan <strong>Bayesian</strong> berdampingan. Cukup klik tab "Bayesian" untuk beralih pendekatan tanpa setup ulang.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 6: GRAFIK ======================== -->
+<div class="page" id="page-6">
+<div class="content-page">
+  <div class="section-label">📈 Bab 5</div>
+  <h1 class="page-title">Grafik, Tabel <span>& Ekspor</span></h1>
+  <p class="page-desc">Cara membuat grafik publikasi, kustomisasi, dan ekspor hasil ke Word/PDF.</p>
+
+  <h2 class="sec">Jenis Grafik di JASP</h2>
+  <div class="card-grid-3">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📊</div><h3>Histogram & Bar</h3></div>
+      <p>Via Descriptives → Plots → Distribution plots. Centang <em>Display density</em> untuk kurva normal overlay.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📦</div><h3>Boxplot & Raincloud</h3></div>
+      <p>Descriptives → Plots → Boxplots. Aktifkan Raincloud plot untuk visualisasi distribusi yang lebih kaya.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🔵</div><h3>Scatter Plot</h3></div>
+      <p>Regression → Correlation → Plots. Atau via Descriptives → Plots → Scatter plots untuk matrix scatter.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🌡️</div><h3>Correlation Heatmap</h3></div>
+      <p>Regression → Correlation → centang <em>Heatmap</em>. Visualisasi matriks korelasi antar semua variabel.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📉</div><h3>Means Plots (ANOVA)</h3></div>
+      <p>ANOVA → Plots → Marginal Means. Untuk visualisasi interaksi antar faktor dengan garis dan error bars.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🔬</div><h3>Residual & QQ Plot</h3></div>
+      <p>Regression → Plots → centang Residuals vs Fitted dan Q-Q Plot untuk cek asumsi normalitas residual.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-success">
+    <span class="alert-icon">💡</span>
+    <div><strong>Tips Ekspor:</strong> Klik kanan grafik → <em>Copy image</em> atau <em>Save image as</em>. Untuk resolusi tinggi, atur ke 300+ DPI di ☰ → Preferences → Results sebelum analisis dimulai.</div>
+  </div>
+
+  <h2 class="sec">Cara Membuat & Menyalin Tabel</h2>
+  <ul class="step-list">
+    <li><div class="step-num">1</div><div class="step-txt"><h4>Jalankan Analisis</h4><p>Jalankan Descriptives atau analisis lainnya. Tabel output muncul otomatis di panel kanan.</p></div></li>
+    <li><div class="step-num">2</div><div class="step-txt"><h4>Edit Label Langsung</h4><p>Double-click teks dalam tabel untuk mengubah label kolom atau judul tabel langsung di output JASP.</p></div></li>
+    <li><div class="step-num">3</div><div class="step-txt"><h4>Klik Kanan → Copy</h4><p>Klik kanan tabel → <em>Copy</em>. Paste ke Word — format APA otomatis dipertahankan dengan garis tabel yang tepat.</p></div></li>
+    <li><div class="step-num">4</div><div class="step-txt"><h4>Ekspor Semua Output</h4><p>☰ → Export Results → Word/PDF/HTML untuk ekspor semua tabel & grafik dalam satu file laporan sekaligus.</p></div></li>
+  </ul>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">📌</span>
+    <div>Gunakan <strong>☰ → Export Results → Word</strong> untuk ekspor seluruh output analisis (semua tabel + grafik) dalam satu dokumen Word berformat rapi. Sangat berguna untuk menyusun laporan akhir.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 7: R FOR JASP ======================== -->
+<div class="page" id="page-7">
+<div class="content-page">
+  <div class="section-label">💻 Bab 6</div>
+  <h1 class="page-title">R for <span>JASP</span></h1>
+  <p class="page-desc">Akses kode R di balik setiap klik JASP — untuk reprodusibilitas, fleksibilitas, dan belajar R bertahap.</p>
+
+  <p>JASP sebenarnya berjalan di atas R — setiap klik di JASP menghasilkan kode R di belakang layar. Fitur <strong>R for JASP</strong> memungkinkan Anda melihat, menyalin, dan memodifikasi kode R tersebut untuk kontrol penuh atas analisis.</p>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">ℹ️</span>
+    <div>Anda <strong>tidak perlu</strong> instalasi R atau RStudio terpisah. R sudah terintegrasi dalam JASP. Fitur ini tersedia via <em>Hamburger → R for JASP</em> atau ikon <code style="font-size:12px; background:#dbeafe; padding:1px 6px; border-radius:3px;">&lt;/&gt;</code> di setiap output.</div>
+  </div>
+
+  <h2 class="sec">Mengapa Belajar R Sintaks di JASP?</h2>
+  <div class="card-grid-3">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🔁</div><h3>Reprodusibilitas</h3></div>
+      <p>Simpan skrip R untuk analisis yang dapat diulang kapan saja dengan dataset berbeda — lebih andal dari klik manual.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🎨</div><h3>Fleksibilitas</h3></div>
+      <p>Modifikasi grafik dan tabel beyond menu — warna kustom, anotasi, ukuran font, tema ggplot2.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📚</div><h3>Belajar R Bertahap</h3></div>
+      <p>JASP sebagai jembatan — lihat kode R otomatis, pelajari sintaksnya, kembangkan sendiri tanpa tekanan.</p>
+    </div>
+  </div>
+
+  <h2 class="sec">Cara Mengakses Kode R di JASP</h2>
+  <ul class="step-list">
+    <li><div class="step-num">1</div><div class="step-txt"><h4>Jalankan Analisis Apapun</h4><p>Misalnya: Descriptives → pilih variabel. Output muncul di panel kanan.</p></div></li>
+    <li><div class="step-num">2</div><div class="step-txt"><h4>Klik Ikon &lt;/&gt; di Output</h4><p>Di setiap tabel atau grafik, ada ikon kode di pojok kanan atas. Klik untuk melihat kode R-nya secara langsung.</p></div></li>
+    <li><div class="step-num">3</div><div class="step-txt"><h4>Buka R Console di JASP</h4><p>☰ → R for JASP. Muncul terminal R interaktif langsung dalam JASP — bisa mengetik perintah R.</p></div></li>
+    <li><div class="step-num">4</div><div class="step-txt"><h4>Jalankan & Modifikasi</h4><p>Salin kode dari output, tempel ke R console, ubah parameter, dan jalankan untuk hasil kustom.</p></div></li>
+  </ul>
+
+  <h2 class="sec">Contoh Kode R di JASP</h2>
+
+  <h2 class="sec" style="font-size:15px; margin-top:16px;">1 · Statistik Deskriptif</h2>
+  <div class="code-block">
+    <div class="code-header">
+      <span class="code-lang">R · Descriptives</span>
+      <button class="code-copy" onclick="copyCode(this)">Salin</button>
+    </div>
+    <div class="code-body"><span class="cm"># Statistik Deskriptif — setara klik JASP</span>
+<span class="kw">library</span>(jaspDescriptives)
+
+<span class="cm"># Baca data</span>
+data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Popularity.csv"</span>)
+
+<span class="cm"># Hitung deskriptif</span>
+desc <span class="op">&lt;-</span> <span class="fn">jaspDescriptives</span>(
+  data   = data,
+  vars   = <span class="fn">c</span>(<span class="st">"popular"</span>, <span class="st">"covert"</span>, <span class="st">"overt"</span>),
+  mean   = <span class="kw">TRUE</span>,
+  sd     = <span class="kw">TRUE</span>,
+  median = <span class="kw">TRUE</span>,
+  skew   = <span class="kw">TRUE</span>
+)
+<span class="fn">print</span>(desc)</div>
+  </div>
+
+  <h2 class="sec" style="font-size:15px; margin-top:16px;">2 · Histogram dengan ggplot2</h2>
+  <div class="code-block">
+    <div class="code-header">
+      <span class="code-lang">R · ggplot2</span>
+      <button class="code-copy" onclick="copyCode(this)">Salin</button>
+    </div>
+    <div class="code-body"><span class="cm"># Histogram distribusi popularitas</span>
+<span class="kw">library</span>(ggplot2)
+
+data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Popularity.csv"</span>)
+
+<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = popular)) <span class="op">+</span>
+  <span class="fn">geom_histogram</span>(
+    binwidth = <span class="nm">0.3</span>,
+    fill     = <span class="st">"#0d7377"</span>,
+    color    = <span class="st">"white"</span>,
+    alpha    = <span class="nm">0.85</span>
+  ) <span class="op">+</span>
+  <span class="fn">labs</span>(
+    title = <span class="st">"Distribusi Skor Popularitas"</span>,
+    x     = <span class="st">"Popularitas"</span>,
+    y     = <span class="st">"Frekuensi"</span>
+  ) <span class="op">+</span>
+  <span class="fn">theme_minimal</span>(base_size = <span class="nm">13</span>)</div>
+  </div>
+
+  <h2 class="sec" style="font-size:15px; margin-top:16px;">3 · Independent T-Test</h2>
+  <div class="code-block">
+    <div class="code-header">
+      <span class="code-lang">R · T-Test</span>
+      <button class="code-copy" onclick="copyCode(this)">Salin</button>
+    </div>
+    <div class="code-body"><span class="cm"># Independent samples t-test: gender vs popularitas</span>
+data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Popularity.csv"</span>)
+data$gender <span class="op">&lt;-</span> <span class="fn">factor</span>(data$gender, labels = <span class="fn">c</span>(<span class="st">"Laki-laki"</span>, <span class="st">"Perempuan"</span>))
+
+hasil <span class="op">&lt;-</span> <span class="fn">t.test</span>(popular <span class="op">~</span> gender, data = data, var.equal = <span class="kw">TRUE</span>)
+<span class="fn">print</span>(hasil)
+
+<span class="cm"># Hitung effect size (Cohen's d)</span>
+<span class="kw">library</span>(effectsize)
+<span class="fn">cohens_d</span>(popular <span class="op">~</span> gender, data = data)</div>
+  </div>
+
+  <h2 class="sec" style="font-size:15px; margin-top:16px;">4 · Regresi Linear & Scatter Plot</h2>
+  <div class="code-block">
+    <div class="code-header">
+      <span class="code-lang">R · Regression + Plot</span>
+      <button class="code-copy" onclick="copyCode(this)">Salin</button>
+    </div>
+    <div class="code-body"><span class="cm"># Multiple regression: prediktor → popularitas</span>
+data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Popularity.csv"</span>)
+
+model <span class="op">&lt;-</span> <span class="fn">lm</span>(popular <span class="op">~</span> sd <span class="op">+</span> covert <span class="op">+</span> overt, data = data)
+<span class="fn">summary</span>(model)
+
+<span class="cm"># Scatter: covert vs popular</span>
+<span class="kw">library</span>(ggplot2)
+<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = covert, y = popular)) <span class="op">+</span>
+  <span class="fn">geom_point</span>(alpha = <span class="nm">0.4</span>, color = <span class="st">"#0d7377"</span>) <span class="op">+</span>
+  <span class="fn">geom_smooth</span>(method = <span class="st">"lm"</span>, color = <span class="st">"#b45309"</span>, se = <span class="kw">TRUE</span>) <span class="op">+</span>
+  <span class="fn">theme_minimal</span>(base_size = <span class="nm">12</span>)</div>
+  </div>
+
+  <h2 class="sec" style="font-size:15px; margin-top:16px;">5 · Boxplot per Grup</h2>
+  <div class="code-block">
+    <div class="code-header">
+      <span class="code-lang">R · Boxplot</span>
+      <button class="code-copy" onclick="copyCode(this)">Salin</button>
+    </div>
+    <div class="code-body"><span class="cm"># Boxplot popularitas berdasarkan jenis kelamin</span>
+<span class="kw">library</span>(ggplot2)
+
+data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Popularity.csv"</span>)
+data$gender <span class="op">&lt;-</span> <span class="fn">factor</span>(data$gender, labels = <span class="fn">c</span>(<span class="st">"Laki-laki"</span>, <span class="st">"Perempuan"</span>))
+
+<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = gender, y = popular, fill = gender)) <span class="op">+</span>
+  <span class="fn">geom_boxplot</span>(alpha = <span class="nm">0.7</span>, width = <span class="nm">0.5</span>) <span class="op">+</span>
+  <span class="fn">geom_jitter</span>(width = <span class="nm">0.15</span>, alpha = <span class="nm">0.2</span>, size = <span class="nm">0.8</span>) <span class="op">+</span>
+  <span class="fn">scale_fill_manual</span>(values = <span class="fn">c</span>(<span class="st">"#0d7377"</span>, <span class="st">"#b45309"</span>)) <span class="op">+</span>
+  <span class="fn">labs</span>(
+    title = <span class="st">"Popularitas berdasarkan Jenis Kelamin"</span>,
+    x = <span class="st">"Gender"</span>, y = <span class="st">"Popularity Score"</span>
+  ) <span class="op">+</span>
+  <span class="fn">theme_minimal</span>() <span class="op">+</span> <span class="fn">theme</span>(legend.position = <span class="st">"none"</span>)</div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 8: TUGAS ======================== -->
+<div class="page" id="page-8">
+<div class="content-page">
+  <div class="section-label">📝 Bab 7</div>
+  <h1 class="page-title">Tugas <span>Latihan Mandiri</span></h1>
+  <p class="page-desc">Empat tugas praktik menggunakan Popularity Dataset — dikerjakan secara individu dan kelompok.</p>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div>Pastikan sudah mengunduh <strong>Popularity.csv</strong> dan JASP versi terbaru sebelum mengerjakan tugas. Semua analisis menggunakan dataset yang sama.</div>
+  </div>
+
+  <h2 class="sec">Tugas 1 — Individu: Statistik Deskriptif</h2>
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📊</div><h3>Statistik Deskriptif + Histogram</h3></div>
+    <p>Hitung <strong>Mean, SD, Median, Skewness, Kurtosis</strong> untuk variabel <em>popular, covert, overt</em>. Sertakan histogram dengan kurva distribusi normal.</p>
+    <div class="badge-row">
+      <span class="badge badge-teal">Descriptives → Descriptive Statistics</span>
+      <span class="badge badge-teal">Plots → Distribution plots</span>
+    </div>
+    <p style="font-size:13px; color:var(--gray); margin-top:8px; margin-bottom:0;"><strong>Laporkan:</strong> Tabel deskriptif APA + 3 histogram. Tambahkan interpretasi singkat per variabel.</p>
+  </div>
+
+  <h2 class="sec">Tugas 2 — Individu: Uji T (Gender)</h2>
+  <div class="card">
+    <div class="card-header"><div class="card-icon">⚖️</div><h3>Apakah Popularitas Berbeda antar Gender?</h3></div>
+    <p>Uji apakah skor popularitas (<em>popular</em>) berbeda secara signifikan antara laki-laki dan perempuan menggunakan Independent Samples T-Test.</p>
+    <div class="badge-row">
+      <span class="badge badge-blue">T-Tests → Independent Samples T-Test</span>
+      <span class="badge badge-blue">Centang: Cohen's d, Descriptives</span>
+    </div>
+    <p style="font-size:13px; color:var(--gray); margin-top:8px; margin-bottom:0;"><strong>Laporkan:</strong> Nilai t, df, p-value, Cohen's d, dan interpretasi apakah perbedaan signifikan.</p>
+  </div>
+
+  <h2 class="sec">Tugas 3 — Kelompok: Analisis Korelasi</h2>
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🔗</div><h3>Korelasi antar Variabel</h3></div>
+    <p>Hitung matriks korelasi Pearson antara variabel <em>popular, sd, covert, overt</em>. Tampilkan heatmap korelasi.</p>
+    <div class="badge-row">
+      <span class="badge badge-amber">Regression → Correlation</span>
+      <span class="badge badge-amber">Plots → Heatmap + Scatter matrix</span>
+    </div>
+    <p style="font-size:13px; color:var(--gray); margin-top:8px; margin-bottom:0;"><strong>Laporkan:</strong> Tabel korelasi APA + heatmap + interpretasi pasangan variabel yang paling kuat korelasinya.</p>
+  </div>
+
+  <h2 class="sec">Tugas 4 — Kelompok: Regresi Berganda</h2>
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📈</div><h3>Prediktor Popularitas Siswa</h3></div>
+    <p>Prediksi variabel <em>popular</em> menggunakan prediktor: <em>sd + covert + overt</em>. Laporkan model regresi berganda.</p>
+    <div class="badge-row">
+      <span class="badge badge-violet">Regression → Linear Regression</span>
+      <span class="badge badge-violet">Centang: R², F-statistic, Standardized β</span>
+    </div>
+    <p style="font-size:13px; color:var(--gray); margin-top:8px; margin-bottom:0;"><strong>Laporkan:</strong> Tabel koefisien APA (B, SE, β, t, p), nilai R² dan F, serta interpretasi prediktor signifikan.</p>
+  </div>
+
+  <div class="alert alert-success">
+    <span class="alert-icon">✅</span>
+    <div><strong>Format Laporan:</strong> Setiap tugas disajikan dengan (1) tabel output APA, (2) grafik relevan, dan (3) paragraf interpretasi singkat maksimal 3 kalimat. Ekspor menggunakan ☰ → Export Results → Word.</div>
+  </div>
+
+  <div class="cta-box">
+    <h3>Butuh Bantuan Analisis? 🎓</h3>
+    <p>Dari deskriptif sampai SEM — konsultasi dengan Mas Yogo, gratis untuk pertanyaan pertama.</p>
+    <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya peserta workshop JASP dan ingin konsultasi." class="btn-cta" target="_blank">💬 Chat WhatsApp Sekarang</a>
+    <span class="cta-link">Atau kunjungi <a href="https://yogoaj.github.io" target="_blank">yogoaj.github.io</a></span>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 9: TENTANG ======================== -->
+<div class="page" id="page-9">
+<div class="content-page">
+  <div class="section-label">👤 Tentang Penulis</div>
+  <h1 class="page-title">Ruang <span>Statistika</span></h1>
+  <p class="page-desc">Platform konsultasi statistik untuk mahasiswa S1 hingga S3 dan akademisi.</p>
+
+  <div class="card" style="border: 1px solid rgba(245,197,24,.3);">
+    <div style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
+      <div style="width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg, var(--navy), #1a3a6b); display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:900; color:var(--gold); flex-shrink:0;">Y</div>
+      <div>
+        <h3 style="font-size:18px; margin-bottom:4px;">Yogo Aryo Jatmiko, SST, M.Stat</h3>
+        <p style="font-size:13px; color:var(--gray); margin:0;">Founder Ruang Statistika · AI Enthusiast · Statistisi BPS · Dosen Demografi Polstat STIS Jakarta</p>
+        <div class="badge-row" style="margin-top:10px;">
+          <span class="badge">📊 10+ Tahun Pengalaman</span>
+          <span class="badge">📄 8+ Publikasi Jurnal</span>
+          <span class="badge badge-gold">🎓 S1–S3 Dibimbing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:20px;">Halo! Saya Yogo Aryo Jatmiko — Founder dari <strong>Ruang Statistika</strong>, Statistisi di BPS dan Dosen Demografi di Polstat STIS Jakarta. Sudah lebih dari 10 tahun bekerja dengan data dan statistik di lingkungan akademis dan pemerintahan.</p>
+  <p>Workshop JASP ini lahir karena saya percaya bahwa <em>analisis data yang baik tidak harus rumit</em>. JASP adalah buktinya — powerful, gratis, dan ramah pemula. Saya ingin setiap pengajar dan tendik bisa menggunakannya dengan percaya diri.</p>
+
+  <h2 class="sec">Tools yang Dibantu</h2>
+  <div class="badge-row" style="margin-bottom:24px;">
+    <span class="badge">JASP</span>
+    <span class="badge">SPSS</span>
+    <span class="badge">AMOS</span>
+    <span class="badge">SmartPLS</span>
+    <span class="badge">R / RStudio</span>
+    <span class="badge">Stata</span>
+    <span class="badge">Eviews</span>
+  </div>
+
+  <h2 class="sec">Paket Layanan</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Paket</th><th>Harga</th><th>Cocok untuk</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Konsultasi Singkat</strong></td><td>Mulai Rp 250K / sesi</td><td>Pertanyaan spesifik, interpretasi output</td></tr>
+        <tr><td><strong>Olah Data</strong></td><td>Mulai Rp 500K / paket</td><td>Pengolahan data lengkap + interpretasi</td></tr>
+        <tr><td><strong>Pendampingan Penuh</strong></td><td>Mulai Rp 1,2 Jt</td><td>S2/S3, multi-sesi, dari awal sampai sidang</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cta-box">
+    <h3>Statistikmu beres sebelum deadline. 🎓</h3>
+    <p>Dari deskriptif sampai regresi — konsultasi langsung dengan saya. Chat sekarang, gratis tanpa komitmen.</p>
+    <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya ikut workshop JASP dan ingin konsultasi." class="btn-cta" target="_blank">💬 Chat WhatsApp Sekarang</a>
+    <span class="cta-link">Atau kunjungi <a href="https://yogoaj.github.io" target="_blank">yogoaj.github.io</a></span>
+  </div>
+
+  <div class="ebook-footer" style="margin-top:32px;">
+    © 2025 <a href="https://yogoaj.github.io" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Workshop JASP untuk Pengajar & Tendik · Polifurnika 2026
+  </div>
+</div>
+</div>
+
+<!-- BOTTOM PAGE NAV -->
+<div class="page-nav">
+  <button id="prevBtn" onclick="changePage(-1)" disabled>‹</button>
+  <span class="page-counter" id="pageCounter">1 / 10</span>
+  <button id="nextBtn" onclick="changePage(1)">›</button>
+</div>
+
+<script>
+  const pages = document.querySelectorAll('.page');
+  let cur = 0;
+  const total = pages.length;
+
+  function showPage(n) {
+    pages[cur].classList.remove('active');
+    cur = n;
+    pages[cur].classList.add('active');
+    document.getElementById('pageCounter').textContent = (cur+1) + ' / ' + total;
+    document.getElementById('prevBtn').disabled = cur === 0;
+    document.getElementById('nextBtn').disabled = cur === total-1;
+    document.getElementById('pgbar').style.width = ((cur/(total-1))*100) + '%';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function changePage(d) { if(cur+d>=0 && cur+d<total) showPage(cur+d); }
+  function goPage(n) { showPage(n); }
+
+  function copyCode(btn) {
+    var block = btn.closest('.code-block').querySelector('.code-body');
+    var text = block.innerText;
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = '✓ Tersalin';
+      setTimeout(function() { btn.textContent = 'Salin'; }, 2000);
+    }).catch(function() {
+      btn.textContent = 'Coba lagi';
+      setTimeout(function() { btn.textContent = 'Salin'; }, 1500);
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if(e.key==='ArrowRight') changePage(1);
+    if(e.key==='ArrowLeft') changePage(-1);
+  });
+</script>
+</body>
+</html>
