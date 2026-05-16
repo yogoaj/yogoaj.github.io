@@ -1,1 +1,518 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kunci Jawaban Tugas — Data Latihan Furnitur | Ruang Statistika</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
 
+  :root {
+    --navy: #0d1f3c;
+    --navy2: #132847;
+    --gold: #f5c518;
+    --gold2: #e6b800;
+    --white: #ffffff;
+    --light: #f8f9fc;
+    --gray: #6b7280;
+    --border: #e5e7eb;
+    --accent: #1a3a6b;
+    --green: #166534;
+    --red: #991b1b;
+    --teal: #0d7377;
+    --teal-pale: #e0f5f4;
+    --blue: #1a56db;
+    --blue-pale: #ebf5ff;
+    --amber: #b45309;
+    --amber-pale: #fffbeb;
+    --violet: #5b21b6;
+    --violet-pale: #f5f3ff;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--light); color: #1a1a2e; line-height: 1.7; }
+
+  /* TOP BAR */
+  .top-bar {
+    background: var(--navy); padding: 10px 24px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    position: sticky; top: 0; z-index: 99; box-shadow: 0 2px 16px rgba(0,0,0,.25);
+  }
+  .top-bar .brand { display: flex; align-items: center; gap: 10px; }
+  .top-bar .brand span { color: var(--gold); font-weight: 700; font-size: 15px; }
+  .top-bar .badge-kunci { background: rgba(245,197,24,.15); border: 1px solid rgba(245,197,24,.3); color: var(--gold); font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px; }
+
+  /* HERO */
+  .hero {
+    background: var(--navy); text-align: center;
+    padding: 60px 32px 50px; position: relative; overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(245,197,24,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,197,24,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .hero-label { color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; position: relative; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 4vw, 40px); font-weight: 900; color: #fff; position: relative; margin-bottom: 12px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: rgba(255,255,255,.55); font-size: 14px; max-width: 560px; margin: 0 auto 24px; position: relative; }
+  .hero-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; position: relative; }
+  .hero-chip { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.75); font-size: 11.5px; font-weight: 500; padding: 5px 14px; border-radius: 20px; }
+
+  /* MAIN */
+  .main { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* TUGAS HEADER */
+  .tugas-header {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--navy); border-radius: 14px; padding: 20px 24px; margin-bottom: 20px;
+    position: relative; overflow: hidden;
+  }
+  .tugas-header::after { content:''; position: absolute; right:-40px; top:-40px; width:120px; height:120px; background: radial-gradient(circle, rgba(245,197,24,.12) 0%, transparent 70%); pointer-events: none; }
+  .tugas-num { width: 52px; height: 52px; border-radius: 12px; background: var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 20px; color: var(--navy); flex-shrink: 0; }
+  .tugas-header h2 { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 3px; }
+  .tugas-header p { font-size: 12px; color: rgba(255,255,255,.5); margin: 0; }
+
+  /* SECTION */
+  h3.sec { font-size: 14px; font-weight: 700; color: var(--navy); margin: 22px 0 10px; display: flex; align-items: center; gap: 8px; }
+  h3.sec::before { content:''; display:block; width:3px; height:16px; background:var(--gold); border-radius:2px; flex-shrink:0; }
+
+  /* TABLE */
+  .tbl-wrap { overflow-x: auto; margin: 10px 0 18px; }
+  .apa-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+  .apa-table caption { text-align: left; font-size: 12.5px; color: var(--navy); font-weight: 700; padding: 12px 14px 6px; }
+  .apa-table thead tr { border-bottom: 2px solid var(--navy); }
+  .apa-table th { background: var(--navy); color: var(--gold); font-weight: 700; padding: 10px 14px; text-align: left; font-size: 11.5px; letter-spacing: .3px; }
+  .apa-table td { padding: 9px 14px; color: #374151; border-bottom: 1px solid #f3f4f6; vertical-align: top; font-size: 13px; }
+  .apa-table tr:last-child td { border-bottom: none; }
+  .apa-table tr:nth-child(even) td { background: #f9fafb; }
+  .apa-note { font-size: 11.5px; color: var(--gray); margin-top: 4px; font-style: italic; }
+  .sig { font-weight: 700; color: var(--teal); }
+  .nsig { color: var(--gray); }
+
+  /* ALERT */
+  .alert { border-radius: 10px; padding: 13px 16px; margin-bottom: 14px; display: flex; gap: 11px; align-items: flex-start; font-size: 13px; }
+  .alert-success { background: #f0fdf4; border-left: 4px solid #22c55e; color: var(--green); }
+  .alert-info { background: var(--blue-pale); border-left: 4px solid var(--blue); color: #1e40af; }
+  .alert-warn { background: var(--amber-pale); border-left: 4px solid #f59e0b; color: #92400e; }
+  .alert-teal { background: var(--teal-pale); border-left: 4px solid var(--teal); color: #0d5c60; }
+  .alert-icon { font-size: 17px; flex-shrink:0; margin-top:1px; }
+
+  /* BADGE */
+  .badge { display:inline-flex; align-items:center; font-size: 11.5px; font-weight: 600; padding: 3px 11px; border-radius: 20px; }
+  .badge-green { background: #dcfce7; color: var(--green); }
+  .badge-red { background: #fee2e2; color: var(--red); }
+  .badge-blue { background: var(--blue-pale); color: var(--blue); }
+  .badge-amber { background: var(--amber-pale); color: var(--amber); }
+  .badge-teal { background: var(--teal-pale); color: var(--teal); }
+  .badge-violet { background: var(--violet-pale); color: var(--violet); }
+  .badge-gold { background: rgba(245,197,24,.15); color: #92400e; }
+
+  /* INTERPRETASI BOX */
+  .interp-box { background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--gold2); border-radius: 10px; padding: 16px 20px; margin-top: 14px; }
+  .interp-box .interp-title { font-size: 11px; font-weight: 700; color: var(--gold2); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .interp-box p { font-size: 13px; color: #374151; margin-bottom: 8px; }
+  .interp-box p:last-child { margin-bottom: 0; }
+
+  /* NILAI KUNCI */
+  .nilai-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin: 12px 0; }
+  @media(max-width:600px){ .nilai-grid { grid-template-columns: repeat(2,1fr); } }
+  .nilai-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; text-align: center; }
+  .nilai-card .nk-label { font-size: 10px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 4px; }
+  .nilai-card .nk-val { font-size: 18px; font-weight: 800; color: var(--navy); font-family: 'Playfair Display', serif; }
+  .nilai-card .nk-unit { font-size: 10px; color: var(--gray); }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+  /* FOOTER */
+  .footer { text-align: center; font-size: 11.5px; color: var(--gray); padding: 24px; border-top: 1px solid var(--border); }
+  .footer a { color: var(--navy); font-weight: 600; text-decoration: none; }
+
+  /* PRINT */
+  @media print {
+    .top-bar { display: none !important; }
+    .hero { padding: 24px 32px 20px; }
+    body { background: #fff; }
+    .main { padding: 24px 16px 40px; }
+    .tugas-header { break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tbl-wrap { break-inside: avoid; }
+    .interp-box { break-inside: avoid; }
+    .alert { break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .nilai-grid { break-inside: avoid; }
+    .divider { margin: 20px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="brand">
+    <svg width="26" height="26" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="10" fill="#132847"/>
+      <rect x="18" y="52" width="18" height="32" rx="4" fill="#1a3a6b"/>
+      <rect x="42" y="36" width="18" height="48" rx="4" fill="#1a3a6b"/>
+      <rect x="66" y="18" width="18" height="66" rx="4" fill="#f5c518"/>
+      <path d="M27 58 Q44 44 57 38 Q66 32 75 22" stroke="#f5c518" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span>Ruang Statistika</span>
+  </div>
+  <span class="badge-kunci">🔑 KUNCI JAWABAN</span>
+</div>
+
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-label">📋 Workshop JASP · Polifurnika 2026</div>
+  <h1>Kunci Jawaban <span>Tugas Latihan</span></h1>
+  <p>Jawaban lengkap empat tugas praktik JASP menggunakan <strong style="color:rgba(255,255,255,.8);">Data_latihan_Furnitur.csv</strong> — disertai nilai statistik, tabel APA, dan paragraf interpretasi.</p>
+  <div class="hero-chips">
+    <span class="hero-chip">📊 n = 30 sampel</span>
+    <span class="hero-chip">🌲 3 Jenis Kayu</span>
+    <span class="hero-chip">7 Variabel</span>
+    <span class="hero-chip">JASP · R</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="alert alert-warn" style="margin-bottom:28px;">
+    <span class="alert-icon">⚠️</span>
+    <div><strong>Catatan untuk Pengajar:</strong> Nilai dalam kunci jawaban ini dihitung dari dataset furnitur yang diberikan (<em>n</em> = 30). Nilai yang dihasilkan JASP mungkin berbeda di digit terakhir karena perbedaan pembulatan — masih dianggap benar jika selisih ≤ 0,01.</div>
+  </div>
+
+  <!-- ======================== TUGAS 1 ======================== -->
+  <div class="tugas-header">
+    <div class="tugas-num">1</div>
+    <div>
+      <h2>Tugas 1 — Statistik Deskriptif + Histogram</h2>
+      <p>Individu · Descriptives → Descriptive Statistics + Distribution Plots</p>
+    </div>
+  </div>
+
+  <h3 class="sec">Tabel Statistik Deskriptif</h3>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 1</strong></em><br>Statistik Deskriptif Variabel Data Latihan Furnitur (<em>n</em> = 30)</caption>
+      <thead>
+        <tr>
+          <th>Variabel</th><th><em>M</em></th><th><em>SD</em></th><th><em>Mdn</em></th><th>Min</th><th>Max</th><th>Skewness</th><th>Kurtosis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Diameter_Log_cm</strong></td>
+          <td>32,47</td><td>5,49</td><td>32,00</td><td>24,00</td><td>43,00</td>
+          <td>0,29</td><td>−0,96</td>
+        </tr>
+        <tr>
+          <td><strong>Kadar_Air_persen</strong></td>
+          <td>13,00</td><td>2,04</td><td>12,75</td><td>10,00</td><td>16,30</td>
+          <td>0,21</td><td>−1,26</td>
+        </tr>
+        <tr>
+          <td><strong>Ketebalan_mm</strong></td>
+          <td>39,52</td><td>2,43</td><td>38,85</td><td>36,20</td><td>43,60</td>
+          <td>0,47</td><td>−1,22</td>
+        </tr>
+        <tr>
+          <td><strong>Efisiensi_persen</strong></td>
+          <td>74,17</td><td>8,40</td><td>74,00</td><td>62,00</td><td>88,00</td>
+          <td>0,05</td><td>−1,29</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="apa-note"><em>Catatan.</em> M = rata-rata; SD = standar deviasi; Mdn = median. Kurtosis = excess kurtosis.</p>
+  </div>
+
+  <h3 class="sec">Cara Menghasilkan di JASP</h3>
+  <div class="alert alert-teal">
+    <span class="alert-icon">🖱️</span>
+    <div>Descriptives → Descriptive Statistics → drag <em>Diameter_Log_cm, Kadar_Air_persen, Ketebalan_mm, Efisiensi_persen</em> ke Variables → centang Mean, SD, Median, Min, Max, Skewness, Kurtosis → Plots → Distribution plots → centang <em>Display density</em>.</div>
+  </div>
+
+  <div class="interp-box">
+    <div class="interp-title">📝 Paragraf Interpretasi (contoh)</div>
+    <p>Hasil statistik deskriptif menunjukkan bahwa rata-rata diameter log kayu adalah 32,47 cm (<em>SD</em> = 5,49), dengan rentang antara 24 cm hingga 43 cm. Kadar air rata-rata sebesar 13,00% (<em>SD</em> = 2,04), sementara efisiensi penggunaan bahan baku rata-rata mencapai 74,17% (<em>SD</em> = 8,40).</p>
+    <p>Nilai skewness seluruh variabel mendekati nol (berkisar 0,05–0,47), mengindikasikan distribusi yang relatif simetris. Nilai kurtosis negatif pada semua variabel (berkisar −0,96 hingga −1,29) menunjukkan distribusi yang lebih datar (<em>platykurtic</em>) dibandingkan distribusi normal, yang umum terjadi pada sampel kecil.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ======================== TUGAS 2 ======================== -->
+  <div class="tugas-header">
+    <div class="tugas-num">2</div>
+    <div>
+      <h2>Tugas 2 — Uji T: Jati vs Pinus</h2>
+      <p>Individu · T-Tests → Independent Samples T-Test</p>
+    </div>
+  </div>
+
+  <h3 class="sec">Statistik Deskriptif per Kelompok</h3>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Jenis Kayu</th><th><em>n</em></th><th><em>M</em></th><th><em>SD</em></th></tr></thead>
+      <tbody>
+        <tr><td><strong>Jati</strong></td><td>10</td><td>84,10</td><td>2,33</td></tr>
+        <tr><td><strong>Pinus</strong></td><td>10</td><td>64,40</td><td>2,07</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec">Hasil Uji T</h3>
+  <div class="nilai-grid">
+    <div class="nilai-card">
+      <div class="nk-label">t</div>
+      <div class="nk-val">20,00</div>
+      <div class="nk-unit">statistik uji</div>
+    </div>
+    <div class="nilai-card">
+      <div class="nk-label">df</div>
+      <div class="nk-val">18</div>
+      <div class="nk-unit">derajat bebas</div>
+    </div>
+    <div class="nilai-card">
+      <div class="nk-label">p-value</div>
+      <div class="nk-val">&lt; .001</div>
+      <div class="nk-unit">two-tailed</div>
+    </div>
+    <div class="nilai-card">
+      <div class="nk-label">Cohen's d</div>
+      <div class="nk-val">8,95</div>
+      <div class="nk-unit">effect size</div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 2</strong></em><br>Independent Samples T-Test: Efisiensi Jati vs Pinus</caption>
+      <thead><tr><th>Variabel</th><th><em>t</em></th><th><em>df</em></th><th><em>p</em></th><th>Mean Difference</th><th>Cohen's <em>d</em></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Efisiensi_persen</strong></td>
+          <td class="sig">20,00</td>
+          <td>18</td>
+          <td class="sig">&lt; .001</td>
+          <td>19,70</td>
+          <td class="sig">8,95</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="apa-note"><em>Catatan.</em> Pooled SD = 2,20. Cohen's <em>d</em> = 8,95 mengindikasikan effect size yang sangat besar (huge).</p>
+  </div>
+
+  <div class="alert alert-success">
+    <span class="alert-icon">✅</span>
+    <div><strong>Kesimpulan:</strong> Terdapat perbedaan efisiensi yang signifikan antara kayu Jati dan Pinus (<em>t</em>(18) = 20,00, <em>p</em> &lt; .001, <em>d</em> = 8,95).</div>
+  </div>
+
+  <div class="interp-box">
+    <div class="interp-title">📝 Paragraf Interpretasi (contoh)</div>
+    <p>Hasil Independent Samples T-Test menunjukkan bahwa terdapat perbedaan efisiensi penggunaan bahan baku yang sangat signifikan antara kayu Jati (<em>M</em> = 84,10, <em>SD</em> = 2,33) dan Pinus (<em>M</em> = 64,40, <em>SD</em> = 2,07), <em>t</em>(18) = 20,00, <em>p</em> &lt; .001.</p>
+    <p>Kayu Jati memiliki efisiensi rata-rata 19,70 poin persentase lebih tinggi dibandingkan Pinus. Nilai Cohen's <em>d</em> = 8,95 mengindikasikan effect size yang sangat besar, artinya perbedaan ini memiliki signifikansi praktis yang sangat kuat — bukan sekadar artefak statistik.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ======================== TUGAS 3 ======================== -->
+  <div class="tugas-header">
+    <div class="tugas-num">3</div>
+    <div>
+      <h2>Tugas 3 — Analisis Korelasi Pearson</h2>
+      <p>Kelompok · Regression → Correlation + Heatmap</p>
+    </div>
+  </div>
+
+  <h3 class="sec">Matriks Korelasi Pearson</h3>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 3</strong></em><br>Matriks Korelasi Pearson antar Variabel Furnitur (<em>n</em> = 30)</caption>
+      <thead>
+        <tr><th>Variabel</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Diameter_Log_cm</strong></td>
+          <td>—</td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td><strong>2. Kadar_Air_persen</strong></td>
+          <td class="sig">−0,971**</td>
+          <td>—</td><td></td><td></td>
+        </tr>
+        <tr>
+          <td><strong>3. Ketebalan_mm</strong></td>
+          <td class="sig">−0,929**</td>
+          <td class="sig">0,973**</td>
+          <td>—</td><td></td>
+        </tr>
+        <tr>
+          <td><strong>4. Efisiensi_persen</strong></td>
+          <td class="sig">0,983**</td>
+          <td class="sig">−0,992**</td>
+          <td class="sig">−0,948**</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="apa-note"><em>Catatan.</em> ** <em>p</em> &lt; .01 (two-tailed). Seluruh korelasi signifikan pada α = 0,01.</p>
+  </div>
+
+  <h3 class="sec">Rangkuman Nilai Korelasi</h3>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Pasangan Variabel</th><th><em>r</em></th><th><em>p</em></th><th>Arah</th><th>Kekuatan</th></tr></thead>
+      <tbody>
+        <tr><td>Kadar_Air ↔ Efisiensi</td><td class="sig">−0,992</td><td>&lt; .001</td><td>Negatif</td><td><span class="badge badge-teal">Sangat Kuat</span></td></tr>
+        <tr><td>Diameter ↔ Efisiensi</td><td class="sig">0,983</td><td>&lt; .001</td><td>Positif</td><td><span class="badge badge-teal">Sangat Kuat</span></td></tr>
+        <tr><td>Diameter ↔ Kadar_Air</td><td class="sig">−0,971</td><td>&lt; .001</td><td>Negatif</td><td><span class="badge badge-teal">Sangat Kuat</span></td></tr>
+        <tr><td>Kadar_Air ↔ Ketebalan</td><td class="sig">0,973</td><td>&lt; .001</td><td>Positif</td><td><span class="badge badge-teal">Sangat Kuat</span></td></tr>
+        <tr><td>Ketebalan ↔ Efisiensi</td><td class="sig">−0,948</td><td>&lt; .001</td><td>Negatif</td><td><span class="badge badge-teal">Sangat Kuat</span></td></tr>
+        <tr><td>Diameter ↔ Ketebalan</td><td class="sig">−0,929</td><td>&lt; .001</td><td>Negatif</td><td><span class="badge badge-teal">Sangat Kuat</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="interp-box">
+    <div class="interp-title">📝 Paragraf Interpretasi (contoh)</div>
+    <p>Seluruh pasangan variabel menunjukkan korelasi yang sangat kuat dan signifikan secara statistik (<em>p</em> &lt; .001). Korelasi terkuat ditemukan antara <strong>Kadar_Air_persen dan Efisiensi_persen</strong> (<em>r</em> = −0,992), yang bermakna semakin tinggi kadar air kayu maka efisiensi penggunaan bahan baku semakin rendah secara konsisten.</p>
+    <p>Diameter log berkorelasi positif sangat kuat dengan efisiensi (<em>r</em> = 0,983), menunjukkan bahwa log dengan diameter lebih besar cenderung menghasilkan efisiensi yang lebih baik. Sebaliknya, ketebalan papan berkorelasi negatif dengan efisiensi (<em>r</em> = −0,948), mengindikasikan papan yang lebih tebal cenderung menghasilkan lebih banyak sisa bahan baku.</p>
+    <p>Pola korelasi yang konsisten dan sangat kuat ini kemungkinan disebabkan oleh struktur perbedaan antar jenis kayu (Jati, Mahoni, Pinus) yang mendominasi variasi dalam dataset.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ======================== TUGAS 4 ======================== -->
+  <div class="tugas-header">
+    <div class="tugas-num">4</div>
+    <div>
+      <h2>Tugas 4 — Regresi Berganda</h2>
+      <p>Kelompok · Regression → Linear Regression</p>
+    </div>
+  </div>
+
+  <h3 class="sec">Model Fit</h3>
+  <div class="nilai-grid">
+    <div class="nilai-card">
+      <div class="nk-label">R²</div>
+      <div class="nk-val">0,994</div>
+      <div class="nk-unit">koefisien determinasi</div>
+    </div>
+    <div class="nilai-card">
+      <div class="nk-label">Adj R²</div>
+      <div class="nk-val">0,993</div>
+      <div class="nk-unit">terkoreksi</div>
+    </div>
+    <div class="nilai-card">
+      <div class="nk-label">F(3, 26)</div>
+      <div class="nk-val">1369,19</div>
+      <div class="nk-unit">F-statistic</div>
+    </div>
+    <div class="nilai-card">
+      <div class="nk-label">p-value</div>
+      <div class="nk-val">&lt; .001</div>
+      <div class="nk-unit">signifikansi model</div>
+    </div>
+  </div>
+
+  <h3 class="sec">Tabel Koefisien Regresi (Format APA)</h3>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 4</strong></em><br>Koefisien Regresi Berganda: Prediktor Efisiensi_persen</caption>
+      <thead>
+        <tr>
+          <th>Prediktor</th>
+          <th><em>B</em></th>
+          <th><em>SE</em></th>
+          <th>β</th>
+          <th><em>t</em></th>
+          <th><em>p</em></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Konstanta</strong></td>
+          <td>78,917</td><td>7,773</td><td>—</td>
+          <td>10,153</td><td class="sig">&lt; .001</td>
+        </tr>
+        <tr>
+          <td><strong>Diameter_Log_cm</strong></td>
+          <td>0,418</td><td>0,103</td><td class="sig">0,273</td>
+          <td class="sig">4,053</td><td class="sig">.000</td>
+        </tr>
+        <tr>
+          <td><strong>Kadar_Air_persen</strong></td>
+          <td>−3,990</td><td>0,446</td><td class="sig">−0,966</td>
+          <td class="sig">−8,954</td><td class="sig">&lt; .001</td>
+        </tr>
+        <tr>
+          <td><strong>Ketebalan_mm</strong></td>
+          <td>0,849</td><td>0,242</td><td class="sig">0,246</td>
+          <td class="sig">3,504</td><td class="sig">.002</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="apa-note"><em>Catatan.</em> <em>B</em> = koefisien tidak terstandar; <em>SE</em> = standard error; β = koefisien terstandar. <em>R</em>² = .994, <em>F</em>(3, 26) = 1369,19, <em>p</em> &lt; .001.</p>
+  </div>
+
+  <h3 class="sec">Signifikansi Prediktor</h3>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Prediktor</th><th>Signifikan?</th><th>Arah Pengaruh</th><th>Kekuatan (β)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Kadar_Air_persen</strong></td>
+          <td><span class="badge badge-teal">Ya ✓</span></td>
+          <td>Negatif</td>
+          <td><span class="badge badge-teal">Dominan (−0,966)</span></td>
+        </tr>
+        <tr>
+          <td><strong>Diameter_Log_cm</strong></td>
+          <td><span class="badge badge-teal">Ya ✓</span></td>
+          <td>Positif</td>
+          <td><span class="badge badge-blue">Moderat (0,273)</span></td>
+        </tr>
+        <tr>
+          <td><strong>Ketebalan_mm</strong></td>
+          <td><span class="badge badge-teal">Ya ✓</span></td>
+          <td>Positif</td>
+          <td><span class="badge badge-blue">Moderat (0,246)</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-success">
+    <span class="alert-icon">✅</span>
+    <div><strong>Model sangat fit:</strong> Ketiga prediktor bersama-sama menjelaskan <strong>99,4% variasi</strong> Efisiensi_persen (<em>R</em>² = .994). Seluruh prediktor signifikan (<em>p</em> &lt; .01).</div>
+  </div>
+
+  <div class="interp-box">
+    <div class="interp-title">📝 Paragraf Interpretasi (contoh)</div>
+    <p>Model regresi berganda secara keseluruhan signifikan, <em>F</em>(3, 26) = 1369,19, <em>p</em> &lt; .001, dengan <em>R</em>² = .994. Artinya, ketiga prediktor — Diameter_Log_cm, Kadar_Air_persen, dan Ketebalan_mm — secara bersama-sama menjelaskan 99,4% variasi efisiensi penggunaan bahan baku.</p>
+    <p>Prediktor paling dominan adalah <strong>Kadar_Air_persen</strong> (β = −0,966, <em>t</em>(26) = −8,95, <em>p</em> &lt; .001): setiap kenaikan 1% kadar air diprediksi menurunkan efisiensi sebesar 3,99 poin, dengan variabel lain dikontrol. <strong>Diameter_Log_cm</strong> berpengaruh positif signifikan (β = 0,273, <em>t</em>(26) = 4,05, <em>p</em> &lt; .001), sementara <strong>Ketebalan_mm</strong> juga berkontribusi positif (β = 0,246, <em>t</em>(26) = 3,50, <em>p</em> = .002). Temuan ini mengindikasikan bahwa pengendalian kadar air merupakan faktor paling kritis dalam meningkatkan efisiensi produksi furnitur.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CATATAN PENUTUP -->
+  <div class="alert alert-info">
+    <span class="alert-icon">📌</span>
+    <div>
+      <strong>Catatan Multikolinearitas:</strong> Korelasi sangat tinggi antar prediktor (r > 0,90) menunjukkan potensi multikolinearitas. Dalam analisis lanjutan, periksa nilai <strong>VIF (Variance Inflation Factor)</strong> di JASP: Regression → Linear Regression → Statistics → centang <em>Multicollinearity diagnostics</em>. VIF &gt; 10 perlu diwaspadai, meskipun dalam konteks dataset latihan ini masih dapat diterima.
+    </div>
+  </div>
+
+  <div class="alert alert-teal" style="margin-top:12px;">
+    <span class="alert-icon">💡</span>
+    <div><strong>Cara Ekspor ke Word:</strong> Setelah analisis selesai di JASP, klik ☰ → <em>Export Results</em> → <em>Word</em> untuk menyimpan semua tabel dan grafik dalam satu dokumen berformat APA otomatis.</div>
+  </div>
+
+</div><!-- /main -->
+
+<div class="footer">
+  © 2026 <a href="https://yogoaj.github.io" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Workshop JASP untuk Pengajar & Tendik · Polifurnika 2026
+</div>
+
+</body>
+</html>
