@@ -427,7 +427,7 @@
     <div class="feat"><span class="dot"></span> Uji T, ANOVA & Regresi</div>
     <div class="feat"><span class="dot"></span> Grafik & Tabel APA Siap Pakai</div>
     <div class="feat"><span class="dot"></span> R for JASP — Sintaks & Skrip</div>
-    <div class="feat"><span class="dot"></span> Dataset Latihan Popularity.csv</div>
+    <div class="feat"><span class="dot"></span> Dataset Latihan Furnitur.csv</div>
     <div class="feat"><span class="dot"></span> Tugas Praktik Mandiri</div>
   </div>
 
@@ -459,7 +459,7 @@
     <span class="toc-arr">›</span>
   </div>
   <div class="toc-item" onclick="goPage(4)">
-    <div class="toc-left"><span class="toc-num">03</span><span class="toc-title">Manajemen & Tipe Data — Popularity Dataset</span></div>
+    <div class="toc-left"><span class="toc-num">03</span><span class="toc-title">Manajemen & Tipe Data — Data Latihan Furnitur</span></div>
     <span class="toc-arr">›</span>
   </div>
   <div class="toc-item" onclick="goPage(5)">
@@ -617,7 +617,7 @@
 <div class="content-page">
   <div class="section-label">📁 Bab 3</div>
   <h1 class="page-title">Manajemen <span>Data</span></h1>
-  <p class="page-desc">Format file, tipe variabel, dan dataset latihan Popularity.csv.</p>
+  <p class="page-desc">Format file, tipe variabel, dan dataset latihan Data_latihan_Furnitur.csv.</p>
 
   <h2 class="sec">Format File yang Didukung JASP</h2>
   <div class="pills">
@@ -658,28 +658,26 @@
     <div><strong>Tips:</strong> Klik ikon tipe variabel di header kolom untuk mengubahnya. JASP otomatis mendeteksi, tapi selalu verifikasi manual sebelum analisis.</div>
   </div>
 
-  <h2 class="sec">Dataset Latihan: Popularity Dataset</h2>
-  <p>Kita menggunakan <strong>Popularity Dataset</strong> (Van de Schoot, 2020) — studi tentang hubungan antara popularitas dan perilaku antisosial pada remaja (<em>n</em> = 1.491 siswa).</p>
+  <h2 class="sec">Dataset Latihan: Data Latihan Furnitur</h2>
+  <p>Kita menggunakan <strong>Data Latihan Furnitur</strong> — dataset hasil pengujian kualitas bahan baku kayu pada industri furnitur (<em>n</em> = 29 sampel). Dataset mencakup tiga jenis kayu (Jati, Pinus, Mahoni) dengan berbagai pengukuran teknis dan status cacat produk.</p>
   <div class="tbl-wrap">
     <table class="apa-table">
-      <caption><em><strong>Tabel 1</strong></em><br>Variabel dalam Popularity Dataset</caption>
+      <caption><em><strong>Tabel 1</strong></em><br>Variabel dalam Data Latihan Furnitur</caption>
       <thead><tr><th>Variabel</th><th>Tipe</th><th>Deskripsi</th></tr></thead>
       <tbody>
-        <tr><td><strong>respnr</strong></td><td>Scale</td><td>Nomor responden (ID unik)</td></tr>
-        <tr><td><strong>Dutch</strong></td><td>Nominal</td><td>Etnis: 0 = Belanda, 1 = non-Belanda</td></tr>
-        <tr><td><strong>gender</strong></td><td>Nominal</td><td>Jenis kelamin: 0 = laki-laki, 1 = perempuan</td></tr>
-        <tr><td><strong>sd</strong></td><td>Scale</td><td>Keinginan sosial (social desirability)</td></tr>
-        <tr><td><strong>covert</strong></td><td>Scale</td><td>Perilaku antisosial tersembunyi</td></tr>
-        <tr><td><strong>overt</strong></td><td>Scale</td><td>Perilaku antisosial terbuka</td></tr>
-        <tr><td><strong>texp</strong></td><td>Scale</td><td>Pengalaman guru (tahun)</td></tr>
-        <tr><td><strong>popular</strong></td><td>Scale</td><td>Skor popularitas (peer-rated)</td></tr>
-        <tr><td><strong>popteach</strong></td><td>Scale</td><td>Popularitas menurut guru</td></tr>
+        <tr><td><strong>ID_Sampel</strong></td><td>Scale</td><td>Nomor sampel unik (ID)</td></tr>
+        <tr><td><strong>Jenis_Kayu</strong></td><td>Nominal</td><td>Jenis kayu: Jati, Pinus, atau Mahoni</td></tr>
+        <tr><td><strong>Diameter_Log_cm</strong></td><td>Scale</td><td>Diameter log kayu dalam sentimeter</td></tr>
+        <tr><td><strong>Kadar_Air_persen</strong></td><td>Scale</td><td>Kadar air kayu dalam persen (%)</td></tr>
+        <tr><td><strong>Ketebalan_mm</strong></td><td>Scale</td><td>Ketebalan papan furnitur dalam milimeter</td></tr>
+        <tr><td><strong>Efisiensi_persen</strong></td><td>Scale</td><td>Efisiensi penggunaan bahan baku dalam persen (%)</td></tr>
+        <tr><td><strong>Status_Cacat</strong></td><td>Nominal</td><td>Status cacat produk: 0 = Tidak Cacat, 1 = Cacat</td></tr>
       </tbody>
     </table>
   </div>
 
   <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
-    <a href="https://jasp-stats.org/wp-content/uploads/2020/02/Popularity.csv" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--navy); color:var(--gold); font-weight:700; font-size:13px; padding:10px 20px; border-radius:8px; text-decoration:none;">⬇ Unduh Popularity Dataset (.csv)</a>
+    <a href="https://raw.githubusercontent.com/yogoaj/yogoaj.github.io/refs/heads/main/polifurnika/data/Data_latihan_Furnitur.csv" download style="display:inline-flex; align-items:center; gap:6px; background:var(--navy); color:var(--gold); font-weight:700; font-size:13px; padding:10px 20px; border-radius:8px; text-decoration:none;">⬇ Unduh Data Latihan Furnitur (.csv)</a>
     <a href="https://jasp-stats.org/how-to-use-jasp/" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--blue-pale); color:var(--blue); border:1px solid #93c5fd; font-weight:700; font-size:13px; padding:10px 20px; border-radius:8px; text-decoration:none;">📖 Panduan Resmi JASP</a>
   </div>
 </div>
@@ -733,9 +731,9 @@
 
   <h2 class="sec">Walkthrough: Statistik Deskriptif</h2>
   <ul class="step-list">
-    <li><div class="step-num">1</div><div class="step-txt"><h4>Buka Dataset</h4><p>☰ → Open → pilih file <code style="font-family:monospace; font-size:12px; background:#f3f4f6; padding:1px 6px; border-radius:3px;">Popularity.csv</code>. Data muncul di panel kiri seperti spreadsheet.</p></div></li>
+    <li><div class="step-num">1</div><div class="step-txt"><h4>Buka Dataset</h4><p>☰ → Open → pilih file <code style="font-family:monospace; font-size:12px; background:#f3f4f6; padding:1px 6px; border-radius:3px;">Data_latihan_Furnitur.csv</code>. Data muncul di panel kiri seperti spreadsheet.</p></div></li>
     <li><div class="step-num">2</div><div class="step-txt"><h4>Buka Descriptives</h4><p>Klik <strong>Descriptives</strong> di top bar → pilih <em>Descriptive Statistics</em>.</p></div></li>
-    <li><div class="step-num">3</div><div class="step-txt"><h4>Drag Variabel</h4><p>Drag variabel <em>popular, covert, overt, sd</em> ke kotak <strong>Variables</strong>. Output langsung muncul real-time di panel kanan.</p></div></li>
+    <li><div class="step-num">3</div><div class="step-txt"><h4>Drag Variabel</h4><p>Drag variabel <em>Diameter_Log_cm, Kadar_Air_persen, Ketebalan_mm, Efisiensi_persen</em> ke kotak <strong>Variables</strong>. Output langsung muncul real-time di panel kanan.</p></div></li>
     <li><div class="step-num">4</div><div class="step-txt"><h4>Centang Statistik</h4><p>Di panel kiri, centang: <strong>Mean, SD, Median, Minimum, Maximum, Skewness, Kurtosis</strong>.</p></div></li>
     <li><div class="step-num">5</div><div class="step-txt"><h4>Salin ke Word</h4><p>Klik kanan tabel di panel kanan → <em>Copy</em>. Paste ke Word — format APA otomatis dengan garis tabel yang tepat.</p></div></li>
   </ul>
@@ -868,12 +866,12 @@
 <span class="kw">library</span>(jaspDescriptives)
 
 <span class="cm"># Baca data</span>
-data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Popularity.csv"</span>)
+data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Data_latihan_Furnitur.csv"</span>)
 
 <span class="cm"># Hitung deskriptif</span>
 desc <span class="op">&lt;-</span> <span class="fn">jaspDescriptives</span>(
   data   = data,
-  vars   = <span class="fn">c</span>(<span class="st">"popular"</span>, <span class="st">"covert"</span>, <span class="st">"overt"</span>),
+  vars   = <span class="fn">c</span>(<span class="st">"Diameter_Log_cm"</span>, <span class="st">"Kadar_Air_persen"</span>, <span class="st">"Efisiensi_persen"</span>),
   mean   = <span class="kw">TRUE</span>,
   sd     = <span class="kw">TRUE</span>,
   median = <span class="kw">TRUE</span>,
@@ -888,21 +886,21 @@ desc <span class="op">&lt;-</span> <span class="fn">jaspDescriptives</span>(
       <span class="code-lang">R · ggplot2</span>
       <button class="code-copy" onclick="copyCode(this)">Salin</button>
     </div>
-    <div class="code-body"><span class="cm"># Histogram distribusi popularitas</span>
+    <div class="code-body"><span class="cm"># Histogram distribusi efisiensi furnitur</span>
 <span class="kw">library</span>(ggplot2)
 
-data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Popularity.csv"</span>)
+data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Data_latihan_Furnitur.csv"</span>)
 
-<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = popular)) <span class="op">+</span>
+<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = Efisiensi_persen)) <span class="op">+</span>
   <span class="fn">geom_histogram</span>(
-    binwidth = <span class="nm">0.3</span>,
+    binwidth = <span class="nm">3</span>,
     fill     = <span class="st">"#0d7377"</span>,
     color    = <span class="st">"white"</span>,
     alpha    = <span class="nm">0.85</span>
   ) <span class="op">+</span>
   <span class="fn">labs</span>(
-    title = <span class="st">"Distribusi Skor Popularitas"</span>,
-    x     = <span class="st">"Popularitas"</span>,
+    title = <span class="st">"Distribusi Efisiensi Penggunaan Bahan Baku"</span>,
+    x     = <span class="st">"Efisiensi (%)"</span>,
     y     = <span class="st">"Frekuensi"</span>
   ) <span class="op">+</span>
   <span class="fn">theme_minimal</span>(base_size = <span class="nm">13</span>)</div>
@@ -914,16 +912,18 @@ data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class=
       <span class="code-lang">R · T-Test</span>
       <button class="code-copy" onclick="copyCode(this)">Salin</button>
     </div>
-    <div class="code-body"><span class="cm"># Independent samples t-test: gender vs popularitas</span>
-data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Popularity.csv"</span>)
-data$gender <span class="op">&lt;-</span> <span class="fn">factor</span>(data$gender, labels = <span class="fn">c</span>(<span class="st">"Laki-laki"</span>, <span class="st">"Perempuan"</span>))
+    <div class="code-body"><span class="cm"># Independent samples t-test: Jenis Kayu vs Efisiensi</span>
+data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Data_latihan_Furnitur.csv"</span>)
+<span class="cm"># Filter hanya 2 grup (misal: Jati vs Pinus)</span>
+data2 <span class="op">&lt;-</span> data[data$Jenis_Kayu <span class="op">%in%</span> <span class="fn">c</span>(<span class="st">"Jati"</span>, <span class="st">"Pinus"</span>), ]
+data2$Jenis_Kayu <span class="op">&lt;-</span> <span class="fn">factor</span>(data2$Jenis_Kayu)
 
-hasil <span class="op">&lt;-</span> <span class="fn">t.test</span>(popular <span class="op">~</span> gender, data = data, var.equal = <span class="kw">TRUE</span>)
+hasil <span class="op">&lt;-</span> <span class="fn">t.test</span>(Efisiensi_persen <span class="op">~</span> Jenis_Kayu, data = data2, var.equal = <span class="kw">TRUE</span>)
 <span class="fn">print</span>(hasil)
 
 <span class="cm"># Hitung effect size (Cohen's d)</span>
 <span class="kw">library</span>(effectsize)
-<span class="fn">cohens_d</span>(popular <span class="op">~</span> gender, data = data)</div>
+<span class="fn">cohens_d</span>(Efisiensi_persen <span class="op">~</span> Jenis_Kayu, data = data2)</div>
   </div>
 
   <h2 class="sec" style="font-size:15px; margin-top:16px;">4 · Regresi Linear & Scatter Plot</h2>
@@ -932,15 +932,15 @@ hasil <span class="op">&lt;-</span> <span class="fn">t.test</span>(popular <span
       <span class="code-lang">R · Regression + Plot</span>
       <button class="code-copy" onclick="copyCode(this)">Salin</button>
     </div>
-    <div class="code-body"><span class="cm"># Multiple regression: prediktor → popularitas</span>
-data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Popularity.csv"</span>)
+    <div class="code-body"><span class="cm"># Multiple regression: prediktor → efisiensi furnitur</span>
+data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Data_latihan_Furnitur.csv"</span>)
 
-model <span class="op">&lt;-</span> <span class="fn">lm</span>(popular <span class="op">~</span> sd <span class="op">+</span> covert <span class="op">+</span> overt, data = data)
+model <span class="op">&lt;-</span> <span class="fn">lm</span>(Efisiensi_persen <span class="op">~</span> Diameter_Log_cm <span class="op">+</span> Kadar_Air_persen <span class="op">+</span> Ketebalan_mm, data = data)
 <span class="fn">summary</span>(model)
 
-<span class="cm"># Scatter: covert vs popular</span>
+<span class="cm"># Scatter: Kadar Air vs Efisiensi</span>
 <span class="kw">library</span>(ggplot2)
-<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = covert, y = popular)) <span class="op">+</span>
+<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = Kadar_Air_persen, y = Efisiensi_persen)) <span class="op">+</span>
   <span class="fn">geom_point</span>(alpha = <span class="nm">0.4</span>, color = <span class="st">"#0d7377"</span>) <span class="op">+</span>
   <span class="fn">geom_smooth</span>(method = <span class="st">"lm"</span>, color = <span class="st">"#b45309"</span>, se = <span class="kw">TRUE</span>) <span class="op">+</span>
   <span class="fn">theme_minimal</span>(base_size = <span class="nm">12</span>)</div>
@@ -952,19 +952,19 @@ model <span class="op">&lt;-</span> <span class="fn">lm</span>(popular <span cla
       <span class="code-lang">R · Boxplot</span>
       <button class="code-copy" onclick="copyCode(this)">Salin</button>
     </div>
-    <div class="code-body"><span class="cm"># Boxplot popularitas berdasarkan jenis kelamin</span>
+    <div class="code-body"><span class="cm"># Boxplot efisiensi berdasarkan jenis kayu</span>
 <span class="kw">library</span>(ggplot2)
 
-data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Popularity.csv"</span>)
-data$gender <span class="op">&lt;-</span> <span class="fn">factor</span>(data$gender, labels = <span class="fn">c</span>(<span class="st">"Laki-laki"</span>, <span class="st">"Perempuan"</span>))
+data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Data_latihan_Furnitur.csv"</span>)
+data$Jenis_Kayu <span class="op">&lt;-</span> <span class="fn">factor</span>(data$Jenis_Kayu)
 
-<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = gender, y = popular, fill = gender)) <span class="op">+</span>
+<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = Jenis_Kayu, y = Efisiensi_persen, fill = Jenis_Kayu)) <span class="op">+</span>
   <span class="fn">geom_boxplot</span>(alpha = <span class="nm">0.7</span>, width = <span class="nm">0.5</span>) <span class="op">+</span>
   <span class="fn">geom_jitter</span>(width = <span class="nm">0.15</span>, alpha = <span class="nm">0.2</span>, size = <span class="nm">0.8</span>) <span class="op">+</span>
-  <span class="fn">scale_fill_manual</span>(values = <span class="fn">c</span>(<span class="st">"#0d7377"</span>, <span class="st">"#b45309"</span>)) <span class="op">+</span>
+  <span class="fn">scale_fill_manual</span>(values = <span class="fn">c</span>(<span class="st">"#0d7377"</span>, <span class="st">"#b45309"</span>, <span class="st">"#5b21b6"</span>)) <span class="op">+</span>
   <span class="fn">labs</span>(
-    title = <span class="st">"Popularitas berdasarkan Jenis Kelamin"</span>,
-    x = <span class="st">"Gender"</span>, y = <span class="st">"Popularity Score"</span>
+    title = <span class="st">"Efisiensi berdasarkan Jenis Kayu"</span>,
+    x = <span class="st">"Jenis Kayu"</span>, y = <span class="st">"Efisiensi (%)"</span>
   ) <span class="op">+</span>
   <span class="fn">theme_minimal</span>() <span class="op">+</span> <span class="fn">theme</span>(legend.position = <span class="st">"none"</span>)</div>
   </div>
@@ -976,17 +976,17 @@ data$gender <span class="op">&lt;-</span> <span class="fn">factor</span>(data$ge
 <div class="content-page">
   <div class="section-label">📝 Bab 7</div>
   <h1 class="page-title">Tugas <span>Latihan Mandiri</span></h1>
-  <p class="page-desc">Empat tugas praktik menggunakan Popularity Dataset — dikerjakan secara individu dan kelompok.</p>
+  <p class="page-desc">Empat tugas praktik menggunakan Data Latihan Furnitur — dapat dikerjakan secara individu atau kelompok.</p>
 
   <div class="alert alert-warn">
     <span class="alert-icon">⚠️</span>
-    <div>Pastikan sudah mengunduh <strong>Popularity.csv</strong> dan JASP versi terbaru sebelum mengerjakan tugas. Semua analisis menggunakan dataset yang sama.</div>
+    <div>Pastikan sudah mengunduh <strong>Data_latihan_Furnitur.csv</strong> dan JASP versi terbaru sebelum mengerjakan tugas. Semua analisis menggunakan dataset yang sama.</div>
   </div>
 
-  <h2 class="sec">Tugas 1 — Individu: Statistik Deskriptif</h2>
+  <h2 class="sec">Tugas 1 — Statistik Deskriptif</h2>
   <div class="card">
     <div class="card-header"><div class="card-icon">📊</div><h3>Statistik Deskriptif + Histogram</h3></div>
-    <p>Hitung <strong>Mean, SD, Median, Skewness, Kurtosis</strong> untuk variabel <em>popular, covert, overt</em>. Sertakan histogram dengan kurva distribusi normal.</p>
+    <p>Hitung <strong>Mean, SD, Median, Skewness, Kurtosis</strong> untuk variabel <em>Diameter_Log_cm, Kadar_Air_persen, Efisiensi_persen</em>. Sertakan histogram dengan kurva distribusi normal.</p>
     <div class="badge-row">
       <span class="badge badge-teal">Descriptives → Descriptive Statistics</span>
       <span class="badge badge-teal">Plots → Distribution plots</span>
@@ -994,10 +994,10 @@ data$gender <span class="op">&lt;-</span> <span class="fn">factor</span>(data$ge
     <p style="font-size:13px; color:var(--gray); margin-top:8px; margin-bottom:0;"><strong>Laporkan:</strong> Tabel deskriptif APA + 3 histogram. Tambahkan interpretasi singkat per variabel.</p>
   </div>
 
-  <h2 class="sec">Tugas 2 — Individu: Uji T (Gender)</h2>
+  <h2 class="sec">Tugas 2 — Uji T (Jenis Kayu)</h2>
   <div class="card">
-    <div class="card-header"><div class="card-icon">⚖️</div><h3>Apakah Popularitas Berbeda antar Gender?</h3></div>
-    <p>Uji apakah skor popularitas (<em>popular</em>) berbeda secara signifikan antara laki-laki dan perempuan menggunakan Independent Samples T-Test.</p>
+    <div class="card-header"><div class="card-icon">⚖️</div><h3>Apakah Efisiensi Berbeda antar Jenis Kayu (Jati vs Pinus)?</h3></div>
+    <p>Uji apakah efisiensi penggunaan bahan baku (<em>Efisiensi_persen</em>) berbeda secara signifikan antara kayu Jati dan Pinus menggunakan Independent Samples T-Test.</p>
     <div class="badge-row">
       <span class="badge badge-blue">T-Tests → Independent Samples T-Test</span>
       <span class="badge badge-blue">Centang: Cohen's d, Descriptives</span>
@@ -1005,10 +1005,10 @@ data$gender <span class="op">&lt;-</span> <span class="fn">factor</span>(data$ge
     <p style="font-size:13px; color:var(--gray); margin-top:8px; margin-bottom:0;"><strong>Laporkan:</strong> Nilai t, df, p-value, Cohen's d, dan interpretasi apakah perbedaan signifikan.</p>
   </div>
 
-  <h2 class="sec">Tugas 3 — Kelompok: Analisis Korelasi</h2>
+  <h2 class="sec">Tugas 3 — Analisis Korelasi</h2>
   <div class="card">
-    <div class="card-header"><div class="card-icon">🔗</div><h3>Korelasi antar Variabel</h3></div>
-    <p>Hitung matriks korelasi Pearson antara variabel <em>popular, sd, covert, overt</em>. Tampilkan heatmap korelasi.</p>
+    <div class="card-header"><div class="card-icon">🔗</div><h3>Korelasi antar Variabel Furnitur</h3></div>
+    <p>Hitung matriks korelasi Pearson antara variabel <em>Diameter_Log_cm, Kadar_Air_persen, Ketebalan_mm, Efisiensi_persen</em>. Tampilkan heatmap korelasi.</p>
     <div class="badge-row">
       <span class="badge badge-amber">Regression → Correlation</span>
       <span class="badge badge-amber">Plots → Heatmap + Scatter matrix</span>
@@ -1016,10 +1016,10 @@ data$gender <span class="op">&lt;-</span> <span class="fn">factor</span>(data$ge
     <p style="font-size:13px; color:var(--gray); margin-top:8px; margin-bottom:0;"><strong>Laporkan:</strong> Tabel korelasi APA + heatmap + interpretasi pasangan variabel yang paling kuat korelasinya.</p>
   </div>
 
-  <h2 class="sec">Tugas 4 — Kelompok: Regresi Berganda</h2>
+  <h2 class="sec">Tugas 4 — Regresi Berganda</h2>
   <div class="card">
-    <div class="card-header"><div class="card-icon">📈</div><h3>Prediktor Popularitas Siswa</h3></div>
-    <p>Prediksi variabel <em>popular</em> menggunakan prediktor: <em>sd + covert + overt</em>. Laporkan model regresi berganda.</p>
+    <div class="card-header"><div class="card-icon">📈</div><h3>Prediktor Efisiensi Furnitur</h3></div>
+    <p>Prediksi variabel <em>Efisiensi_persen</em> menggunakan prediktor: <em>Diameter_Log_cm + Kadar_Air_persen + Ketebalan_mm</em>. Laporkan model regresi berganda.</p>
     <div class="badge-row">
       <span class="badge badge-violet">Regression → Linear Regression</span>
       <span class="badge badge-violet">Centang: R², F-statistic, Standardized β</span>
@@ -1032,12 +1032,7 @@ data$gender <span class="op">&lt;-</span> <span class="fn">factor</span>(data$ge
     <div><strong>Format Laporan:</strong> Setiap tugas disajikan dengan (1) tabel output APA, (2) grafik relevan, dan (3) paragraf interpretasi singkat maksimal 3 kalimat. Ekspor menggunakan ☰ → Export Results → Word.</div>
   </div>
 
-  <div class="cta-box">
-    <h3>Butuh Bantuan Analisis? 🎓</h3>
-    <p>Dari deskriptif sampai SEM — konsultasi dengan Mas Yogo, gratis untuk pertanyaan pertama.</p>
-    <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya peserta workshop JASP dan ingin konsultasi." class="btn-cta" target="_blank">💬 Chat WhatsApp Sekarang</a>
-    <span class="cta-link">Atau kunjungi <a href="https://yogoaj.github.io" target="_blank">yogoaj.github.io</a></span>
-  </div>
+
 </div>
 </div>
 
@@ -1077,27 +1072,63 @@ data$gender <span class="op">&lt;-</span> <span class="fn">factor</span>(data$ge
     <span class="badge">Eviews</span>
   </div>
 
-  <h2 class="sec">Paket Layanan</h2>
+  <h2 class="sec">Publikasi & Aplikasi</h2>
+  <p>Kunjungi portal <strong>Ruang Statistika</strong> untuk mengakses koleksi e-book, dashboard demografi, dan aplikasi analisis data gratis berbasis web.</p>
+
+  <div class="card-grid-2" style="margin-bottom:16px;">
+    <a href="https://yogoaj.github.io/portal/ebook/1/" target="_blank" style="text-decoration:none;">
+      <div class="ui-card teal" style="height:100%;">
+        <h3>📘 10 Kesalahan Analisis SPSS</h3>
+        <p>Kesalahan umum: skip uji asumsi, salah baca R², format tabel APA, one-tailed vs two-tailed.</p>
+        <div style="margin-top:8px; font-size:11px; color:var(--teal); font-weight:700;">Baca Sekarang →</div>
+      </div>
+    </a>
+    <a href="https://yogoaj.github.io/portal/ebook/2/" target="_blank" style="text-decoration:none;">
+      <div class="ui-card blue" style="height:100%;">
+        <h3>📘 Pilih Uji yang Tepat</h3>
+        <p>Panduan memilih uji statistik berdasarkan skala, jumlah kelompok, dan normalitas data. Template APA 7th.</p>
+        <div style="margin-top:8px; font-size:11px; color:var(--blue); font-weight:700;">Baca Sekarang →</div>
+      </div>
+    </a>
+    <a href="https://yogoaj.github.io/portal/ebook/4/" target="_blank" style="text-decoration:none;">
+      <div class="ui-card amber" style="height:100%;">
+        <h3>📗 SEM, Mediasi & Moderasi</h3>
+        <p>CFA, GoF indices, Mediasi Bootstrap, Moderasi & Johnson-Neyman dengan template pelaporan.</p>
+        <div style="margin-top:8px; font-size:11px; color:var(--amber); font-weight:700;">Baca Sekarang →</div>
+      </div>
+    </a>
+    <a href="https://yogoaj.github.io/portal/ebook/6/" target="_blank" style="text-decoration:none;">
+      <div class="ui-card violet" style="height:100%;">
+        <h3>📕 Power Analysis</h3>
+        <p>Effect Size, Type I/II Error, tabel sampel minimum untuk t-test, ANOVA, regresi, dan SEM.</p>
+        <div style="margin-top:8px; font-size:11px; color:var(--violet); font-weight:700;">Baca Sekarang →</div>
+      </div>
+    </a>
+  </div>
+
+  <h2 class="sec">Aplikasi & Dashboard</h2>
   <div class="tbl-wrap">
     <table class="apa-table">
-      <thead><tr><th>Paket</th><th>Harga</th><th>Cocok untuk</th></tr></thead>
+      <thead><tr><th>Aplikasi</th><th>Jenis</th><th>Deskripsi</th></tr></thead>
       <tbody>
-        <tr><td><strong>Konsultasi Singkat</strong></td><td>Mulai Rp 250K / sesi</td><td>Pertanyaan spesifik, interpretasi output</td></tr>
-        <tr><td><strong>Olah Data</strong></td><td>Mulai Rp 500K / paket</td><td>Pengolahan data lengkap + interpretasi</td></tr>
-        <tr><td><strong>Pendampingan Penuh</strong></td><td>Mulai Rp 1,2 Jt</td><td>S2/S3, multi-sesi, dari awal sampai sidang</td></tr>
+        <tr><td><a href="https://yogoaj.github.io/ruangstatistika" target="_blank" style="color:var(--blue); font-weight:700;">Ruang Statistika ✦</a></td><td>Web App</td><td>Platform analisis statistik langsung di browser — normalitas, regresi, ANOVA, korelasi. Gratis.</td></tr>
+        <tr><td><a href="https://yogoaj.shinyapps.io/digdem/" target="_blank" style="color:var(--teal); font-weight:700;">Digital Demography</a></td><td>R Shiny</td><td>Alat analisis data demografi Indonesia dengan visualisasi interaktif.</td></tr>
+        <tr><td><a href="https://yogoaj.shinyapps.io/TFRLGSTNew/" target="_blank" style="color:var(--teal); font-weight:700;">Simulator TFR</a></td><td>R Shiny</td><td>Proyeksi TFR menggunakan metode Logistik dengan optimasi asimtot otomatis.</td></tr>
+        <tr><td><a href="https://yogoaj.shinyapps.io/E0PRJ/" target="_blank" style="color:var(--teal); font-weight:700;">Simulator e₀</a></td><td>R Shiny</td><td>Pemodelan proyeksi Angka Harapan Hidup dengan metode Logistik.</td></tr>
+        <tr><td><a href="https://yogoaj2.shinyapps.io/BEERSP/" target="_blank" style="color:var(--teal); font-weight:700;">BEERSP</a></td><td>R Shiny</td><td>Pemecahan umur tunggal dengan Metode Beers (original & modified).</td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="cta-box">
     <h3>Statistikmu beres sebelum deadline. 🎓</h3>
-    <p>Dari deskriptif sampai regresi — konsultasi langsung dengan saya. Chat sekarang, gratis tanpa komitmen.</p>
+    <p>Dari deskriptif, regresi sampai  machine learning dan scraping data — konsultasi langsung dengan saya.</p>
     <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya ikut workshop JASP dan ingin konsultasi." class="btn-cta" target="_blank">💬 Chat WhatsApp Sekarang</a>
     <span class="cta-link">Atau kunjungi <a href="https://yogoaj.github.io" target="_blank">yogoaj.github.io</a></span>
   </div>
 
   <div class="ebook-footer" style="margin-top:32px;">
-    © 2025 <a href="https://yogoaj.github.io" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Workshop JASP untuk Pengajar & Tendik · Polifurnika 2026
+    © 2026 <a href="https://yogoaj.github.io" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Workshop JASP untuk Pengajar & Tendik · Polifurnika 2026
   </div>
 </div>
 </div>
