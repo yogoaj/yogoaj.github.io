@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panduan JASP untuk Pengajar & Tendik — Ruang Statistika</title>
+<title>Panduan JASP by Yogo AJ — Ruang Statistika</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
 
@@ -361,13 +361,14 @@
 <!-- NAV -->
 <nav class="top-nav">
   <div class="brand">
-    <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <a href="https://yogoaj.github.io" target="_self"><svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="100" height="100" rx="10" fill="#132847"/>
       <rect x="18" y="52" width="18" height="32" rx="4" fill="#1a3a6b"/>
       <rect x="42" y="36" width="18" height="48" rx="4" fill="#1a3a6b"/>
       <rect x="66" y="18" width="18" height="66" rx="4" fill="#f5c518"/>
       <path d="M27 58 Q44 44 57 38 Q66 32 75 22" stroke="#f5c518" stroke-width="4" stroke-linecap="round" fill="none"/>
     </svg>
+	</a>
     <span>Ruang Statistika</span>
   </div>
   <div class="nav-links">
@@ -380,8 +381,9 @@
     <a href="javascript:void(0)" onclick="goPage(6)">Grafik & Tabel</a>
     <a href="javascript:void(0)" onclick="goPage(7)">R for JASP</a>
     <a href="javascript:void(0)" onclick="goPage(8)">Tugas</a>
+    <a href="javascript:void(0)" onclick="goPage(9)"style="background:rgba(34,197,94,.12); color:#F5C400; border:1px solid rgba(34,197,94,.25); border-radius:6px;">Tentang</a>
     <a href="https://yogoaj.github.io/polifurnika/tips" target="_self" class="tips-link">💡 Tips & Trik</a>
-    <a href="javascript:void(0)" onclick="goPage(9)">Tentang</a>
+    <a href="javascript:void(0)" onclick="goPage(10)" style="background:rgba(34,197,94,.12); color:#16a34a; border:1px solid rgba(34,197,94,.25); border-radius:6px;">✅ Requirements</a>
   </div>
 </nav>
 
@@ -450,6 +452,10 @@
   <h1 class="page-title">Daftar <span>Isi</span></h1>
   <p class="page-desc">Klik bagian mana pun untuk langsung menuju halaman tersebut.</p>
 
+  <div class="toc-item" onclick="goPage(10)" style="border-left: 4px solid #22c55e; background: #f0fdf4;">
+    <div class="toc-left"><span class="toc-num" style="background:#16a34a;">⚙</span><span class="toc-title">Requirements — Persiapan Sebelum Workshop</span></div>
+    <span class="toc-arr">›</span>
+  </div>
   <div class="toc-item" onclick="goPage(2)">
     <div class="toc-left"><span class="toc-num">01</span><span class="toc-title">Pengantar — Apa itu JASP & Instalasi</span></div>
     <span class="toc-arr">›</span>
@@ -502,6 +508,9 @@
   <h1 class="page-title">Apa itu <span>JASP?</span></h1>
   <p class="page-desc">Pengantar, keunggulan, perbandingan, dan panduan instalasi JASP untuk pemula.</p>
 
+  <!-- 📷 GAMBAR: Tampilan awal / splash screen JASP | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/OvjHRoO.png" alt="Tampilan awal JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
   <h2 class="sec">Tentang JASP</h2>
   <p>JASP (<em>Jeffreys's Amazing Statistics Program</em>) adalah perangkat lunak statistik yang <strong>gratis, open source</strong>, dan dikembangkan oleh Universitas Amsterdam. Didesain untuk ilmuwan sosial — cukup drag variabel, output muncul real-time dalam format APA. Bayesian dan Frequentist berdampingan dalam satu antarmuka.</p>
 
@@ -535,6 +544,9 @@
     <div>Untuk <strong>pengajar dan tendik</strong>, JASP adalah pilihan terbaik: gratis, antarmuka visual, output langsung bisa disalin ke laporan Word atau PowerPoint tanpa format ulang.</div>
   </div>
 
+  <!-- 📷 GAMBAR: Halaman download di jasp-stats.org | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/0AvdgsW.png" alt="Halaman download JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
   <h2 class="sec">Langkah Instalasi JASP</h2>
   <ul class="step-list">
     <li>
@@ -554,6 +566,9 @@
       <div class="step-txt"><h4>Atur Bahasa Indonesia</h4><p>☰ → Preferences → Interface → Language → Bahasa Indonesia. Restart JASP agar perubahan berlaku.</p></div>
     </li>
   </ul>
+
+  <!-- 📷 GAMBAR: JASP pertama kali dibuka — tampilan home/welcome screen | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/w9dRLAv.png" alt="JASP welcome screen setelah instalasi" style="width:100%; border-radius:10px; margin-top:4px; margin-bottom:4px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
 </div>
 </div>
 
@@ -563,6 +578,9 @@
   <div class="section-label">🖥️ Bab 2</div>
   <h1 class="page-title">Memahami <span>Antarmuka JASP</span></h1>
   <p class="page-desc">Kenali setiap elemen antarmuka JASP dan cara mengkustomisasinya.</p>
+
+  <!-- 📷 GAMBAR: Screenshot antarmuka JASP berlabel (panel kiri, kanan, menu atas) | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/sK2vvZg.png" alt="Antarmuka JASP — panel kiri kontrol, panel kanan output" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
 
   <h2 class="sec">Elemen Utama Antarmuka</h2>
   <div class="card-grid-2">
@@ -588,6 +606,12 @@
     <span class="alert-icon">📋</span>
     <div><strong>Tata letak layar:</strong> Panel kiri = <em>Control Panel</em> (pilih variabel & opsi analisis). Panel kanan = <em>Output Panel</em> (hasil analisis muncul otomatis, real-time saat opsi diubah).</div>
   </div>
+
+  <!-- 📷 GAMBAR: Zoom-in panel kiri (control) vs panel kanan (output) JASP secara berdampingan | Ganti src dengan URL foto online -->
+  <img src="GANTI_URL_GAMBAR" alt="Panel kontrol kiri dan panel output kanan JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
+  <!-- 📷 GAMBAR: Dialog Preferences JASP (tab Interface/Results/Data) | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/t0VMc0r.png" alt="Dialog Preferences JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
 
   <h2 class="sec">Kustomisasi Preferences</h2>
   <div class="card-grid-3">
@@ -619,6 +643,9 @@
   <h1 class="page-title">Manajemen <span>Data</span></h1>
   <p class="page-desc">Format file, tipe variabel, dan dataset latihan Data_latihan_Furnitur.csv.</p>
 
+  <!-- 📷 GAMBAR: Dialog "Open file" di JASP — menampilkan browser file dengan filter format | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/sdstt0d.png" alt="Dialog buka file di JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
   <h2 class="sec">Format File yang Didukung JASP</h2>
   <div class="pills">
     <span class="pill pill-teal">.csv / .txt / .tsv</span>
@@ -627,12 +654,16 @@
     <span class="pill pill-teal">.ods</span>
     <span class="pill pill-gray">.sas7bdat</span>
     <span class="pill pill-gray">.xpt</span>
+    <span class="pill pill-gray">.lainnya</span>
   </div>
 
   <div class="alert alert-warn">
     <span class="alert-icon">⚠️</span>
-    <div>JASP <strong>tidak mendukung .xlsx</strong> secara langsung. Simpan dulu sebagai .csv dari Excel (<em>Save As → CSV UTF-8</em>), lalu buka di JASP.</div>
+    <div>JASP <strong>tidak selalu mendukung .xlsx</strong> secara langsung. Simpan dulu sebagai .csv dari Excel (<em>Save As → CSV UTF-8</em>), lalu buka di JASP untuk hasil lebih stabil.</div>
   </div>
+
+  <!-- 📷 GAMBAR: Header kolom di JASP menampilkan ikon tipe variabel (N oranye, O biru, S hijau) | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/iK6DZiM.png" alt="Ikon tipe variabel di header kolom JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
 
   <h2 class="sec">Tipe Variabel di JASP</h2>
   <div class="var-row">
@@ -657,6 +688,9 @@
     <span class="alert-icon">💡</span>
     <div><strong>Tips:</strong> Klik ikon tipe variabel di header kolom untuk mengubahnya. JASP otomatis mendeteksi, tapi selalu verifikasi manual sebelum analisis.</div>
   </div>
+
+  <!-- 📷 GAMBAR: Spreadsheet view Data_latihan_Furnitur.csv terbuka di JASP | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/qIN2BHf.png" alt="Data Latihan Furnitur terbuka di JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
 
   <h2 class="sec">Dataset Latihan: Data Latihan Furnitur</h2>
   <p>Kita menggunakan <strong>Data Latihan Furnitur</strong> — dataset hasil pengujian kualitas bahan baku kayu pada industri furnitur (<em>n</em> = 29 sampel). Dataset mencakup tiga jenis kayu (Jati, Pinus, Mahoni) dengan berbagai pengukuran teknis dan status cacat produk.</p>
@@ -729,6 +763,9 @@
     </div>
   </div>
 
+  <!-- 📷 GAMBAR: Panel Descriptives JASP — variabel sudah di-drag ke Variables box | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/VDMLkcy.png" alt="Panel Descriptives JASP dengan variabel terpilih" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
   <h2 class="sec">Walkthrough: Statistik Deskriptif</h2>
   <ul class="step-list">
     <li><div class="step-num">1</div><div class="step-txt"><h4>Buka Dataset</h4><p>☰ → Open → pilih file <code style="font-family:monospace; font-size:12px; background:#f3f4f6; padding:1px 6px; border-radius:3px;">Data_latihan_Furnitur.csv</code>. Data muncul di panel kiri seperti spreadsheet.</p></div></li>
@@ -737,6 +774,12 @@
     <li><div class="step-num">4</div><div class="step-txt"><h4>Centang Statistik</h4><p>Di panel kiri, centang: <strong>Mean, SD, Median, Minimum, Maximum, Skewness, Kurtosis</strong>.</p></div></li>
     <li><div class="step-num">5</div><div class="step-txt"><h4>Salin ke Word</h4><p>Klik kanan tabel di panel kanan → <em>Copy</em>. Paste ke Word — format APA otomatis dengan garis tabel yang tepat.</p></div></li>
   </ul>
+
+  <!-- 📷 GAMBAR: Output tabel Descriptives APA di panel kanan JASP | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/JJobafn.png?1" alt="Output tabel Descriptives format APA di JASP" style="width:100%; border-radius:10px; margin-top:4px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
+  <!-- 📷 GAMBAR: Top bar menu analisis JASP (Descriptives, T-Tests, ANOVA, dst.) | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/y3M75XF.png" alt="Menu top bar analisis JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
 
   <h2 class="sec">Analisis yang Tersedia di JASP</h2>
   <div class="tbl-wrap">
@@ -767,6 +810,9 @@
   <div class="section-label">📈 Bab 5</div>
   <h1 class="page-title">Grafik, Tabel <span>& Ekspor</span></h1>
   <p class="page-desc">Cara membuat grafik publikasi, kustomisasi, dan ekspor hasil ke Word/PDF.</p>
+
+  <!-- 📷 GAMBAR: Kolase contoh grafik dari JASP (histogram, boxplot, scatter) | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/f7OBP5s.png" alt="Contoh grafik output JASP — histogram, boxplot, scatter" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
 
   <h2 class="sec">Jenis Grafik di JASP</h2>
   <div class="card-grid-3">
@@ -801,6 +847,12 @@
     <div><strong>Tips Ekspor:</strong> Klik kanan grafik → <em>Copy image</em> atau <em>Save image as</em>. Untuk resolusi tinggi, atur ke 300+ DPI di ☰ → Preferences → Results sebelum analisis dimulai.</div>
   </div>
 
+  <!-- 📷 GAMBAR: Raincloud plot atau histogram output nyata dari JASP (resolusi tinggi) | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/Ql5kRlG.png" alt="Contoh raincloud plot atau histogram dari JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
+  <!-- 📷 GAMBAR: Klik kanan pada tabel JASP menampilkan menu Copy/Save | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/mURqS79.png" alt="Menu klik kanan pada tabel output JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
   <h2 class="sec">Cara Membuat & Menyalin Tabel</h2>
   <ul class="step-list">
     <li><div class="step-num">1</div><div class="step-txt"><h4>Jalankan Analisis</h4><p>Jalankan Descriptives atau analisis lainnya. Tabel output muncul otomatis di panel kanan.</p></div></li>
@@ -830,6 +882,9 @@
     <div>Anda <strong>tidak perlu</strong> instalasi R atau RStudio terpisah. R sudah terintegrasi dalam JASP. Fitur ini tersedia via <em>Hamburger → R for JASP</em> atau ikon <code style="font-size:12px; background:#dbeafe; padding:1px 6px; border-radius:3px;">&lt;/&gt;</code> di setiap output.</div>
   </div>
 
+  <!-- 📷 GAMBAR: Ilustrasi JASP + R — misalnya logo JASP di samping kode R atau konsol R terbuka | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/Fyg7Rvt.jpeg" alt="JASP dan R berjalan berdampingan" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
   <h2 class="sec">Mengapa Belajar R Sintaks di JASP?</h2>
   <div class="card-grid-3">
     <div class="card">
@@ -846,6 +901,9 @@
     </div>
   </div>
 
+  <!-- 📷 GAMBAR: Tombol ikon </> di pojok kanan atas output JASP | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/6P1TPiQ.png" alt="Tombol kode R di output JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
   <h2 class="sec">Cara Mengakses Kode R di JASP</h2>
   <ul class="step-list">
     <li><div class="step-num">1</div><div class="step-txt"><h4>Jalankan Analisis Apapun</h4><p>Misalnya: Descriptives → pilih variabel. Output muncul di panel kanan.</p></div></li>
@@ -854,119 +912,106 @@
     <li><div class="step-num">4</div><div class="step-txt"><h4>Jalankan & Modifikasi</h4><p>Salin kode dari output, tempel ke R console, ubah parameter, dan jalankan untuk hasil kustom.</p></div></li>
   </ul>
 
-  <h2 class="sec">Contoh Kode R di JASP</h2>
+  <!-- 📷 GAMBAR: R Console terbuka di dalam JASP dengan kode R aktif | Ganti src dengan URL foto online -->
+  <img src="https://i.imgur.com/0daRUxh.png" alt="R Console JASP terbuka dengan kode analisis" style="width:100%; border-radius:10px; margin-top:4px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
 
-  <h2 class="sec" style="font-size:15px; margin-top:16px;">1 · Statistik Deskriptif</h2>
-  <div class="code-block">
-    <div class="code-header">
-      <span class="code-lang">R · Descriptives</span>
-      <button class="code-copy" onclick="copyCode(this)">Salin</button>
-    </div>
-    <div class="code-body"><span class="cm"># Statistik Deskriptif — setara klik JASP</span>
-<span class="kw">library</span>(jaspDescriptives)
+  <h2 class="sec">Ekspor Kode R dari JASP</h2>
 
-<span class="cm"># Baca data</span>
-data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Data_latihan_Furnitur.csv"</span>)
+  <p>Sejak JASP pertama dikembangkan, fokus utamanya adalah merancang antarmuka grafis (GUI) yang mempertahankan keunggulan sintaks — seperti reprodusibilitas — tanpa mengharuskan pengguna menulis atau menghasilkan kode. Namun, seiring waktu tim JASP menyadari bahwa banyak pengguna ingin mengakses sintaks R di balik setiap analisis. Fitur ini tersedia mulai <strong>JASP versi 0.17</strong> ke atas.</p>
 
-<span class="cm"># Hitung deskriptif</span>
-desc <span class="op">&lt;-</span> <span class="fn">jaspDescriptives</span>(
-  data   = data,
-  vars   = <span class="fn">c</span>(<span class="st">"Diameter_Log_cm"</span>, <span class="st">"Kadar_Air_persen"</span>, <span class="st">"Efisiensi_persen"</span>),
-  mean   = <span class="kw">TRUE</span>,
-  sd     = <span class="kw">TRUE</span>,
-  median = <span class="kw">TRUE</span>,
-  skew   = <span class="kw">TRUE</span>
-)
-<span class="fn">print</span>(desc)</div>
+  <div class="alert alert-info">
+    <span class="alert-icon">ℹ️</span>
+    <div>Sintaks R di JASP saat ini bekerja <strong>di dalam JASP itu sendiri</strong> — dapat digunakan untuk mengontrol GUI dan berjalan di konsol R JASP. Ke depan, sintaks R yang dihasilkan JASP juga akan dapat dieksekusi langsung di RStudio. Sumber: <a href="https://jasp-stats.org/faq/jasp-uses-r-analyses-possible-export-r-code-used-analysis/" target="_blank" style="color:var(--blue);">JASP FAQ</a></div>
   </div>
 
-  <h2 class="sec" style="font-size:15px; margin-top:16px;">2 · Histogram dengan ggplot2</h2>
-  <div class="code-block">
-    <div class="code-header">
-      <span class="code-lang">R · ggplot2</span>
-      <button class="code-copy" onclick="copyCode(this)">Salin</button>
+  <!-- 📷 GAMBAR: Tombol R yang muncul di menu analisis JASP 0.17 (dropdown analisis) | Ganti src dengan URL foto online -->
+  <img src="GANTI_URL_GAMBAR" alt="Tombol R baru di menu analisis JASP 0.17" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
+  <h2 class="sec">R Syntax Mode: Tombol Pertama (JASP 0.17)</h2>
+
+  <p>Dengan rilis JASP 0.17, sebuah tombol baru ditambahkan ke menu analisis inti. Selain mengganti nama, menduplikasi, menghapus analisis, dan melihat file bantuan, pengguna JASP kini dapat mengakses <strong>function call R</strong> yang digunakan untuk menghitung hasil. Ini adalah langkah penting pertama menuju integrasi yang lebih lengkap antara JASP dan R.</p>
+
+  <div class="card-grid-2">
+    <div class="ui-card teal">
+      <h3>🎯 Tujuan Utama</h3>
+      <p>Salah satu tujuan utama JASP adalah membuat analisis statistik lebih mudah diakses dengan menghilangkan kebutuhan pemrograman komputer, sehingga mahasiswa dapat fokus pada interpretasi, bukan implementasi kode.</p>
     </div>
-    <div class="code-body"><span class="cm"># Histogram distribusi efisiensi furnitur</span>
-<span class="kw">library</span>(ggplot2)
-
-data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Data_latihan_Furnitur.csv"</span>)
-
-<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = Efisiensi_persen)) <span class="op">+</span>
-  <span class="fn">geom_histogram</span>(
-    binwidth = <span class="nm">3</span>,
-    fill     = <span class="st">"#0d7377"</span>,
-    color    = <span class="st">"white"</span>,
-    alpha    = <span class="nm">0.85</span>
-  ) <span class="op">+</span>
-  <span class="fn">labs</span>(
-    title = <span class="st">"Distribusi Efisiensi Penggunaan Bahan Baku"</span>,
-    x     = <span class="st">"Efisiensi (%)"</span>,
-    y     = <span class="st">"Frekuensi"</span>
-  ) <span class="op">+</span>
-  <span class="fn">theme_minimal</span>(base_size = <span class="nm">13</span>)</div>
+    <div class="ui-card blue">
+      <h3>🔗 Sinkronisasi Dua Arah</h3>
+      <p>Kode R dan GUI JASP saling terhubung secara real-time: mengubah opsi di GUI otomatis memperbarui kode R, dan mengubah kode R lalu menekan <strong>Ctrl+Enter</strong> (Cmd+Enter di Mac) otomatis memperbarui GUI.</p>
+    </div>
   </div>
 
-  <h2 class="sec" style="font-size:15px; margin-top:16px;">3 · Independent T-Test</h2>
-  <div class="code-block">
-    <div class="code-header">
-      <span class="code-lang">R · T-Test</span>
-      <button class="code-copy" onclick="copyCode(this)">Salin</button>
+  <!-- 📷 GAMBAR: Panel R Syntax Mode terbuka di samping GUI JASP — sinkronisasi dua arah | Ganti src dengan URL foto online -->
+  <img src="GANTI_URL_GAMBAR" alt="R Syntax Mode panel sinkron dengan GUI JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
+  <h2 class="sec">Cara Menggunakan R Syntax Mode</h2>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-txt"><h4>Jalankan Analisis di JASP</h4><p>Pilih analisis apa pun dari menu atas, misalnya <em>Descriptives</em> atau <em>T-Tests</em>, lalu atur variabel dan opsi sesuai kebutuhan. Output muncul real-time di panel kanan.</p></div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-txt"><h4>Klik Tombol R di Panel Analisis</h4><p>Di setiap analisis yang sedang aktif, klik tombol <strong>R</strong> yang muncul di menu analisis tersebut. Kode R yang setara dengan pilihan GUI Anda akan langsung ditampilkan.</p></div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-txt"><h4>Salin & Bagikan Kode</h4><p>Salin kode R dan bagikan kepada rekan atau mahasiswa — mereka dapat melihat persis opsi apa yang digunakan dalam analisis, atau mem-paste ke JASP mereka untuk mereproduksi hasil yang sama.</p></div>
+    </li>
+    <li>
+      <div class="step-num">4</div>
+      <div class="step-txt"><h4>Edit Kode untuk Kontrol Lanjutan</h4><p>Ubah parameter di dalam kode R lalu tekan <strong>Ctrl+Enter</strong> — GUI JASP akan otomatis menyesuaikan dan menghasilkan output baru. Ini memungkinkan eksplorasi analisis yang sangat fleksibel.</p></div>
+    </li>
+  </ul>
+
+  <!-- 📷 GAMBAR: Screenshot Paired T-Test JASP dengan syntax R yang ditampilkan | Ganti src dengan URL foto online -->
+  <img src="GANTI_URL_GAMBAR" alt="Sintaks R Paired T-Test ditampilkan di JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
+  <h2 class="sec">Contoh Penggunaan: Deskriptif & ANOVA</h2>
+
+  <div class="card" style="border-left: 4px solid var(--teal);">
+    <div class="card-header"><div class="card-icon">📊</div><h3>Contoh 1 — Paired T-Test dengan Descriptives</h3></div>
+    <p>Misalnya pada dataset <em>Moon &amp; Aggression</em> dari JASP Data Library, saat opsi tabel deskriptif dan raincloud plot dicentang pada analisis Paired T-Test, tombol R akan menampilkan function call lengkap beserta semua pengaturannya. Setiap perubahan pada GUI langsung tercermin di kode R secara otomatis.</p>
+    <div class="badge-row">
+      <span class="badge badge-teal">T-Tests → Paired Samples T-Test</span>
+      <span class="badge badge-teal">Klik tombol R → lihat function call</span>
     </div>
-    <div class="code-body"><span class="cm"># Independent samples t-test: Jenis Kayu vs Efisiensi</span>
-data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Data_latihan_Furnitur.csv"</span>)
-<span class="cm"># Filter hanya 2 grup (misal: Jati vs Pinus)</span>
-data2 <span class="op">&lt;-</span> data[data$Jenis_Kayu <span class="op">%in%</span> <span class="fn">c</span>(<span class="st">"Jati"</span>, <span class="st">"Pinus"</span>), ]
-data2$Jenis_Kayu <span class="op">&lt;-</span> <span class="fn">factor</span>(data2$Jenis_Kayu)
-
-hasil <span class="op">&lt;-</span> <span class="fn">t.test</span>(Efisiensi_persen <span class="op">~</span> Jenis_Kayu, data = data2, var.equal = <span class="kw">TRUE</span>)
-<span class="fn">print</span>(hasil)
-
-<span class="cm"># Hitung effect size (Cohen's d)</span>
-<span class="kw">library</span>(effectsize)
-<span class="fn">cohens_d</span>(Efisiensi_persen <span class="op">~</span> Jenis_Kayu, data = data2)</div>
   </div>
 
-  <h2 class="sec" style="font-size:15px; margin-top:16px;">4 · Regresi Linear & Scatter Plot</h2>
-  <div class="code-block">
-    <div class="code-header">
-      <span class="code-lang">R · Regression + Plot</span>
-      <button class="code-copy" onclick="copyCode(this)">Salin</button>
+  <div class="card" style="border-left: 4px solid var(--violet);">
+    <div class="card-header"><div class="card-icon">🧪</div><h3>Contoh 2 — Three-Way Mixed ANOVA</h3></div>
+    <p>Untuk analisis kompleks seperti Three-Way Mixed ANOVA (dataset <em>Bugs</em>), sintaks R sangat membantu pengajar: alih-alih menjelaskan berbagai submenu dan antarmuka repeated measures cells, cukup bagikan sintaks R kepada mahasiswa. Mereka membuka dataset, membuka R console module di JASP, paste sintaks, klik <strong>Add analysis</strong> — dan analisis langsung terbuka dengan semua opsi sudah terisi otomatis.</p>
+    <div class="badge-row">
+      <span class="badge badge-violet">ANOVA → Repeated Measures ANOVA</span>
+      <span class="badge badge-violet">Paste sintaks → Add analysis</span>
+      <span class="badge badge-violet">Semua opsi terisi otomatis</span>
     </div>
-    <div class="code-body"><span class="cm"># Multiple regression: prediktor → efisiensi furnitur</span>
-data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Data_latihan_Furnitur.csv"</span>)
-
-model <span class="op">&lt;-</span> <span class="fn">lm</span>(Efisiensi_persen <span class="op">~</span> Diameter_Log_cm <span class="op">+</span> Kadar_Air_persen <span class="op">+</span> Ketebalan_mm, data = data)
-<span class="fn">summary</span>(model)
-
-<span class="cm"># Scatter: Kadar Air vs Efisiensi</span>
-<span class="kw">library</span>(ggplot2)
-<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = Kadar_Air_persen, y = Efisiensi_persen)) <span class="op">+</span>
-  <span class="fn">geom_point</span>(alpha = <span class="nm">0.4</span>, color = <span class="st">"#0d7377"</span>) <span class="op">+</span>
-  <span class="fn">geom_smooth</span>(method = <span class="st">"lm"</span>, color = <span class="st">"#b45309"</span>, se = <span class="kw">TRUE</span>) <span class="op">+</span>
-  <span class="fn">theme_minimal</span>(base_size = <span class="nm">12</span>)</div>
   </div>
 
-  <h2 class="sec" style="font-size:15px; margin-top:16px;">5 · Boxplot per Grup</h2>
-  <div class="code-block">
-    <div class="code-header">
-      <span class="code-lang">R · Boxplot</span>
-      <button class="code-copy" onclick="copyCode(this)">Salin</button>
+  <h2 class="sec">4 Keunggulan R Syntax Mode di JASP</h2>
+  <div class="card-grid-2">
+    <div class="ui-card teal">
+      <h3>📤 Berbagi Analisis</h3>
+      <p>Pengguna dapat menyalin kode R yang dihasilkan JASP dan membagikannya kepada rekan — penerima langsung mengetahui opsi apa saja yang digunakan tanpa perlu membuka file .jasp.</p>
     </div>
-    <div class="code-body"><span class="cm"># Boxplot efisiensi berdasarkan jenis kayu</span>
-<span class="kw">library</span>(ggplot2)
+    <div class="ui-card blue">
+      <h3>🔁 Reprodusibilitas</h3>
+      <p>Tempel kode R ke dalam JASP Anda sendiri untuk mereproduksi analisis secara persis — memastikan konsistensi hasil penelitian dan kemudahan verifikasi.</p>
+    </div>
+    <div class="ui-card amber">
+      <h3>⚙️ Kontrol via Kode</h3>
+      <p>Edit kode R untuk mengontrol GUI, atau ubah GUI untuk menghasilkan kode R yang berbeda. Kode selalu tersinkron dengan GUI sehingga perubahan di satu sisi langsung berdampak ke sisi lain.</p>
+    </div>
+    <div class="ui-card violet">
+      <h3>🎓 Alat Pengajaran</h3>
+      <p>Pengajar dapat dengan mudah berbagi pengaturan analisis kepada mahasiswa dan mendemonstrasikan konsep pemrograman R dalam lingkungan yang ramah pengguna tanpa setup tambahan.</p>
+    </div>
+  </div>
 
-data <span class="op">&lt;-</span> <span class="fn">read.csv</span>(<span class="st">"Data_latihan_Furnitur.csv"</span>)
-data$Jenis_Kayu <span class="op">&lt;-</span> <span class="fn">factor</span>(data$Jenis_Kayu)
-
-<span class="fn">ggplot</span>(data, <span class="fn">aes</span>(x = Jenis_Kayu, y = Efisiensi_persen, fill = Jenis_Kayu)) <span class="op">+</span>
-  <span class="fn">geom_boxplot</span>(alpha = <span class="nm">0.7</span>, width = <span class="nm">0.5</span>) <span class="op">+</span>
-  <span class="fn">geom_jitter</span>(width = <span class="nm">0.15</span>, alpha = <span class="nm">0.2</span>, size = <span class="nm">0.8</span>) <span class="op">+</span>
-  <span class="fn">scale_fill_manual</span>(values = <span class="fn">c</span>(<span class="st">"#0d7377"</span>, <span class="st">"#b45309"</span>, <span class="st">"#5b21b6"</span>)) <span class="op">+</span>
-  <span class="fn">labs</span>(
-    title = <span class="st">"Efisiensi berdasarkan Jenis Kayu"</span>,
-    x = <span class="st">"Jenis Kayu"</span>, y = <span class="st">"Efisiensi (%)"</span>
-  ) <span class="op">+</span>
-  <span class="fn">theme_minimal</span>() <span class="op">+</span> <span class="fn">theme</span>(legend.position = <span class="st">"none"</span>)</div>
+  <div class="alert alert-teal">
+    <span class="alert-icon">🔮</span>
+    <div><strong>Langkah Selanjutnya dari Tim JASP:</strong> Fitur sintaks R akan diperluas ke seluruh modul JASP, dan sebuah paket R JASP akan diterbitkan di CRAN — sehingga sintaks R yang dihasilkan JASP nantinya dapat dieksekusi langsung di RStudio. Sumber: <a href="https://jasp-stats.org/2023/03/06/r-syntax-mode-in-jasp-the-first-button/" target="_blank" style="color:var(--teal); font-weight:700;">R Syntax Mode in JASP: The First Button</a></div>
   </div>
 </div>
 </div>
@@ -1148,10 +1193,130 @@ data$Jenis_Kayu <span class="op">&lt;-</span> <span class="fn">factor</span>(dat
 </div>
 </div>
 
+<!-- ======================== PAGE 10: REQUIREMENTS ======================== -->
+<div class="page" id="page-10">
+<div class="content-page">
+  <div class="section-label">✅ Persiapan Workshop</div>
+  <h1 class="page-title">Requirements <span>Workshop</span></h1>
+  <p class="page-desc">Pastikan semua persiapan berikut sudah selesai <strong>sebelum</strong> hari workshop agar sesi berjalan lancar.</p>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div><strong>Penting:</strong> Lakukan semua instalasi dan unduhan di bawah ini <strong>minimal 1 hari sebelum workshop</strong>. Koneksi internet saat instalasi bisa lambat — jangan tunggu hari-H.</div>
+  </div>
+
+  <!-- SOFTWARE -->
+  <h2 class="sec">1 · Software yang Harus Diinstall</h2>
+  <div class="card-grid-2">
+    <div class="card" style="border-top: 4px solid var(--teal);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--teal);">📊</div>
+        <h3>JASP (Wajib)</h3>
+      </div>
+      <p>Versi minimum: <strong>JASP 0.17+</strong> (disarankan versi terbaru). R sudah terintegrasi — tidak perlu instalasi R terpisah.</p>
+      <a href="https://jasp-stats.org/download/" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--teal); color:#fff; font-weight:700; font-size:12px; padding:8px 16px; border-radius:7px; text-decoration:none; margin-top:8px;">⬇ Download JASP</a>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--blue);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--blue);">🌐</div>
+        <h3>Browser Modern (Wajib)</h3>
+      </div>
+      <p>Untuk membuka modul panduan ini. Gunakan <strong>Google Chrome</strong>, Firefox, Edge, atau Safari versi terbaru.</p>
+      <div class="badge-row" style="margin-top:8px;">
+        <span class="badge badge-blue">Chrome ✓</span>
+        <span class="badge badge-blue">Firefox ✓</span>
+        <span class="badge badge-blue">Edge ✓</span>
+      </div>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--amber);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--amber);">📹</div>
+        <h3>Platform Meeting (Wajib)</h3>
+      </div>
+      <p>Workshop dilaksanakan secara daring via <strong>Zoom</strong> atau platform yang ditentukan panitia. Pastikan sudah terinstall dan login.</p>
+      <div class="badge-row" style="margin-top:8px;">
+        <span class="badge badge-amber">Zoom</span>
+        <span class="badge badge-amber">Google Meet</span>
+        <span class="badge badge-amber">MS Teams</span>
+      </div>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--violet);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--violet);">📝</div>
+        <h3>Microsoft Word / LibreOffice (Opsional)</h3>
+      </div>
+      <p>Untuk membuka hasil ekspor JASP dalam format <strong>.docx</strong>. LibreOffice Writer gratis dan bisa digunakan sebagai alternatif.</p>
+      <a href="https://www.libreoffice.org/download/libreoffice/" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--violet-pale); color:var(--violet); border:1px solid #c4b5fd; font-weight:700; font-size:12px; padding:8px 16px; border-radius:7px; text-decoration:none; margin-top:8px;">⬇ Download LibreOffice (Gratis)</a>
+    </div>
+  </div>
+
+  <!-- FILE -->
+  <h2 class="sec">2 · File yang Harus Diunduh</h2>
+  <div class="card" style="border: 1px solid #bbf7d0; background: #f0fdf4;">
+    <div class="card-header">
+      <div class="card-icon" style="background:var(--green);">📁</div>
+      <h3>Dataset Latihan Furnitur (.csv)</h3>
+    </div>
+    <p>Dataset utama yang digunakan sepanjang workshop. Berisi data pengujian kualitas bahan baku kayu (<em>n</em> = 29 sampel) dengan variabel: Jenis_Kayu, Diameter_Log_cm, Kadar_Air_persen, Ketebalan_mm, Efisiensi_persen, Status_Cacat.</p>
+    <a href="https://raw.githubusercontent.com/yogoaj/yogoaj.github.io/refs/heads/main/polifurnika/data/Data_latihan_Furnitur.csv" download style="display:inline-flex; align-items:center; gap:6px; background:var(--navy); color:var(--gold); font-weight:700; font-size:13px; padding:10px 20px; border-radius:8px; text-decoration:none; margin-top:4px;">⬇ Unduh Data_latihan_Furnitur.csv</a>
+    <p style="font-size:12px; color:var(--gray); margin-top:10px; margin-bottom:0;">Simpan di lokasi yang mudah ditemukan, misalnya di Desktop atau folder <code style="background:#e5e7eb; padding:1px 6px; border-radius:3px; font-size:11px;">Dokumen/Workshop_JASP/</code>.</p>
+  </div>
+
+  <!-- HARDWARE -->
+  <h2 class="sec">3 · Spesifikasi Minimum Perangkat</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Komponen</th><th>Minimum</th><th>Disarankan</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sistem Operasi</strong></td><td>Windows 10 / macOS 10.14 / Ubuntu 18.04</td><td>Windows 11 / macOS 13+ / Ubuntu 22.04</td></tr>
+        <tr><td><strong>RAM</strong></td><td>4 GB</td><td>8 GB atau lebih</td></tr>
+        <tr><td><strong>Penyimpanan</strong></td><td>2 GB ruang kosong</td><td>5 GB ruang kosong</td></tr>
+        <tr><td><strong>Layar</strong></td><td>1280 × 720 px</td><td>1920 × 1080 px (Full HD)</td></tr>
+        <tr><td><strong>Internet</strong></td><td>2 Mbps (untuk sesi daring)</td><td>10 Mbps atau lebih</td></tr>
+        <tr><td><strong>Kamera & Mic</strong></td><td>Opsional</td><td>Disarankan untuk sesi tanya jawab</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHECKLIST -->
+  <h2 class="sec">4 · Checklist Sebelum Workshop</h2>
+  <div class="card" style="border: 1px solid var(--border);">
+    <ul style="list-style:none; padding:0; margin:0;">
+      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
+        <span style="font-size:18px; flex-shrink:0;">☐</span>
+        <div><strong>JASP sudah terinstall</strong> dan dapat dibuka tanpa error. Cek versinya via ☰ → About JASP (versi 0.17+).</div>
+      </li>
+      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
+        <span style="font-size:18px; flex-shrink:0;">☐</span>
+        <div><strong>File Data_latihan_Furnitur.csv</strong> sudah diunduh dan bisa dibuka di JASP (☰ → Open → pilih file).</div>
+      </li>
+      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
+        <span style="font-size:18px; flex-shrink:0;">☐</span>
+        <div><strong>Zoom / platform meeting</strong> sudah terinstall, login, dan audio-video sudah diuji coba.</div>
+      </li>
+      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
+        <span style="font-size:18px; flex-shrink:0;">☐</span>
+        <div><strong>Browser</strong> (Chrome/Firefox/Edge) sudah dapat membuka panduan ini dengan lancar.</div>
+      </li>
+      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0;">
+        <span style="font-size:18px; flex-shrink:0;">☐</span>
+        <div><strong>Koneksi internet</strong> stabil. Disarankan menggunakan Wi-Fi atau kabel LAN, bukan hotspot HP saat sesi berlangsung.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- BANTUAN -->
+  <div class="alert alert-teal" style="margin-top:8px;">
+    <span class="alert-icon">💬</span>
+    <div><strong>Ada kendala instalasi?</strong> Hubungi fasilitator sebelum hari workshop via WhatsApp agar dapat dibantu sebelum sesi dimulai. <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya peserta workshop JASP dan ada kendala instalasi." target="_blank" style="color:var(--teal); font-weight:700;">Chat WhatsApp →</a></div>
+  </div>
+</div>
+</div>
+
 <!-- BOTTOM PAGE NAV -->
 <div class="page-nav">
   <button id="prevBtn" onclick="changePage(-1)" disabled>‹</button>
-  <span class="page-counter" id="pageCounter">1 / 10</span>
+  <span class="page-counter" id="pageCounter">1 / 11</span>
   <button id="nextBtn" onclick="changePage(1)">›</button>
 </div>
 
