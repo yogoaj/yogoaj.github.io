@@ -457,7 +457,7 @@
     <span class="toc-arr">›</span>
   </div>
   <div class="toc-item" onclick="goPage(2)">
-    <div class="toc-left"><span class="toc-num">01</span><span class="toc-title">Pengantar — Apa itu JASP & Instalasi</span></div>
+    <div class="toc-left"><span class="toc-num">01</span><span class="toc-title">Pengantar — Apa itu JASP, Instalasi & JASP untuk Penelitian</span></div>
     <span class="toc-arr">›</span>
   </div>
   <div class="toc-item" onclick="goPage(3)">
@@ -473,7 +473,7 @@
     <span class="toc-arr">›</span>
   </div>
   <div class="toc-item" onclick="goPage(6)">
-    <div class="toc-left"><span class="toc-num">05</span><span class="toc-title">Grafik, Tabel & Ekspor Hasil</span></div>
+    <div class="toc-left"><span class="toc-num">05</span><span class="toc-title">Grafik, Tabel & Ekspor — Panduan Visualisasi Data Penelitian</span></div>
     <span class="toc-arr">›</span>
   </div>
   <div class="toc-item" onclick="goPage(7)">
@@ -506,7 +506,7 @@
 <div class="content-page">
   <div class="section-label">📌 Bab 1</div>
   <h1 class="page-title">Apa itu <span>JASP?</span></h1>
-  <p class="page-desc">Pengantar, keunggulan, perbandingan, dan panduan instalasi JASP untuk pemula.</p>
+  <p class="page-desc">Pengantar, keunggulan, perbandingan, instalasi, dan implementasi JASP untuk penelitian pengajar.</p>
 
   <!-- 📷 GAMBAR: Tampilan awal / splash screen JASP | Ganti src dengan URL foto online -->
   <img src="https://i.imgur.com/OvjHRoO.png" alt="Tampilan awal JASP" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
@@ -569,6 +569,122 @@
 
   <!-- 📷 GAMBAR: JASP pertama kali dibuka — tampilan home/welcome screen | Ganti src dengan URL foto online -->
   <img src="https://i.imgur.com/w9dRLAv.png" alt="JASP welcome screen setelah instalasi" style="width:100%; border-radius:10px; margin-top:4px; margin-bottom:4px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
+
+  <!-- ===== TAMBAHAN: JASP UNTUK PENELITIAN ===== -->
+  <h2 class="sec">JASP untuk Penelitian Pengajar</h2>
+  <p>Sebagai pengajar yang aktif meneliti, JASP menawarkan keunggulan nyata dibanding software lain — bukan sekadar "lebih mudah dipakai", tetapi secara spesifik dirancang untuk alur kerja riset akademik.</p>
+
+  <div class="card-grid-2" style="margin-bottom:16px;">
+    <div class="card" style="border-top: 4px solid var(--teal);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--teal);">📄</div>
+        <h3>Output APA Siap Manuskrip</h3>
+      </div>
+      <p>Tabel dan grafik langsung keluar dalam format APA 7th — siap disalin ke jurnal, skripsi, atau laporan PTK tanpa format ulang manual.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--blue);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--blue);">⚖️</div>
+        <h3>Bayesian + Frequentist Sekaligus</h3>
+      </div>
+      <p>Dua pendekatan statistik berdampingan dalam satu analisis. Sangat relevan untuk penelitian modern yang mensyaratkan pelaporan Bayes Factor di samping p-value.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--amber);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--amber);">🔁</div>
+        <h3>Reproducibility via File .jasp</h3>
+      </div>
+      <p>Simpan file <code style="background:#f3f4f6; padding:1px 6px; border-radius:3px; font-size:11px;">.jasp</code> — semua analisis, variabel, dan output tersimpan. Kirim ke reviewer atau rekan: mereka bisa membuka dan memverifikasi ulang hasil Anda persis sama.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--violet);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--violet);">🌐</div>
+        <h3>Koneksi OSF (Open Science)</h3>
+      </div>
+      <p>JASP terintegrasi langsung dengan <strong>Open Science Framework (OSF)</strong> — platform standar internasional untuk pre-registrasi dan berbagi data penelitian terbuka.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border: 1px solid #bbf7d0; background: #f0fdf4; margin-bottom:16px;">
+    <div class="card-header">
+      <div class="card-icon" style="background:var(--green);">📊</div>
+      <h3>Fokus Visualisasi Data untuk Penelitian</h3>
+    </div>
+    <p style="margin-bottom:10px;">JASP menghasilkan grafik berkualitas publikasi langsung dari menu klik — tidak perlu kode R atau Excel tambahan. Jenis grafik yang paling berguna untuk pengajar-peneliti:</p>
+    <div class="badge-row">
+      <span class="badge badge-teal">Histogram distribusi data</span>
+      <span class="badge badge-teal">Boxplot perbandingan kelompok</span>
+      <span class="badge badge-teal">Raincloud plot (distribusi + outlier)</span>
+      <span class="badge badge-blue">Scatter plot + garis regresi</span>
+      <span class="badge badge-blue">Heatmap korelasi antar variabel</span>
+      <span class="badge badge-blue">Means plot ANOVA (interaksi faktor)</span>
+      <span class="badge badge-amber">QQ plot uji normalitas residual</span>
+    </div>
+    <p style="margin:10px 0 0; font-size:12px; color:var(--gray);">💡 Semua grafik dapat diekspor resolusi tinggi (300+ DPI) langsung dari JASP via <strong>☰ → Preferences → Results → DPI</strong> — siap masuk jurnal tanpa re-render.</p>
+  </div>
+
+  <!-- Alur Penelitian dengan JASP -->
+  <h2 class="sec">Implementasi: Alur Penelitian dengan JASP</h2>
+  <p>Berikut alur kerja nyata menggunakan JASP dari data mentah hingga laporan siap publikasi — cocok untuk penelitian PTK, survei, maupun eksperimen di lingkungan pendidikan.</p>
+
+  <div style="background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 24px 26px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.04);">
+    <ul class="step-list" style="margin:0;">
+      <li>
+        <div class="step-num" style="background:var(--teal);">1</div>
+        <div class="step-txt">
+          <h4>Siapkan data di Excel → Simpan sebagai .csv</h4>
+          <p>Susun data dengan baris = responden/sampel, kolom = variabel. Simpan via <em>Save As → CSV UTF-8</em>. Pastikan tidak ada baris judul ganda atau sel kosong di tengah data.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num" style="background:var(--teal);">2</div>
+        <div class="step-txt">
+          <h4>Buka di JASP → Verifikasi tipe variabel</h4>
+          <p>☰ → Open → pilih file .csv. Cek header kolom — pastikan variabel nominal/ordinal/scale sudah tepat. Klik ikon tipe variabel di header untuk koreksi jika perlu.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num" style="background:var(--blue);">3</div>
+        <div class="step-txt">
+          <h4>Eksplorasi data dengan grafik awal (Descriptives)</h4>
+          <p><strong>Descriptives → Descriptive Statistics</strong> → drag semua variabel utama → centang <em>Distribution plots</em> dan <em>Boxplots</em>. Lihat pola distribusi, outlier, dan nilai ekstrem sebelum uji utama.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num" style="background:var(--blue);">4</div>
+        <div class="step-txt">
+          <h4>Pilih & jalankan uji statistik sesuai tujuan penelitian</h4>
+          <p>Gunakan pohon keputusan di Bab 4 untuk memilih uji yang tepat (t-test, ANOVA, regresi, korelasi). Setiap output sudah mencantumkan effect size dan interpretasi siap kutip.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num" style="background:var(--amber);">5</div>
+        <div class="step-txt">
+          <h4>Buat grafik bermakna untuk laporan</h4>
+          <p>Tambahkan grafik yang mendukung narasi penelitian: boxplot untuk perbandingan kelompok, scatter + garis regresi untuk hubungan antar variabel, means plot untuk hasil ANOVA. Atur DPI 300+ di Preferences terlebih dahulu.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num" style="background:var(--amber);">6</div>
+        <div class="step-txt">
+          <h4>Ekspor ke Word → Susun laporan/artikel</h4>
+          <p><strong>☰ → Export Results → Word</strong> — semua tabel APA dan grafik terkompilasi dalam satu file .docx. Tinggal tambahkan narasi interpretasi di antara tabel dan grafik yang sudah terformat rapi.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num" style="background:var(--violet);">7</div>
+        <div class="step-txt">
+          <h4>Simpan file .jasp untuk reprodusibilitas</h4>
+          <p><strong>☰ → Save</strong> → simpan file <code style="background:#f3f4f6; padding:1px 6px; border-radius:3px; font-size:11px;">.jasp</code>. File ini menyimpan data + seluruh analisis + output. Lampirkan ke submission jurnal atau bagikan ke rekan sebagai bukti transparansi penelitian.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="alert alert-teal">
+    <span class="alert-icon">🎯</span>
+    <div><strong>Kesimpulan untuk Pengajar-Peneliti:</strong> JASP bukan sekadar alternatif SPSS yang gratis. Dengan output APA otomatis, dukungan Bayesian, file .jasp yang reproducible, dan grafik siap publikasi — JASP adalah alat yang memang dirancang untuk ekosistem penelitian akademik modern.</div>
+  </div>
 </div>
 </div>
 
@@ -809,7 +925,7 @@
 <div class="content-page">
   <div class="section-label">📈 Bab 5</div>
   <h1 class="page-title">Grafik, Tabel <span>& Ekspor</span></h1>
-  <p class="page-desc">Cara membuat grafik publikasi, kustomisasi, dan ekspor hasil ke Word/PDF.</p>
+  <p class="page-desc">Cara membuat grafik publikasi, memilih visualisasi yang tepat untuk penelitian, kustomisasi, dan ekspor ke Word/PDF.</p>
 
   <!-- 📷 GAMBAR: Kolase contoh grafik dari JASP (histogram, boxplot, scatter) | Ganti src dengan URL foto online -->
   <img src="https://i.imgur.com/f7OBP5s.png" alt="Contoh grafik output JASP — histogram, boxplot, scatter" style="width:100%; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.1);" onerror="this.style.display='none'">
@@ -864,6 +980,77 @@
   <div class="alert alert-info">
     <span class="alert-icon">📌</span>
     <div>Gunakan <strong>☰ → Export Results → Word</strong> untuk ekspor seluruh output analisis (semua tabel + grafik) dalam satu dokumen Word berformat rapi. Sangat berguna untuk menyusun laporan akhir.</div>
+  </div>
+
+  <!-- ===== TAMBAHAN: MEMBUAT GRAFIK BERMAKNA UNTUK PENELITIAN ===== -->
+  <h2 class="sec">Grafik Bermakna untuk Data Penelitian</h2>
+  <p>Grafik yang baik bukan sekadar "gambar dari data" — ia harus menjawab pertanyaan penelitian secara visual. Berikut panduan memilih dan membuat grafik yang tepat sesuai jenis data dan tujuan penelitian Anda.</p>
+
+  <div style="background: #f9fafb; border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; margin-bottom: 16px;">
+    <h3 style="font-size:15px; font-weight:700; color:var(--navy); margin-bottom:14px;">🗺️ Panduan Memilih Grafik yang Tepat</h3>
+    <div class="tbl-wrap" style="margin:0;">
+      <table class="apa-table">
+        <thead><tr><th>Tujuan Penelitian</th><th>Grafik yang Tepat</th><th>Cara di JASP</th></tr></thead>
+        <tbody>
+          <tr><td>Melihat distribusi satu variabel</td><td><strong>Histogram</strong> + kurva normal</td><td>Descriptives → Plots → Distribution plots</td></tr>
+          <tr><td>Membandingkan 2–3 kelompok</td><td><strong>Boxplot</strong> atau <strong>Raincloud</strong></td><td>Descriptives → Plots → Boxplots</td></tr>
+          <tr><td>Melihat hubungan dua variabel kontinu</td><td><strong>Scatter plot</strong> + garis regresi</td><td>Regression → Correlation → Plots</td></tr>
+          <tr><td>Visualisasi korelasi banyak variabel</td><td><strong>Heatmap korelasi</strong></td><td>Regression → Correlation → Heatmap</td></tr>
+          <tr><td>Hasil ANOVA — pengaruh kelompok</td><td><strong>Means plot</strong> dengan error bars</td><td>ANOVA → Plots → Marginal Means</td></tr>
+          <tr><td>Cek asumsi normalitas residual</td><td><strong>QQ Plot</strong></td><td>Regression → Plots → Q-Q Plot</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2 class="sec">Walkthrough: Grafik Perbandingan Kelompok (Raincloud)</h2>
+  <p>Raincloud plot adalah grafik terbaik untuk membandingkan kelompok dalam penelitian — menggabungkan distribusi, boxplot, dan titik data sekaligus dalam satu visualisasi.</p>
+  <ul class="step-list">
+    <li>
+      <div class="step-num" style="background:var(--teal);">1</div>
+      <div class="step-txt"><h4>Buka Descriptives</h4><p>Klik <strong>Descriptives</strong> di top bar → pilih <em>Descriptive Statistics</em>.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--teal);">2</div>
+      <div class="step-txt"><h4>Drag variabel ke kotak yang tepat</h4><p>Drag variabel kontinu (mis. <em>Efisiensi_persen</em>) ke <strong>Variables</strong>. Drag variabel kelompok (mis. <em>Jenis_Kayu</em>) ke <strong>Split by</strong>.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--blue);">3</div>
+      <div class="step-txt"><h4>Aktifkan Raincloud Plot</h4><p>Di panel kiri, scroll ke bagian <strong>Plots</strong> → centang <em>Boxplots</em> → muncul opsi <em>Raincloud</em> → aktifkan. Grafik langsung muncul real-time di panel kanan.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--blue);">4</div>
+      <div class="step-txt"><h4>Kustomisasi tampilan</h4><p>Centang <em>Mean</em> pada opsi boxplot untuk menambahkan tanda rata-rata. Atur warna via tema di Preferences jika perlu konsistensi visual laporan.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--amber);">5</div>
+      <div class="step-txt"><h4>Ekspor grafik</h4><p>Klik kanan grafik di panel kanan → <em>Save image as</em> → pilih PNG/SVG. Atau gunakan <strong>☰ → Export Results → Word</strong> untuk ekspor semua grafik sekaligus.</p></div>
+    </li>
+  </ul>
+
+  <h2 class="sec">Walkthrough: Scatter Plot + Regresi untuk Korelasi</h2>
+  <ul class="step-list">
+    <li>
+      <div class="step-num" style="background:var(--violet);">1</div>
+      <div class="step-txt"><h4>Buka Regression → Correlation</h4><p>Klik <strong>Regression</strong> di top bar → pilih <em>Correlation</em>.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--violet);">2</div>
+      <div class="step-txt"><h4>Drag variabel</h4><p>Drag semua variabel kontinu yang ingin dilihat korelasinya ke kotak <strong>Variables</strong> (mis. Diameter, Kadar_Air, Ketebalan, Efisiensi).</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--violet);">3</div>
+      <div class="step-txt"><h4>Aktifkan Heatmap dan Scatter Matrix</h4><p>Di panel kiri centang: <em>Heatmap</em> (visualisasi korelasi berwarna) dan <em>Scatter plots</em> (matrix scatter antar semua variabel). Langsung terlihat pasangan variabel mana yang paling kuat hubungannya.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--violet);">4</div>
+      <div class="step-txt"><h4>Baca & laporkan</h4><p>Tabel korelasi Pearson muncul otomatis dalam format APA. Gunakan heatmap sebagai figure dalam laporan — tambahkan keterangan warna: biru = korelasi positif, merah = negatif, intensitas = kekuatan.</p></div>
+    </li>
+  </ul>
+
+  <div class="alert alert-success">
+    <span class="alert-icon">✅</span>
+    <div><strong>Tips Grafik untuk Publikasi:</strong> Sebelum membuat grafik apapun, atur dulu <strong>☰ → Preferences → Results → Plot width = 600, DPI = 300</strong>. Lakukan sekali di awal sesi — berlaku untuk semua grafik yang dibuat dalam sesi tersebut.</div>
   </div>
 </div>
 </div>
