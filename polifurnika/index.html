@@ -33,21 +33,34 @@
   html { scroll-behavior: smooth; }
   body { font-family: 'Inter', sans-serif; background: var(--light); color: #1a1a2e; line-height: 1.7; }
 
-  /* NAV */
+  /* NAV — slim scrollable */
   .top-nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 999;
     background: var(--navy);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 20px;
+    display: flex; align-items: center; gap: 0;
+    height: 44px;
     box-shadow: 0 2px 16px rgba(0,0,0,.25);
-    flex-wrap: wrap; gap: 6px;
+    overflow: hidden;
   }
-  .top-nav .brand { display:flex; align-items:center; gap:10px; }
-  .top-nav .brand span { color:var(--gold); font-weight:700; font-size:15px; letter-spacing:.3px; }
-  .nav-links { display:flex; gap:4px; flex-wrap:wrap; }
+  .top-nav .brand {
+    display: flex; align-items: center; gap: 8px;
+    padding: 0 12px 0 10px;
+    border-right: 1px solid rgba(255,255,255,.08);
+    flex-shrink: 0; height: 100%;
+  }
+  .top-nav .brand span { color:var(--gold); font-weight:700; font-size:13px; letter-spacing:.2px; white-space:nowrap; }
+  .nav-links {
+    display: flex; gap: 2px;
+    overflow-x: auto; flex: 1; height: 100%;
+    align-items: center; padding: 0 6px;
+    scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
   .nav-links a {
-    color: rgba(255,255,255,.75); font-size: 11.5px; font-weight: 500;
-    text-decoration: none; padding: 5px 9px; border-radius: 6px; transition: all .2s;
+    color: rgba(255,255,255,.72); font-size: 11px; font-weight: 500;
+    text-decoration: none; padding: 4px 9px; border-radius: 5px;
+    transition: all .18s; white-space: nowrap; flex-shrink: 0;
+    line-height: 1;
   }
   .nav-links a:hover { background: rgba(245,197,24,.15); color: var(--gold); }
   .nav-links a.tips-link {
@@ -55,13 +68,25 @@
     border: 1px solid rgba(245,197,24,.25);
   }
   .nav-links a.tips-link:hover { background: rgba(245,197,24,.25); }
+  .nav-links a.req-link {
+    background: rgba(34,197,94,.1); color: #4ade80;
+    border: 1px solid rgba(34,197,94,.25);
+  }
+  .nav-links a.req-link:hover { background: rgba(34,197,94,.2); }
+  /* scroll fade hint */
+  .nav-scroll-wrap { position:relative; flex:1; overflow:hidden; display:flex; align-items:center; }
+  .nav-scroll-wrap::after {
+    content:''; position:absolute; right:0; top:0; bottom:0; width:28px;
+    background: linear-gradient(to right, transparent, var(--navy));
+    pointer-events: none; z-index: 2;
+  }
 
   /* PAGES */
   .page { display: none; animation: fadeIn .4s ease; }
   .page.active { display: block; }
   @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-  /* BOTTOM PAGE NAV */
+  /* BOTTOM PAGE NAV (tetap) */
   .page-nav {
     position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
     display: flex; align-items: center; gap: 10px;
@@ -79,112 +104,312 @@
   .page-counter { color: rgba(255,255,255,.7); font-size: 12px; min-width: 60px; text-align:center; font-weight:500; }
 
   /* PROGRESS BAR */
-  .progress-bar { position: fixed; top: 52px; left:0; right:0; height:3px; background: rgba(255,255,255,.1); z-index:997; }
+  .progress-bar { position: fixed; top: 44px; left:0; right:0; height:3px; background: rgba(255,255,255,.1); z-index:997; }
   .progress-fill { height:100%; background: var(--gold); transition: width .3s ease; }
 
-  /* ============ COVER ============ */
-  #cover {
-    min-height: 100vh; background: var(--navy);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    position: relative; overflow: hidden; padding: 80px 40px 100px; text-align: center;
+  /* ============ TOMBOL FLOATING (POJOK KANAN BAWAH) ============ */
+  .floating-buttons {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1000;
   }
-  .cover-grid {
-    position: absolute; inset: 0;
-    background-image: linear-gradient(rgba(245,197,24,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,197,24,.04) 1px, transparent 1px);
-    background-size: 40px 40px;
+  .floating-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+    text-decoration: none;
   }
-  .cover-glow {
-    position: absolute; width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(245,197,24,.12) 0%, transparent 70%);
-    top: -100px; right: -100px; pointer-events: none;
+  .floating-btn:hover {
+    transform: scale(1.05);
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
   }
-  .cover-logo { width: 72px; height: 72px; margin-bottom: 28px; filter: drop-shadow(0 4px 16px rgba(245,197,24,.3)); position: relative; }
-  .cover-ebook-label { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; position: relative; }
-  .cover-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 5vw, 48px); font-weight: 900;
-    color: var(--white); line-height: 1.15; max-width: 700px;
-    position: relative; margin-bottom: 8px;
+  /* saat mode slide, ubah warna tombol slide */
+  body.slide-mode .floating-btn.slide-btn {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--navy);
   }
-  .cover-title span { color: var(--gold); }
-  .cover-subtitle {
-    color: rgba(255,255,255,.5); font-size: 14px; font-weight: 400;
-    max-width: 540px; margin: 20px auto 36px; position: relative; line-height: 1.8;
-  }
-  .cover-features { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 640px; position: relative; margin-bottom: 40px; }
-  .cover-features .feat {
-    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
-    color: rgba(255,255,255,.8); font-size: 12px; font-weight: 500;
-    padding: 8px 16px; border-radius: 8px; display: flex; align-items: center; gap: 6px;
-  }
-  .cover-features .feat .dot { width:6px; height:6px; background:var(--gold); border-radius:50%; }
-  .cover-divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--gold), transparent); border-radius: 2px; margin: 0 auto 20px; position: relative; }
-  .cover-author {
-    display: flex; align-items: center; gap: 12px;
-    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
-    border-radius: 12px; padding: 12px 20px; position: relative;
-  }
-  .cover-author-ava {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), var(--gold2));
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; color: var(--navy); font-size: 16px;
-  }
-  .cover-author-info .name { color: var(--white); font-weight: 600; font-size: 14px; }
-  .cover-author-info .role { color: rgba(255,255,255,.5); font-size: 11px; }
-  .cover-meta-row {
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
-    margin-bottom: 30px; position: relative;
-  }
-  .cover-meta-item {
-    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
-    color: rgba(255,255,255,.65); font-size: 11px; padding: 5px 14px; border-radius: 20px;
-  }
-  .cover-meta-item strong { color: var(--gold); }
 
-  /* ============ CONTENT PAGES ============ */
-  .content-page { max-width: 800px; margin: 0 auto; padding: 80px 32px 120px; min-height: 100vh; }
-  .section-label {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(13,31,60,.07); color: var(--navy); font-size: 11px; font-weight: 700;
-    padding: 5px 14px; border-radius: 50px; letter-spacing: 1.5px; text-transform: uppercase;
-    margin-bottom: 20px; border-left: 3px solid var(--gold);
+  /* ============ MODE SLIDE (PRESENTASI) ============ */
+  body.slide-mode {
+    background: #0a0c15;
   }
+  body.slide-mode .page.active {
+    background: #0a0c15;
+  }
+  body.slide-mode .content-page {
+    max-width: 1200px;
+    padding: 60px 32px 100px;
+  }
+  /* Teks umum di slide mode */
+  body.slide-mode p,
+  body.slide-mode li,
+  body.slide-mode li strong,
+  body.slide-mode .card p,
+  body.slide-mode .card h3,
+  body.slide-mode .ui-card p,
+  body.slide-mode .ui-card h3,
+  body.slide-mode .var-card p,
+  body.slide-mode .var-card h3,
+  body.slide-mode .ci-card p,
+  body.slide-mode .apa-table td,
+  body.slide-mode .apa-table caption,
+  body.slide-mode .apa-note,
+  body.slide-mode .badge,
+  body.slide-mode .badge-row span,
+  body.slide-mode .step-txt p,
+  body.slide-mode .step-txt h4,
+  body.slide-mode .toc-title,
+  body.slide-mode .ebook-footer,
+  body.slide-mode .cover-subtitle,
+  body.slide-mode .cover-meta-item {
+    color: #e2e8f0 !important;
+  }
+  /* branch-label (italic di pohon keputusan) */
+  body.slide-mode .branch-label {
+    color: #cbd5e1 !important;
+  }
+  /* tree-result pills: background terang → gelap, teks tetap kontras */
+  body.slide-mode .tree-result.res-teal  { background: rgba(13,115,119,.35) !important; color: #5eead4 !important; }
+  body.slide-mode .tree-result.res-amber { background: rgba(180,83,9,.35)   !important; color: #fcd34d !important; }
+  body.slide-mode .tree-result.res-blue  { background: rgba(26,86,219,.35)  !important; color: #93c5fd !important; }
+  body.slide-mode .tree-result.res-violet{ background: rgba(91,33,182,.35)  !important; color: #c4b5fd !important; }
+  body.slide-mode .card,
+  body.slide-mode .ui-card,
+  body.slide-mode .var-card,
+  body.slide-mode .toc-item,
+  body.slide-mode .stat-chooser,
+  body.slide-mode .ci-card,
+  body.slide-mode .alert,
+  body.slide-mode .apa-table,
+  body.slide-mode .apa-table tr:nth-child(even) td {
+    background: #1e1f2c !important;
+    border-color: #2d2f3e !important;
+    box-shadow: none;
+  }
+  body.slide-mode .ci-card.sig { background: #0f2a1a !important; border-color: #166534 !important; }
+  body.slide-mode .ci-card.sig h5 { color: #4ade80 !important; }
+  body.slide-mode .ci-card.nsig { background: #2a1f0a !important; border-color: #92400e !important; }
+  body.slide-mode .ci-card.nsig h5 { color: #fbbf24 !important; }
+  body.slide-mode .alert-warn { background: #2a1f0a !important; border-color: #f59e0b !important; color: #fcd34d !important; }
+  body.slide-mode .alert-info { background: #0a1a2e !important; border-color: #3b82f6 !important; color: #93c5fd !important; }
+  body.slide-mode .alert-teal { background: #0a2020 !important; border-color: var(--teal) !important; color: #5eead4 !important; }
+  body.slide-mode .alert-success { background: #0f2a1a !important; border-color: #22c55e !important; color: #4ade80 !important; }
+  /* Paksa semua elemen di dalam alert ikut warna alert-nya */
+  body.slide-mode .alert-warn *,
+  body.slide-mode .alert-info *,
+  body.slide-mode .alert-teal *,
+  body.slide-mode .alert-success * { color: inherit !important; }
+  /* Card dengan inline background terang (f0fdf4, dll) — override ke dark */
+  body.slide-mode .card[style*="background: #f0fdf4"],
+  body.slide-mode .card[style*="background:#f0fdf4"] {
+    background: #0f2a1a !important;
+    border-color: #166534 !important;
+  }
+  body.slide-mode .card[style*="background: var(--white)"],
+  body.slide-mode .card[style*="background:var(--white)"] {
+    background: #1e1f2c !important;
+    border-color: #2d2f3e !important;
+  }
+  body.slide-mode .alert div,
+  body.slide-mode .alert p,
+  body.slide-mode .alert strong,
+  body.slide-mode .alert span,
+  body.slide-mode .alert a { color: inherit !important; }
+  body.slide-mode .badge { background: rgba(255,255,255,.1) !important; color: #e2e8f0 !important; border-color: rgba(255,255,255,.15) !important; }
+  body.slide-mode .badge-teal { background: rgba(13,115,119,.3) !important; color: #5eead4 !important; }
+  body.slide-mode .badge-blue { background: rgba(26,86,219,.3) !important; color: #93c5fd !important; }
+  body.slide-mode .badge-amber { background: rgba(180,83,9,.3) !important; color: #fcd34d !important; }
+  body.slide-mode .badge-violet { background: rgba(91,33,182,.3) !important; color: #c4b5fd !important; }
+  body.slide-mode .badge-gold { background: rgba(180,83,9,.2) !important; color: #fcd34d !important; }
+  body.slide-mode .pill-teal { background: rgba(13,115,119,.3) !important; color: #5eead4 !important; }
+  body.slide-mode .pill-gray { background: rgba(255,255,255,.1) !important; color: #9ca3af !important; }
+  body.slide-mode .apa-table th {
+    background: #0d0f17 !important;
+    color: var(--gold) !important;
+  }
+  body.slide-mode .section-label {
+    background: rgba(245,197,24,.15);
+    color: var(--gold);
+  }
+  body.slide-mode h1.page-title,
+  body.slide-mode h2.sec,
+  body.slide-mode .card-header h3,
+  body.slide-mode .ui-card h3,
+  body.slide-mode .tree-q,
+  body.slide-mode .toc-item .toc-title {
+    color: #ffffff !important;
+  }
+  body.slide-mode .page-desc {
+    color: #9ca3af !important;
+  }
+  body.slide-mode .top-nav {
+    background: #0a0c15;
+    border-bottom: 1px solid #2d2f3e;
+  }
+  body.slide-mode .page-nav {
+    background: #0a0c15;
+    border: 1px solid #2d2f3e;
+  }
+  body.slide-mode .progress-bar {
+    top: 44px;
+    background: #2d2f3e;
+  }
+  body.slide-mode .cover-features .feat {
+    background: rgba(255,255,255,.05);
+    border-color: rgba(255,255,255,.1);
+  }
+  body.slide-mode #cover {
+    background: #0a0c15;
+  }
+  body.slide-mode .content-page {
+    font-size: 1.1rem;
+  }
+  body.slide-mode .content-page p,
+  body.slide-mode .content-page li {
+    font-size: 1rem;
+  }
+  body.slide-mode .card p,
+  body.slide-mode .ui-card p,
+  body.slide-mode .step-txt p,
+  body.slide-mode .var-card p,
+  body.slide-mode .ci-card p {
+    font-size: 0.95rem;
+  }
+  body.slide-mode .step-txt h4 {
+    font-size: 1rem;
+  }
+  body.slide-mode .card h3,
+  body.slide-mode .ui-card h3,
+  body.slide-mode .var-card h3 {
+    font-size: 1.05rem;
+  }
+  body.slide-mode .branch-label {
+    font-size: 0.85rem;
+  }
+  body.slide-mode .tree-result {
+    font-size: 0.8rem;
+  }
+  body.slide-mode h2.sec {
+    font-size: 1.7rem;
+  }
+  body.slide-mode h1.page-title {
+    font-size: 2.5rem;
+  }
+
+  /* ============ MEDIA PRINT (SEMUA HALAMAN) ============ */
+  @media print {
+    .top-nav, .page-nav, .progress-bar, .floating-buttons {
+      display: none !important;
+    }
+    body {
+      background: white !important;
+      color: black !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    /* semua page ditampilkan, tidak hanya active */
+    .page {
+      display: block !important;
+      page-break-after: always;
+    }
+    /* Cover page: pertahankan background navy agar terlihat, tapi pastikan konten jelas */
+    #cover {
+      background: var(--navy) !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+      min-height: auto !important;
+      padding: 60px 32px !important;
+    }
+    /* Pastikan elemen cover tetap terlihat saat dicetak */
+    .cover-grid, .cover-glow { display: block !important; }
+    .cover-title { color: var(--white) !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .cover-title span { color: var(--gold) !important; }
+    .cover-subtitle { color: rgba(255,255,255,.8) !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .cover-meta-item, .feat { color: rgba(255,255,255,.9) !important; border-color: rgba(255,255,255,.3) !important; background: rgba(255,255,255,.1) !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .cover-ebook-label { color: var(--gold) !important; }
+    .cover-author-info .name { color: var(--white) !important; }
+    .cover-author-info .role { color: rgba(255,255,255,.7) !important; }
+    /* Halaman konten */
+    .content-page {
+      max-width: 100%;
+      padding: 1.5cm !important;
+      background: white !important;
+    }
+    .page-title, h2.sec, h3 { color: var(--navy) !important; }
+    .card, .ui-card, .alert, .apa-table {
+      box-shadow: none !important;
+      border: 1px solid #ccc !important;
+      break-inside: avoid;
+      background: white !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .apa-table th {
+      background: var(--navy) !important;
+      color: var(--gold) !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .card h3, .ui-card h3 { color: var(--navy) !important; }
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    img {
+      max-width: 100% !important;
+      page-break-inside: avoid;
+    }
+    /* CTA box print */
+    .cta-box {
+      background: var(--navy) !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+
+  /* style umum lainnya (tidak diubah) */
+  .content-page { max-width: 800px; margin: 0 auto; padding: 56px 32px 120px; min-height: 100vh; }
+  .section-label { display: inline-flex; align-items: center; gap: 8px; background: rgba(13,31,60,.07); color: var(--navy); font-size: 11px; font-weight: 700; padding: 5px 14px; border-radius: 50px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px; border-left: 3px solid var(--gold); }
   h1.page-title { font-family: 'Playfair Display', serif; font-size: clamp(24px, 4vw, 36px); font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 8px; }
   h1.page-title span { color: var(--gold2); }
   .page-desc { color: var(--gray); font-size: 14px; margin-bottom: 36px; max-width: 600px; }
   h2.sec { font-size: 18px; font-weight: 700; color: var(--navy); margin: 32px 0 14px; display:flex; align-items:center; gap:10px; }
   h2.sec::before { content:''; display:block; width:4px; height:20px; background:var(--gold); border-radius:2px; flex-shrink:0; }
   p { font-size: 14px; color: #374151; margin-bottom: 14px; }
-
-  /* CARD */
   .card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.04); transition: box-shadow .2s; }
   .card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.09); }
   .card-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
   .card-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
   .card h3 { font-size: 15px; font-weight: 700; color: var(--navy); }
   .card p { font-size: 13px; color: var(--gray); margin: 0; }
-
-  /* CARD GRID */
   .card-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 16px; }
   .card-grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-bottom: 16px; }
   @media(max-width:600px) { .card-grid-3, .card-grid-2 { grid-template-columns: 1fr; } }
-
-  /* UI CARD */
-  .ui-card {
-    background: var(--white); border: 1px solid var(--border);
-    border-radius: 12px; padding: 18px 20px;
-    border-left: 4px solid transparent;
-    box-shadow: 0 2px 8px rgba(0,0,0,.04);
-  }
+  .ui-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; border-left: 4px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,.04); }
   .ui-card.teal { border-left-color: var(--teal); }
   .ui-card.blue { border-left-color: var(--blue); }
   .ui-card.amber { border-left-color: var(--amber); }
   .ui-card.violet { border-left-color: var(--violet); }
   .ui-card h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
   .ui-card p { font-size: 13px; color: var(--gray); margin: 0; }
-
-  /* TABLE */
   .tbl-wrap { overflow-x: auto; margin: 16px 0 24px; }
   .apa-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
   .apa-table caption { text-align: left; font-size: 13px; color: var(--navy); font-weight: 700; padding: 14px 16px 8px; background: var(--white); }
@@ -193,203 +418,215 @@
   .apa-table td { padding: 10px 14px; color: #374151; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
   .apa-table tr:last-child td { border-bottom: none; }
   .apa-table tr:nth-child(even) td { background: #f9fafb; }
-  .apa-note { font-size: 12px; color: var(--gray); margin-top: 6px; font-style: italic; }
   .badge-ok { background: #dcfce7; color: var(--green); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
-  .badge-warn { background: #fef9c3; color: #854d0e; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
-  .badge-info { background: #dbeafe; color: #1e40af; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
-
-  /* STEP LIST */
   .step-list { list-style: none; }
   .step-list li { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
   .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--navy); color: var(--gold); font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-  .step-list .step-txt h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
-  .step-list .step-txt p { font-size: 13px; color: var(--gray); margin: 0; }
-
-  /* ALERT */
   .alert { border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; }
   .alert-warn { background: #fffbeb; border-left: 4px solid #f59e0b; color: #92400e; }
   .alert-info { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e40af; }
-  .alert-success { background: #f0fdf4; border-left: 4px solid #22c55e; color: #166534; }
   .alert-teal { background: var(--teal-pale); border-left: 4px solid var(--teal); color: #0d5c60; }
-  .alert-icon { font-size: 18px; flex-shrink:0; margin-top:1px; }
-
-  /* BADGE */
   .badge-row { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
   .badge { background: rgba(13,31,60,.07); color: var(--navy); font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 50px; border: 1px solid rgba(13,31,60,.1); }
-  .badge-gold { background: rgba(245,197,24,.15); color: #92400e; border-color: rgba(245,197,24,.4); }
-  .badge-teal { background: var(--teal-pale); color: var(--teal); border-color: #a8dbd9; }
+  .badge-teal { background: var(--teal-pale); color: var(--teal); border-color: rgba(13,115,119,.2); }
   .badge-blue { background: var(--blue-pale); color: var(--blue); border-color: #93c5fd; }
   .badge-amber { background: var(--amber-pale); color: var(--amber); border-color: #fcd34d; }
   .badge-violet { background: var(--violet-pale); color: var(--violet); border-color: #c4b5fd; }
+  .badge-gold { background: #fffbeb; color: #92400e; border-color: #fcd34d; }
+
+  /* COVER */
+  #cover {
+    min-height: 100vh; background: var(--navy);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 56px 32px 100px; text-align: center; position: relative; overflow: hidden;
+  }
+  .cover-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(245,197,24,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,197,24,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .cover-glow {
+    position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,197,24,.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover-logo { width: 80px; height: 80px; margin-bottom: 24px; position: relative; z-index: 1; }
+  .cover-ebook-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); opacity: .7; margin-bottom: 20px; position: relative; z-index: 1;
+  }
+  .cover-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(32px, 6vw, 64px);
+    font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 20px;
+    position: relative; z-index: 1;
+  }
+  .cover-title span { color: var(--gold); }
+  .cover-subtitle {
+    font-size: clamp(13px, 2vw, 16px); color: rgba(255,255,255,.6);
+    max-width: 580px; line-height: 1.7; margin-bottom: 28px; position: relative; z-index: 1;
+  }
+  .cover-meta-row {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    margin-bottom: 32px; position: relative; z-index: 1;
+  }
+  .cover-meta-item {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    color: rgba(255,255,255,.75); font-size: 12px; padding: 6px 14px; border-radius: 50px;
+  }
+  .cover-features {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    max-width: 600px; margin-bottom: 36px; position: relative; z-index: 1;
+  }
+  .feat {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    color: rgba(255,255,255,.8); font-size: 12px; padding: 7px 14px; border-radius: 50px;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .cover-divider { width: 60px; height: 2px; background: rgba(245,197,24,.3); margin: 0 auto 28px; position: relative; z-index: 1; }
+  .cover-author {
+    display: flex; align-items: center; gap: 14px; position: relative; z-index: 1;
+  }
+  .cover-author-ava {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--navy2));
+    border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 900; color: var(--gold); flex-shrink: 0;
+  }
+  .cover-author-info .name { font-size: 14px; font-weight: 700; color: var(--white); }
+  .cover-author-info .role { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 2px; }
+
+  /* TOC */
+  .toc-item {
+    background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 20px; margin-bottom: 10px; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: all .2s; box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  }
+  .toc-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); transform: translateX(4px); }
+  .toc-left { display: flex; align-items: center; gap: 14px; }
+  .toc-num {
+    min-width: 34px; height: 34px; border-radius: 8px; background: var(--navy);
+    color: var(--gold); font-weight: 800; font-size: 13px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .toc-title { font-size: 14px; font-weight: 600; color: var(--navy); }
+  .toc-arr { font-size: 20px; color: var(--gray); transition: transform .2s; }
+  .toc-item:hover .toc-arr { transform: translateX(4px); }
+
+  /* CI CARD */
+  .ci-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-bottom: 16px; }
+  @media(max-width:600px) { .ci-grid { grid-template-columns: 1fr; } }
+  .ci-card {
+    border-radius: 12px; padding: 18px 20px; font-size: 13px; color: #374151; line-height: 1.6;
+    border: 1px solid var(--border);
+  }
+  .ci-card h5 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .ci-card.sig { background: #f0fdf4; border-color: #bbf7d0; }
+  .ci-card.sig h5 { color: var(--green); }
+  .ci-card.nsig { background: #fffbeb; border-color: #fde68a; }
+  .ci-card.nsig h5 { color: var(--amber); }
+
+  /* STEP TXT */
+  .step-txt h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .step-txt p { font-size: 13px; color: var(--gray); margin: 0; }
+
+  /* VAR CARDS */
+  .var-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 16px; }
+  @media(max-width:600px) { .var-row { grid-template-columns: 1fr; } }
+  .var-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 22px 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,.04); }
+  .var-card h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin: 10px 0 6px; }
+  .var-card p { font-size: 12px; color: var(--gray); margin: 0; }
+  .var-sym { width: 48px; height: 48px; border-radius: 12px; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; }
+  .sym-nominal { background: #fff7ed; color: #ea580c; }
+  .sym-ordinal { background: #eff6ff; color: #2563eb; }
+  .sym-scale { background: #f0fdf4; color: #16a34a; }
+  .var-card.nominal { border-top: 4px solid #ea580c; }
+  .var-card.ordinal { border-top: 4px solid #2563eb; }
+  .var-card.scale { border-top: 4px solid #16a34a; }
 
   /* PILLS */
   .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-  .pill { font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 1px solid; }
-  .pill-teal { background: var(--teal-pale); color: var(--teal); border-color: #a8dbd9; }
+  .pill { font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 50px; border: 1px solid; }
+  .pill-teal { background: var(--teal-pale); color: var(--teal); border-color: rgba(13,115,119,.25); }
   .pill-gray { background: #f3f4f6; color: var(--gray); border-color: #d1d5db; }
 
-  /* VARIABLE TYPE CARDS */
-  .var-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 16px; }
-  @media(max-width:600px){ .var-row { grid-template-columns: 1fr; } }
-  .var-card { border-radius: 12px; padding: 18px 16px; text-align: center; border: 1px solid; }
-  .var-card.nominal { background: #fffbeb; border-color: #fcd34d; }
-  .var-card.ordinal  { background: var(--blue-pale); border-color: #93c5fd; }
-  .var-card.scale    { background: var(--teal-pale); border-color: #a8dbd9; }
-  .var-sym { width: 38px; height: 38px; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: #fff; }
-  .sym-nominal { background: var(--amber); }
-  .sym-ordinal  { background: var(--blue); }
-  .sym-scale    { background: var(--teal); }
-  .var-card h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
-  .var-card p { font-size: 12px; color: var(--gray); margin: 0; }
-
-  /* CODE BLOCK */
-  .code-block { background: #0f172a; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
-  .code-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 16px; background: rgba(255,255,255,.05);
-    border-bottom: 1px solid rgba(255,255,255,.07);
-  }
-  .code-lang { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.4); letter-spacing: .08em; text-transform: uppercase; }
-  .code-copy {
-    font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px;
-    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
-    color: rgba(255,255,255,.5); cursor: pointer; transition: all .15s; font-family: 'Inter', sans-serif;
-  }
-  .code-copy:hover { background: rgba(255,255,255,.14); color: rgba(255,255,255,.7); }
-  .code-body {
-    font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 12.5px; line-height: 1.8;
-    color: #e2e8f5; padding: 1.25rem; overflow-x: auto; white-space: pre;
-  }
-  .cm { color: #64748b; }
-  .kw { color: #7dd3fc; }
-  .fn { color: #a5f3fc; }
-  .st { color: #86efac; }
-  .nm { color: #fbbf24; }
-  .op { color: #94a3b8; }
-
-  /* DECISION TREE */
-  .stat-chooser {
-    background: #f9fafb; border: 1px solid var(--border);
-    border-radius: 14px; padding: 24px; overflow-x: auto; margin-bottom: 16px;
-  }
-  .tree { display: flex; flex-direction: column; gap: 16px; }
-  .tree-q {
-    display: inline-block;
-    background: var(--white); border: 1px solid #d1d5db;
-    border-radius: 8px; padding: 8px 18px;
-    font-size: 13px; font-weight: 600; color: var(--navy);
-    box-shadow: 0 1px 4px rgba(0,0,0,.05);
-  }
-  .tree-branches { display: flex; gap: 12px; padding-left: 20px; flex-wrap: wrap; margin-top: 6px; }
-  .tree-branch { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 140px; }
-  .branch-label { font-size: 11px; color: var(--gray); font-weight: 500; }
-  .tree-result { font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 6px; }
+  /* STAT CHOOSER */
+  .stat-chooser { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+  .tree { display: flex; flex-direction: column; gap: 14px; }
+  .tree-q { font-size: 13px; font-weight: 700; color: var(--navy); display: block; margin-top: 4px; padding: 8px 14px; background: rgba(13,31,60,.05); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; }
+  .tree-branches { display: flex; flex-wrap: wrap; gap: 8px; padding: 6px 0 6px 14px; }
+  .tree-branch { display: flex; align-items: center; gap: 8px; }
+  .branch-label { font-size: 11px; color: var(--gray); font-style: italic; }
+  .tree-result { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 50px; }
   .res-teal { background: var(--teal-pale); color: var(--teal); }
-  .res-blue { background: var(--blue-pale); color: var(--blue); }
   .res-amber { background: var(--amber-pale); color: var(--amber); }
+  .res-blue { background: var(--blue-pale); color: var(--blue); }
   .res-violet { background: var(--violet-pale); color: var(--violet); }
 
-  /* CI GRID */
-  .ci-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
-  @media(max-width:600px){ .ci-grid { grid-template-columns:1fr; } }
-  .ci-card { border-radius: 10px; padding: 14px 16px; font-size: 13px; line-height: 1.6; }
-  .ci-card.sig { background: #dcfce7; border: 1px solid #bbf7d0; }
-  .ci-card.nsig { background: #fee2e2; border: 1px solid #fecaca; }
-  .ci-card h5 { font-size: 12px; font-weight: 700; margin-bottom: 5px; }
-  .ci-card.sig h5 { color: var(--green); }
-  .ci-card.nsig h5 { color: var(--red); }
+  /* ALERT SUCCESS */
+  .alert-success { background: #f0fdf4; border-left: 4px solid #22c55e; color: var(--green); }
+  .alert-icon { font-size: 18px; flex-shrink: 0; }
 
-  /* TOC */
-  .toc-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all .2s; border: 1px solid var(--border); background: var(--white); }
-  .toc-item:hover { border-color: var(--gold); background: rgba(245,197,24,.04); }
-  .toc-item .toc-left { display:flex; align-items:center; gap:12px; }
-  .toc-item .toc-num { font-size:11px; font-weight:700; color:var(--gold); background:var(--navy); padding:4px 9px; border-radius:6px; }
-  .toc-item .toc-title { font-size:14px; font-weight:600; color:var(--navy); }
-  .toc-item .toc-arr { color:var(--gray); font-size:16px; }
-
-  /* CTA */
-  .cta-box { background: var(--navy); border-radius: 16px; padding: 32px 30px; text-align: center; position: relative; overflow: hidden; margin-top: 32px; }
-  .cta-box::after { content:''; position: absolute; top:-60px; right:-60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(245,197,24,.15) 0%, transparent 70%); pointer-events: none; }
-  .cta-box h3 { font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 10px; }
-  .cta-box p { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 20px; max-width: 440px; margin-left:auto; margin-right:auto; }
-  .btn-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--gold); color: var(--navy); font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 10px; text-decoration: none; transition: all .2s; }
-  .btn-cta:hover { background: #e6b800; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245,197,24,.4); }
-  .cta-link { color: rgba(255,255,255,.5); font-size: 12px; margin-top: 12px; display:block; }
+  /* CTA BOX */
+  .cta-box {
+    background: linear-gradient(135deg, var(--navy), var(--accent));
+    border-radius: 16px; padding: 32px; text-align: center; margin-top: 28px;
+  }
+  .cta-box h3 { font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+  .cta-box p { font-size: 14px; color: rgba(255,255,255,.7); margin-bottom: 20px; }
+  .btn-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--gold); color: var(--navy); font-weight: 800; font-size: 14px;
+    padding: 12px 28px; border-radius: 50px; text-decoration: none; transition: all .2s;
+    box-shadow: 0 4px 16px rgba(245,197,24,.4);
+  }
+  .btn-cta:hover { background: var(--gold2); transform: translateY(-2px); }
+  .cta-link { display: block; margin-top: 14px; font-size: 12px; color: rgba(255,255,255,.5); }
   .cta-link a { color: var(--gold); text-decoration: none; }
 
   /* EBOOK FOOTER */
-  .ebook-footer { text-align: center; padding: 20px; font-size: 11px; color: var(--gray); border-top: 1px solid var(--border); }
-  .ebook-footer a { color: var(--navy); text-decoration:none; font-weight:600; }
+  .ebook-footer { font-size: 12px; color: var(--gray); text-align: center; padding: 20px 0; border-top: 1px solid var(--border); }
+  .ebook-footer a { color: var(--navy); font-weight: 600; text-decoration: none; }
 
-  /* TIPS & TRIK PAGE */
-  .tips-link-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-bottom: 20px; }
-  @media(max-width:600px){ .tips-link-grid { grid-template-columns: 1fr; } }
-  .tips-link-card {
-    background: var(--white); border: 1px solid var(--border); border-radius: 14px;
-    padding: 22px 24px; text-decoration: none; display: block;
-    transition: all .2s; box-shadow: 0 2px 8px rgba(0,0,0,.04);
-    border-top: 4px solid var(--gold);
-  }
-  .tips-link-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.1); transform: translateY(-2px); border-top-color: var(--gold2); }
-  .tips-link-card .tl-icon { font-size: 28px; margin-bottom: 10px; display: block; }
-  .tips-link-card .tl-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
-  .tips-link-card .tl-desc { font-size: 12px; color: var(--gray); }
-  .tips-link-card .tl-url { font-size: 11px; color: var(--gold2); font-weight: 600; margin-top: 8px; }
-
-  .ext-link-box {
-    background: var(--navy); border-radius: 16px; padding: 28px 28px;
-    text-align: center; margin-bottom: 20px; position: relative; overflow: hidden;
-  }
-  .ext-link-box::before {
-    content: ''; position: absolute; inset: 0;
-    background-image: linear-gradient(rgba(245,197,24,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,197,24,.04) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-  .ext-link-box h3 { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 8px; position: relative; }
-  .ext-link-box p { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 20px; max-width: 480px; margin-left:auto; margin-right:auto; position: relative; }
-  .ext-link-box a.btn-ext {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--gold); color: var(--navy); font-weight: 700; font-size: 14px;
-    padding: 12px 28px; border-radius: 10px; text-decoration: none;
-    transition: all .2s; position: relative;
-  }
-  .ext-link-box a.btn-ext:hover { background: #e6b800; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245,197,24,.4); }
+  /* APA NOTE */
+  .apa-note { font-size: 11px; color: var(--gray); padding: 8px 14px; font-style: italic; }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- NAV slim scrollable -->
 <nav class="top-nav">
   <div class="brand">
-    <a href="https://yogoaj.github.io" target="_self"><svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="100" height="100" rx="10" fill="#132847"/>
-      <rect x="18" y="52" width="18" height="32" rx="4" fill="#1a3a6b"/>
-      <rect x="42" y="36" width="18" height="48" rx="4" fill="#1a3a6b"/>
-      <rect x="66" y="18" width="18" height="66" rx="4" fill="#f5c518"/>
-      <path d="M27 58 Q44 44 57 38 Q66 32 75 22" stroke="#f5c518" stroke-width="4" stroke-linecap="round" fill="none"/>
-    </svg>
-	</a>
+    <a href="https://yogoaj.github.io" target="_self"><svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" rx="10" fill="#132847"/><rect x="18" y="52" width="18" height="32" rx="4" fill="#1a3a6b"/><rect x="42" y="36" width="18" height="48" rx="4" fill="#1a3a6b"/><rect x="66" y="18" width="18" height="66" rx="4" fill="#f5c518"/><path d="M27 58 Q44 44 57 38 Q66 32 75 22" stroke="#f5c518" stroke-width="4" stroke-linecap="round" fill="none"/></svg></a>
     <span>Ruang Statistika</span>
   </div>
-  <div class="nav-links">
-    <a href="javascript:void(0)" onclick="goPage(0)">📖 Cover</a>
-    <a href="javascript:void(0)" onclick="goPage(1)">Daftar Isi</a>
-    <a href="javascript:void(0)" onclick="goPage(2)">Pengantar</a>
-    <a href="javascript:void(0)" onclick="goPage(3)">Antarmuka</a>
-    <a href="javascript:void(0)" onclick="goPage(4)">Data</a>
-    <a href="javascript:void(0)" onclick="goPage(5)">Analisis</a>
-    <a href="javascript:void(0)" onclick="goPage(6)">Grafik & Tabel</a>
-    <a href="javascript:void(0)" onclick="goPage(7)">R for JASP</a>
-    <a href="javascript:void(0)" onclick="goPage(8)">Tugas</a>
-    <a href="javascript:void(0)" onclick="goPage(9)"style="background:rgba(34,197,94,.12); color:#F5C400; border:1px solid rgba(34,197,94,.25); border-radius:6px;">Tentang</a>
-    <a href="https://yogoaj.github.io/polifurnika/tips" target="_self" class="tips-link">💡 Tips & Trik</a>
-    <a href="javascript:void(0)" onclick="goPage(10)" style="background:rgba(34,197,94,.12); color:#16a34a; border:1px solid rgba(34,197,94,.25); border-radius:6px;">✅ Requirements</a>
+  <div class="nav-scroll-wrap">
+    <div class="nav-links">
+      <a href="javascript:void(0)" onclick="goPage(0)">📖 Cover</a>
+      <a href="javascript:void(0)" onclick="goPage(1)" class="req-link">Requirements</a>
+      <a href="javascript:void(0)" onclick="goPage(2)">Daftar Isi</a>
+      <a href="javascript:void(0)" onclick="goPage(3)">Pengantar</a>
+      <a href="javascript:void(0)" onclick="goPage(4)">Antarmuka</a>
+      <a href="javascript:void(0)" onclick="goPage(5)">Data</a>
+      <a href="javascript:void(0)" onclick="goPage(6)">Statistik Dasar</a>
+      <a href="javascript:void(0)" onclick="goPage(7)">Analisis</a>
+      <a href="javascript:void(0)" onclick="goPage(8)">Grafik & Tabel</a>
+      <a href="javascript:void(0)" onclick="goPage(9)">Uji T & ANOVA</a>
+      <a href="javascript:void(0)" onclick="goPage(10)">R for JASP</a>
+      <a href="javascript:void(0)" onclick="goPage(11)">Tugas</a>
+      <a href="javascript:void(0)" onclick="goPage(12)" style="background:rgba(245,197,24,.12); color:var(--gold); border:1px solid rgba(245,197,24,.25); border-radius:5px;">🎓 Penutup</a>
+      <a href="https://yogoaj.github.io/polifurnika/tips" target="_self" class="tips-link">💡 Tips & Trik</a>
+      <a href="javascript:void(0)" onclick="goPage(13)" style="background:rgba(255,255,255,.07); color:rgba(255,255,255,.7); border-radius:5px;">👤 Tentang</a>
+    </div>
   </div>
 </nav>
 
-<!-- PROGRESS -->
+<!-- PROGRESS BAR -->
 <div class="progress-bar"><div class="progress-fill" id="pgbar" style="width:0%"></div></div>
 
+<!-- ============ KONTEN (14 HALAMAN — URUTAN SESUAI MENU) ============ -->
 <!-- ======================== PAGE 0: COVER ======================== -->
 <div class="page active" id="page-0">
 <div id="cover">
@@ -445,47 +682,179 @@
 </div>
 </div>
 
-<!-- ======================== PAGE 1: DAFTAR ISI ======================== -->
+<!-- ======================== PAGE 1: REQUIREMENTS ======================== -->
 <div class="page" id="page-1">
+<div class="content-page">
+  <div class="section-label">✅ Persiapan Workshop</div>
+  <h1 class="page-title">Requirements <span>Workshop</span></h1>
+  <p class="page-desc">Pastikan semua persiapan berikut sudah selesai <strong>sebelum</strong> hari workshop agar sesi berjalan lancar.</p>
+
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠️</span>
+    <div><strong>Penting:</strong> Lakukan semua instalasi dan unduhan di bawah ini <strong>minimal 1 hari sebelum workshop</strong>. Koneksi internet saat instalasi bisa lambat — jangan tunggu hari-H.</div>
+  </div>
+
+  <!-- SOFTWARE -->
+  <h2 class="sec">1 · Software yang Harus Diinstall</h2>
+  <div class="card-grid-2">
+    <div class="card" style="border-top: 4px solid var(--teal);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--teal);">📊</div>
+        <h3>JASP (Wajib)</h3>
+      </div>
+      <p>Versi minimum: <strong>JASP 0.17+</strong> (disarankan versi terbaru). R sudah terintegrasi — tidak perlu instalasi R terpisah.</p>
+      <a href="https://jasp-stats.org/download/" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--teal); color:#fff; font-weight:700; font-size:12px; padding:8px 16px; border-radius:7px; text-decoration:none; margin-top:8px;">⬇ Download JASP</a>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--blue);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--blue);">🌐</div>
+        <h3>Browser Modern (Wajib)</h3>
+      </div>
+      <p>Untuk membuka modul panduan ini. Gunakan <strong>Google Chrome</strong>, Firefox, Edge, atau Safari versi terbaru.</p>
+      <div class="badge-row" style="margin-top:8px;">
+        <span class="badge badge-blue">Chrome ✓</span>
+        <span class="badge badge-blue">Firefox ✓</span>
+        <span class="badge badge-blue">Edge ✓</span>
+      </div>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--amber);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--amber);">📹</div>
+        <h3>Platform Meeting (Wajib)</h3>
+      </div>
+      <p>Workshop dilaksanakan secara daring via <strong>Zoom</strong> atau platform yang ditentukan panitia. Pastikan sudah terinstall dan login.</p>
+      <div class="badge-row" style="margin-top:8px;">
+        <span class="badge badge-amber">Zoom</span>
+        <span class="badge badge-amber">Google Meet</span>
+        <span class="badge badge-amber">MS Teams</span>
+      </div>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--violet);">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--violet);">📝</div>
+        <h3>Microsoft Word / LibreOffice (Opsional)</h3>
+      </div>
+      <p>Untuk membuka hasil ekspor JASP dalam format <strong>.docx</strong>. LibreOffice Writer gratis dan bisa digunakan sebagai alternatif.</p>
+      <a href="https://www.libreoffice.org/download/libreoffice/" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--violet-pale); color:var(--violet); border:1px solid #c4b5fd; font-weight:700; font-size:12px; padding:8px 16px; border-radius:7px; text-decoration:none; margin-top:8px;">⬇ Download LibreOffice (Gratis)</a>
+    </div>
+  </div>
+
+  <!-- FILE -->
+  <h2 class="sec">2 · File yang Harus Diunduh</h2>
+  <div class="card" style="border: 1px solid #bbf7d0; background: #f0fdf4;">
+    <div class="card-header">
+      <div class="card-icon" style="background:var(--green);">📁</div>
+      <h3>Dataset Latihan Furnitur (.csv)</h3>
+    </div>
+    <p>Dataset utama yang digunakan sepanjang workshop. Berisi data pengujian kualitas bahan baku kayu (<em>n</em> = 29 sampel) dengan variabel: Jenis_Kayu, Diameter_Log_cm, Kadar_Air_persen, Ketebalan_mm, Efisiensi_persen, Status_Cacat.</p>
+    <a href="https://raw.githubusercontent.com/yogoaj/yogoaj.github.io/refs/heads/main/polifurnika/data/Data_latihan_Furnitur.csv" download style="display:inline-flex; align-items:center; gap:6px; background:var(--navy); color:var(--gold); font-weight:700; font-size:13px; padding:10px 20px; border-radius:8px; text-decoration:none; margin-top:4px;">⬇ Unduh Data_latihan_Furnitur.csv</a>
+    <p style="font-size:12px; color:var(--gray); margin-top:10px; margin-bottom:0;">Simpan di lokasi yang mudah ditemukan, misalnya di Desktop atau folder <code style="background:#e5e7eb; padding:1px 6px; border-radius:3px; font-size:11px;">Dokumen/Workshop_JASP/</code>.</p>
+  </div>
+
+  <!-- HARDWARE -->
+  <h2 class="sec">3 · Spesifikasi Minimum Perangkat</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Komponen</th><th>Minimum</th><th>Disarankan</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sistem Operasi</strong></td><td>Windows 10 / macOS 10.14 / Ubuntu 18.04</td><td>Windows 11 / macOS 13+ / Ubuntu 22.04</td></tr>
+        <tr><td><strong>RAM</strong></td><td>4 GB</td><td>8 GB atau lebih</td></tr>
+        <tr><td><strong>Penyimpanan</strong></td><td>2 GB ruang kosong</td><td>5 GB ruang kosong</td></tr>
+        <tr><td><strong>Layar</strong></td><td>1280 × 720 px</td><td>1920 × 1080 px (Full HD)</td></tr>
+        <tr><td><strong>Internet</strong></td><td>2 Mbps (untuk sesi daring)</td><td>10 Mbps atau lebih</td></tr>
+        <tr><td><strong>Kamera & Mic</strong></td><td>Opsional</td><td>Disarankan untuk sesi tanya jawab</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHECKLIST -->
+  <h2 class="sec">4 · Checklist Sebelum Workshop</h2>
+  <div class="card" style="border: 1px solid var(--border);">
+    <ul style="list-style:none; padding:0; margin:0;">
+      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
+        <span style="font-size:18px; flex-shrink:0;">☐</span>
+        <div><strong>JASP sudah terinstall</strong> dan dapat dibuka tanpa error. Cek versinya via ☰ → About JASP (versi 0.17+).</div>
+      </li>
+      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
+        <span style="font-size:18px; flex-shrink:0;">☐</span>
+        <div><strong>File Data_latihan_Furnitur.csv</strong> sudah diunduh dan bisa dibuka di JASP (☰ → Open → pilih file).</div>
+      </li>
+      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
+        <span style="font-size:18px; flex-shrink:0;">☐</span>
+        <div><strong>Zoom / platform meeting</strong> sudah terinstall, login, dan audio-video sudah diuji coba.</div>
+      </li>
+      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
+        <span style="font-size:18px; flex-shrink:0;">☐</span>
+        <div><strong>Browser</strong> (Chrome/Firefox/Edge) sudah dapat membuka panduan ini dengan lancar.</div>
+      </li>
+      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0;">
+        <span style="font-size:18px; flex-shrink:0;">☐</span>
+        <div><strong>Koneksi internet</strong> stabil. Disarankan menggunakan Wi-Fi atau kabel LAN, bukan hotspot HP saat sesi berlangsung.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- BANTUAN -->
+  <div class="alert alert-teal" style="margin-top:8px;">
+    <span class="alert-icon">💬</span>
+    <div><strong>Ada kendala instalasi?</strong> Hubungi fasilitator sebelum hari workshop via WhatsApp agar dapat dibantu sebelum sesi dimulai. <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya peserta workshop JASP dan ada kendala instalasi." target="_blank" style="color:var(--teal); font-weight:700;">Chat WhatsApp →</a></div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 2: DAFTAR ISI ======================== -->
+<div class="page" id="page-2">
 <div class="content-page">
   <div class="section-label">📋 Navigasi Panduan</div>
   <h1 class="page-title">Daftar <span>Isi</span></h1>
   <p class="page-desc">Klik bagian mana pun untuk langsung menuju halaman tersebut.</p>
 
-  <div class="toc-item" onclick="goPage(10)" style="border-left: 4px solid #22c55e; background: #f0fdf4;">
+  <div class="toc-item" onclick="goPage(1)" style="border-left: 4px solid #22c55e; background: #f0fdf4;">
     <div class="toc-left"><span class="toc-num" style="background:#16a34a;">⚙</span><span class="toc-title">Requirements — Persiapan Sebelum Workshop</span></div>
     <span class="toc-arr">›</span>
   </div>
-  <div class="toc-item" onclick="goPage(2)">
+  <div class="toc-item" onclick="goPage(3)">
     <div class="toc-left"><span class="toc-num">01</span><span class="toc-title">Pengantar — Apa itu JASP, Instalasi & JASP untuk Penelitian</span></div>
     <span class="toc-arr">›</span>
   </div>
-  <div class="toc-item" onclick="goPage(3)">
+  <div class="toc-item" onclick="goPage(4)">
     <div class="toc-left"><span class="toc-num">02</span><span class="toc-title">Memahami Antarmuka JASP</span></div>
     <span class="toc-arr">›</span>
   </div>
-  <div class="toc-item" onclick="goPage(4)">
+  <div class="toc-item" onclick="goPage(5)">
     <div class="toc-left"><span class="toc-num">03</span><span class="toc-title">Manajemen & Tipe Data — Data Latihan Furnitur</span></div>
     <span class="toc-arr">›</span>
   </div>
-  <div class="toc-item" onclick="goPage(5)">
-    <div class="toc-left"><span class="toc-num">04</span><span class="toc-title">Memilih & Menjalankan Analisis Statistik</span></div>
-    <span class="toc-arr">›</span>
-  </div>
   <div class="toc-item" onclick="goPage(6)">
-    <div class="toc-left"><span class="toc-num">05</span><span class="toc-title">Grafik, Tabel & Ekspor — Panduan Visualisasi Data Penelitian</span></div>
+    <div class="toc-left"><span class="toc-num">04</span><span class="toc-title">Konsep Dasar Statistik untuk Penelitian</span></div>
     <span class="toc-arr">›</span>
   </div>
   <div class="toc-item" onclick="goPage(7)">
-    <div class="toc-left"><span class="toc-num">06</span><span class="toc-title">R for JASP — Sintaks & Kode R</span></div>
+    <div class="toc-left"><span class="toc-num">05</span><span class="toc-title">Memilih & Menjalankan Analisis Statistik</span></div>
     <span class="toc-arr">›</span>
   </div>
   <div class="toc-item" onclick="goPage(8)">
-    <div class="toc-left"><span class="toc-num">07</span><span class="toc-title">Tugas Latihan Mandiri</span></div>
+    <div class="toc-left"><span class="toc-num">06</span><span class="toc-title">Grafik, Tabel & Ekspor — Panduan Visualisasi Data Penelitian</span></div>
     <span class="toc-arr">›</span>
   </div>
   <div class="toc-item" onclick="goPage(9)">
-    <div class="toc-left"><span class="toc-num">08</span><span class="toc-title">Tentang Penulis & Konsultasi</span></div>
+    <div class="toc-left"><span class="toc-num">07</span><span class="toc-title">Walkthrough Uji T & ANOVA — Panduan Praktis Step-by-Step</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(10)">
+    <div class="toc-left"><span class="toc-num">08</span><span class="toc-title">R for JASP — Sintaks & Kode R</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(11)">
+    <div class="toc-left"><span class="toc-num">09</span><span class="toc-title">Tugas Latihan Mandiri</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(13)">
+    <div class="toc-left"><span class="toc-num">10</span><span class="toc-title">Tentang Penulis & Konsultasi</span></div>
+    <span class="toc-arr">›</span>
+  </div>
+  <div class="toc-item" onclick="goPage(12)" style="border-left: 4px solid var(--gold); background: rgba(245,197,24,.05);">
+    <div class="toc-left"><span class="toc-num" style="background:var(--gold2); color:var(--navy);">🎓</span><span class="toc-title">Penutup — Ringkasan & Tindak Lanjut</span></div>
     <span class="toc-arr">›</span>
   </div>
 
@@ -501,8 +870,8 @@
 </div>
 </div>
 
-<!-- ======================== PAGE 2: PENGANTAR ======================== -->
-<div class="page" id="page-2">
+<!-- ======================== PAGE 3: PENGANTAR ======================== -->
+<div class="page" id="page-3">
 <div class="content-page">
   <div class="section-label">📌 Bab 1</div>
   <h1 class="page-title">Apa itu <span>JASP?</span></h1>
@@ -627,7 +996,7 @@
   <h2 class="sec">Implementasi: Alur Penelitian dengan JASP</h2>
   <p>Berikut alur kerja nyata menggunakan JASP dari data mentah hingga laporan siap publikasi — cocok untuk penelitian PTK, survei, maupun eksperimen di lingkungan pendidikan.</p>
 
-  <div style="background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 24px 26px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.04);">
+  <div class="card" style="background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 24px 26px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.04);">
     <ul class="step-list" style="margin:0;">
       <li>
         <div class="step-num" style="background:var(--teal);">1</div>
@@ -688,8 +1057,8 @@
 </div>
 </div>
 
-<!-- ======================== PAGE 3: ANTARMUKA ======================== -->
-<div class="page" id="page-3">
+<!-- ======================== PAGE 4: ANTARMUKA ======================== -->
+<div class="page" id="page-4">
 <div class="content-page">
   <div class="section-label">🖥️ Bab 2</div>
   <h1 class="page-title">Memahami <span>Antarmuka JASP</span></h1>
@@ -752,8 +1121,8 @@
 </div>
 </div>
 
-<!-- ======================== PAGE 4: DATA ======================== -->
-<div class="page" id="page-4">
+<!-- ======================== PAGE 5: DATA ======================== -->
+<div class="page" id="page-5">
 <div class="content-page">
   <div class="section-label">📁 Bab 3</div>
   <h1 class="page-title">Manajemen <span>Data</span></h1>
@@ -833,10 +1202,121 @@
 </div>
 </div>
 
-<!-- ======================== PAGE 5: ANALISIS ======================== -->
-<div class="page" id="page-5">
+<!-- ======================== PAGE 6: KONSEP DASAR STATISTIK ======================== -->
+<div class="page" id="page-6">
 <div class="content-page">
-  <div class="section-label">📊 Bab 4</div>
+  <div class="section-label">📐 Bab 4</div>
+  <h1 class="page-title">Konsep Dasar <span>Statistik</span></h1>
+  <p class="page-desc">Fondasi yang wajib dipahami sebelum memilih dan menjalankan uji statistik di JASP.</p>
+
+  <!-- SKALA PENGUKURAN -->
+  <h2 class="sec">1 · Skala Pengukuran Data</h2>
+  <p>Jenis data menentukan uji statistik yang tepat. Gunakan tabel berikut sebagai panduan cepat.</p>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption>Tabel 1. Skala Pengukuran dan Contoh Variabel Penelitian</caption>
+      <thead><tr><th>Skala</th><th>Simbol JASP</th><th>Ciri Khas</th><th>Contoh Variabel</th><th>Operasi Valid</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Nominal</strong></td><td>🟠 N</td><td>Kategori tanpa urutan</td><td>Jenis kelamin, agama, jenis kayu</td><td>Mode, frekuensi, Chi-square</td></tr>
+        <tr><td><strong>Ordinal</strong></td><td>🔵 O</td><td>Kategori dengan urutan, jarak tidak sama</td><td>Tingkat kepuasan (1–5), peringkat kelas</td><td>Median, Mann-Whitney, Spearman</td></tr>
+        <tr><td><strong>Interval</strong></td><td>🟢 S</td><td>Jarak sama, tidak ada nol mutlak</td><td>Suhu °C, skor IQ, nilai ujian</td><td>Mean, SD, t-test, ANOVA</td></tr>
+        <tr><td><strong>Rasio</strong></td><td>🟢 S</td><td>Jarak sama + nol mutlak</td><td>Berat badan, tinggi, penghasilan</td><td>Semua operasi statistik</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert alert-info">
+    <span class="alert-icon">💡</span>
+    <div>Di JASP, interval dan rasio digabung menjadi tipe <strong>Scale (S)</strong>. Jika ragu antara ordinal vs scale, tanyakan: <em>"Apakah jarak antar nilai benar-benar sama?"</em> — jika ya, pilih Scale.</div>
+  </div>
+
+  <!-- STATISTIK DESKRIPTIF -->
+  <h2 class="sec">2 · Ukuran Pemusatan & Penyebaran</h2>
+  <div class="card-grid-3">
+    <div class="card" style="border-top: 4px solid var(--teal);">
+      <div class="card-header"><div class="card-icon" style="background:var(--teal);">μ</div><h3>Mean (Rata-rata)</h3></div>
+      <p>Jumlah semua nilai dibagi banyak data. Sensitif terhadap outlier. Gunakan jika data berdistribusi normal dan skala interval/rasio.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--blue);">
+      <div class="card-header"><div class="card-icon" style="background:var(--blue);">Md</div><h3>Median</h3></div>
+      <p>Nilai tengah setelah data diurutkan. Lebih robust terhadap outlier. Pilihan utama untuk data ordinal atau yang tidak normal.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--violet);">
+      <div class="card-header"><div class="card-icon" style="background:var(--violet);">Mo</div><h3>Modus</h3></div>
+      <p>Nilai yang paling sering muncul. Satu-satunya ukuran pemusatan yang valid untuk data nominal (kategori).</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--amber);">
+      <div class="card-header"><div class="card-icon" style="background:var(--amber);">σ</div><h3>Standar Deviasi</h3></div>
+      <p>Rata-rata jarak setiap nilai dari mean. Semakin besar SD, semakin bervariasi data. Selalu dilaporkan bersama mean.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--green);">
+      <div class="card-header"><div class="card-icon" style="background:var(--green);">Sk</div><h3>Skewness</h3></div>
+      <p>Ukuran kemiringan distribusi. Nilai ideal: −1 hingga +1. Skewness &gt; 2 menunjukkan distribusi sangat tidak normal.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--red, #dc2626);">
+      <div class="card-header"><div class="card-icon" style="background:#dc2626;">Ku</div><h3>Kurtosis</h3></div>
+      <p>Ukuran "keruncingan" distribusi. Nilai ideal: −2 hingga +2. Penting untuk asumsi normalitas sebelum uji parametrik.</p>
+    </div>
+  </div>
+
+  <!-- DISTRIBUSI NORMAL -->
+  <h2 class="sec">3 · Distribusi Normal & Asumsi Uji Statistik</h2>
+  <div class="card-grid-2">
+    <div class="card" style="border: 1px solid #bbf7d0; background: #f0fdf4;">
+      <div class="card-header"><div class="card-icon" style="background:var(--green);">✓</div><h3>Data Berdistribusi Normal</h3></div>
+      <p>Histogram berbentuk lonceng simetris. Skewness dan Kurtosis mendekati 0. Uji Shapiro-Wilk: <em>p</em> &gt; .05.</p>
+      <div class="badge-row"><span class="badge badge-teal">→ Gunakan uji parametrik</span></div>
+      <p style="margin:0; font-size:12px; color:var(--green);">t-test, ANOVA, Pearson, Regresi</p>
+    </div>
+    <div class="card" style="border: 1px solid #fde68a; background: #fffbeb;">
+      <div class="card-header"><div class="card-icon" style="background:var(--amber);">!</div><h3>Data Tidak Normal</h3></div>
+      <p>Histogram menceng (skewed). Skewness atau Kurtosis ekstrem. Uji Shapiro-Wilk: <em>p</em> &lt; .05.</p>
+      <div class="badge-row"><span class="badge badge-amber">→ Gunakan uji non-parametrik</span></div>
+      <p style="margin:0; font-size:12px; color:var(--amber);">Mann-Whitney, Wilcoxon, Kruskal-Wallis, Spearman</p>
+    </div>
+  </div>
+
+  <!-- HIPOTESIS -->
+  <h2 class="sec">4 · Hipotesis Nol (H₀) dan Hipotesis Alternatif (H₁)</h2>
+  <div class="card">
+    <p><strong>H₀ (Hipotesis Nol):</strong> Pernyataan yang menyatakan tidak ada perbedaan atau hubungan. Contoh: <em>"Tidak ada perbedaan rata-rata diameter kayu antar jenis kayu."</em></p>
+    <p><strong>H₁ (Hipotesis Alternatif):</strong> Pernyataan yang ingin dibuktikan peneliti. Contoh: <em>"Ada perbedaan rata-rata diameter kayu antar jenis kayu."</em></p>
+    <div class="ci-grid">
+      <div class="ci-card sig">
+        <h5>Jika <em>p</em> &lt; .05 → Tolak H₀</h5>
+        <p>Ada bukti statistik yang cukup untuk mendukung H₁. Perbedaan/hubungan dianggap signifikan secara statistik.</p>
+      </div>
+      <div class="ci-card nsig">
+        <h5>Jika <em>p</em> ≥ .05 → Gagal Tolak H₀</h5>
+        <p>Tidak cukup bukti untuk menolak H₀. <em>Bukan berarti H₀ benar</em> — hanya berarti data tidak cukup membuktikan H₁.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EFFECT SIZE -->
+  <h2 class="sec">5 · Effect Size — Ukuran Praktis Temuan</h2>
+  <div class="alert alert-teal">
+    <span class="alert-icon">📏</span>
+    <div><strong>p-value ≠ Effect Size.</strong> Nilai <em>p</em> hanya memberi tahu apakah efek ada, bukan seberapa <em>besar</em> efeknya. JASP secara otomatis menampilkan effect size di setiap output.</div>
+  </div>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Uji</th><th>Ukuran Effect Size</th><th>Kecil</th><th>Sedang</th><th>Besar</th></tr></thead>
+      <tbody>
+        <tr><td>t-test</td><td>Cohen's <em>d</em></td><td>0.2</td><td>0.5</td><td>0.8</td></tr>
+        <tr><td>ANOVA</td><td>η² (eta-squared)</td><td>0.01</td><td>0.06</td><td>0.14</td></tr>
+        <tr><td>Korelasi</td><td>Pearson's <em>r</em></td><td>0.1</td><td>0.3</td><td>0.5</td></tr>
+        <tr><td>Regresi</td><td>R² (R-squared)</td><td>0.02</td><td>0.13</td><td>0.26</td></tr>
+        <tr><td>Chi-square</td><td>Cramér's <em>V</em></td><td>0.1</td><td>0.3</td><td>0.5</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 7: ANALISIS ======================== -->
+<div class="page" id="page-7">
+<div class="content-page">
+  <div class="section-label">📊 Bab 5</div>
   <h1 class="page-title">Memilih & Menjalankan <span>Analisis</span></h1>
   <p class="page-desc">Pohon keputusan uji statistik dan walkthrough analisis deskriptif, t-test, ANOVA, korelasi, dan regresi.</p>
 
@@ -920,10 +1400,10 @@
 </div>
 </div>
 
-<!-- ======================== PAGE 6: GRAFIK ======================== -->
-<div class="page" id="page-6">
+<!-- ======================== PAGE 8: GRAFIK ======================== -->
+<div class="page" id="page-8">
 <div class="content-page">
-  <div class="section-label">📈 Bab 5</div>
+  <div class="section-label">📈 Bab 6</div>
   <h1 class="page-title">Grafik, Tabel <span>& Ekspor</span></h1>
   <p class="page-desc">Cara membuat grafik publikasi, memilih visualisasi yang tepat untuk penelitian, kustomisasi, dan ekspor ke Word/PDF.</p>
 
@@ -1055,10 +1535,137 @@
 </div>
 </div>
 
-<!-- ======================== PAGE 7: R FOR JASP ======================== -->
-<div class="page" id="page-7">
+<!-- ======================== PAGE 9: UJI T & ANOVA ======================== -->
+<div class="page" id="page-9">
 <div class="content-page">
-  <div class="section-label">💻 Bab 6</div>
+  <div class="section-label">🧪 Bab 7</div>
+  <h1 class="page-title">Walkthrough <span>Uji T & ANOVA</span></h1>
+  <p class="page-desc">Panduan langkah demi langkah menjalankan Uji T Independen, Uji T Berpasangan, dan ANOVA Satu Jalur di JASP menggunakan data latihan Furnitur.</p>
+
+  <!-- UJI T INDEPENDEN -->
+  <h2 class="sec">A · Independent Samples T-Test (Uji T Dua Kelompok Independen)</h2>
+  <div class="alert alert-info">
+    <span class="alert-icon">🎯</span>
+    <div><strong>Tujuan:</strong> Membandingkan rata-rata dua kelompok yang berbeda (tidak berpasangan). Contoh: apakah rata-rata <em>Kadar_Air_persen</em> berbeda antara kayu <strong>Jati</strong> dan <strong>Meranti</strong>?</div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-icon" style="background:var(--blue);">T</div><h3>Persyaratan</h3></div>
+    <div class="badge-row">
+      <span class="badge badge-blue">Variabel dependen: Scale (interval/rasio)</span>
+      <span class="badge badge-blue">Variabel grup: Nominal (2 kategori)</span>
+      <span class="badge badge-teal">Idealnya: data mendekati normal per grup</span>
+    </div>
+  </div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num" style="background:var(--blue);">1</div>
+      <div class="step-txt"><h4>Buka menu T-Tests</h4><p>Klik <strong>T-Tests</strong> di top bar JASP → pilih <strong>Independent Samples T-Test</strong>.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--blue);">2</div>
+      <div class="step-txt"><h4>Atur variabel</h4><p>Drag <em>Kadar_Air_persen</em> ke kotak <strong>Dependent Variables</strong>. Drag <em>Jenis_Kayu</em> ke kotak <strong>Grouping Variable</strong>. JASP akan otomatis mendeteksi dua kategori.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--blue);">3</div>
+      <div class="step-txt"><h4>Centang opsi penting</h4><p>Di panel kiri, centang: <strong>Descriptives</strong> (statistik per kelompok), <strong>Welch's t-test</strong> (lebih robust jika variansi tidak sama), dan <strong>Effect size</strong> (Cohen's d).</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--blue);">4</div>
+      <div class="step-txt"><h4>Cek Assumption Checks</h4><p>Buka bagian <strong>Assumption Checks</strong> → centang <strong>Normality (Shapiro-Wilk)</strong> dan <strong>Equality of Variances (Levene's)</strong>. Jika Shapiro-Wilk <em>p</em> &lt; .05, pertimbangkan Mann-Whitney U.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--blue);">5</div>
+      <div class="step-txt"><h4>Baca hasil output</h4><p>Perhatikan kolom: <strong>t</strong> (statistik uji), <strong>df</strong> (derajat bebas), <strong>p</strong> (nilai signifikansi), <strong>Cohen's d</strong> (besar efek). Jika <em>p</em> &lt; .05 dan Cohen's d ≥ 0.5, temuan bermakna secara statistik dan praktis.</p></div>
+    </li>
+  </ul>
+  <div class="alert alert-success">
+    <span class="alert-icon">✍️</span>
+    <div><strong>Template laporan APA:</strong> Hasil uji t independen menunjukkan perbedaan yang signifikan antara kelompok Jati (<em>M</em> = X.XX, <em>SD</em> = X.XX) dan Meranti (<em>M</em> = X.XX, <em>SD</em> = X.XX), <em>t</em>(df) = X.XX, <em>p</em> = .XXX, Cohen's <em>d</em> = X.XX.</div>
+  </div>
+
+  <!-- UJI T BERPASANGAN -->
+  <h2 class="sec">B · Paired Samples T-Test (Uji T Berpasangan / Pre-Post)</h2>
+  <div class="alert alert-info">
+    <span class="alert-icon">🎯</span>
+    <div><strong>Tujuan:</strong> Membandingkan rata-rata dua pengukuran pada subjek yang <em>sama</em>. Contoh: nilai pre-test vs post-test pelatihan, atau pengukuran sebelum dan sesudah intervensi.</div>
+  </div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num" style="background:var(--teal);">1</div>
+      <div class="step-txt"><h4>Buka Paired Samples T-Test</h4><p>Klik <strong>T-Tests</strong> di top bar → pilih <strong>Paired Samples T-Test</strong>.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--teal);">2</div>
+      <div class="step-txt"><h4>Pasangkan variabel</h4><p>Drag pasangan variabel sekaligus (misal: <em>Nilai_Pre</em> + <em>Nilai_Post</em>) ke kotak <strong>Paired Variables</strong>. Setiap baris adalah satu pasang pengukuran.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--teal);">3</div>
+      <div class="step-txt"><h4>Centang opsi</h4><p>Centang <strong>Descriptives</strong>, <strong>Effect size</strong> (Cohen's d), dan buka <strong>Assumption Checks</strong> → centang <strong>Normality of differences (Shapiro-Wilk)</strong>.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--teal);">4</div>
+      <div class="step-txt"><h4>Baca hasil</h4><p>Fokus pada: nilai <strong>t</strong>, <strong>p</strong>, dan <strong>Cohen's d</strong>. Jika data tidak normal (Shapiro-Wilk <em>p</em> &lt; .05), gunakan <strong>Wilcoxon Signed-Rank</strong> sebagai alternatif non-parametrik.</p></div>
+    </li>
+  </ul>
+
+  <!-- ANOVA -->
+  <h2 class="sec">C · One-Way ANOVA (Komparasi 3+ Kelompok)</h2>
+  <div class="alert alert-info">
+    <span class="alert-icon">🎯</span>
+    <div><strong>Tujuan:</strong> Membandingkan rata-rata tiga kelompok atau lebih sekaligus tanpa inflasi error tipe I. Contoh: apakah rata-rata <em>Efisiensi_persen</em> berbeda antara Jati, Meranti, dan Pinus?</div>
+  </div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num" style="background:var(--violet);">1</div>
+      <div class="step-txt"><h4>Buka ANOVA</h4><p>Klik <strong>ANOVA</strong> di top bar → pilih <strong>ANOVA</strong> (bukan Repeated Measures). Untuk data non-normal, pilih <strong>Kruskal-Wallis</strong> di menu Non-Parametrics.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--violet);">2</div>
+      <div class="step-txt"><h4>Atur variabel</h4><p>Drag <em>Efisiensi_persen</em> ke <strong>Dependent Variable</strong>. Drag <em>Jenis_Kayu</em> ke <strong>Fixed Factors</strong>.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--violet);">3</div>
+      <div class="step-txt"><h4>Centang Effect Size & Post Hoc</h4><p>Di panel kiri: centang <strong>η² (eta-squared)</strong>. Buka <strong>Post Hoc Tests</strong> → geser <em>Jenis_Kayu</em> ke kanan → centang <strong>Tukey</strong> (untuk kelompok sama) atau <strong>Games-Howell</strong> (jika variansi tidak homogen).</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--violet);">4</div>
+      <div class="step-txt"><h4>Cek asumsi</h4><p>Buka <strong>Assumption Checks</strong> → centang <strong>Homogeneity of variances (Levene's)</strong> dan <strong>Q-Q plot</strong>. Jika Levene's <em>p</em> &lt; .05, laporkan Welch's ANOVA sebagai alternatif.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--violet);">5</div>
+      <div class="step-txt"><h4>Baca tabel ANOVA & Post Hoc</h4><p>Tabel ANOVA: perhatikan <strong>F</strong>, <strong>df</strong>, <strong>p</strong>, dan <strong>η²</strong>. Tabel Post Hoc Tukey: cari pasangan kelompok mana yang berbeda signifikan (<em>p</em><sub>Tukey</sub> &lt; .05).</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--violet);">6</div>
+      <div class="step-txt"><h4>Buat grafik Descriptives</h4><p>Buka <strong>Descriptives Plots</strong> → geser <em>Jenis_Kayu</em> ke Horizontal Axis. Centang <strong>Error bars: 95% CI</strong> untuk menampilkan interval kepercayaan per kelompok.</p></div>
+    </li>
+  </ul>
+  <div class="alert alert-success">
+    <span class="alert-icon">✍️</span>
+    <div><strong>Template laporan APA:</strong> Hasil One-Way ANOVA menunjukkan perbedaan yang signifikan pada Efisiensi_persen antara kelompok jenis kayu, <em>F</em>(df1, df2) = X.XX, <em>p</em> = .XXX, η² = .XX. Analisis post hoc Tukey mengindikasikan bahwa [kelompok A] secara signifikan lebih tinggi dibandingkan [kelompok B] (<em>p</em><sub>Tukey</sub> = .XXX).</div>
+  </div>
+
+  <!-- RINGKASAN PILIHAN UJI -->
+  <h2 class="sec">Ringkasan Cepat: Mana Uji yang Tepat?</h2>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <thead><tr><th>Kondisi Data</th><th>Parametrik</th><th>Non-Parametrik (alternatif)</th></tr></thead>
+      <tbody>
+        <tr><td>2 kelompok independen, data normal</td><td>Independent t-test</td><td>Mann-Whitney U</td></tr>
+        <tr><td>2 pengukuran berpasangan, data normal</td><td>Paired t-test</td><td>Wilcoxon Signed-Rank</td></tr>
+        <tr><td>3+ kelompok independen, data normal</td><td>One-Way ANOVA</td><td>Kruskal-Wallis</td></tr>
+        <tr><td>3+ pengukuran berulang (subjek sama)</td><td>Repeated Measures ANOVA</td><td>Friedman Test</td></tr>
+        <tr><td>2 faktor (misalnya jenis & status)</td><td>Factorial ANOVA (2-Way)</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 10: R FOR JASP ======================== -->
+<div class="page" id="page-10">
+<div class="content-page">
+  <div class="section-label">💻 Bab 8</div>
   <h1 class="page-title">R for <span>JASP</span></h1>
   <p class="page-desc">Akses kode R di balik setiap klik JASP — untuk reprodusibilitas, fleksibilitas, dan belajar R bertahap.</p>
 
@@ -1203,12 +1810,12 @@
 </div>
 </div>
 
-<!-- ======================== PAGE 8: TUGAS ======================== -->
-<div class="page" id="page-8">
+<!-- ======================== PAGE 11: TUGAS ======================== -->
+<div class="page" id="page-11">
 <div class="content-page">
-  <div class="section-label">📝 Bab 7</div>
+  <div class="section-label">📝 Bab 9</div>
   <h1 class="page-title">Tugas <span>Latihan Mandiri</span></h1>
-  <p class="page-desc">Empat tugas praktik menggunakan Data Latihan Furnitur — dapat dikerjakan secara individu atau kelompok.</p>
+  <p class="page-desc">Lima tugas praktik menggunakan Data Latihan Furnitur — dapat dikerjakan secara individu atau kelompok.</p>
 
   <div class="alert alert-warn">
     <span class="alert-icon">⚠️</span>
@@ -1257,7 +1864,27 @@
   </div>
 
 
-  <h2 class="sec">Tugas 4 — Regresi Berganda</h2>
+  <h2 class="sec">Tugas 4 — ANOVA Satu Jalur (Jenis Kayu)</h2>
+  <div class="card">
+    <div class="card-header"><div class="card-icon" style="background:var(--teal);">🔬</div><h3>Apakah Kadar Air Berbeda antar Tiga Jenis Kayu?</h3></div>
+    <p>Uji apakah rata-rata <em>Kadar_Air_persen</em> berbeda secara signifikan di antara tiga kelompok jenis kayu (<strong>Jati, Pinus, Meranti</strong>) menggunakan One-Way ANOVA. Jika signifikan, lanjutkan dengan uji Post-Hoc untuk mengetahui pasangan mana yang berbeda.</p>
+    <div class="badge-row">
+      <span class="badge badge-teal">ANOVA → ANOVA</span>
+      <span class="badge badge-teal">Fixed Factors: Jenis_Kayu</span>
+      <span class="badge badge-teal">Dependent Variable: Kadar_Air_persen</span>
+    </div>
+    <div class="badge-row" style="margin-top:4px;">
+      <span class="badge badge-blue">Centang: η² (Omega squared), Descriptives</span>
+      <span class="badge badge-blue">Post-Hoc: Tukey (jika p &lt; .05)</span>
+    </div>
+    <p style="font-size:13px; color:var(--gray); margin-top:8px; margin-bottom:0;"><strong>Laporkan:</strong> Tabel ANOVA APA (F, df, p, η²), tabel Post-Hoc Tukey jika signifikan, dan interpretasi kelompok mana yang memiliki rata-rata kadar air berbeda nyata.</p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">
+      <a href="https://yogoaj.github.io/polifurnika/kunci/4a/" target="_blank" style="display:inline-flex; align-items:center; gap:4px; background:var(--blue-pale); color:var(--blue); border:1px solid #93c5fd; font-weight:700; font-size:10px; padding:8px 18px; border-radius:6px; text-decoration:none;">📖 Output JASP</a>
+    </div>
+  </div>
+
+
+  <h2 class="sec">Tugas 5 — Regresi Berganda</h2>
   <div class="card">
     <div class="card-header"><div class="card-icon">📈</div><h3>Prediktor Efisiensi Furnitur</h3></div>
     <p>Prediksi variabel <em>Efisiensi_persen</em> menggunakan prediktor: <em>Diameter_Log_cm + Kadar_Air_persen + Ketebalan_mm</em>. Laporkan model regresi berganda.</p>
@@ -1283,8 +1910,103 @@
 </div>
 </div>
 
-<!-- ======================== PAGE 9: TENTANG ======================== -->
-<div class="page" id="page-9">
+<!-- ======================== PAGE 12: PENUTUP ======================== -->
+<div class="page" id="page-12">
+<div class="content-page">
+  <div class="section-label">🎓 Penutup</div>
+  <h1 class="page-title">Diskusi, Tanya Jawab <span>& Penutup</span></h1>
+  <p class="page-desc">Ringkasan perjalanan workshop hari ini, poin-poin kunci, dan langkah tindak lanjut setelah workshop.</p>
+
+  <!-- RECAP -->
+  <h2 class="sec">Apa yang Sudah Kita Pelajari Hari Ini</h2>
+  <div class="card-grid-2">
+    <div class="card" style="border-top: 4px solid var(--teal);">
+      <div class="card-header"><div class="card-icon" style="background:var(--teal);">1</div><h3>Mengenal JASP</h3></div>
+      <p>JASP adalah software statistik gratis, open source, dengan output APA otomatis. Tidak perlu kode — cukup drag & drop variabel.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--blue);">
+      <div class="card-header"><div class="card-icon" style="background:var(--blue);">2</div><h3>Konsep Statistik Dasar</h3></div>
+      <p>Skala pengukuran data (nominal, ordinal, scale) menentukan pilihan uji. Selalu cek normalitas sebelum memilih parametrik vs non-parametrik.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--amber);">
+      <div class="card-header"><div class="card-icon" style="background:var(--amber);">3</div><h3>Input & Kelola Data</h3></div>
+      <p>Simpan data Excel sebagai .csv, buka di JASP, verifikasi tipe variabel di header kolom sebelum analisis.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--violet);">
+      <div class="card-header"><div class="card-icon" style="background:var(--violet);">4</div><h3>Analisis Data</h3></div>
+      <p>Deskriptif untuk eksplorasi awal, t-test untuk komparasi dua kelompok, ANOVA untuk tiga kelompok atau lebih. Effect size wajib dilaporkan.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--green);">
+      <div class="card-header"><div class="card-icon" style="background:var(--green);">5</div><h3>Grafik & Ekspor</h3></div>
+      <p>Grafik publikasi langsung dari JASP. Tabel APA bisa di-copy ke Word. Simpan seluruh analisis dalam file .jasp untuk transparansi penelitian.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--navy);">
+      <div class="card-header"><div class="card-icon" style="background:var(--navy);">R</div><h3>R for JASP</h3></div>
+      <p>Setiap analisis JASP menghasilkan kode R di balik layar — modal awal yang baik untuk belajar R tanpa harus mulai dari nol.</p>
+    </div>
+  </div>
+
+  <!-- TIPS MANDIRI -->
+  <h2 class="sec">Tips Belajar JASP Secara Mandiri</h2>
+  <ul class="step-list">
+    <li>
+      <div class="step-num" style="background:var(--gold2); color:var(--navy);">1</div>
+      <div class="step-txt"><h4>Gunakan data Anda sendiri</h4><p>Ulangi semua langkah workshop menggunakan dataset dari penelitian Anda sendiri. Pengalaman hands-on jauh lebih efektif dari sekedar menonton.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--gold2); color:var(--navy);">2</div>
+      <div class="step-txt"><h4>Eksplorasi pohon keputusan</h4><p>Sebelum memilih uji, selalu tanyakan: jenis data apa? Berapa kelompok? Apakah berpasangan? Gunakan halaman "Memilih Analisis" di panduan ini sebagai acuan.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--gold2); color:var(--navy);">3</div>
+      <div class="step-txt"><h4>Simpan semua dalam .jasp</h4><p>File .jasp menyimpan data + semua analisis + output sekaligus. Ini memudahkan revisi skripsi/tesis dan transparansi saat peer review.</p></div>
+    </li>
+    <li>
+      <div class="step-num" style="background:var(--gold2); color:var(--navy);">4</div>
+      <div class="step-txt"><h4>Kunjungi dokumentasi resmi</h4><p>Tersedia tutorial video di <strong>jasp-stats.org/blog</strong> dan <strong>YouTube JASP Statistics</strong> untuk topik lanjutan seperti SEM, Meta-Analysis, dan Machine Learning.</p></div>
+    </li>
+  </ul>
+
+  <!-- CTA DISKUSI -->
+  <h2 class="sec">Sesi Diskusi & Tanya Jawab</h2>
+  <div class="alert alert-teal" style="margin-bottom: 16px;">
+    <span class="alert-icon">💬</span>
+    <div><strong>Waktu diskusi terbuka.</strong> Silakan ajukan pertanyaan tentang materi hari ini, kendala saat praktik, atau bagaimana mengaplikasikan JASP di penelitian Anda masing-masing.</div>
+  </div>
+  <div class="card-grid-2">
+    <div class="card" style="border: 1px solid rgba(245,197,24,.3);">
+      <div class="card-header"><div class="card-icon" style="background:var(--amber);">❓</div><h3>Topik yang Sering Ditanyakan</h3></div>
+      <ul style="padding-left: 16px; margin: 0; font-size: 13px; color: var(--gray); line-height: 2;">
+        <li>Kapan harus pakai t-test vs ANOVA?</li>
+        <li>Bagaimana melaporkan hasil di skripsi/jurnal?</li>
+        <li>Data saya tidak normal — apa alternatifnya?</li>
+        <li>Bolehkah JASP dipakai untuk penelitian S2/S3?</li>
+        <li>Bagaimana cara ekspor tabel ke Word format APA?</li>
+      </ul>
+    </div>
+    <div class="card" style="border: 1px solid rgba(13,115,119,.3);">
+      <div class="card-header"><div class="card-icon" style="background:var(--teal);">📞</div><h3>Konsultasi Lanjutan</h3></div>
+      <p>Ada pertanyaan setelah workshop? Hubungi fasilitator via WhatsApp untuk konsultasi singkat terkait analisis data penelitian Anda.</p>
+      <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya peserta workshop JASP dan ingin konsultasi lanjutan." target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--teal); color:#fff; font-weight:700; font-size:12px; padding:8px 16px; border-radius:7px; text-decoration:none; margin-top:8px;">💬 Chat WhatsApp →</a>
+    </div>
+  </div>
+
+  <!-- CTA PENUTUP -->
+  <div class="cta-box" style="margin-top: 32px;">
+    <h3>🎉 Selamat — Workshop Selesai!</h3>
+    <p>Anda telah menyelesaikan workshop JASP. Panduan ini bisa diakses kapan saja sebagai referensi saat mengerjakan penelitian.</p>
+    <a href="https://yogoaj.github.io/polifurnika/tips" target="_self" class="btn-cta">💡 Kunjungi Tips & Trik JASP →</a>
+    <span class="cta-link">Pertanyaan? <a href="https://wa.me/6289655003613">Hubungi fasilitator via WhatsApp</a></span>
+  </div>
+
+  <div class="ebook-footer" style="margin-top: 32px;">
+    <p>Panduan JASP Workshop · <a href="https://yogoaj.github.io" target="_self">Ruang Statistika</a> · Yogo AJ</p>
+  </div>
+</div>
+</div>
+
+<!-- ======================== PAGE 13: TENTANG ======================== -->
+<div class="page" id="page-13">
 <div class="content-page">
   <div class="section-label">👤 Tentang Penulis</div>
   <h1 class="page-title">Ruang <span>Statistika</span></h1>
@@ -1380,139 +2102,26 @@
 </div>
 </div>
 
-<!-- ======================== PAGE 10: REQUIREMENTS ======================== -->
-<div class="page" id="page-10">
-<div class="content-page">
-  <div class="section-label">✅ Persiapan Workshop</div>
-  <h1 class="page-title">Requirements <span>Workshop</span></h1>
-  <p class="page-desc">Pastikan semua persiapan berikut sudah selesai <strong>sebelum</strong> hari workshop agar sesi berjalan lancar.</p>
-
-  <div class="alert alert-warn">
-    <span class="alert-icon">⚠️</span>
-    <div><strong>Penting:</strong> Lakukan semua instalasi dan unduhan di bawah ini <strong>minimal 1 hari sebelum workshop</strong>. Koneksi internet saat instalasi bisa lambat — jangan tunggu hari-H.</div>
-  </div>
-
-  <!-- SOFTWARE -->
-  <h2 class="sec">1 · Software yang Harus Diinstall</h2>
-  <div class="card-grid-2">
-    <div class="card" style="border-top: 4px solid var(--teal);">
-      <div class="card-header">
-        <div class="card-icon" style="background:var(--teal);">📊</div>
-        <h3>JASP (Wajib)</h3>
-      </div>
-      <p>Versi minimum: <strong>JASP 0.17+</strong> (disarankan versi terbaru). R sudah terintegrasi — tidak perlu instalasi R terpisah.</p>
-      <a href="https://jasp-stats.org/download/" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--teal); color:#fff; font-weight:700; font-size:12px; padding:8px 16px; border-radius:7px; text-decoration:none; margin-top:8px;">⬇ Download JASP</a>
-    </div>
-    <div class="card" style="border-top: 4px solid var(--blue);">
-      <div class="card-header">
-        <div class="card-icon" style="background:var(--blue);">🌐</div>
-        <h3>Browser Modern (Wajib)</h3>
-      </div>
-      <p>Untuk membuka modul panduan ini. Gunakan <strong>Google Chrome</strong>, Firefox, Edge, atau Safari versi terbaru.</p>
-      <div class="badge-row" style="margin-top:8px;">
-        <span class="badge badge-blue">Chrome ✓</span>
-        <span class="badge badge-blue">Firefox ✓</span>
-        <span class="badge badge-blue">Edge ✓</span>
-      </div>
-    </div>
-    <div class="card" style="border-top: 4px solid var(--amber);">
-      <div class="card-header">
-        <div class="card-icon" style="background:var(--amber);">📹</div>
-        <h3>Platform Meeting (Wajib)</h3>
-      </div>
-      <p>Workshop dilaksanakan secara daring via <strong>Zoom</strong> atau platform yang ditentukan panitia. Pastikan sudah terinstall dan login.</p>
-      <div class="badge-row" style="margin-top:8px;">
-        <span class="badge badge-amber">Zoom</span>
-        <span class="badge badge-amber">Google Meet</span>
-        <span class="badge badge-amber">MS Teams</span>
-      </div>
-    </div>
-    <div class="card" style="border-top: 4px solid var(--violet);">
-      <div class="card-header">
-        <div class="card-icon" style="background:var(--violet);">📝</div>
-        <h3>Microsoft Word / LibreOffice (Opsional)</h3>
-      </div>
-      <p>Untuk membuka hasil ekspor JASP dalam format <strong>.docx</strong>. LibreOffice Writer gratis dan bisa digunakan sebagai alternatif.</p>
-      <a href="https://www.libreoffice.org/download/libreoffice/" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--violet-pale); color:var(--violet); border:1px solid #c4b5fd; font-weight:700; font-size:12px; padding:8px 16px; border-radius:7px; text-decoration:none; margin-top:8px;">⬇ Download LibreOffice (Gratis)</a>
-    </div>
-  </div>
-
-  <!-- FILE -->
-  <h2 class="sec">2 · File yang Harus Diunduh</h2>
-  <div class="card" style="border: 1px solid #bbf7d0; background: #f0fdf4;">
-    <div class="card-header">
-      <div class="card-icon" style="background:var(--green);">📁</div>
-      <h3>Dataset Latihan Furnitur (.csv)</h3>
-    </div>
-    <p>Dataset utama yang digunakan sepanjang workshop. Berisi data pengujian kualitas bahan baku kayu (<em>n</em> = 29 sampel) dengan variabel: Jenis_Kayu, Diameter_Log_cm, Kadar_Air_persen, Ketebalan_mm, Efisiensi_persen, Status_Cacat.</p>
-    <a href="https://raw.githubusercontent.com/yogoaj/yogoaj.github.io/refs/heads/main/polifurnika/data/Data_latihan_Furnitur.csv" download style="display:inline-flex; align-items:center; gap:6px; background:var(--navy); color:var(--gold); font-weight:700; font-size:13px; padding:10px 20px; border-radius:8px; text-decoration:none; margin-top:4px;">⬇ Unduh Data_latihan_Furnitur.csv</a>
-    <p style="font-size:12px; color:var(--gray); margin-top:10px; margin-bottom:0;">Simpan di lokasi yang mudah ditemukan, misalnya di Desktop atau folder <code style="background:#e5e7eb; padding:1px 6px; border-radius:3px; font-size:11px;">Dokumen/Workshop_JASP/</code>.</p>
-  </div>
-
-  <!-- HARDWARE -->
-  <h2 class="sec">3 · Spesifikasi Minimum Perangkat</h2>
-  <div class="tbl-wrap">
-    <table class="apa-table">
-      <thead><tr><th>Komponen</th><th>Minimum</th><th>Disarankan</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Sistem Operasi</strong></td><td>Windows 10 / macOS 10.14 / Ubuntu 18.04</td><td>Windows 11 / macOS 13+ / Ubuntu 22.04</td></tr>
-        <tr><td><strong>RAM</strong></td><td>4 GB</td><td>8 GB atau lebih</td></tr>
-        <tr><td><strong>Penyimpanan</strong></td><td>2 GB ruang kosong</td><td>5 GB ruang kosong</td></tr>
-        <tr><td><strong>Layar</strong></td><td>1280 × 720 px</td><td>1920 × 1080 px (Full HD)</td></tr>
-        <tr><td><strong>Internet</strong></td><td>2 Mbps (untuk sesi daring)</td><td>10 Mbps atau lebih</td></tr>
-        <tr><td><strong>Kamera & Mic</strong></td><td>Opsional</td><td>Disarankan untuk sesi tanya jawab</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- CHECKLIST -->
-  <h2 class="sec">4 · Checklist Sebelum Workshop</h2>
-  <div class="card" style="border: 1px solid var(--border);">
-    <ul style="list-style:none; padding:0; margin:0;">
-      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
-        <span style="font-size:18px; flex-shrink:0;">☐</span>
-        <div><strong>JASP sudah terinstall</strong> dan dapat dibuka tanpa error. Cek versinya via ☰ → About JASP (versi 0.17+).</div>
-      </li>
-      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
-        <span style="font-size:18px; flex-shrink:0;">☐</span>
-        <div><strong>File Data_latihan_Furnitur.csv</strong> sudah diunduh dan bisa dibuka di JASP (☰ → Open → pilih file).</div>
-      </li>
-      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
-        <span style="font-size:18px; flex-shrink:0;">☐</span>
-        <div><strong>Zoom / platform meeting</strong> sudah terinstall, login, dan audio-video sudah diuji coba.</div>
-      </li>
-      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #f3f4f6;">
-        <span style="font-size:18px; flex-shrink:0;">☐</span>
-        <div><strong>Browser</strong> (Chrome/Firefox/Edge) sudah dapat membuka panduan ini dengan lancar.</div>
-      </li>
-      <li style="display:flex; align-items:flex-start; gap:12px; padding:10px 0;">
-        <span style="font-size:18px; flex-shrink:0;">☐</span>
-        <div><strong>Koneksi internet</strong> stabil. Disarankan menggunakan Wi-Fi atau kabel LAN, bukan hotspot HP saat sesi berlangsung.</div>
-      </li>
-    </ul>
-  </div>
-
-  <!-- BANTUAN -->
-  <div class="alert alert-teal" style="margin-top:8px;">
-    <span class="alert-icon">💬</span>
-    <div><strong>Ada kendala instalasi?</strong> Hubungi fasilitator sebelum hari workshop via WhatsApp agar dapat dibantu sebelum sesi dimulai. <a href="https://wa.me/6289655003613?text=Halo Mas Yogo, saya peserta workshop JASP dan ada kendala instalasi." target="_blank" style="color:var(--teal); font-weight:700;">Chat WhatsApp →</a></div>
-  </div>
-</div>
+<!-- TOMBOL FLOATING DI POJOK KANAN BAWAH -->
+<div class="floating-buttons">
+  <button class="floating-btn print-btn" onclick="printAllPages()" title="Cetak seluruh halaman">🖨️</button>
+  <button class="floating-btn slide-btn" onclick="toggleSlideMode()" title="Mode Slide / Presentasi">📽️</button>
 </div>
 
-<!-- BOTTOM PAGE NAV -->
+<!-- BOTTOM PAGE NAV (tetap) -->
 <div class="page-nav">
   <button id="prevBtn" onclick="changePage(-1)" disabled>‹</button>
-  <span class="page-counter" id="pageCounter">1 / 11</span>
+  <span class="page-counter" id="pageCounter">1 / 14</span>
   <button id="nextBtn" onclick="changePage(1)">›</button>
 </div>
 
 <script>
+  // ==================== FUNGSI NAVIGASI (dari file asli) ====================
   const pages = document.querySelectorAll('.page');
   let cur = 0;
   const total = pages.length;
-
   function showPage(n) {
+    if (n < 0 || n >= total) return;
     pages[cur].classList.remove('active');
     cur = n;
     pages[cur].classList.add('active');
@@ -1522,26 +2131,114 @@
     document.getElementById('pgbar').style.width = ((cur/(total-1))*100) + '%';
     window.scrollTo({top:0, behavior:'smooth'});
   }
-
-  function changePage(d) { if(cur+d>=0 && cur+d<total) showPage(cur+d); }
+  function changePage(d) { showPage(cur + d); }
   function goPage(n) { showPage(n); }
 
-  function copyCode(btn) {
-    var block = btn.closest('.code-block').querySelector('.code-body');
-    var text = block.innerText;
-    navigator.clipboard.writeText(text).then(function() {
-      btn.textContent = '✓ Tersalin';
-      setTimeout(function() { btn.textContent = 'Salin'; }, 2000);
-    }).catch(function() {
-      btn.textContent = 'Coba lagi';
-      setTimeout(function() { btn.textContent = 'Salin'; }, 1500);
+  // ==================== CETAK SEMUA HALAMAN ====================
+  function printAllPages() {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Panduan JASP - Cetak Semua Halaman</title>');
+    // Salin semua style dari dokumen utama
+    const styles = document.querySelectorAll('style, link[rel="stylesheet"]');
+    styles.forEach(style => {
+      if (style.tagName === 'STYLE') {
+        printWindow.document.write(style.outerHTML);
+      } else if (style.tagName === 'LINK' && style.rel === 'stylesheet') {
+        printWindow.document.write(style.outerHTML);
+      }
+    });
+    // Tambahkan style khusus untuk cetak agar semua page tampil dan cover terlihat
+    printWindow.document.write('<style>' +
+      'body { background: white !important; margin: 0; padding: 0; }' +
+      '.page { display: block !important; page-break-after: always; }' +
+      '.top-nav, .page-nav, .progress-bar, .floating-buttons { display: none !important; }' +
+      '#cover { background: #0d1f3c !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; min-height: auto !important; padding: 60px 32px !important; }' +
+      '.cover-grid { display: block !important; }' +
+      '.cover-title { color: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }' +
+      '.cover-title span { color: #f5c518 !important; }' +
+      '.cover-subtitle { color: rgba(255,255,255,.85) !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }' +
+      '.cover-meta-item, .feat { color: rgba(255,255,255,.9) !important; background: rgba(255,255,255,.08) !important; border-color: rgba(255,255,255,.2) !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }' +
+      '.cover-ebook-label { color: #f5c518 !important; }' +
+      '.cover-author-info .name { color: #ffffff !important; }' +
+      '.cover-author-info .role { color: rgba(255,255,255,.7) !important; }' +
+      '.cover-author-ava { background: linear-gradient(135deg, #1a3a6b, #132847) !important; color: #f5c518 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }' +
+      '.content-page { max-width: 100%; padding: 1.5cm !important; }' +
+      '.apa-table th { background: #0d1f3c !important; color: #f5c518 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }' +
+      '.cta-box { background: #0d1f3c !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }' +
+      '.card, .ui-card, .alert, .apa-table { box-shadow: none !important; break-inside: avoid; }' +
+      'a { text-decoration: none; color: black; }' +
+      'img { max-width: 100% !important; page-break-inside: avoid; }' +
+      '</style>');
+    printWindow.document.write('</head><body>');
+    // Tampilkan semua halaman
+    pages.forEach(page => {
+      const clonePage = page.cloneNode(true);
+      clonePage.style.display = 'block';
+      clonePage.classList.add('active');
+      printWindow.document.body.appendChild(clonePage);
+    });
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    // Tunggu font dan gambar load sebelum print
+    printWindow.onload = function() {
+      setTimeout(function() {
+        printWindow.print();
+      }, 800);
+    };
+    // Fallback jika onload tidak trigger
+    setTimeout(function() {
+      if (!printWindow.closed) {
+        printWindow.print();
+      }
+    }, 1500);
+  }
+
+  // ==================== MODE SLIDE (TOGGLE) ====================
+  function toggleSlideMode() {
+    document.body.classList.toggle('slide-mode');
+    const isSlide = document.body.classList.contains('slide-mode');
+    const slideBtn = document.querySelector('.slide-btn');
+    if (isSlide) {
+      slideBtn.innerHTML = '✕';
+      slideBtn.title = 'Keluar Mode Slide';
+    } else {
+      slideBtn.innerHTML = '📽️';
+      slideBtn.title = 'Mode Slide / Presentasi';
+    }
+    // Override elemen dengan inline background terang agar terbaca di slide mode
+    document.querySelectorAll('.card, .ci-card, .stat-chooser').forEach(el => {
+      const bg = el.style.background || el.style.backgroundColor || '';
+      if (isSlide) {
+        // Simpan inline style asli
+        el.dataset.origBg = el.style.background;
+        el.dataset.origBgColor = el.style.backgroundColor;
+        el.dataset.origBorder = el.style.borderColor || el.style.border;
+        // Ganti background terang dengan versi gelap
+        if (bg.includes('#f0fdf4') || bg.includes('rgb(240, 253, 244)')) {
+          el.style.setProperty('background', '#0f2a1a', 'important');
+          el.style.setProperty('border-color', '#166534', 'important');
+        } else if (bg.includes('var(--white)') || bg.includes('#ffffff') || bg.includes('white')) {
+          el.style.setProperty('background', '#1e1f2c', 'important');
+          el.style.setProperty('border-color', '#2d2f3e', 'important');
+        }
+      } else {
+        // Kembalikan inline style asli
+        el.style.background = el.dataset.origBg || '';
+        el.style.backgroundColor = el.dataset.origBgColor || '';
+        el.style.border = el.dataset.origBorder || '';
+        el.style.removeProperty('border-color');
+      }
     });
   }
 
+  // Keyboard panah
   document.addEventListener('keydown', function(e) {
-    if(e.key==='ArrowRight') changePage(1);
-    if(e.key==='ArrowLeft') changePage(-1);
+    if(e.key === 'ArrowRight') changePage(1);
+    if(e.key === 'ArrowLeft') changePage(-1);
   });
+
+  // Inisialisasi counter
+  document.getElementById('pageCounter').textContent = (cur+1) + ' / ' + total;
 </script>
 </body>
 </html>
