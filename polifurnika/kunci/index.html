@@ -132,16 +132,9 @@
 
   /* PRINT */
   @media print {
-    .top-bar { display: none !important; }
-    .hero { padding: 24px 32px 20px; }
-    body { background: #fff; }
-    .main { padding: 24px 16px 40px; }
-    .tugas-header { break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .top-bar { position: static; }
+    .tugas-header { break-inside: avoid; }
     .tbl-wrap { break-inside: avoid; }
-    .interp-box { break-inside: avoid; }
-    .alert { break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .nilai-grid { break-inside: avoid; }
-    .divider { margin: 20px 0; }
   }
 </style>
 </head>
@@ -165,7 +158,7 @@
   <div class="hero-grid"></div>
   <div class="hero-label">📋 Workshop JASP · Polifurnika 2026</div>
   <h1>Kunci Jawaban <span>Tugas Latihan</span></h1>
-  <p>Jawaban lengkap empat tugas praktik JASP menggunakan <strong style="color:rgba(255,255,255,.8);">Data_latihan_Furnitur.csv</strong> — disertai nilai statistik, tabel APA, dan paragraf interpretasi.</p>
+  <p>Jawaban lengkap lima tugas praktik JASP menggunakan <strong style="color:rgba(255,255,255,.8);">Data_latihan_Furnitur.csv</strong> — disertai nilai statistik, tabel APA, dan paragraf interpretasi.</p>
   <div class="hero-chips">
     <span class="hero-chip">📊 n = 30 sampel</span>
     <span class="hero-chip">🌲 3 Jenis Kayu</span>
@@ -178,7 +171,7 @@
 
   <div class="alert alert-warn" style="margin-bottom:28px;">
     <span class="alert-icon">⚠️</span>
-    <div><strong>Catatan untuk Pengajar:</strong> Nilai dalam kunci jawaban ini dihitung dari dataset furnitur yang diberikan (<em>n</em> = 30). Nilai yang dihasilkan JASP mungkin berbeda di digit terakhir karena perbedaan pembulatan — masih dianggap benar jika selisih ≤ 0,01.</div>
+    <div><strong>Catatan Pengajar:</strong> Nilai dalam kunci jawaban ini dihitung dari dataset furnitur yang diberikan (<em>n</em> = 30). Nilai yang dihasilkan  masih dianggap benar jika selisih ≤ 0,01.</div>
   </div>
 
   <!-- ======================== TUGAS 1 ======================== -->
@@ -382,11 +375,140 @@
 
   <hr class="divider">
 
-  <!-- ======================== TUGAS 4 ======================== -->
+  <!-- ======================== TUGAS 4: ANOVA ======================== -->
   <div class="tugas-header">
     <div class="tugas-num">4</div>
     <div>
-      <h2>Tugas 4 — Regresi Berganda</h2>
+      <h2>Tugas 4 — ANOVA Satu Jalur: Kadar Air Antar Jenis Kayu</h2>
+      <p>Kelompok · ANOVA → ANOVA · Fixed Factor: Jenis_Kayu · Dependent: Kadar_Air_persen</p>
+    </div>
+  </div>
+
+  <h3 class="sec">Statistik Deskriptif per Kelompok</h3>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 4a</strong></em><br>Statistik Deskriptif Kadar_Air_persen per Jenis Kayu</caption>
+      <thead><tr><th>Jenis Kayu</th><th><em>n</em></th><th><em>M</em></th><th><em>SD</em></th><th>Min</th><th>Max</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Jati</strong></td><td>10</td><td>10,76</td><td>0,52</td><td>10,00</td><td>11,40</td></tr>
+        <tr><td><strong>Mahoni</strong></td><td>10</td><td>12,75</td><td>0,39</td><td>12,20</td><td>13,30</td></tr>
+        <tr><td><strong>Pinus</strong></td><td>10</td><td>15,49</td><td>0,61</td><td>14,50</td><td>16,30</td></tr>
+        <tr style="border-top:2px solid #e5e7eb;"><td><strong>Total</strong></td><td>30</td><td>13,00</td><td>2,04</td><td>10,00</td><td>16,30</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec">Tabel ANOVA (Format APA)</h3>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 4b</strong></em><br>One-Way ANOVA: Kadar_Air_persen berdasarkan Jenis_Kayu</caption>
+      <thead>
+        <tr><th>Sumber</th><th><em>SS</em></th><th><em>df</em></th><th><em>MS</em></th><th><em>F</em></th><th><em>p</em></th><th>η²</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Jenis_Kayu</strong></td>
+          <td>112,80</td><td>2</td><td>56,40</td>
+          <td class="sig">210,39</td><td class="sig">&lt; .001</td>
+          <td class="sig">0,940</td>
+        </tr>
+        <tr>
+          <td><strong>Residual (Error)</strong></td>
+          <td>7,24</td><td>27</td><td>0,268</td>
+          <td>—</td><td>—</td><td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Total</strong></td>
+          <td>120,04</td><td>29</td><td>—</td>
+          <td>—</td><td>—</td><td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="apa-note"><em>Catatan.</em> SS = Sum of Squares; MS = Mean Square; η² = eta-squared. η² = .940 mengindikasikan effect size yang sangat besar.</p>
+  </div>
+
+  <div class="nilai-grid">
+    <div class="nilai-card">
+      <div class="nk-label">F(2, 27)</div>
+      <div class="nk-val">210,39</div>
+      <div class="nk-unit">F-statistic</div>
+    </div>
+    <div class="nilai-card">
+      <div class="nk-label">p-value</div>
+      <div class="nk-val">&lt; .001</div>
+      <div class="nk-unit">signifikansi</div>
+    </div>
+    <div class="nilai-card">
+      <div class="nk-label">η²</div>
+      <div class="nk-val">0,940</div>
+      <div class="nk-unit">effect size</div>
+    </div>
+    <div class="nilai-card">
+      <div class="nk-label">Interpretasi η²</div>
+      <div class="nk-val" style="font-size:14px;">Besar</div>
+      <div class="nk-unit">≥ 0,14 = large</div>
+    </div>
+  </div>
+
+  <div class="alert alert-success">
+    <span class="alert-icon">✅</span>
+    <div><strong>Kesimpulan ANOVA:</strong> Terdapat perbedaan rata-rata kadar air yang signifikan secara statistik di antara ketiga jenis kayu, <em>F</em>(2, 27) = 210,39, <em>p</em> &lt; .001, η² = .940. Lanjutkan dengan uji Post-Hoc Tukey.</div>
+  </div>
+
+  <h3 class="sec">Post-Hoc Tukey HSD</h3>
+  <div class="alert alert-info">
+    <span class="alert-icon">ℹ️</span>
+    <div>Di JASP: setelah ANOVA signifikan, buka tab <strong>Post Hoc Tests</strong> → pindahkan <em>Jenis_Kayu</em> ke kolom kanan → centang <strong>Tukey</strong> → centang <strong>Cohen's d</strong>.</div>
+  </div>
+  <div class="tbl-wrap">
+    <table class="apa-table">
+      <caption><em><strong>Tabel 4c</strong></em><br>Perbandingan Post-Hoc Tukey HSD antar Jenis Kayu (Variabel: Kadar_Air_persen)</caption>
+      <thead>
+        <tr><th>Kelompok I</th><th>Kelompok J</th><th>Mean Diff (I−J)</th><th><em>p</em> (Tukey)</th><th>95% CI</th><th>Cohen's <em>d</em></th><th>Kesimpulan</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Jati</strong></td><td><strong>Mahoni</strong></td>
+          <td>−1,99</td>
+          <td class="sig">&lt; .001</td>
+          <td>[−2,564; −1,416]</td>
+          <td class="sig">−3,84</td>
+          <td><span class="badge badge-teal">Berbeda Nyata</span></td>
+        </tr>
+        <tr>
+          <td><strong>Jati</strong></td><td><strong>Pinus</strong></td>
+          <td>−4,73</td>
+          <td class="sig">&lt; .001</td>
+          <td>[−5,304; −4,156]</td>
+          <td class="sig">−9,14</td>
+          <td><span class="badge badge-teal">Berbeda Nyata</span></td>
+        </tr>
+        <tr>
+          <td><strong>Mahoni</strong></td><td><strong>Pinus</strong></td>
+          <td>−2,74</td>
+          <td class="sig">&lt; .001</td>
+          <td>[−3,314; −2,166]</td>
+          <td class="sig">−5,29</td>
+          <td><span class="badge badge-teal">Berbeda Nyata</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="apa-note"><em>Catatan.</em> Seluruh pasangan kelompok berbeda signifikan pada α = .05 setelah koreksi Tukey. Urutan kadar air: Jati &lt; Mahoni &lt; Pinus.</p>
+  </div>
+
+  <div class="interp-box">
+    <div class="interp-title">📝 Paragraf Interpretasi (contoh)</div>
+    <p>One-Way ANOVA menunjukkan terdapat perbedaan rata-rata kadar air yang sangat signifikan antar ketiga jenis kayu, <em>F</em>(2, 27) = 210,39, <em>p</em> &lt; .001, η² = .940. Nilai eta-squared yang sangat besar ini mengindikasikan bahwa 94,0% variasi kadar air dalam dataset dijelaskan oleh perbedaan jenis kayu.</p>
+    <p>Uji Post-Hoc Tukey HSD mengonfirmasi bahwa seluruh pasangan kelompok berbeda secara signifikan (<em>p</em> &lt; .001). Kayu <strong>Jati</strong> memiliki kadar air terendah (<em>M</em> = 10,76%, <em>SD</em> = 0,52), diikuti <strong>Mahoni</strong> (<em>M</em> = 12,75%, <em>SD</em> = 0,39), dan <strong>Pinus</strong> tertinggi (<em>M</em> = 15,49%, <em>SD</em> = 0,61). Temuan ini konsisten dengan karakteristik kayu keras (<em>hardwood</em>) vs. kayu lunak (<em>softwood</em>) dalam industri furnitur, di mana kayu Jati dikenal memiliki kadar air alami yang lebih rendah dan lebih stabil.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ======================== TUGAS 5 ======================== -->
+  <div class="tugas-header">
+    <div class="tugas-num">5</div>
+    <div>
+      <h2>Tugas 5 — Regresi Berganda</h2>
       <p>Kelompok · Regression → Linear Regression</p>
     </div>
   </div>
@@ -418,7 +540,7 @@
   <h3 class="sec">Tabel Koefisien Regresi (Format APA)</h3>
   <div class="tbl-wrap">
     <table class="apa-table">
-      <caption><em><strong>Tabel 4</strong></em><br>Koefisien Regresi Berganda: Prediktor Efisiensi_persen</caption>
+      <caption><em><strong>Tabel 5</strong></em><br>Koefisien Regresi Berganda: Prediktor Efisiensi_persen</caption>
       <thead>
         <tr>
           <th>Prediktor</th>
@@ -511,7 +633,7 @@
 </div><!-- /main -->
 
 <div class="footer">
-  © 2026 <a href="https://yogoaj.github.io" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Workshop JASP untuk Pengajar & Tendik · Polifurnika 2026
+  © 2025 <a href="https://yogoaj.github.io" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Workshop JASP untuk Pengajar & Tendik · Polifurnika 2026
 </div>
 
 </body>
