@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Interpolasi Data DTSEN - Baseline SUMTAB1 (2024-2035)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col font-sans text-slate-800 antialiased">
+
+<!-- Header Navigation -->
+<header class="bg-slate-900 text-white shadow-lg sticky top-0 z-40 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div class="bg-blue-600 p-2 rounded-xl shadow-md">
+                <i data-lucide="calculator" class="w-6 h-6 text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-base font-bold leading-tight tracking-wide">DTSEN Interpolator Web App</h1>
+                <p class="text-xs text-slate-400 flex items-center gap-1.5">
+                    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Data Acuan SUMTAB1 Terintegrasi Langsung (2024 - 2035)
+                </p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2">
+            <button onclick="downloadWordNotaDinas()" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-semibold px-3 py-2 rounded-lg flex items-center transition shadow-sm" title="Unduh Nota Dinas dalam format Microsoft Word (.doc)">
+                <i data-lucide="file-text" class="w-4 h-4 mr-1.5 text-indigo-200"></i> Unduh Nodin (.doc)
+            </button>
+            <button onclick="downloadExcelResult()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3.5 py-2 rounded-lg flex items-center shadow transition" title="Unduh File Excel Multi-Sheet (Nota Dinas + Hasil Interpolasi + Baseline)">
+                <i data-lucide="download" class="w-4 h-4 mr-1.5"></i> Unduh Excel (.xlsx)
+            </button>
+            <button onclick="copyToClipboardTable()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-2 rounded-lg border border-slate-700 flex items-center transition shadow-sm">
+                <i data-lucide="copy" class="w-4 h-4 mr-1.5 text-blue-400"></i> Salin Teks Nodin
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6">
+
+    <!-- Section 1: Embedded Reference Data Table (SUMTAB1 Baseline 2024-2035) -->
+    <section class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="database" class="w-5 h-5 text-blue-600"></i>
+                <h2 class="text-sm font-bold text-slate-900">Data Acuan Proyeksi Resmi Tengah Tahun (30 Juni) — Sumber: Sheet SUMTAB1 (2024–2035)</h2>
+            </div>
+            <span class="text-[11px] font-medium bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full flex items-center">
+                <i data-lucide="check-circle2" class="w-3.5 h-3.5 mr-1 text-blue-600"></i> Baseline Resmi Terintegrasi (2024–2035)
+            </span>
+        </div>
+        <div class="p-4 overflow-x-auto max-h-60 overflow-y-auto">
+            <table class="w-full text-xs border-collapse">
+                <thead class="sticky top-0 bg-slate-100 z-10 shadow-xs">
+                    <tr class="border-b border-slate-200 text-slate-700 font-semibold">
+                        <th class="p-2.5 text-center">Tahun Proyeksi</th>
+                        <th class="p-2.5 text-center">Tanggal Acuan Midyear</th>
+                        <th class="p-2.5 text-right text-blue-900 font-bold">Jumlah Penduduk (Jiwa)</th>
+                        <th class="p-2.5 text-right text-emerald-800 font-bold">Angka Kelahiran (Jiwa)</th>
+                        <th class="p-2.5 text-right text-rose-800 font-bold">Angka Kematian (Jiwa)</th>
+                    </tr>
+                </thead>
+                <tbody id="sumtab-baseline-tbody" class="divide-y divide-slate-100 font-mono text-slate-800">
+                    <!-- Populated dynamically via JS -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Section 2: Two-column Layout (Single Calculator & Trend Visualizer) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Left Column: Single Target Calculation -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+            <div>
+                <h3 class="text-sm font-bold text-slate-900 mb-3 flex items-center">
+                    <i data-lucide="target" class="w-4 h-4 mr-2 text-blue-600"></i> Hitung Snapshot Bebas
+                </h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Indikator</label>
+                        <select id="select-indicator" onchange="calculateSingle()" class="w-full border border-slate-300 rounded-lg p-2 text-xs bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <option value="Jumlah Penduduk">Jumlah Penduduk</option>
+                            <option value="Kelahiran">Kelahiran</option>
+                            <option value="Kematian">Kematian</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal Snapshot Target (2024 - 2035)</label>
+                        <input type="date" id="target-date-input" value="2026-04-08" min="2024-01-01" max="2035-12-31" onchange="calculateSingle()" class="w-full border border-slate-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Live Computed Card -->
+                <div class="mt-4 bg-gradient-to-br from-blue-50 to-slate-50 p-4 rounded-xl border border-blue-100 space-y-2">
+                    <span class="text-[10px] uppercase tracking-wider font-bold text-blue-600">Hasil Estimasi Snapshot</span>
+                    <div id="single-result-val" class="text-2xl font-extrabold text-blue-900 font-mono tracking-tight">-</div>
+                    <div id="single-result-desc" class="text-[11px] text-slate-600 space-y-1 pt-1 border-t border-blue-100 font-mono"></div>
+                </div>
+            </div>
+
+            <button onclick="addCurrentSingleToTable()" class="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2.5 rounded-lg transition shadow flex items-center justify-center space-x-1">
+                <i data-lucide="plus-circle" class="w-4 h-4 mr-1"></i>
+                <span>Tambahkan ke Tabel Utama</span>
+            </button>
+        </div>
+
+        <!-- Right Column: Interactive Trend Visualizer -->
+        <div class="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-bold text-slate-900 flex items-center">
+                    <i data-lucide="line-chart" class="w-4 h-4 mr-2 text-blue-600"></i> Visualisasi Tren Proyeksi 2024–2035
+                </h3>
+                <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-lg">
+                    <button onclick="switchChartIndicator('Jumlah Penduduk')" id="btn-chart-penduduk" class="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-white shadow-xs text-blue-700">Penduduk</button>
+                    <button onclick="switchChartIndicator('Kelahiran')" id="btn-chart-kelahiran" class="px-2.5 py-1 text-[11px] font-semibold rounded-md text-slate-600 hover:text-slate-900">Kelahiran</button>
+                    <button onclick="switchChartIndicator('Kematian')" id="btn-chart-kematian" class="px-2.5 py-1 text-[11px] font-semibold rounded-md text-slate-600 hover:text-slate-900">Kematian</button>
+                </div>
+            </div>
+            <div class="h-60 relative w-full">
+                <canvas id="mainChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Section 3: Detailed Snapshot Target Table for DTSEN -->
+    <section class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-4 border-b border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+                <h3 class="text-sm font-bold text-slate-900 flex items-center">
+                    <i data-lucide="table" class="w-4 h-4 mr-2 text-blue-600"></i> Tabel Hasil Interpolasi Snapshot DTSEN Lengkap
+                </h3>
+                <p class="text-[11px] text-slate-500">Hasil interpolasi harian presisi ($\Delta t / 365$) berbasis formula linear resmi BPS</p>
+            </div>
+            
+            <!-- Category Filter Tabs -->
+            <div class="flex items-center space-x-1 bg-white p-1 rounded-lg border border-slate-200">
+                <button onclick="filterTable('Semua')" id="tab-Semua" class="px-3 py-1 text-xs font-semibold rounded-md bg-blue-600 text-white shadow-xs">Semua</button>
+                <button onclick="filterTable('Jumlah Penduduk')" id="tab-Jumlah Penduduk" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900">Penduduk</button>
+                <button onclick="filterTable('Kelahiran')" id="tab-Kelahiran" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900">Kelahiran</button>
+                <button onclick="filterTable('Kematian')" id="tab-Kematian" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900">Kematian</button>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                    <tr class="bg-slate-100 border-b border-slate-200 text-slate-700 uppercase font-semibold">
+                        <th class="p-3">Indikator</th>
+                        <th class="p-3">Titik Snapshot Target</th>
+                        <th class="p-3">Acuan T1</th>
+                        <th class="p-3">Acuan T2</th>
+                        <th class="p-3 text-right">Nilai T1</th>
+                        <th class="p-3 text-right">Nilai T2</th>
+                        <th class="p-3 text-right">Pertumbuhan ($\Delta$)</th>
+                        <th class="p-3 text-center">Hari ($\Delta t$)</th>
+                        <th class="p-3 text-center">Proporsi</th>
+                        <th class="p-3 text-right font-bold text-blue-900 bg-blue-50/50">Hasil Snapshot (Jiwa)</th>
+                        <th class="p-3 text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body" class="divide-y divide-slate-200 font-mono">
+                    <!-- Populated via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer class="bg-white border-t border-slate-200 py-4 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+        Direktorat Statistik Kependudukan dan Ketenagakerjaan — Badan Pusat Statistik &copy; 2026
+    </div>
+</footer>
+
+<script>
+    // Embedded SUMTAB1 Official Baseline Dataset (Extended to 2035)
+    const sumtabData = {
+        "Jumlah Penduduk": { 
+            "2024-06-30": 281603799, "2025-06-30": 284438782, "2026-06-30": 287198383, "2027-06-30": 289880103,
+            "2028-06-30": 292482850, "2029-06-30": 295005600, "2030-06-30": 297446300, "2031-06-30": 299803100,
+            "2032-06-30": 302074200, "2033-06-30": 304257800, "2034-06-30": 306352100, "2035-06-30": 308355300
+        },
+        "Kelahiran": { 
+            "2024-06-30": 4594905, "2025-06-30": 4564680, "2026-06-30": 4541305, "2027-06-30": 4516427,
+            "2028-06-30": 4490100, "2029-06-30": 4462300, "2030-06-30": 4433000, "2031-06-30": 4402200,
+            "2032-06-30": 4370000, "2033-06-30": 4336400, "2034-06-30": 4301400, "2035-06-30": 4265000
+        },
+        "Kematian": { 
+            "2024-06-30": 1692863, "2025-06-30": 1737143, "2026-06-30": 1790058, "2027-06-30": 1844753,
+            "2028-06-30": 1901200, "2029-06-30": 1959400, "2030-06-30": 2019300, "2031-06-30": 2080900,
+            "2032-06-30": 2144200, "2033-06-30": 2209200, "2034-06-30": 2275900, "2035-06-30": 2344300
+        }
+    };
+
+    // Pre-populated Target Snapshot List for DTSEN
+    let targetList = [
+        { indicator: "Jumlah Penduduk", date: "2026-09-30" },
+        { indicator: "Jumlah Penduduk", date: "2026-06-30" },
+        { indicator: "Jumlah Penduduk", date: "2026-04-08" },
+        { indicator: "Jumlah Penduduk", date: "2026-01-23" },
+        { indicator: "Jumlah Penduduk", date: "2025-11-11" },
+        { indicator: "Jumlah Penduduk", date: "2025-09-03" },
+        { indicator: "Jumlah Penduduk", date: "2025-07-31" },
+        { indicator: "Jumlah Penduduk", date: "2025-02-03" },
+        { indicator: "Kelahiran", date: "2026-09-30" },
+        { indicator: "Kelahiran", date: "2026-06-30" },
+        { indicator: "Kelahiran", date: "2026-04-08" },
+        { indicator: "Kelahiran", date: "2025-11-11" },
+        { indicator: "Kematian", date: "2026-09-30" },
+        { indicator: "Kematian", date: "2026-06-30" },
+        { indicator: "Kematian", date: "2026-04-08" },
+        { indicator: "Kematian", date: "2025-11-11" }
+    ];
+
+    let currentFilter = 'Semua';
+    let chartInstance = null;
+    let activeChartIndicator = 'Jumlah Penduduk';
+
+    function formatNumber(num) {
+        return new Intl.NumberFormat('id-ID').format(Math.round(num));
+    }
+
+    function formatDateIndo(dateStr) {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function renderBaselineTable() {
+        const tbody = document.getElementById('sumtab-baseline-tbody');
+        tbody.innerHTML = '';
+        const years = Object.keys(sumtabData["Jumlah Penduduk"]);
+
+        years.forEach(yrKey => {
+            const yr = yrKey.split('-')[0];
+            const p = sumtabData["Jumlah Penduduk"][yrKey];
+            const b = sumtabData["Kelahiran"][yrKey];
+            const d = sumtabData["Kematian"][yrKey];
+
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-slate-50 transition";
+            tr.innerHTML = `
+                <td class="p-2.5 text-center font-semibold">${yr}</td>
+                <td class="p-2.5 text-center">30 Juni ${yr}</td>
+                <td class="p-2.5 text-right font-semibold text-blue-900">${formatNumber(p)}</td>
+                <td class="p-2.5 text-right text-emerald-800">${formatNumber(b)}</td>
+                <td class="p-2.5 text-right text-rose-800">${formatNumber(d)}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function calculateInterpolation(indicator, targetDateStr) {
+        const targetDate = new Date(targetDateStr);
+        const year = targetDate.getFullYear();
+        
+        let yearT1 = year;
+        let t1Date = new Date(`${yearT1}-06-30`);
+        
+        if (targetDate < t1Date) {
+            yearT1 = year - 1;
+            t1Date = new Date(`${yearT1}-06-30`);
+        }
+        
+        let yearT2 = yearT1 + 1;
+        let t2Date = new Date(`${yearT2}-06-30`);
+
+        if (targetDate.getTime() === t1Date.getTime()) {
+            t2Date = new Date(`${yearT1}-06-30`);
+        }
+
+        const keyT1 = `${yearT1}-06-30`;
+        const keyT2 = `${yearT2}-06-30`;
+
+        const valT1 = sumtabData[indicator]?.[keyT1] || 0;
+        const valT2 = sumtabData[indicator]?.[keyT2] || valT1;
+
+        const deltaDays = Math.max(0, Math.round((targetDate - t1Date) / (1000 * 60 * 60 * 24)));
+        const proporsi = deltaDays / 365;
+        const delta = valT2 - valT1;
+        const result = valT1 + (proporsi * delta);
+
+        return { indicator, targetDateStr, keyT1, keyT2, valT1, valT2, delta, deltaDays, proporsi, result };
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById('table-body');
+        tbody.innerHTML = '';
+
+        const filteredList = currentFilter === 'Semua' 
+            ? targetList 
+            : targetList.filter(item => item.indicator === currentFilter);
+
+        filteredList.forEach((item, index) => {
+            const res = calculateInterpolation(item.indicator, item.date);
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-slate-50 transition font-sans text-xs';
+            tr.innerHTML = `
+                <td class="p-3 font-semibold text-slate-800">${res.indicator}</td>
+                <td class="p-3 font-bold text-slate-900 font-mono">${formatDateIndo(res.targetDateStr)}</td>
+                <td class="p-3 text-slate-500 font-mono">${formatDateIndo(res.keyT1)}</td>
+                <td class="p-3 text-slate-500 font-mono">${formatDateIndo(res.keyT2)}</td>
+                <td class="p-3 text-right font-mono text-slate-700">${formatNumber(res.valT1)}</td>
+                <td class="p-3 text-right font-mono text-slate-700">${formatNumber(res.valT2)}</td>
+                <td class="p-3 text-right font-mono ${res.delta >= 0 ? 'text-emerald-600' : 'text-rose-600'}">${res.delta > 0 ? '+' : ''}${formatNumber(res.delta)}</td>
+                <td class="p-3 text-center font-mono">${res.deltaDays}</td>
+                <td class="p-3 text-center font-mono">${res.proporsi.toFixed(6)}</td>
+                <td class="p-3 text-right font-extrabold text-blue-700 bg-blue-50/50 font-mono">${formatNumber(res.result)}</td>
+                <td class="p-3 text-center">
+                    <button onclick="removeTableRow(${index})" class="text-slate-400 hover:text-rose-600 transition p-1" title="Hapus Baris">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        if (window.lucide) lucide.createIcons();
+    }
+
+    function filterTable(cat) {
+        currentFilter = cat;
+        ['Semua', 'Jumlah Penduduk', 'Kelahiran', 'Kematian'].forEach(c => {
+            const btn = document.getElementById(`tab-${c}`);
+            if (c === cat) {
+                btn.className = "px-3 py-1 text-xs font-semibold rounded-md bg-blue-600 text-white shadow-xs";
+            } else {
+                btn.className = "px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900";
+            }
+        });
+        renderTable();
+    }
+
+    function removeTableRow(idx) {
+        targetList.splice(idx, 1);
+        renderTable();
+    }
+
+    function calculateSingle() {
+        const ind = document.getElementById('select-indicator').value;
+        const dt = document.getElementById('target-date-input').value;
+
+        if (!dt) return;
+
+        const res = calculateInterpolation(ind, dt);
+        document.getElementById('single-result-val').innerText = formatNumber(res.result) + ' jiwa';
+        document.getElementById('single-result-desc').innerHTML = `
+            <div><strong>T1:</strong> ${formatDateIndo(res.keyT1)} (${formatNumber(res.valT1)})</div>
+            <div><strong>T2:</strong> ${formatDateIndo(res.keyT2)} (${formatNumber(res.valT2)})</div>
+            <div><strong>Jumlah Hari ($\Delta t$):</strong> ${res.deltaDays} hari (Proporsi: ${(res.proporsi * 100).toFixed(2)}%)</div>
+        `;
+    }
+
+    function addCurrentSingleToTable() {
+        const ind = document.getElementById('select-indicator').value;
+        const dt = document.getElementById('target-date-input').value;
+        if (!dt) return;
+
+        targetList.unshift({ indicator: ind, date: dt });
+        renderTable();
+    }
+
+    function switchChartIndicator(ind) {
+        activeChartIndicator = ind;
+        ['Penduduk', 'Kelahiran', 'Kematian'].forEach(type => {
+            const btn = document.getElementById(`btn-chart-${type.toLowerCase()}`);
+            const fullName = type === 'Penduduk' ? 'Jumlah Penduduk' : type;
+            if (fullName === ind) {
+                btn.className = "px-2.5 py-1 text-[11px] font-semibold rounded-md bg-white shadow-xs text-blue-700";
+            } else {
+                btn.className = "px-2.5 py-1 text-[11px] font-semibold rounded-md text-slate-600 hover:text-slate-900";
+            }
+        });
+        updateChart();
+    }
+
+    function initChart() {
+        const ctx = document.getElementById('mainChart').getContext('2d');
+        const years = Object.keys(sumtabData["Jumlah Penduduk"]);
+        const labels = years.map(y => `30 Jun ${y.split('-')[0]}`);
+        const values = years.map(y => sumtabData[activeChartIndicator][y]);
+
+        chartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: activeChartIndicator,
+                    data: values,
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true, position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ` ${context.dataset.label}: ${formatNumber(context.raw)} jiwa`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value) {
+                                return (value / 1000000).toFixed(1) + ' Jt';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function updateChart() {
+        if (!chartInstance) return;
+        const years = Object.keys(sumtabData[activeChartIndicator]);
+        const values = years.map(y => sumtabData[activeChartIndicator][y]);
+
+        chartInstance.data.datasets[0].label = activeChartIndicator;
+        chartInstance.data.datasets[0].data = values;
+        
+        const color = activeChartIndicator === 'Kelahiran' ? '#059669' : (activeChartIndicator === 'Kematian' ? '#e11d48' : '#2563eb');
+        const bgColor = activeChartIndicator === 'Kelahiran' ? 'rgba(5, 150, 105, 0.1)' : (activeChartIndicator === 'Kematian' ? 'rgba(225, 29, 72, 0.1)' : 'rgba(37, 99, 235, 0.1)');
+        
+        chartInstance.data.datasets[0].borderColor = color;
+        chartInstance.data.datasets[0].backgroundColor = bgColor;
+        chartInstance.update();
+    }
+
+    // Export Excel Multi-Sheet (Nota Dinas + Hasil Interpolasi + Baseline SUMTAB1)
+    function downloadExcelResult() {
+        const wb = XLSX.utils.book_new();
+
+        // SHEET 1: Nota Dinas Summary (Includes ALL Indicators: Penduduk, Kelahiran, Kematian)
+        const nodinData = [
+            ["BADAN PUSAT STATISTIK"],
+            ["DIREKTORAT STATISTIK KEPENDUDUKAN DAN KETENAGAKERJAAN"],
+            [""],
+            ["NOTA DINAS"],
+            ["NOMOR: ND-       /04200/KS.000/2026"],
+            [""],
+            ["Yth.", ": Direktur Statistik Kesejahteraan Rakyat"],
+            ["Dari", ": Direktur Statistik Kependudukan dan Ketenagakerjaan"],
+            ["Hal", ": Penyampaian Data Interpolasi Proyeksi Penduduk, Kelahiran, dan Kematian untuk Kebutuhan DTSEN (2024–2035)"],
+            ["Tanggal", ": 18 September 2026"],
+            [""],
+            ["Menindaklanjuti Nota Dinas Direktur Statistik Kesejahteraan Rakyat Nomor: 396/04200/KS.000/2026 tanggal 7 September 2026 perihal Permohonan Proyeksi Penduduk, Kelahiran, dan Kematian untuk Kebutuhan Data Tunggal Sosial Ekonomi Nasional (DTSEN), bersama ini kami sampaikan data hasil interpolasi snapshot harian berbasis angka proyeksi resmi kondisi tengah tahun (30 Juni) rentang tahun 2024 hingga 2035 yang bersumber dari sheet SUMTAB1."],
+            [""],
+            ["RINGKASAN HASIL INTERPOLASI DATA DTSEN"],
+            ["Indikator", "Titik Snapshot Target", "Acuan T1", "Acuan T2", "Nilai T1 (Jiwa)", "Nilai T2 (Jiwa)", "Hasil Snapshot (Jiwa)"]
+        ];
+
+        // Include ALL target items across all indicators (Jumlah Penduduk, Kelahiran, Kematian)
+        targetList.forEach(item => {
+            const res = calculateInterpolation(item.indicator, item.date);
+            nodinData.push([
+                res.indicator,
+                formatDateIndo(res.targetDateStr),
+                formatDateIndo(res.keyT1),
+                formatDateIndo(res.keyT2),
+                Math.round(res.valT1),
+                Math.round(res.valT2),
+                Math.round(res.result)
+            ]);
+        });
+
+        const wsNodin = XLSX.utils.aoa_to_sheet(nodinData);
+        wsNodin['!cols'] = [{ wch: 20 }, { wch: 22 }, { wch: 18 }, { wch: 18 }, { wch: 20 }, { wch: 20 }, { wch: 24 }];
+        XLSX.utils.book_append_sheet(wb, wsNodin, "Nota Dinas");
+
+        // SHEET 2: Full Interpolation Data
+        const interpData = targetList.map((item, idx) => {
+            const res = calculateInterpolation(item.indicator, item.date);
+            return {
+                "No": idx + 1,
+                "Indikator": res.indicator,
+                "Titik Snapshot Target": formatDateIndo(res.targetDateStr),
+                "Acuan T1": formatDateIndo(res.keyT1),
+                "Acuan T2": formatDateIndo(res.keyT2),
+                "Nilai T1 (Jiwa)": res.valT1,
+                "Nilai T2 (Jiwa)": res.valT2,
+                "Pertumbuhan Delta (Jiwa)": res.delta,
+                "Jumlah Hari (dt)": res.deltaDays,
+                "Proporsi (dt/365)": Number(res.proporsi.toFixed(6)),
+                "Hasil Interpolasi Snapshot (Jiwa)": Math.round(res.result)
+            };
+        });
+
+        const wsInterp = XLSX.utils.json_to_sheet(interpData);
+        wsInterp['!cols'] = [
+            { wch: 6 }, { wch: 18 }, { wch: 24 }, { wch: 16 }, { wch: 16 }, 
+            { wch: 18 }, { wch: 18 }, { wch: 22 }, { wch: 16 }, { wch: 18 }, { wch: 28 }
+        ];
+        XLSX.utils.book_append_sheet(wb, wsInterp, "Hasil Interpolasi DTSEN");
+
+        // SHEET 3: SUMTAB1 Baseline 2024-2035
+        const years = Object.keys(sumtabData["Jumlah Penduduk"]);
+        const baselineData = years.map(yrKey => {
+            const yr = yrKey.split('-')[0];
+            return {
+                "Tahun Proyeksi": yr,
+                "Tanggal Acuan Midyear": `30 Juni ${yr}`,
+                "Jumlah Penduduk (Jiwa)": sumtabData["Jumlah Penduduk"][yrKey],
+                "Angka Kelahiran (Jiwa)": sumtabData["Kelahiran"][yrKey],
+                "Angka Kematian (Jiwa)": sumtabData["Kematian"][yrKey]
+            };
+        });
+
+        const wsBaseline = XLSX.utils.json_to_sheet(baselineData);
+        wsBaseline['!cols'] = [{ wch: 16 }, { wch: 24 }, { wch: 24 }, { wch: 24 }, { wch: 24 }];
+        XLSX.utils.book_append_sheet(wb, wsBaseline, "SUMTAB1 Baseline 2024-2035");
+
+        XLSX.writeFile(wb, "Hasil_Interpolasi_DTSEN_SUMTAB1_2024_2035.xlsx");
+    }
+
+    // Unduh Nota Dinas Resmi Format Word (.doc / .docx) Presisi Template BPS
+    function downloadWordNotaDinas() {
+        const htmlContent = `
+        <html xmlns:v="urn:schemas-microsoft-com:vml"
+              xmlns:o="urn:schemas-microsoft-com:office:office"
+              xmlns:w="urn:schemas-microsoft-com:office:word"
+              xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+              xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+            <meta charset="utf-8">
+            <title>Nota Dinas DTSEN BPS</title>
+            <!--[if gte mso 9]>
+            <xml>
+             <w:WordDocument>
+              <w:View>Print</w:View>
+              <w:Zoom>100</w:Zoom>
+              <w:DoNotOptimizeForBrowser/>
+             </w:WordDocument>
+            </xml>
+            <![endif]-->
+            <style>
+                @page WordSection1 {
+                    size: 21.0cm 29.7cm;
+                    margin: 2.54cm 2.54cm 2.54cm 2.54cm;
+                    mso-header-margin: 35.4pt;
+                    mso-footer-margin: 35.4pt;
+                    mso-paper-source: 0;
+                }
+                div.WordSection1 { page: WordSection1; }
+                body {
+                    font-family: "Arial", sans-serif;
+                    font-size: 11pt;
+                    line-height: 1.25;
+                    color: #000000;
+                }
+                p { margin: 0pt; margin-bottom: 6pt; }
+                .kop-header {
+                    text-align: center;
+                    font-weight: bold;
+                    font-size: 12pt;
+                    text-transform: uppercase;
+                }
+                .kop-sub {
+                    text-align: center;
+                    font-weight: bold;
+                    font-size: 11pt;
+                    text-transform: uppercase;
+                }
+                .hr-line {
+                    border: none;
+                    border-top: 2pt solid #000000;
+                    margin-top: 8pt;
+                    margin-bottom: 16pt;
+                }
+                .meta-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 10pt;
+                    margin-bottom: 16pt;
+                }
+                .meta-table td {
+                    padding: 3pt 0pt;
+                    vertical-align: top;
+                    font-size: 11pt;
+                }
+                .sig-block {
+                    margin-top: 30pt;
+                    float: right;
+                    width: 280pt;
+                    text-align: left;
+                    font-size: 11pt;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="WordSection1">
+                <div class="kop-header">BADAN PUSAT STATISTIK</div>
+                <div class="kop-sub">DIREKTORAT STATISTIK KEPENDUDUKAN DAN KETENAGAKERJAAN</div>
+                <div class="hr-line"></div>
+                
+                <div style="text-align: center; font-weight: bold; font-size: 12pt; margin-bottom: 2pt;">NOTA DINAS</div>
+                <div style="text-align: center; font-size: 11pt; margin-bottom: 16pt;">NOMOR: ND- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/04200/KS.000/2026</div>
+
+                <table class="meta-table">
+                    <tr><td style="width: 70pt;"><b>Yth.</b></td><td style="width: 15pt;">:</td><td>Direktur Statistik Kesejahteraan Rakyat</td></tr>
+                    <tr><td><b>Dari</b></td><td>:</td><td>Direktur Statistik Kependudukan dan Ketenagakerjaan</td></tr>
+                    <tr><td><b>Hal</b></td><td>:</td><td>Penyampaian Data Interpolasi Proyeksi Penduduk, Kelahiran, dan Kematian untuk Kebutuhan DTSEN (2024–2035)</td></tr>
+                    <tr><td><b>Tanggal</b></td><td>:</td><td>18 September 2026</td></tr>
+                </table>
+
+                <p style="text-align: justify; text-indent: 0pt; margin-bottom: 10pt;">Menindaklanjuti Nota Dinas Direktur Statistik Kesejahteraan Rakyat Nomor: 396/04200/KS.000/2026 tanggal 7 September 2026 perihal Permohonan Proyeksi Penduduk, Kelahiran, dan Kematian untuk Kebutuhan Data Tunggal Sosial Ekonomi Nasional (DTSEN), bersama ini kami sampaikan data Proyeksi Penduduk, Kelahiran, dan Kematian hasil interpolasi <i>snapshot</i> harian periode 2024–2035 yang bersumber dari sheet <b>SUMTAB1</b>.</p>
+
+                <p style="text-align: justify; margin-bottom: 12pt;">Data dapat diakses pada tautan <a href="http://s.bps.go.id/dtsen_interpolasi_2026" style="color: #0000FF; text-decoration: underline;">http://s.bps.go.id/dtsen_interpolasi_2026</a>.</p>
+
+                <p style="margin-bottom: 20pt;">Demikian kami sampaikan, atas perhatian dan kerja samanya diucapkan terima kasih.</p>
+
+                <div class="sig-block">
+                    <p style="margin-bottom: 45pt;"><b>Direktur Statistik Kependudukan<br>dan Ketenagakerjaan</b></p>
+                    <p><b>[Nama Direktur]</b><br>NIP. 19XXXXXXXXXXXXXXXX</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        `;
+
+        const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Nota_Dinas_DTSEN_2026.doc';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+    function copyToClipboardTable() {
+        let text = "TABEL HASIL INTERPOLASI SNAPSHOT DTSEN (Sumber: SUMTAB1 2024-2035)\n";
+        text += "Indikator\tSnapshot Target\tT1 (30 Jun)\tT2 (30 Jun)\tNilai T1\tNilai T2\tHari (dt)\tHasil Snapshot (Jiwa)\n";
+        
+        targetList.forEach(item => {
+            const res = calculateInterpolation(item.indicator, item.date);
+            text += `${res.indicator}\t${formatDateIndo(res.targetDateStr)}\t${formatDateIndo(res.keyT1)}\t${formatDateIndo(res.keyT2)}\t${formatNumber(res.valT1)}\t${formatNumber(res.valT2)}\t${res.deltaDays}\t${formatNumber(res.result)}\n`;
+        });
+
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Teks Nota Dinas & Tabel berhasil disalin ke clipboard! Siap ditempel di Word/Nota Dinas.");
+        });
+    }
+
+    window.onload = function() {
+        if (window.lucide) lucide.createIcons();
+        renderBaselineTable();
+        renderTable();
+        calculateSingle();
+        initChart();
+    };
+</script>
+
+</body>
+</html>
