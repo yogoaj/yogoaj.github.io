@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Magic — Prompt Builder</title>
+<title>Dashboard Magic — Prompt Builder (Mini Class · Mastery 1 · Mastery 2)</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -11,25 +11,191 @@
     background: #F4F7FB; color: #172033;
     margin: 0; padding: 20px; line-height: 1.5;
   }
-  .container { max-width: 820px; margin: 0 auto; }
+  .container { max-width: 860px; margin: 0 auto; }
 
+  /* HEADER */
   .header {
     background: linear-gradient(135deg, #111C36 0%, #1B2B52 100%);
-    color: #fff; border-radius: 16px; padding: 24px 28px; margin-bottom: 24px;
+    color: #fff; border-radius: 16px; padding: 24px 28px; margin-bottom: 20px;
+    transition: background .3s ease;
+  }
+  .header.tier-m1 {
+    background: linear-gradient(135deg, #0F172A 0%, #0D9488 100%);
+  }
+  .header.tier-m2 {
+    background: linear-gradient(135deg, #1E1B4B 0%, #6D28D9 55%, #DB2777 100%);
+  }
+  .header-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-wrap: wrap; gap: 12px;
   }
   .header .eyebrow {
     font-size: 11px; letter-spacing: .18em; font-weight: 800;
     color: #7C9BF5; margin-bottom: 6px;
   }
+  .header.tier-m1 .eyebrow { color: #5EEAD4; }
+  .header.tier-m2 .eyebrow { color: #DDD6FE; }
   .header h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: -.5px; }
-  .header p { margin: 0; font-size: 13px; opacity: .8; }
+  .header p { margin: 0; font-size: 13px; opacity: .85; }
 
+  .auth-status-bar {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-lock-reset {
+    background: rgba(255,255,255,0.14); color: #fff;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700;
+    cursor: pointer; transition: .2s; display: none;
+  }
+  .btn-lock-reset:hover { background: rgba(255,255,255,0.25); }
+
+  /* ROADMAP PILLS */
+  .roadmap-bar {
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    margin-top: 16px; padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.14);
+  }
+  .rm-step {
+    font-size: 10px; font-weight: 800; letter-spacing: .04em;
+    padding: 4px 10px; border-radius: 100px;
+    background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.65);
+    transition: .2s;
+  }
+  .rm-step.active {
+    background: #fff; color: #0F172A;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .rm-arrow { font-size: 10px; opacity: .45; }
+
+  /* TIER SELECTOR TABS */
+  .tier-selector {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin-bottom: 22px;
+  }
+  .tier-card {
+    background: #fff; border: 2px solid #E2E8F0; border-radius: 14px;
+    padding: 16px; cursor: pointer; transition: .2s ease;
+    position: relative; overflow: hidden;
+    box-shadow: 0 4px 12px rgba(15,23,42,.03);
+  }
+  .tier-card:hover { border-color: #94A3B8; transform: translateY(-2px); }
+  .tier-card-top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px; gap: 6px;
+  }
+  .tier-card .tier-badge {
+    display: inline-block; font-size: 10px; font-weight: 800;
+    padding: 3px 9px; border-radius: 100px;
+    letter-spacing: .05em;
+  }
+  .tier-card.t-mini .tier-badge { background: #EEF4FF; color: #4F7DF3; }
+  .tier-card.t-m1 .tier-badge { background: #CCFBF1; color: #0F766E; }
+  .tier-card.t-m2 .tier-badge { background: #F3E8FF; color: #7C3AED; }
+
+  .lock-pill {
+    font-size: 10px; font-weight: 800; padding: 3px 8px;
+    border-radius: 100px; display: inline-flex; align-items: center; gap: 4px;
+  }
+  .lock-pill.locked { background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; }
+  .lock-pill.unlocked { background: #ECFDF3; color: #16A34A; border: 1px solid #BBF7D0; }
+
+  .tier-card.selected.t-mini {
+    border-color: #4F7DF3; background: #F5F9FF;
+    box-shadow: 0 8px 20px rgba(79,125,243,.15);
+  }
+  .tier-card.selected.t-m1 {
+    border-color: #0D9488; background: #F0FDFA;
+    box-shadow: 0 8px 20px rgba(13,148,136,.15);
+  }
+  .tier-card.selected.t-m2 {
+    border-color: #7C3AED; background: #FAF5FF;
+    box-shadow: 0 8px 20px rgba(124,58,237,.15);
+  }
+  .tier-title { font-size: 15px; font-weight: 800; color: #0F172A; margin-bottom: 4px; }
+  .tier-sub { font-size: 11.5px; color: #64748B; line-height: 1.4; margin-bottom: 8px; }
+  .tier-checks {
+    font-size: 11px; color: #334155; font-weight: 600;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+
+  /* PASSWORD MODAL */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    display: none; place-items: center;
+    z-index: 1000; padding: 20px;
+  }
+  .modal-backdrop.show { display: grid; }
+  .modal-box {
+    background: #fff; width: 100%; max-width: 420px;
+    border-radius: 18px; padding: 26px 24px;
+    box-shadow: 0 20px 50px rgba(15,23,42,0.3);
+    border: 1px solid #E2E8F0;
+    animation: popIn .2s ease-out;
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.95) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: #EEF4FF; color: #4F7DF3;
+    display: grid; place-items: center; font-size: 24px;
+    margin-bottom: 14px;
+  }
+  .modal-icon.m1 { background: #CCFBF1; color: #0D9488; }
+  .modal-icon.m2 { background: #F3E8FF; color: #7C3AED; }
+  .modal-title { font-size: 18px; font-weight: 800; color: #0F172A; margin: 0 0 6px; }
+  .modal-desc { font-size: 12.5px; color: #64748B; margin: 0 0 18px; line-height: 1.5; }
+  .pass-input-wrap { position: relative; margin-bottom: 10px; }
+  .pass-input-wrap input {
+    width: 100%; padding: 12px 42px 12px 14px;
+    border: 1.5px solid #CBD5E1; border-radius: 10px;
+    font-size: 14px; font-weight: 700; letter-spacing: .05em;
+    outline: none; transition: .2s;
+  }
+  .pass-input-wrap input:focus {
+    border-color: #4F7DF3; box-shadow: 0 0 0 3px rgba(79,125,243,.15);
+  }
+  .pass-toggle {
+    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; font-size: 16px; cursor: pointer; opacity: .6;
+  }
+  .pass-toggle:hover { opacity: 1; }
+  .modal-err {
+    font-size: 11.5px; color: #DC2626; font-weight: 700;
+    margin-bottom: 12px; display: none;
+  }
+  .modal-actions {
+    display: grid; grid-template-columns: 1fr 1.3fr; gap: 10px; margin-top: 16px;
+  }
+  .modal-btn {
+    padding: 11px 16px; border-radius: 10px; font-size: 13px; font-weight: 800;
+    cursor: pointer; border: none; transition: .2s;
+  }
+  .modal-btn.cancel { background: #F1F5F9; color: #475569; }
+  .modal-btn.cancel:hover { background: #E2E8F0; }
+  .modal-btn.submit { background: #4F7DF3; color: #fff; }
+  .modal-btn.submit.m1 { background: #0D9488; }
+  .modal-btn.submit.m2 { background: #7C3AED; }
+  .modal-btn.submit:hover { opacity: .92; }
+
+  /* INTRO */
   .intro {
     background: #FFF7E8; border-left: 4px solid #F59E0B;
     border-radius: 8px; padding: 14px 18px; margin-bottom: 24px;
     font-size: 12.5px; color: #6B4A0E;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
   }
+  .btn-demo {
+    background: #FEF3C7; border: 1px solid #F59E0B; color: #92400E;
+    padding: 6px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700;
+    cursor: pointer; transition: .2s;
+  }
+  .btn-demo:hover { background: #FDE68A; }
 
+  /* STEPS */
   .step {
     background: #fff; border: 1px solid #E4EAF2; border-radius: 14px;
     padding: 18px 22px; margin-bottom: 16px;
@@ -39,6 +205,14 @@
     border: 2px solid #4F7DF3;
     box-shadow: 0 6px 20px rgba(79,125,243,.12);
   }
+  .step.m1-box {
+    border: 1.5px solid #99F6E4;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F0FDFA 100%);
+  }
+  .step.m2-box {
+    border: 1.5px solid #DDD6FE;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FAF5FF 100%);
+  }
   .step-head {
     display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
     flex-wrap: wrap;
@@ -46,10 +220,12 @@
   .step-num {
     background: #4F7DF3; color: #fff; width: 28px; height: 28px;
     border-radius: 8px; display: grid; place-items: center;
-    font-weight: 800; font-size: 13px; flex-shrink: 0;
+    font-weight: 800; font-size: 12.5px; flex-shrink: 0;
   }
   .step-num.optional { background: #94A3B8; }
   .step-num.highlight { background: #7C3AED; }
+  .step-num.m1 { background: #0D9488; }
+  .step-num.m2 { background: linear-gradient(135deg, #7C3AED, #DB2777); }
   .step-title { font-size: 15px; font-weight: 800; letter-spacing: -.2px; flex: 1; }
 
   .badge {
@@ -61,6 +237,8 @@
   .badge.limit5 { background: #FFF7E8; color: #D97706; }
   .badge.optional { background: #F1F5F9; color: #64748B; }
   .badge.wajib { background: #FEF2F2; color: #DC2626; }
+  .badge.m1-badge { background: #CCFBF1; color: #0F766E; }
+  .badge.m2-badge { background: #F3E8FF; color: #7C3AED; }
 
   .step-hint {
     font-size: 11.5px; color: #7A879B; margin-bottom: 10px;
@@ -73,9 +251,12 @@
     border-radius: 6px; padding: 10px 14px;
     font-size: 11.5px; color: #2C4270; margin: 10px 0 12px 40px;
   }
+  .info-note.teal { background: #CCFBF1; border-left-color: #0D9488; color: #115E59; }
+  .info-note.purple { background: #F3E8FF; border-left-color: #7C3AED; color: #5B21B6; }
   .info-note strong { color: #1A2B52; }
 
-  input[type="text"], textarea, select {
+  /* INPUTS */
+  input[type="text"], input[type="password"], textarea, select {
     width: 100%; padding: 10px 12px;
     border: 1px solid #DDE4EE; border-radius: 10px;
     font-size: 13px; font-family: inherit; outline: none;
@@ -96,6 +277,7 @@
   .field-label .req { color: #EF4444; }
   .field-label .opt { color: #94A3B8; font-weight: 600; }
 
+  /* CHIPS */
   .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip {
     padding: 8px 14px; border: 1.5px solid #DDE4EE;
@@ -104,11 +286,11 @@
     user-select: none;
   }
   .chip:hover { border-color: #9CB8FF; }
-  .chip.selected {
-    background: #4F7DF3; border-color: #4F7DF3; color: #fff;
-  }
+  .chip.selected { background: #4F7DF3; border-color: #4F7DF3; color: #fff; }
+  .chip.teal.selected { background: #0D9488; border-color: #0D9488; color: #fff; }
+  .chip.purple.selected { background: #7C3AED; border-color: #7C3AED; color: #fff; }
 
-  /* Mode selector khusus */
+  /* MODE SELECTOR */
   .mode-group {
     display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
   }
@@ -128,17 +310,19 @@
     background: #EEF4FF;
     box-shadow: 0 4px 12px rgba(79,125,243,.15);
   }
-  .mode-card .mode-icon {
-    font-size: 22px; display: block; margin-bottom: 4px;
-  }
-  .mode-card .mode-name {
-    font-size: 12.5px; font-weight: 800; color: #1A2B52; margin-bottom: 3px;
-  }
-  .mode-card .mode-desc {
-    font-size: 10.5px; color: #7A879B; line-height: 1.3;
-  }
+  .mode-card .mode-icon { font-size: 22px; display: block; margin-bottom: 4px; }
+  .mode-card .mode-name { font-size: 12.5px; font-weight: 800; color: #1A2B52; margin-bottom: 3px; }
+  .mode-card .mode-desc { font-size: 10.5px; color: #7A879B; line-height: 1.3; }
   .mode-card.selected .mode-name { color: #4F7DF3; }
 
+  /* TIER SECTIONS */
+  .tier-section { display: none; }
+  .tier-section.active { display: block; }
+
+  .toolbar-inline {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 8px; margin-top: 8px;
+  }
   .counter {
     display: flex; align-items: center; gap: 8px;
     font-size: 11px; font-weight: 700;
@@ -151,6 +335,14 @@
   .counter.warn .pill { background: #FFF7E8; color: #D97706; }
   .counter.ok .pill { background: #ECFDF3; color: #16A34A; }
 
+  .btn-helper {
+    background: #EEF4FF; color: #4F7DF3; border: 1px solid #C7D7FE;
+    padding: 5px 10px; border-radius: 8px; font-size: 11px; font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-helper:hover { background: #DCE8FF; }
+
+  /* BUTTONS */
   .btn {
     display: block; width: 100%; padding: 16px;
     background: #4F7DF3; color: #fff; border: none;
@@ -161,6 +353,8 @@
   .btn.secondary { background: #fff; color: #172033; border: 1.5px solid #DDE4EE; }
   .btn.purple { background: #7C3AED; }
   .btn.purple:hover { background: #6D28D9; }
+  .btn.teal { background: #0D9488; }
+  .btn.teal:hover { background: #0F766E; }
 
   /* OUTPUT */
   .output {
@@ -202,6 +396,7 @@
   }
   .prompt-block-head button.copy-llm { background: #4F7DF3; }
   .prompt-block-head button.copy-stitch { background: #7C3AED; }
+  .prompt-block-head button.dl-btn { background: #334155; }
   .prompt-block-head button:hover { opacity: .9; }
 
   .prompt-block pre {
@@ -244,7 +439,7 @@
     border-radius: 10px; font-size: 12.5px; font-weight: 600;
     opacity: 0; transform: translateY(10px); transition: .25s ease;
     pointer-events: none;
-    z-index: 999;
+    z-index: 1100;
   }
   .toast.show { opacity: 1; transform: translateY(0); }
 
@@ -254,6 +449,8 @@
     font-size: 11px; font-weight: 800; letter-spacing: .18em;
     color: #7A879B; text-transform: uppercase;
   }
+  .divider-title.teal { color: #0F766E; }
+  .divider-title.purple { color: #6D28D9; }
   .divider-title::before,
   .divider-title::after {
     content: ''; flex: 1; height: 1px; background: #DDE4EE;
@@ -270,7 +467,8 @@
   .footer a:hover { text-decoration: underline; }
   .footer .dot { display: inline-block; margin: 0 6px; color: #CBD5E1; }
 
-  @media (max-width: 640px) {
+  @media (max-width: 720px) {
+    .tier-selector { grid-template-columns: 1fr; }
     .row { grid-template-columns: 1fr; }
     .info-note { margin-left: 0; }
     .step-hint { padding-left: 0; }
@@ -282,16 +480,92 @@
 <body>
 <div class="container">
 
-  <div class="header">
-    <div class="eyebrow">DASHBOARD MAGIC · MINI CLASS</div>
-    <h1>Prompt Builder</h1>
-    <p>Isi kotak di bawah — prompt Anda otomatis terbentuk</p>
+  <!-- HEADER DINAMIS SESUAI LEVEL KELAS -->
+  <div class="header" id="mainHeader">
+    <div class="header-top">
+      <div>
+        <div class="eyebrow" id="headerEyebrow">DASHBOARD MAGIC · MINI CLASS</div>
+        <h1 id="headerTitle">Prompt Builder</h1>
+        <p id="headerDesc">Isi kotak di bawah — prompt Anda otomatis terbentuk</p>
+      </div>
+      <div class="auth-status-bar">
+        <button type="button" class="btn-lock-reset" id="btnLockReset" onclick="lockAllMastery()" title="Kunci kembali akses Mastery">🔒 Kunci Akses Mastery</button>
+      </div>
+    </div>
+
+    <!-- Roadmap 01 - 08 -->
+    <div class="roadmap-bar" id="roadmapBar">
+      <span class="rm-step active" data-tier="miniclass">01 MINI CLASS</span>
+      <span class="rm-arrow">→</span>
+      <span class="rm-step active" data-tier="miniclass">02 DASHBOARD</span>
+      <span class="rm-arrow">→</span>
+      <span class="rm-step" data-tier="mastery1">03 CRUD</span>
+      <span class="rm-arrow">→</span>
+      <span class="rm-step" data-tier="mastery1">04 DATABASE</span>
+      <span class="rm-arrow">→</span>
+      <span class="rm-step" data-tier="mastery1">05 LOGIN</span>
+      <span class="rm-arrow">→</span>
+      <span class="rm-step" data-tier="mastery2">06 AI INSIGHT</span>
+      <span class="rm-arrow">→</span>
+      <span class="rm-step" data-tier="mastery2">07 AI ASSISTANT</span>
+      <span class="rm-arrow">→</span>
+      <span class="rm-step" data-tier="mastery2">08 AUTO REPORT</span>
+    </div>
+  </div>
+
+  <!-- PILIH LEVEL KELAS (MINI CLASS vs MASTERY 1 vs MASTERY 2) -->
+  <div class="divider-title" style="margin-top: 10px;">Pilih Level Kelas Anda</div>
+  <div class="tier-selector" id="tierSelector">
+    <div class="tier-card t-mini selected" data-tier="miniclass">
+      <div class="tier-card-top">
+        <span class="tier-badge">STEP 01 – 02</span>
+        <span class="lock-pill unlocked">🔓 Terbuka</span>
+      </div>
+      <div class="tier-title">🎓 Mini Class</div>
+      <div class="tier-sub">Bangun dashboard visualisasi interaktif pertama dari data Google Sheets.</div>
+      <div class="tier-checks">
+        <span>✓ KPI Cards & Chart.js</span>
+        <span>✓ Filter & Tabel Data</span>
+        <span>✓ 4 File Modular GAS</span>
+      </div>
+    </div>
+
+    <div class="tier-card t-m1" data-tier="mastery1">
+      <div class="tier-card-top">
+        <span class="tier-badge">MASTERY 1 · STEP 03 – 05</span>
+        <span class="lock-pill locked" id="lockPillM1">🔒 Member</span>
+      </div>
+      <div class="tier-title">⚙️ Dashboard Engine</div>
+      <div class="tier-sub">Bangun sistem dashboard yang lengkap, aman, dan siap digunakan.</div>
+      <div class="tier-checks">
+        <span>✓ CRUD & Database Design</span>
+        <span>✓ Form, Input & Validation</span>
+        <span>✓ Multi-User, Login & Permission</span>
+      </div>
+    </div>
+
+    <div class="tier-card t-m2" data-tier="mastery2">
+      <div class="tier-card-top">
+        <span class="tier-badge">MASTERY 2 · STEP 06 – 08</span>
+        <span class="lock-pill locked" id="lockPillM2">🔒 Member</span>
+      </div>
+      <div class="tier-title">✨ Intelligent Dashboard</div>
+      <div class="tier-sub">Manfaatkan AI untuk analisis yang lebih dalam dan otomatis.</div>
+      <div class="tier-checks">
+        <span>✓ AI Insight Otomatis</span>
+        <span>✓ AI Data Assistant & NLQ</span>
+        <span>✓ PDF / Word / Excel Generator</span>
+      </div>
+    </div>
   </div>
 
   <div class="intro">
-    <strong>💡 Cara pakai:</strong> Isi kotak bertanda wajib (<span style="color:#EF4444">*</span>).
-    Yang opsional boleh dikosongkan. Di akhir, pilih <strong>Mode Output</strong> —
-    mau prompt untuk LLM, untuk Google Stitch, atau keduanya.
+    <div>
+      <strong>💡 Cara pakai:</strong> Isi kotak bertanda wajib (<span style="color:#EF4444">*</span>).
+      Yang opsional boleh dikosongkan. Di akhir, pilih <strong>Mode Output</strong> —
+      mau prompt untuk LLM, untuk Google Stitch, atau keduanya.
+    </div>
+    <button type="button" class="btn-demo" onclick="loadSampleForCurrentTier()">🎲 Isi Contoh Data</button>
   </div>
 
   <!-- ============ BAGIAN A: DATA ============ -->
@@ -369,9 +643,12 @@ Metode_Survei
 Periode
 Catatan_Tambahan"></textarea>
 
-    <div class="counter" id="counterCols">
-      <span class="pill">0 kolom terdeteksi</span>
-      <span class="status"></span>
+    <div class="toolbar-inline">
+      <div class="counter" id="counterCols">
+        <span class="pill">0 kolom terdeteksi</span>
+        <span class="status"></span>
+      </div>
+      <button type="button" class="btn-helper" onclick="autoSplitHeader()">✨ Rapikan Header (Tab/Koma → Baris)</button>
     </div>
   </div>
 
@@ -461,6 +738,198 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
     </div>
   </div>
 
+  <!-- =========================================================================
+       MODUL KHUSUS MASTERY 1: DASHBOARD ENGINE (STEP 03 CRUD, 04 DB, 05 LOGIN)
+       ========================================================================= -->
+  <div class="tier-section" id="sectionMastery1">
+    <div class="divider-title teal">Bagian Khusus Mastery 1 · Dashboard Engine (CRUD, Database, & Login)</div>
+
+    <!-- M1.1: CRUD & FORM INPUT -->
+    <div class="step m1-box">
+      <div class="step-head">
+        <div class="step-num m1">M1.1</div>
+        <div class="step-title">CRUD (Create, Read, Update, Delete) & Form Input Data</div>
+        <div class="badge m1-badge">STEP 03 · CRUD</div>
+      </div>
+      <div class="step-hint">
+        Konfigurasikan bagaimana pengguna menambah, mengedit, dan menghapus data beserta validasinya.
+      </div>
+      <div class="row" style="margin-bottom: 12px;">
+        <div>
+          <label class="field-label">Kolom Primary Key / ID Unik <span class="opt">(acuan Update & Delete)</span></label>
+          <input type="text" id="m1IdCol" placeholder="Contoh: Transaction_ID / Responden_ID (Otomatis jika kosong)">
+        </div>
+        <div>
+          <label class="field-label">Kolom Status <span class="opt">(untuk Badge Active/Pending di Tabel)</span></label>
+          <input type="text" id="m1StatusCol" placeholder="Contoh: Status (Active, Pending, Completed)">
+        </div>
+      </div>
+      <label class="field-label">Fitur CRUD, Form & Validation yang Diaktifkan:</label>
+      <div class="chip-group" id="chipM1Crud">
+        <div class="chip teal selected" data-value="Full CRUD (Create, Read, Update, Delete) terhubung langsung ke Google Sheets">Full CRUD Operations</div>
+        <div class="chip teal selected" data-value="Form & Input Data interaktif (mendukung text, angka, tanggal, & dropdown kategori otomatis)">Form & Input Data</div>
+        <div class="chip teal selected" data-value="Validation & Error Handling berlapis di sisi Client (JS) dan Server (Code.gs + LockService)">Validation & Error Handling</div>
+        <div class="chip teal selected" data-value="Auto-Generate ID unik & Timestamp (created_at, updated_at)">Auto-ID & Timestamp</div>
+        <div class="chip teal selected" data-value="Tabel Data lengkap dengan Search, Filter, Pagination, & Tombol Aksi Edit/Hapus">Tabel Data Interaktif</div>
+        <div class="chip teal" data-value="Soft Delete (data yang dihapus ditandai tanpa merusak histori)">Soft Delete Aman</div>
+      </div>
+    </div>
+
+    <!-- M1.2: DATABASE DESIGN & SIDEBAR ARCHITECTURE -->
+    <div class="step m1-box">
+      <div class="step-head">
+        <div class="step-num m1">M1.2</div>
+        <div class="step-title">Database Design & Struktur Navigasi Aplikasi</div>
+        <div class="badge m1-badge">STEP 04 · DATABASE</div>
+      </div>
+      <div class="step-hint">
+        Di Mastery 1, Google Sheets dirancang sebagai sistem database multi-sheet dengan navigasi sidebar lengkap.
+      </div>
+      <div class="info-note teal" style="margin-left:0;">
+        <strong>🗄️ Arsitektur Database Engine:</strong> Prompt akan menginstruksikan pembuatan fungsi otomatis <code>setupDatabase()</code> di <code>Code.gs</code> untuk menginisialisasi tab Sheet yang dibutuhkan jika belum tersedia.
+      </div>
+      <label class="field-label">Skema Tabel / Sheet Database & Menu Sidebar:</label>
+      <div class="chip-group" id="chipM1Db">
+        <div class="chip teal selected" data-value="Sidebar Navigation dengan 5 menu: Overview (Dashboard), Data (Tabel CRUD), Form (Input Baru), Users (Manajemen Akun), dan Settings">Sidebar 5 Menu (Overview, Data, Form, Users, Settings)</div>
+        <div class="chip teal selected" data-value="Sheet DATA (menyimpan transaksi/record utama beserta metadata ID & timestamp)">Sheet DATA Utama</div>
+        <div class="chip teal selected" data-value="Sheet USERS (menyimpan daftar pengguna: user_id, username/email, password/pin, nama, role, status)">Sheet USERS</div>
+        <div class="chip teal selected" data-value="Sheet SETTINGS (menyimpan konfigurasi aplikasi & master pilihan dropdown)">Sheet SETTINGS</div>
+        <div class="chip teal" data-value="Sheet AUDIT_LOGS (mencatat histori siapa yang menambah, mengubah, atau menghapus data beserta waktunya)">Sheet AUDIT_LOGS</div>
+      </div>
+    </div>
+
+    <!-- M1.3: MULTI-USER ACCESS, LOGIN & PERMISSION -->
+    <div class="step m1-box">
+      <div class="step-head">
+        <div class="step-num m1">M1.3</div>
+        <div class="step-title">Multi-User Access, Login & Permission</div>
+        <div class="badge m1-badge">STEP 05 · LOGIN</div>
+      </div>
+      <div class="step-hint">
+        Atur sistem keamanan login dan pembagian hak akses (Role-Based Access Control).
+      </div>
+      <div class="row" style="margin-bottom: 12px;">
+        <div>
+          <label class="field-label">Metode Login / Autentikasi</label>
+          <select id="m1AuthMethod">
+            <option value="Custom Login Page (Username/Email & Password/PIN divalidasi ke Sheet USERS)">Halaman Login Kustom (Username & Password di Sheet USERS)</option>
+            <option value="Google Workspace Email Detection (Session.getActiveUser().getEmail() dicocokkan dengan Sheet USERS)">Deteksi Email Google Otomatis (SSO Google Account)</option>
+            <option value="Hybrid (Bisa Login Form Username/Password + Tombol Quick Demo Login Admin/Staff/Viewer)">Hybrid Login + Tombol Quick Demo Login</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Pembagian Hak Akses (Role & Permission)</label>
+          <select id="m1RoleConfig">
+            <option value="3 Role: Admin (Full CRUD + Kelola Users & Settings), Editor/Staff (Tambah & Edit Data), Viewer (Hanya Lihat Overview & Data)">3 Role: Admin, Editor/Staff, & Viewer</option>
+            <option value="2 Role: Admin (Full Akses CRUD & Settings) dan Viewer/Tamu (Hanya Lihat Dashboard)">2 Role: Admin & Viewer</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODUL KHUSUS MASTERY 2: INTELLIGENT DASHBOARD (STEP 06 AI, 07 ASSISTANT, 08 REPORT)
+       ========================================================================= -->
+  <div class="tier-section" id="sectionMastery2">
+    <div class="divider-title purple">Bagian Khusus Mastery 2 · Intelligent Dashboard (AI Insight, AI Assistant, Auto Report)</div>
+
+    <!-- PILIHAN MODE INTEGRASI MASTERY 2 -->
+    <div class="step m2-box">
+      <div class="step-head">
+        <div class="step-num m2">M2.0</div>
+        <div class="step-title">Mode Pembangunan Mastery 2</div>
+        <div class="badge m2-badge">ARSITEKTUR</div>
+      </div>
+      <div class="step-hint">
+        Apakah Anda ingin membangun aplikasi lengkap dari nol, atau menambahkan fitur Mastery 2 ke sistem Mastery 1?
+      </div>
+      <select id="m2BuildScope">
+        <option value="Bangun Sistem Utuh (Dashboard + CRUD/Database Engine + AI Insight + AI Data Assistant + Auto Report Generator)">Bangun Sistem Utuh (Dashboard + CRUD + AI Insight + AI Assistant + Auto Report)</option>
+        <option value="Fokus Modul Intelligent Dashboard (Dashboard + AI Insight + AI Data Assistant NLQ + PDF/Word/Excel Generator)">Fokus Modul Intelligent Dashboard (Dashboard + AI Insight + AI Assistant + Auto Report)</option>
+      </select>
+    </div>
+
+    <!-- M2.1: AI INSIGHT -->
+    <div class="step m2-box">
+      <div class="step-head">
+        <div class="step-num m2">M2.1</div>
+        <div class="step-title">AI Insight (Analisis Otomatis & Rekomendasi)</div>
+        <div class="badge m2-badge">STEP 06 · AI INSIGHT</div>
+      </div>
+      <div class="step-hint">
+        Hasilkan ringkasan eksekutif otomatis (seperti tren kenaikan MoM, kategori paling dominan, dan rekomendasi aksi).
+      </div>
+      <div class="row" style="margin-bottom: 12px;">
+        <div>
+          <label class="field-label">Engine AI yang Digunakan</label>
+          <select id="m2AiEngine">
+            <option value="Google Gemini API (via UrlFetchApp di Code.gs) + Smart Statistical Fallback (tetap jalan meski tanpa API Key)">Google Gemini API + Smart Statistical Fallback (Rekomendasi)</option>
+            <option value="Google Gemini API Murni (gemini-2.5-flash via PropertiesService GEMINI_API_KEY)">Google Gemini API Murni (UrlFetchApp)</option>
+            <option value="Smart Statistical Rule-Based Engine (Analisis tren, MoM, dominasi kategori & anomali otomatis tanpa API Key)">Smart Rule-Based Engine (100% Gratis Tanpa API Key)</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Gaya Bahasa & Persona Analisis AI</label>
+          <select id="m2AiPersona">
+            <option value="Analis Eksekutif & Konsultan Bisnis (fokus pada tren MoM/pertumbuhan, kontribusi dominan %, dan rekomendasi praktis)">Analis Eksekutif (Tren %, Dominasi Kategori, & Rekomendasi)</option>
+            <option value="Peneliti / Analis Statistik (fokus pada rata-rata, distribusi, korelasi, dan deteksi outlier/anomali)">Analis Statistik & Riset Data</option>
+            <option value="Auditor Operasional (fokus pada kepatuhan target, bottleneck, dan peringatan dini)">Auditor Operasional & Evaluasi</option>
+          </select>
+        </div>
+      </div>
+      <label class="field-label">Poin Analisis yang Wajib Muncul di Card "✨ AI Insight":</label>
+      <div class="chip-group" id="chipM2Insight">
+        <div class="chip purple selected" data-value="Analisis Tren & Pertumbuhan (contoh: meningkat/menurun X% MoM dibanding periode sebelumnya)">Tren & Pertumbuhan (MoM / Periode)</div>
+        <div class="chip purple selected" data-value="Identifikasi Kategori / Segmen Paling Dominan beserta persentasenya (contoh: Kategori X paling dominan 42%)">Kategori Paling Dominan (%)</div>
+        <div class="chip purple selected" data-value="Deteksi Anomali / Nilai Kritis yang butuh perhatian segera">Deteksi Anomali / Peringatan</div>
+        <div class="chip purple selected" data-value="Rekomendasi Strategis & Tindakan Konkret berdasarkan temuan data">Rekomendasi Strategis Otomatis</div>
+      </div>
+    </div>
+
+    <!-- M2.2: AI DATA ASSISTANT & NATURAL LANGUAGE QUERY -->
+    <div class="step m2-box">
+      <div class="step-head">
+        <div class="step-num m2">M2.2</div>
+        <div class="step-title">AI Data Assistant & Natural Language Query (NLQ)</div>
+        <div class="badge m2-badge">STEP 07 · AI ASSISTANT</div>
+      </div>
+      <div class="step-hint">
+        Pengguna bisa mengetik perintah bahasa sehari-hari (misal: <em>"Tolong analisis tren penjualan 3 bulan terakhir dan berikan rekomendasi"</em>).
+      </div>
+      <div class="chip-group" id="chipM2Assistant" style="margin-bottom: 12px;">
+        <div class="chip purple selected" data-value="Chatbox AI Data Assistant interaktif dengan riwayat percakapan (user bubble & AI response card)">Chatbox AI Data Assistant</div>
+        <div class="chip purple selected" data-value="Natural Language Query (NLQ): AI menerjemahkan pertanyaan bahasa manusia menjadi filter/agregasi data aktual">Natural Language Query (NLQ)</div>
+        <div class="chip purple selected" data-value="Tombol Quick Prompt Chips (pertanyaan instan siap klik di atas kolom chat)">Quick Prompt Suggestion Chips</div>
+        <div class="chip purple" data-value="Kemampuan menyalin jawaban AI atau memasukkannya langsung ke draf laporan">Insert Jawaban AI ke Laporan</div>
+      </div>
+      <label class="field-label">Contoh Pertanyaan Default (Quick Prompt) di AI Assistant Anda <span class="opt">(Opsional)</span>:</label>
+      <input type="text" id="m2SampleQuery" placeholder="Contoh: Tolong analisis tren penjualan 3 bulan terakhir dan berikan rekomendasi.">
+    </div>
+
+    <!-- M2.3: AUTO REPORT GENERATOR (PDF / WORD / EXCEL) -->
+    <div class="step m2-box">
+      <div class="step-head">
+        <div class="step-num m2">M2.3</div>
+        <div class="step-title">Auto Report Generator (PDF / Word / Excel)</div>
+        <div class="badge m2-badge">STEP 08 · AUTO REPORT</div>
+      </div>
+      <div class="step-hint">
+        Sediakan tombol ekspor satu-klik untuk mengunduh laporan lengkap (Ringkasan KPI + Tabel Data + Narasi AI Insight).
+      </div>
+      <div class="info-note purple" style="margin-left:0;">
+        <strong>📄 Multi-Format Export:</strong> Pengguna dapat mengekspor hasil analisis dan data ke dalam 3 format dokumen: <strong>📕 PDF</strong>, <strong>📘 Word (.doc/.docx)</strong>, dan <strong>📗 Excel (.xlsx/.csv)</strong>.
+      </div>
+      <label class="field-label">Format Dokumen & Isi Auto Report yang Diinginkan:</label>
+      <div class="chip-group" id="chipM2Report">
+        <div class="chip purple selected" data-value="Tombol Export PDF (Laporan eksekutif rapi siap cetak berisi KPI, Grafik, Narasi AI Insight, & Tabel)">📕 PDF Report Generator</div>
+        <div class="chip purple selected" data-value="Tombol Export Word (.doc/.docx) (Dokumen laporan naratif berisi Hasil AI Insight, Rekomendasi, & Tabel Ringkasan yang bisa diedit di MS Word)">📘 Word (.doc/.docx) Generator</div>
+        <div class="chip purple selected" data-value="Tombol Export Excel (.xlsx/.csv) (Sheet data terfilter + ringkasan statistik)">📗 Excel (.xlsx) Generator</div>
+        <div class="chip purple selected" data-value="Sertakan otomatis hasil AI Insight & Rekomendasi terbaru di halaman pertama laporan">Sertakan Narasi AI Insight di Laporan</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ============ BAGIAN C: KONEKSI & VISUAL ============ -->
   <div class="divider-title">Bagian C · Koneksi & Tampilan</div>
 
@@ -541,7 +1010,7 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
     </div>
 
     <div class="mode-group" id="modeGroup">
-      <div class="mode-card" data-value="llm">
+      <div class="mode-card selected" data-value="llm">
         <span class="mode-icon">🔷</span>
         <div class="mode-name">LLM</div>
         <div class="mode-desc">Kode 4 file lengkap<br>(Code.gs, Index, CSS, JS)</div>
@@ -564,7 +1033,7 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
   <!-- OUTPUT -->
   <div class="output" id="output">
     <div class="output-head">
-      <h3>✅ Prompt Anda Siap</h3>
+      <h3 id="outputTitle">✅ Prompt Anda Siap</h3>
     </div>
     <div class="output-info" id="outputInfo"></div>
 
@@ -572,7 +1041,10 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
     <div class="prompt-block" id="blockLlm" style="display:none;">
       <div class="prompt-block-head">
         <span class="prompt-block-label llm">🔷 PROMPT UNTUK LLM (ChatGPT / Claude / Gemini)</span>
-        <button class="copy-llm" onclick="copyBlock('llm')">📋 Copy</button>
+        <div style="display:flex; gap:6px;">
+          <button class="dl-btn" onclick="downloadBlock('llm')">💾 .TXT</button>
+          <button class="copy-llm" onclick="copyBlock('llm')">📋 Copy</button>
+        </div>
       </div>
       <pre id="promptLlm"></pre>
     </div>
@@ -581,7 +1053,10 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
     <div class="prompt-block" id="blockStitch" style="display:none;">
       <div class="prompt-block-head">
         <span class="prompt-block-label stitch">🎨 PROMPT UNTUK GOOGLE STITCH (mockup UI)</span>
-        <button class="copy-stitch" onclick="copyBlock('stitch')">📋 Copy</button>
+        <div style="display:flex; gap:6px;">
+          <button class="dl-btn" onclick="downloadBlock('stitch')">💾 .TXT</button>
+          <button class="copy-stitch" onclick="copyBlock('stitch')">📋 Copy</button>
+        </div>
       </div>
       <pre id="promptStitch"></pre>
     </div>
@@ -598,12 +1073,312 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
 
 </div>
 
+<!-- ============ MODAL PASSWORD GATE MASTERY ============ -->
+<div class="modal-backdrop" id="authModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">🔒</div>
+    <h3 class="modal-title" id="modalTitle">Akses Khusus Peserta Mastery</h3>
+    <p class="modal-desc" id="modalDesc">Masukkan kode akses / password kelas yang diberikan oleh mentor untuk membuka modul Prompt Builder ini.</p>
+
+    <div class="pass-input-wrap">
+      <input type="password" id="passInput" placeholder="Ketik password kelas..." autocomplete="off">
+      <button type="button" class="pass-toggle" onclick="togglePassVisibility()" title="Lihat/Sembunyikan">👁️</button>
+    </div>
+    <div class="modal-err" id="modalErr">❌ Password belum tepat. Silakan cek kembali kode kelas Anda.</div>
+
+    <div class="modal-actions">
+      <button type="button" class="modal-btn cancel" onclick="closeAuthModal()">Batal</button>
+      <button type="button" class="modal-btn submit" id="modalSubmitBtn" onclick="verifyPassword()">🔓 Buka Akses</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-const state = { type: '', goals: [], theme: '', mode: 'llm' };
+const ACCESS_CODES = {
+  mastery1: [
+    'RU5HSU5FMjAyNg==', 
+    'QkFUQ0ggMQ=='      
+  ],
+  mastery2: [
+    'SU5URUxMSUdFTlQyMDI2', 
+    'SkFHT01BU1RFUjI='          
+  ],
+  vipAll: [
+    'TUFHSUNWSVA='          
+  ]
+};
 
-/* ===== Chip handlers ===== */
+const authState = {
+  mastery1: false,
+  mastery2: false,
+  pendingTier: null
+};
+
+const state = {
+  tier: 'miniclass', // 'miniclass' | 'mastery1' | 'mastery2'
+  type: '',
+  goals: [],
+  theme: '',
+  mode: 'llm',
+  m1Crud: [
+    'Full CRUD (Create, Read, Update, Delete) terhubung langsung ke Google Sheets',
+    'Form & Input Data interaktif (mendukung text, angka, tanggal, & dropdown kategori otomatis)',
+    'Validation & Error Handling berlapis di sisi Client (JS) dan Server (Code.gs + LockService)',
+    'Auto-Generate ID unik & Timestamp (created_at, updated_at)',
+    'Tabel Data lengkap dengan Search, Filter, Pagination, & Tombol Aksi Edit/Hapus'
+  ],
+  m1Db: [
+    'Sidebar Navigation dengan 5 menu: Overview (Dashboard), Data (Tabel CRUD), Form (Input Baru), Users (Manajemen Akun), dan Settings',
+    'Sheet DATA (menyimpan transaksi/record utama beserta metadata ID & timestamp)',
+    'Sheet USERS (menyimpan daftar pengguna: user_id, username/email, password/pin, nama, role, status)',
+    'Sheet SETTINGS (menyimpan konfigurasi aplikasi & master pilihan dropdown)'
+  ],
+  m2Insight: [
+    'Analisis Tren & Pertumbuhan (contoh: meningkat/menurun X% MoM dibanding periode sebelumnya)',
+    'Identifikasi Kategori / Segmen Paling Dominan beserta persentasenya (contoh: Kategori X paling dominan 42%)',
+    'Deteksi Anomali / Nilai Kritis yang butuh perhatian segera',
+    'Rekomendasi Strategis & Tindakan Konkret berdasarkan temuan data'
+  ],
+  m2Assistant: [
+    'Chatbox AI Data Assistant interaktif dengan riwayat percakapan (user bubble & AI response card)',
+    'Natural Language Query (NLQ): AI menerjemahkan pertanyaan bahasa manusia menjadi filter/agregasi data aktual',
+    'Tombol Quick Prompt Chips (pertanyaan instan siap klik di atas kolom chat)'
+  ],
+  m2Report: [
+    'Tombol Export PDF (Laporan eksekutif rapi siap cetak berisi KPI, Grafik, Narasi AI Insight, & Tabel)',
+    'Tombol Export Word (.doc/.docx) (Dokumen laporan naratif berisi Hasil AI Insight, Rekomendasi, & Tabel Ringkasan yang bisa diedit di MS Word)',
+    'Tombol Export Excel (.xlsx/.csv) (Sheet data terfilter + ringkasan statistik)',
+    'Sertakan otomatis hasil AI Insight & Rekomendasi terbaru di halaman pertama laporan'
+  ]
+};
+
+/* ===== Helper: Hitung jumlah kolom akurat (baik per baris maupun dipisah Tab) ===== */
+function parseColList(rawText) {
+  if (!rawText || !rawText.trim()) return [];
+  const lines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
+  if (lines.length === 1 && lines[0].includes('\t')) {
+    return lines[0].split('\t').map(s => s.trim()).filter(Boolean);
+  }
+  return lines;
+}
+
+/* ===== Load Saved Unlock Session ===== */
+function loadSavedAuth() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('dm_mastery_auth') || '{}');
+    if (saved.mastery1) authState.mastery1 = true;
+    if (saved.mastery2) authState.mastery2 = true;
+  } catch (e) {}
+  refreshLockBadges();
+}
+
+function saveAuthSession() {
+  try {
+    localStorage.setItem('dm_mastery_auth', JSON.stringify({
+      mastery1: authState.mastery1,
+      mastery2: authState.mastery2
+    }));
+  } catch (e) {}
+  refreshLockBadges();
+}
+
+function refreshLockBadges() {
+  const pillM1 = document.getElementById('lockPillM1');
+  const pillM2 = document.getElementById('lockPillM2');
+  const btnReset = document.getElementById('btnLockReset');
+
+  if (authState.mastery1) {
+    pillM1.className = 'lock-pill unlocked';
+    pillM1.textContent = '🔓 Terbuka';
+  } else {
+    pillM1.className = 'lock-pill locked';
+    pillM1.textContent = '🔒 Member';
+  }
+
+  if (authState.mastery2) {
+    pillM2.className = 'lock-pill unlocked';
+    pillM2.textContent = '🔓 Terbuka';
+  } else {
+    pillM2.className = 'lock-pill locked';
+    pillM2.textContent = '🔒 Member';
+  }
+
+  btnReset.style.display = (authState.mastery1 || authState.mastery2) ? 'inline-block' : 'none';
+}
+
+function lockAllMastery() {
+  authState.mastery1 = false;
+  authState.mastery2 = false;
+  localStorage.removeItem('dm_mastery_auth');
+  refreshLockBadges();
+  activateTier('miniclass');
+  showToast('🔒 Akses Mastery berhasil dikunci kembali');
+}
+
+/* ===== Tier Selector & Password Gate ===== */
+document.querySelectorAll('#tierSelector .tier-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const targetTier = card.dataset.tier;
+    if (targetTier === 'miniclass') {
+      activateTier('miniclass');
+      return;
+    }
+    if (targetTier === 'mastery1' && authState.mastery1) {
+      activateTier('mastery1');
+      return;
+    }
+    if (targetTier === 'mastery2' && authState.mastery2) {
+      activateTier('mastery2');
+      return;
+    }
+    openAuthModal(targetTier);
+  });
+});
+
+function activateTier(targetTier) {
+  document.querySelectorAll('#tierSelector .tier-card').forEach(c => {
+    c.classList.toggle('selected', c.dataset.tier === targetTier);
+  });
+  state.tier = targetTier;
+  syncTierUi();
+}
+
+function openAuthModal(targetTier) {
+  authState.pendingTier = targetTier;
+  const modal = document.getElementById('authModal');
+  const icon = document.getElementById('modalIcon');
+  const title = document.getElementById('modalTitle');
+  const desc = document.getElementById('modalDesc');
+  const btn = document.getElementById('modalSubmitBtn');
+  const input = document.getElementById('passInput');
+  const err = document.getElementById('modalErr');
+
+  err.style.display = 'none';
+  input.value = '';
+  input.type = 'password';
+
+  icon.className = 'modal-icon ' + (targetTier === 'mastery1' ? 'm1' : 'm2');
+  btn.className = 'modal-btn submit ' + (targetTier === 'mastery1' ? 'm1' : 'm2');
+
+  if (targetTier === 'mastery1') {
+    icon.textContent = '⚙️';
+    title.textContent = 'Akses Mastery 1 — Dashboard Engine';
+    desc.textContent = 'Masukkan password peserta kelas Mastery 1 untuk membuka fitur Prompt Builder CRUD, Database Design, & Multi-User Login.';
+  } else {
+    icon.textContent = '✨';
+    title.textContent = 'Akses Mastery 2 — Intelligent Dashboard';
+    desc.textContent = 'Masukkan password peserta kelas Mastery 2 untuk membuka fitur AI Insight, AI Data Assistant (NLQ), & Auto Report Generator.';
+  }
+
+  modal.classList.add('show');
+  setTimeout(() => input.focus(), 80);
+}
+
+function closeAuthModal() {
+  document.getElementById('authModal').classList.remove('show');
+  authState.pendingTier = null;
+}
+
+function togglePassVisibility() {
+  const input = document.getElementById('passInput');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function verifyPassword() {
+  const raw = document.getElementById('passInput').value.trim().toUpperCase();
+  const err = document.getElementById('modalErr');
+  if (!raw) {
+    err.textContent = '⚠️ Silakan masukkan password terlebih dahulu.';
+    err.style.display = 'block';
+    return;
+  }
+
+  let encoded = '';
+  try { encoded = btoa(raw); } catch (e) {}
+
+  const target = authState.pendingTier;
+  const isVip = ACCESS_CODES.vipAll.includes(encoded);
+  const isM2  = ACCESS_CODES.mastery2.includes(encoded);
+  const isM1  = ACCESS_CODES.mastery1.includes(encoded);
+
+  if (isVip || isM2) {
+    authState.mastery1 = true;
+    authState.mastery2 = true;
+    saveAuthSession();
+    closeAuthModal();
+    activateTier(target || 'mastery2');
+    showToast('🎉 Akses terbuka! Selamat datang di ' + getTierShortLabel());
+    return;
+  }
+
+  if (target === 'mastery1' && isM1) {
+    authState.mastery1 = true;
+    saveAuthSession();
+    closeAuthModal();
+    activateTier('mastery1');
+    showToast('🎉 Akses Mastery 1 (Dashboard Engine) berhasil dibuka!');
+    return;
+  }
+
+  err.textContent = '❌ Password salah. Pastikan huruf/angka sesuai dengan kode dari kelas.';
+  err.style.display = 'block';
+}
+
+document.getElementById('passInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') verifyPassword();
+  if (e.key === 'Escape') closeAuthModal();
+});
+
+document.getElementById('authModal').addEventListener('click', (e) => {
+  if (e.target.id === 'authModal') closeAuthModal();
+});
+
+function syncTierUi() {
+  const header = document.getElementById('mainHeader');
+  const eyebrow = document.getElementById('headerEyebrow');
+  const title = document.getElementById('headerTitle');
+  const desc = document.getElementById('headerDesc');
+  const secM1 = document.getElementById('sectionMastery1');
+  const secM2 = document.getElementById('sectionMastery2');
+
+  header.classList.remove('tier-m1', 'tier-m2');
+  secM1.classList.remove('active');
+  secM2.classList.remove('active');
+
+  document.querySelectorAll('#roadmapBar .rm-step').forEach(step => {
+    const st = step.dataset.tier;
+    if (state.tier === 'miniclass') {
+      step.classList.toggle('active', st === 'miniclass');
+    } else if (state.tier === 'mastery1') {
+      step.classList.toggle('active', st === 'miniclass' || st === 'mastery1');
+    } else {
+      step.classList.add('active');
+    }
+  });
+
+  if (state.tier === 'miniclass') {
+    eyebrow.textContent = 'DASHBOARD MAGIC · MINI CLASS';
+    title.textContent = 'Prompt Builder';
+    desc.textContent = 'Isi kotak di bawah — prompt Anda otomatis terbentuk';
+  } else if (state.tier === 'mastery1') {
+    header.classList.add('tier-m1');
+    eyebrow.textContent = 'DASHBOARD MAGIC · MASTERY 1 (DASHBOARD ENGINE)';
+    title.textContent = 'Prompt Builder — Mastery 1';
+    desc.textContent = 'Bangun sistem dashboard yang lengkap, aman, dan siap digunakan (CRUD, Database, Login).';
+    secM1.classList.add('active');
+  } else if (state.tier === 'mastery2') {
+    header.classList.add('tier-m2');
+    eyebrow.textContent = 'DASHBOARD MAGIC · MASTERY 2 (INTELLIGENT DASHBOARD)';
+    title.textContent = 'Prompt Builder — Mastery 2';
+    desc.textContent = 'Manfaatkan AI untuk analisis yang lebih dalam dan otomatis (AI Insight, AI Assistant, Auto Report).';
+    secM2.classList.add('active');
+  }
+  updateMainButton();
+}
+
+/* ===== Chip Handlers ===== */
 document.querySelectorAll('#chipType .chip').forEach(chip => {
   chip.addEventListener('click', () => {
     document.querySelectorAll('#chipType .chip').forEach(c => c.classList.remove('selected'));
@@ -612,22 +1387,31 @@ document.querySelectorAll('#chipType .chip').forEach(chip => {
   });
 });
 
-document.querySelectorAll('#chipGoal .chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    chip.classList.toggle('selected');
-    const v = chip.dataset.value;
-    if (chip.classList.contains('selected')) {
-      if (state.goals.length >= 4) {
+function bindMultiChipGroup(selector, key, limit = null) {
+  document.querySelectorAll(selector + ' .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const v = chip.dataset.value;
+      if (!chip.classList.contains('selected')) {
+        if (limit && state[key].length >= limit) {
+          showToast('Maksimal ' + limit + ' pilihan');
+          return;
+        }
+        chip.classList.add('selected');
+        if (!state[key].includes(v)) state[key].push(v);
+      } else {
         chip.classList.remove('selected');
-        showToast('Maksimal 4 pilihan');
-        return;
+        state[key] = state[key].filter(g => g !== v);
       }
-      state.goals.push(v);
-    } else {
-      state.goals = state.goals.filter(g => g !== v);
-    }
+    });
   });
-});
+}
+
+bindMultiChipGroup('#chipGoal', 'goals', 4);
+bindMultiChipGroup('#chipM1Crud', 'm1Crud');
+bindMultiChipGroup('#chipM1Db', 'm1Db');
+bindMultiChipGroup('#chipM2Insight', 'm2Insight');
+bindMultiChipGroup('#chipM2Assistant', 'm2Assistant');
+bindMultiChipGroup('#chipM2Report', 'm2Report');
 
 document.querySelectorAll('#chipTheme .chip').forEach(chip => {
   chip.addEventListener('click', () => {
@@ -655,29 +1439,52 @@ document.querySelectorAll('#modeGroup .mode-card').forEach(card => {
   });
 });
 
+function getTierShortLabel() {
+  if (state.tier === 'miniclass') return 'Mini Class';
+  if (state.tier === 'mastery1') return 'Mastery 1 · Dashboard Engine';
+  return 'Mastery 2 · Intelligent Dashboard';
+}
+
 function updateMainButton() {
   const btn = document.getElementById('mainBtn');
+  btn.classList.remove('purple', 'teal');
+
   if (state.mode === 'llm') {
     btn.textContent = '🪄 Buat Prompt untuk LLM';
-    btn.classList.remove('purple');
+    if (state.tier === 'mastery1') btn.classList.add('teal');
+    if (state.tier === 'mastery2') btn.classList.add('purple');
   } else if (state.mode === 'stitch') {
     btn.textContent = '🎨 Buat Prompt untuk Stitch';
     btn.classList.add('purple');
   } else {
     btn.textContent = '🔀 Buat Prompt (LLM + Stitch)';
-    btn.classList.remove('purple');
+    if (state.tier === 'mastery1') btn.classList.add('teal');
+    if (state.tier === 'mastery2') btn.classList.add('purple');
   }
 }
 
-/* Set default mode */
-document.querySelector('#modeGroup .mode-card[data-value="llm"]').classList.add('selected');
+/* ===== Auto-Split Header ===== */
+function autoSplitHeader() {
+  const raw = document.getElementById('cols').value.trim();
+  if (!raw) {
+    showToast('Tempel dulu baris header di Langkah 3');
+    return;
+  }
+  const items = raw
+    .split(/[\t,;|\n]+/)
+    .map(s => s.trim().replace(/^["']|["']$/g, ''))
+    .filter(Boolean);
+  document.getElementById('cols').value = items.join('\n');
+  colsInput.dispatchEvent(new Event('input'));
+  showToast('✨ ' + items.length + ' kolom berhasil dirapikan!');
+}
 
 /* ===== Live counter: kolom ===== */
 const colsInput = document.getElementById('cols');
 const counterCols = document.getElementById('counterCols');
 colsInput.addEventListener('input', () => {
-  const lines = colsInput.value.split('\n').map(l => l.trim()).filter(Boolean);
-  const n = lines.length;
+  const list = parseColList(colsInput.value);
+  const n = list.length;
   const pill = counterCols.querySelector('.pill');
   const status = counterCols.querySelector('.status');
 
@@ -739,7 +1546,7 @@ function goalToChart(goal) {
 }
 
 /* ====================================================================
-   BUILD LLM PROMPT — array + join
+   BUILD LLM PROMPT — 100% MEMPERTAHANKAN STRUKTUR ASLI + EKSPANSI MASTERY
    ==================================================================== */
 function buildLlmPrompt() {
   const desc = document.getElementById('desc').value.trim();
@@ -756,20 +1563,39 @@ function buildLlmPrompt() {
   const extra   = document.getElementById('extra').value.trim();
 
   const theme = themeCustom || state.theme;
-  const colCount = cols.split('\n').filter(l => l.trim()).length;
+  const colCount = parseColList(cols).length;
   const rowCount = sample.split('\n').filter(l => l.trim()).length;
 
   const P = [];
   const SEP = '═══════════════════════════════════════════════════════════════';
 
   P.push(SEP);
-  P.push('DASHBOARD MAGIC — PROMPT PESERTA');
+  if (state.tier === 'miniclass') {
+    P.push('DASHBOARD MAGIC — PROMPT PESERTA');
+  } else if (state.tier === 'mastery1') {
+    P.push('DASHBOARD MAGIC — PROMPT PESERTA (MASTERY 1 · DASHBOARD ENGINE)');
+  } else {
+    P.push('DASHBOARD MAGIC — PROMPT PESERTA (MASTERY 2 · INTELLIGENT DASHBOARD)');
+  }
   P.push(SEP);
   P.push('');
-  P.push('Saya peserta Mini Class "Dashboard Magic".');
+
+  if (state.tier === 'miniclass') {
+    P.push('Saya peserta Mini Class "Dashboard Magic".');
+  } else if (state.tier === 'mastery1') {
+    P.push('Saya peserta kelas "Dashboard Magic — Mastery 1 (Dashboard Engine)".');
+  } else {
+    P.push('Saya peserta kelas "Dashboard Magic — Mastery 2 (Intelligent Dashboard)".');
+  }
   P.push('');
   P.push('Saya punya ' + state.type.toLowerCase() + ' yang ingin saya ubah menjadi');
-  P.push('dashboard web interaktif berbasis Google Apps Script. Saya butuh');
+  if (state.tier === 'miniclass') {
+    P.push('dashboard web interaktif berbasis Google Apps Script. Saya butuh');
+  } else if (state.tier === 'mastery1') {
+    P.push('sistem Dashboard Engine lengkap (Dashboard, CRUD, Database, & Multi-User Login) berbasis Google Apps Script. Saya butuh');
+  } else {
+    P.push('Intelligent Dashboard bertenaga AI (Dashboard, AI Insight, AI Data Assistant NLQ, & Auto Report PDF/Word/Excel) berbasis Google Apps Script. Saya butuh');
+  }
   P.push('bantuan Anda untuk merancang dan menulis kode lengkapnya.');
   P.push('');
 
@@ -826,6 +1652,63 @@ function buildLlmPrompt() {
     P.push('');
     P.push('Yang saya ingin tampilkan di dashboard:');
     state.goals.forEach(g => P.push('• ' + g));
+  }
+
+  /* ===== BAGIAN SPESIFIKASI TAMBAHAN KHUSUS MASTERY 1 ===== */
+  if (state.tier === 'mastery1') {
+    const m1IdCol = document.getElementById('m1IdCol').value.trim();
+    const m1StatusCol = document.getElementById('m1StatusCol').value.trim();
+    const m1Auth = document.getElementById('m1AuthMethod').value;
+    const m1Role = document.getElementById('m1RoleConfig').value;
+
+    P.push('');
+    P.push('');
+    P.push(SEP);
+    P.push('FITUR MASTERY 1 — DASHBOARD ENGINE (CRUD, DATABASE, LOGIN)');
+    P.push(SEP);
+    P.push('');
+    P.push('1. CRUD (Create, Read, Update, Delete) & Form Input:');
+    P.push('   - Kolom Primary Key / ID : ' + (m1IdCol || 'Gunakan kolom pertama atau auto-generate ID unik'));
+    P.push('   - Kolom Status Badge     : ' + (m1StatusCol || 'Tambahkan badge status berwarna (Active/Pending) di tabel'));
+    state.m1Crud.forEach(item => P.push('   - ' + item));
+    P.push('');
+    P.push('2. Database Design & Navigasi Sidebar:');
+    state.m1Db.forEach(item => P.push('   - ' + item));
+    P.push('   - Sediakan fungsi `setupDatabase()` di Code.gs untuk membuat sheet pendukung (`USERS`, `SETTINGS`, `AUDIT_LOGS`) otomatis jika belum ada.');
+    P.push('');
+    P.push('3. Multi-User Access, Login & Permission:');
+    P.push('   - Metode Login : ' + m1Auth);
+    P.push('   - Hak Akses    : ' + m1Role);
+  }
+
+  /* ===== BAGIAN SPESIFIKASI TAMBAHAN KHUSUS MASTERY 2 ===== */
+  if (state.tier === 'mastery2') {
+    const m2Scope = document.getElementById('m2BuildScope').value;
+    const m2Engine = document.getElementById('m2AiEngine').value;
+    const m2Persona = document.getElementById('m2AiPersona').value;
+    const m2SampleQ = document.getElementById('m2SampleQuery').value.trim();
+
+    P.push('');
+    P.push('');
+    P.push(SEP);
+    P.push('FITUR MASTERY 2 — INTELLIGENT DASHBOARD (AI & AUTO REPORT)');
+    P.push(SEP);
+    P.push('');
+    P.push('Mode Pembangunan  : ' + m2Scope);
+    P.push('Engine AI         : ' + m2Engine);
+    P.push('Persona Analis AI : ' + m2Persona);
+    P.push('');
+    P.push('1. AI Insight Otomatis:');
+    state.m2Insight.forEach(item => P.push('   - ' + item));
+    P.push('');
+    P.push('2. AI Data Assistant & Natural Language Query (NLQ):');
+    state.m2Assistant.forEach(item => P.push('   - ' + item));
+    if (m2SampleQ) {
+      P.push('   - Contoh pertanyaan utama yang harus bisa dijawab AI: "' + m2SampleQ + '"');
+    }
+    P.push('');
+    P.push('3. PDF / Word / Excel Auto Report Generator:');
+    state.m2Report.forEach(item => P.push('   - ' + item));
   }
 
   const labels = [];
@@ -895,6 +1778,11 @@ function buildLlmPrompt() {
   P.push('- Chart apa saja (jenis + sumbu X + sumbu Y + tujuan)');
   P.push('- Filter apa saja yang disediakan');
   P.push('- Insight otomatis apa yang bisa di-generate');
+  if (state.tier === 'mastery1') {
+    P.push('- Desain Database Multi-Sheet (DATA, USERS, SETTINGS), struktur Form CRUD, dan skema Role Login & Permission');
+  } else if (state.tier === 'mastery2') {
+    P.push('- Desain AI Insight, alur kerja AI Data Assistant (Natural Language Query), dan struktur Auto Report (PDF/Word/Excel)');
+  }
   P.push('');
   P.push('TUGAS 3 — KODE LENGKAP (4 FILE)');
   P.push('Tuliskan kode LENGKAP dan SIAP PAKAI untuk 4 file berikut.');
@@ -916,6 +1804,11 @@ function buildLlmPrompt() {
   P.push('- Code.gs harus punya: doGet(), include(), getDashboardData()');
   P.push('  (atau nama lain yang sesuai), dan konfigurasi SPREADSHEET_ID');
   P.push('  + SHEET_NAME di paling atas agar mudah diganti.');
+  if (state.tier === 'mastery1') {
+    P.push('- Code.gs juga harus menyertakan fungsi: setupDatabase(), loginUser(), createRecord(), updateRecord(), dan deleteRecord() lengkap dengan validasi dan LockService.');
+  } else if (state.tier === 'mastery2') {
+    P.push('- Code.gs & JS.html juga harus menyertakan fungsi: generateAiInsight(), askDataAssistant() untuk Natural Language Query, serta fungsi export ke PDF, Word (.doc), dan Excel (.xlsx/.csv).');
+  }
   P.push('- Index.html harus include CSS.html dan JS.html pakai');
   P.push('  <?!= include(\'CSS\') ?> dan <?!= include(\'JS\') ?>');
   P.push('- CSS.html: semua style di dalam tag style, mendukung');
@@ -936,10 +1829,21 @@ function buildLlmPrompt() {
   P.push('5. Deploy sebagai Web App (jelaskan setting Who has access)');
   P.push('6. Buka URL hasil deploy dan test');
   P.push('7. Cara debug kalau data tidak muncul di dashboard');
+  if (state.tier === 'mastery1') {
+    P.push('8. Cara menjalankan setupDatabase() dan login pertama kali sebagai Admin');
+  } else if (state.tier === 'mastery2') {
+    P.push('8. Cara memasang API Key Gemini (jika memakai Gemini API) dan cara test fitur export PDF / Word / Excel');
+  }
   P.push('');
   P.push('TUGAS 5 — MAPPING KOLOM');
   P.push('Sertakan tabel mapping: kolom saya → dipakai untuk apa di dashboard');
-  P.push('(KPI / sumbu X / sumbu Y / filter / insight / skip).');
+  if (state.tier === 'miniclass') {
+    P.push('(KPI / sumbu X / sumbu Y / filter / insight / skip).');
+  } else if (state.tier === 'mastery1') {
+    P.push('(Primary Key CRUD / Form Input / Status Badge / KPI / sumbu X / sumbu Y / filter / insight / skip).');
+  } else {
+    P.push('(KPI / sumbu X / sumbu Y / filter / AI Insight / AI Assistant NLQ / Auto Report / skip).');
+  }
   P.push('');
   P.push('TUGAS 6 — LABEL & BAHASA');
   P.push('Ganti istilah teknis (Revenue, Product, Region, Salesperson) dengan');
@@ -953,6 +1857,20 @@ function buildLlmPrompt() {
     P.push('di CSS.html dengan warna hex, font, radius, dan spacing yang rapi.');
   }
 
+  if (state.tier === 'mastery1') {
+    P.push('');
+    P.push('TUGAS 8 — MODUL MASTERY 1 (DASHBOARD ENGINE)');
+    P.push('Pastikan seluruh fitur Mastery 1 berjalan terintegrasi: navigasi Sidebar');
+    P.push('(Overview, Data, Form, Users, Settings), operasi CRUD dengan validasi &');
+    P.push('error handling, multi-user access, serta sistem Login & Permission.');
+  } else if (state.tier === 'mastery2') {
+    P.push('');
+    P.push('TUGAS 8 — MODUL MASTERY 2 (INTELLIGENT DASHBOARD)');
+    P.push('Pastikan seluruh fitur Mastery 2 berjalan terintegrasi: panel AI Insight');
+    P.push('otomatis, chatbox AI Data Assistant dengan Natural Language Query (NLQ),');
+    P.push('serta tombol Auto Report Generator ke format PDF, Word, dan Excel.');
+  }
+
   P.push('');
   P.push('');
   P.push(SEP);
@@ -961,6 +1879,11 @@ function buildLlmPrompt() {
   P.push('');
   P.push('✅ ANALISIS DATA SAYA (termasuk kolom yang di-skip + alasannya)');
   P.push('🎯 RANCANGAN DASHBOARD (KPI + Chart + Filter + Insight)');
+  if (state.tier === 'mastery1') {
+    P.push('⚙️ RANCANGAN DASHBOARD ENGINE (Database + Form CRUD + Login & Permission)');
+  } else if (state.tier === 'mastery2') {
+    P.push('✨ RANCANGAN INTELLIGENT DASHBOARD (AI Insight + AI Data Assistant NLQ + PDF/Word/Excel Generator)');
+  }
   P.push('💻 KODE 4 FILE (Code.gs, Index.html, CSS.html, JS.html)');
   P.push('📝 LANGKAH IMPLEMENTASI (step-by-step)');
   P.push('📋 MAPPING KOLOM');
@@ -984,13 +1907,14 @@ function buildLlmPrompt() {
 }
 
 /* ====================================================================
-   BUILD STITCH PROMPT — ringkas, fokus visual
+   BUILD STITCH PROMPT — Mempertahankan Struktur Asli + Ekspansi Mastery
    ==================================================================== */
 function buildStitchPrompt() {
   const desc = document.getElementById('desc').value.trim();
   const themeCustom = document.getElementById('themeCustom').value.trim();
   const extra = document.getElementById('extra').value.trim();
   const theme = themeCustom || state.theme;
+  const m2SampleQ = document.getElementById('m2SampleQuery').value.trim();
 
   const P = [];
 
@@ -1000,7 +1924,18 @@ function buildStitchPrompt() {
   P.push(desc);
   P.push('');
   P.push('STRUKTUR UI:');
-  P.push('- Header: judul dashboard + filter dropdown (dropdown filter bisa disesuaikan)');
+  if (state.tier === 'mastery1') {
+    P.push('- Sidebar navigasi kiri gelap (#0F172A) dengan logo "DH Dashboard" dan 5 menu: Overview, Data, Form, Users, Settings');
+    P.push('- Header: judul halaman + info user login & role badge (Admin / Staff / Viewer)');
+  } else if (state.tier === 'mastery2') {
+    P.push('- Header: judul dashboard + filter dropdown + 3 tombol Export: [📕 PDF], [📘 Word], [📗 Excel]');
+    P.push('- Panel "✨ AI Data Assistant & AI Insight":');
+    P.push('  * Bubble pertanyaan user: "' + (m2SampleQ || 'Tolong analisis tren penjualan 3 bulan terakhir dan berikan rekomendasi.') + '"');
+    P.push('  * Card jawaban "✨ AI Insight" berisi bullet points analisis tren MoM, kategori dominan, & rekomendasi');
+    P.push('  * Input bar Natural Language Query (NLQ) untuk tanya data');
+  } else {
+    P.push('- Header: judul dashboard + filter dropdown (dropdown filter bisa disesuaikan)');
+  }
 
   if (state.goals.length) {
     P.push('- Baris KPI cards (' + Math.min(state.goals.length, 4) + ' kartu) menampilkan metrik utama');
@@ -1013,7 +1948,11 @@ function buildStitchPrompt() {
     P.push('- Grid chart: line chart untuk trend, bar chart untuk perbandingan');
   }
 
-  P.push('- Tabel detail di bawah chart (searchable)');
+  if (state.tier === 'mastery1') {
+    P.push('- Tabel Recent Data di bawah chart lengkap dengan badge Status (Active / Pending), tombol "+ Tambah Data", serta tombol aksi Edit & Delete (CRUD)');
+  } else {
+    P.push('- Tabel detail di bawah chart (searchable)');
+  }
   P.push('');
   P.push('TEMA VISUAL:');
   if (theme) {
@@ -1033,7 +1972,6 @@ function buildStitchPrompt() {
   if (extra) {
     P.push('');
     P.push('CATATAN VISUAL:');
-    // hanya ambil baris yang relevan visual
     const visualLines = extra.split('\n').filter(l => {
       const low = l.toLowerCase();
       return low.includes('filter') || low.includes('warna') ||
@@ -1060,6 +1998,15 @@ function buildStitchPrompt() {
    MAIN BUILD PROMPT — router berdasarkan mode
    ==================================================================== */
 function buildPrompt() {
+  if (state.tier === 'mastery1' && !authState.mastery1) {
+    openAuthModal('mastery1');
+    return;
+  }
+  if (state.tier === 'mastery2' && !authState.mastery2) {
+    openAuthModal('mastery2');
+    return;
+  }
+
   const desc = document.getElementById('desc').value.trim();
   const cols = colsInput.value.trim();
   const sample = sampleInput.value.trim();
@@ -1074,12 +2021,11 @@ function buildPrompt() {
     showToast('⚠ ID Spreadsheet biasanya 44 karakter — cek lagi');
   }
 
-  const colCount = cols.split('\n').filter(l => l.trim()).length;
+  const colCount = parseColList(cols).length;
   const rowCount = sample.split('\n').filter(l => l.trim()).length;
   const themeCustom = document.getElementById('themeCustom').value.trim();
   const theme = themeCustom || state.theme;
   const extra = document.getElementById('extra').value.trim();
-  const shName = document.getElementById('sheetName').value.trim();
 
   /* ===== Render sesuai mode ===== */
   const blockLlm = document.getElementById('blockLlm');
@@ -1108,7 +2054,10 @@ function buildPrompt() {
     (state.mode === 'llm' ? '🔷 Mode LLM' :
      state.mode === 'stitch' ? '🎨 Mode Stitch' :
      '🔀 Mode Hybrid') + '</span>';
-  const finalInfo = [modeChip]
+  const finalInfo = [
+    '<span>🎯 ' + getTierShortLabel() + '</span>',
+    modeChip
+  ]
     .concat(info.map(t => '<span>' + t + '</span>'))
     .concat([
       '<span>📊 ' + colCount + ' kolom</span>',
@@ -1122,6 +2071,38 @@ function buildPrompt() {
 
   document.getElementById('output').classList.add('show');
   document.getElementById('output').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ===== Demo Data Sesuai Tier ===== */
+function loadSampleForCurrentTier() {
+  document.querySelectorAll('#chipType .chip').forEach(c => c.classList.remove('selected'));
+
+  const chip = document.querySelector('#chipType .chip[data-value="Data produksi / operasional"]');
+  if (chip) chip.click();
+
+  document.getElementById('desc').value = 'saya punya data warung sembako';
+  document.getElementById('cols').value = [
+    'Transaction_ID','Date','Region','Product','Category','Quantity',
+    'Unit_Price','Discount','Revenue','Cost','Profit','Salesperson','Month'
+  ].join('\n');
+  document.getElementById('sample').value = [
+    'WRG-0001\t2026-01-02\tWarung Pusat\tBeras Premium 5kg\tSembako\t8\t65000\t0\t520000\t468000\t52000\tSari\t2026-01',
+    'WRG-0002\t2026-01-02\tWarung Pusat\tMinyak Goreng 2L\tSembako\t12\t38000\t0\t456000\t410400\t45600\tSari\t2026-01',
+    'WRG-0003\t2026-01-03\tWarung Cabang A\tGula Pasir 1kg\tSembako\t15\t15000\t0\t225000\t202500\t22500\tYanti\t2026-01',
+    'WRG-0004\t2026-01-03\tWarung Pusat\tTelur Ayam 1kg\tSembako\t20\t28000\t0\t560000\t504000\t56000\tSari\t2026-01',
+    'WRG-0005\t2026-01-04\tWarung Cabang B\tMie Instan (dus)\tMakanan\t5\t110000\t0.05\t522500\t470250\t52250\tWawan\t2026-01'
+  ].join('\n');
+
+  if (state.tier === 'mastery1') {
+    document.getElementById('m1IdCol').value = 'Transaction_ID';
+    document.getElementById('m1StatusCol').value = 'Status';
+  } else if (state.tier === 'mastery2') {
+    document.getElementById('m2SampleQuery').value = 'Tolong analisis tren penjualan 3 bulan terakhir dan berikan rekomendasi.';
+  }
+
+  colsInput.dispatchEvent(new Event('input'));
+  sampleInput.dispatchEvent(new Event('input'));
+  showToast('🎲 Contoh data Warung Sembako berhasil dimuat!');
 }
 
 /* ===== Copy block ===== */
@@ -1153,9 +2134,23 @@ function fallbackCopy(text) {
   document.body.removeChild(ta);
 }
 
+function downloadBlock(which) {
+  const id = which === 'llm' ? 'promptLlm' : 'promptStitch';
+  const text = document.getElementById(id).textContent;
+  if (!text) return;
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'prompt-' + state.tier + '-' + which + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('💾 File .txt berhasil diunduh!');
+}
+
 /* ===== Reset ===== */
 function resetAll() {
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('#chipType .chip, #chipGoal .chip, #chipTheme .chip').forEach(c => c.classList.remove('selected'));
   document.querySelectorAll('#modeGroup .mode-card').forEach(c => c.classList.remove('selected'));
   document.querySelector('#modeGroup .mode-card[data-value="llm"]').classList.add('selected');
   state.type = '';
@@ -1165,8 +2160,9 @@ function resetAll() {
   updateMainButton();
 
   ['desc','cols','sample','lblRevenue','lblProduct','lblRegion','lblPerson',
-   'ssId','sheetName','themeCustom','extra'].forEach(id => {
-    document.getElementById(id).value = '';
+   'ssId','sheetName','themeCustom','extra','m1IdCol','m1StatusCol','m2SampleQuery'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
   });
   ['counterCols','counterRows'].forEach(id => {
     const el = document.getElementById(id);
@@ -1186,6 +2182,9 @@ function showToast(msg) {
   clearTimeout(t._timer);
   t._timer = setTimeout(() => t.classList.remove('show'), 2500);
 }
+
+// Inisialisasi status kunci saat halaman dimuat
+loadSavedAuth();
 </script>
 </body>
 </html>
