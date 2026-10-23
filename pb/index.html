@@ -475,6 +475,39 @@
     .header h1 { font-size: 22px; }
     .mode-group { grid-template-columns: 1fr; }
   }
+  .prompt-block-label.bridge { color: #0D9488; }
+  .prompt-block-head button.copy-bridge { background: #0D9488; }
+  .prompt-block-head button.preview-btn { background: #64748B; }
+  .staged-note {
+    font-size: 12.5px; margin: 0; padding: 12px 16px;
+    background: #F0FDF4; color: #166534; border-bottom: 1px solid #DCFCE7;
+    line-height: 1.5;
+  }
+  .staged-note.teal {
+    background: #F0FDFA; color: #115E59; border-bottom: 1px solid #CCFBF1;
+  }
+  .staged-list-wrap { padding: 4px 16px 12px; background: #fff; }
+  .staged-row {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 10px; padding: 11px 0; border-top: 1px solid #E5E7EB;
+    flex-wrap: wrap;
+  }
+  .staged-row:first-child { border-top: none; }
+  .staged-row-title { font-size: 12.5px; color: #1E293B; }
+  .staged-row-title small { color: #64748B; font-weight: 600; margin-left: 4px; }
+  .staged-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .staged-actions button {
+    padding: 6px 11px; border: none; border-radius: 8px;
+    font-size: 11px; font-weight: 700; cursor: pointer; color: #fff;
+  }
+  .staged-actions button.dl-btn { background: #334155; }
+  .staged-actions button.copy-llm { background: #4F7DF3; }
+  .staged-actions button.copy-bridge { background: #0D9488; }
+  .staged-actions button.preview-btn { background: #64748B; }
+  .staged-preview {
+    width: 100%; display: none; margin-top: 8px;
+  }
+  .staged-preview.show { display: block; }
 </style>
 </head>
 <body>
@@ -793,8 +826,9 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
         <div class="chip teal selected" data-value="Sidebar Navigation dengan 5 menu: Overview (Dashboard), Data (Tabel CRUD), Form (Input Baru), Users (Manajemen Akun), dan Settings">Sidebar 5 Menu (Overview, Data, Form, Users, Settings)</div>
         <div class="chip teal selected" data-value="Sheet DATA (menyimpan transaksi/record utama beserta metadata ID & timestamp)">Sheet DATA Utama</div>
         <div class="chip teal selected" data-value="Sheet USERS (menyimpan daftar pengguna: user_id, username/email, password/pin, nama, role, status)">Sheet USERS</div>
-        <div class="chip teal selected" data-value="Sheet SETTINGS (menyimpan konfigurasi aplikasi & master pilihan dropdown)">Sheet SETTINGS</div>
-        <div class="chip teal" data-value="Sheet AUDIT_LOGS (mencatat histori siapa yang menambah, mengubah, atau menghapus data beserta waktunya)">Sheet AUDIT_LOGS</div>
+        <div class="chip teal selected" data-value="Sheet CONFIG (menyimpan parameter aplikasi & daftar pilihan dropdown)">Sheet CONFIG</div>
+        <div class="chip teal selected" data-value="Sheet REFERENCE (tabel master/referensi, mis. daftar kategori, cabang, atau produk untuk dropdown & validasi)">Sheet REFERENCE</div>
+        <div class="chip teal selected" data-value="Sheet AUDIT_LOG (mencatat otomatis setiap Create/Update/Delete: user, aksi, ID record, dan waktu)">Sheet AUDIT_LOG</div>
       </div>
     </div>
 
@@ -808,13 +842,16 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
       <div class="step-hint">
         Atur sistem keamanan login dan pembagian hak akses (Role-Based Access Control).
       </div>
+<div class="info-note teal" style="margin-left:0;">
+<strong>🔐 Catatan keamanan:</strong> prompt akan meminta password disimpan sebagai <em>hash</em> dan role dicek di <em>server</em>. Opsi Hybrid hanya untuk latihan. Login SSO Google bergantung pada setelan deploy (Execute as / Who has access).
+</div>
       <div class="row" style="margin-bottom: 12px;">
         <div>
           <label class="field-label">Metode Login / Autentikasi</label>
           <select id="m1AuthMethod">
             <option value="Custom Login Page (Username/Email & Password/PIN divalidasi ke Sheet USERS)">Halaman Login Kustom (Username & Password di Sheet USERS)</option>
             <option value="Google Workspace Email Detection (Session.getActiveUser().getEmail() dicocokkan dengan Sheet USERS)">Deteksi Email Google Otomatis (SSO Google Account)</option>
-            <option value="Hybrid (Bisa Login Form Username/Password + Tombol Quick Demo Login Admin/Staff/Viewer)">Hybrid Login + Tombol Quick Demo Login</option>
+            <option value="Hybrid (Bisa Login Form Username/Password + Tombol Quick Demo Login Admin/Staff/Viewer)">Hybrid Login + Tombol Quick Demo Login (hanya untuk latihan)</option>
           </select>
         </div>
         <div>
@@ -1018,7 +1055,7 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
       <div class="mode-card" data-value="stitch">
         <span class="mode-icon">🎨</span>
         <div class="mode-name">Stitch</div>
-        <div class="mode-desc">Mockup visual UI<br>(via Google Stitch)</div>
+        <div class="mode-desc">Mockup UI di Stitch +<br>Koneksi ke Aplikasi GAS</div>
       </div>
       <div class="mode-card" data-value="hybrid">
         <span class="mode-icon">🔀</span>
@@ -1049,16 +1086,50 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
       <pre id="promptLlm"></pre>
     </div>
 
-    <!-- Block Stitch -->
+    <!-- Block Mode Bertahap LLM -->
+    <div class="prompt-block" id="blockStaged" style="display:none;">
+      <div class="prompt-block-head">
+        <span class="prompt-block-label llm">🧩 MODE BERTAHAP LLM — 5 TAHAP (Disarankan untuk Claude / ChatGPT / Gemini Gratis)</span>
+      </div>
+      <p class="staged-note">
+        <strong>💡 Anti-Keteteran untuk Akun AI Gratis:</strong> Kirim satu per satu (Tahap 1 s/d 5) ke LLM. Setiap tahap sudah memuat <strong>Kontrak Proyek</strong> yang sama persis, sehingga Anda tidak perlu menempel ulang kode dari tahap sebelumnya dan kode tidak akan terpotong karena batas token gratis.
+      </p>
+      <div class="staged-list-wrap" id="stagedRows"></div>
+    </div>
+
+    <!-- Block Stitch Step 1 -->
     <div class="prompt-block" id="blockStitch" style="display:none;">
       <div class="prompt-block-head">
-        <span class="prompt-block-label stitch">🎨 PROMPT UNTUK GOOGLE STITCH (mockup UI)</span>
+        <span class="prompt-block-label stitch">🎨 LANGKAH 1: PROMPT UNTUK GOOGLE STITCH (Buat Desain UI & Export HTML)</span>
         <div style="display:flex; gap:6px;">
           <button class="dl-btn" onclick="downloadBlock('stitch')">💾 .TXT</button>
-          <button class="copy-stitch" onclick="copyBlock('stitch')">📋 Copy</button>
+          <button class="copy-stitch" onclick="copyBlock('stitch')">📋 Copy Prompt Stitch</button>
         </div>
       </div>
       <pre id="promptStitch"></pre>
+    </div>
+
+    <!-- Block Stitch Step 2A (Sekaligus) -->
+    <div class="prompt-block" id="blockStitchBridge" style="display:none;">
+      <div class="prompt-block-head">
+        <span class="prompt-block-label bridge">🔌 LANGKAH 2A: PROMPT KONEKSI STITCH KE GAS — SEKALIGUS (Untuk LLM Pro/Berbayar)</span>
+        <div style="display:flex; gap:6px;">
+          <button class="dl-btn" onclick="downloadBlock('bridge')">💾 .TXT</button>
+          <button class="copy-bridge" onclick="copyBlock('bridge')">📋 Copy Prompt Koneksi GAS</button>
+        </div>
+      </div>
+      <pre id="promptStitchBridge"></pre>
+    </div>
+
+    <!-- Block Stitch Step 2B (Bertahap untuk LLM Gratis) -->
+    <div class="prompt-block" id="blockStitchStaged" style="display:none;">
+      <div class="prompt-block-head">
+        <span class="prompt-block-label bridge">🧩 LANGKAH 2B: MODE BERTAHAP KONEKSI STITCH KE GAS (Disarankan untuk Claude / ChatGPT / Gemini Gratis)</span>
+      </div>
+      <p class="staged-note teal">
+        <strong>💡 Cara Pakai dengan Google Stitch di LLM Gratis:</strong> Setelah meng-export kode HTML/CSS dari Google Stitch, gunakan <strong>3 Tahap</strong> di bawah ini secara berurutan agar LLM gratis tidak kehabisan kuota token saat mengonversi desain Stitch Anda menjadi 4 file Google Apps Script.
+      </p>
+      <div class="staged-list-wrap" id="stagedStitchRows"></div>
     </div>
 
     <button class="btn secondary" onclick="resetAll()" style="margin-top: 14px;">↺ Isi Ulang</button>
@@ -1096,17 +1167,25 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
 <div class="toast" id="toast"></div>
 
 <script>
+/* ====================================================================
+   KONFIGURASI PASSWORD KELAS MASTERY (Disimpan dalam Base64)
+   --------------------------------------------------------------------
+   Default Password saat ini:
+   - Mastery 1 : ENGINE2026  atau  MASTERY1
+   - Mastery 2 : INTELLIGENT2026  atau  MASTERY2
+   - VIP (Buka Semua) : MAGICVIP
+   ==================================================================== */
 const ACCESS_CODES = {
   mastery1: [
-    'RU5HSU5FMjAyNg==', 
-    'REFTSEJPTkQ='      
+    'RU5HSU5FMjAyNg==', // ENGINE2026
+    'TUFTVEVSWTE='      // MASTERY1
   ],
   mastery2: [
-    'SU5URUxMSUdFTlQyMDI2', 
-    'SkFHT01BU1RFUjI='          
+    'SU5URUxMSUdFTlQyMDI2', // INTELLIGENT2026
+    'TUFTVEVSWTI='          // MASTERY2
   ],
   vipAll: [
-    'TUFHSUNWSVA='          
+    'TUFHSUNWSVA='          // MAGICVIP
   ]
 };
 
@@ -1133,7 +1212,9 @@ const state = {
     'Sidebar Navigation dengan 5 menu: Overview (Dashboard), Data (Tabel CRUD), Form (Input Baru), Users (Manajemen Akun), dan Settings',
     'Sheet DATA (menyimpan transaksi/record utama beserta metadata ID & timestamp)',
     'Sheet USERS (menyimpan daftar pengguna: user_id, username/email, password/pin, nama, role, status)',
-    'Sheet SETTINGS (menyimpan konfigurasi aplikasi & master pilihan dropdown)'
+    'Sheet CONFIG (menyimpan parameter aplikasi & daftar pilihan dropdown)',
+    'Sheet REFERENCE (tabel master/referensi, mis. daftar kategori, cabang, atau produk untuk dropdown & validasi)',
+    'Sheet AUDIT_LOG (mencatat otomatis setiap Create/Update/Delete: user, aksi, ID record, dan waktu)'
   ],
   m2Insight: [
     'Analisis Tren & Pertumbuhan (contoh: meningkat/menurun X% MoM dibanding periode sebelumnya)',
@@ -1674,11 +1755,24 @@ function buildLlmPrompt() {
     P.push('');
     P.push('2. Database Design & Navigasi Sidebar:');
     state.m1Db.forEach(item => P.push('   - ' + item));
-    P.push('   - Sediakan fungsi `setupDatabase()` di Code.gs untuk membuat sheet pendukung (`USERS`, `SETTINGS`, `AUDIT_LOGS`) otomatis jika belum ada.');
+    P.push('   - Sediakan fungsi `setupDatabase()` di Code.gs untuk membuat sheet pendukung (`CONFIG`, `REFERENCE`, `USERS`, `AUDIT_LOG`) otomatis jika belum ada.');
     P.push('');
     P.push('3. Multi-User Access, Login & Permission:');
     P.push('   - Metode Login : ' + m1Auth);
     P.push('   - Hak Akses    : ' + m1Role);
+    P.push('');
+    P.push('4. Keamanan & Otorisasi (WAJIB DIPATUHI):');
+    P.push('   - Password/PIN pengguna WAJIB disimpan sebagai hash (SHA-256 + salt unik per user, memakai Utilities.computeDigest), BUKAN teks biasa.');
+    P.push('   - Setiap fungsi server yang mengubah data atau mengelola Users & Settings (createRecord, updateRecord, deleteRecord, dst.) WAJIB memverifikasi identitas dan role pengguna di Code.gs. Menyembunyikan menu di UI TIDAK cukup.');
+    P.push('   - Setiap operasi Create/Update/Delete dicatat ke sheet AUDIT_LOG (timestamp, user, aksi, ID record).');
+    P.push('   - setupDatabase() membuat akun Admin awal dan menampilkan pengingat agar kredensial default segera diganti.');
+    if (/Quick Demo/i.test(m1Auth)) P.push('   - Tombol Quick Demo Login hanya untuk latihan: kendalikan dengan konstanta DEMO_MODE (true/false) di bagian atas Code.gs dan sembunyikan saat DEMO_MODE = false.');
+    if (/getActiveUser/.test(m1Auth)) P.push('   - Login SSO bergantung pada setelan deploy: jelaskan kapan getActiveUser().getEmail() bisa kosong dan sediakan penanganannya.');
+    P.push('');
+    P.push('5. KPI Engine & Global Filter:');
+    P.push('   - Hitung metrik di Code.gs: SUM, COUNT, AVERAGE, MEDIAN (tahan outlier), serta MIN/MAX untuk kolom numerik yang relevan.');
+    P.push('   - Sediakan Global Filter di bagian atas (mis. wilayah/kategori dan rentang bulan). Saat filter berubah, KPI card, semua grafik Chart.js, dan tabel data berubah serentak.');
+    P.push('   - Tombol Simpan wajib nonaktif dan menampilkan loading selama proses berjalan (cegah double-submit).');
   }
 
   /* ===== BAGIAN SPESIFIKASI TAMBAHAN KHUSUS MASTERY 2 ===== */
@@ -1779,7 +1873,7 @@ function buildLlmPrompt() {
   P.push('- Filter apa saja yang disediakan');
   P.push('- Insight otomatis apa yang bisa di-generate');
   if (state.tier === 'mastery1') {
-    P.push('- Desain Database Multi-Sheet (DATA, USERS, SETTINGS), struktur Form CRUD, dan skema Role Login & Permission');
+    P.push('- Desain Database Multi-Sheet (DATA, REFERENCE, USERS, CONFIG, AUDIT_LOG), struktur Form CRUD, dan skema Role Login & Permission');
   } else if (state.tier === 'mastery2') {
     P.push('- Desain AI Insight, alur kerja AI Data Assistant (Natural Language Query), dan struktur Auto Report (PDF/Word/Excel)');
   }
@@ -1831,6 +1925,7 @@ function buildLlmPrompt() {
   P.push('7. Cara debug kalau data tidak muncul di dashboard');
   if (state.tier === 'mastery1') {
     P.push('8. Cara menjalankan setupDatabase() dan login pertama kali sebagai Admin');
+    P.push('9. Jelaskan dampak setelan "Execute as" dan "Who has access" terhadap login yang saya pilih, cara mengganti kredensial Admin default, dan cara membuat deployment versi baru setelah kode diubah');
   } else if (state.tier === 'mastery2') {
     P.push('8. Cara memasang API Key Gemini (jika memakai Gemini API) dan cara test fitur export PDF / Word / Excel');
   }
@@ -1898,6 +1993,7 @@ function buildLlmPrompt() {
   P.push('- Kode harus SIAP PAKAI (bukan pseudo-code)');
   P.push('- Jangan singkat kode dengan "... sisanya sama" — tulis lengkap');
   P.push('- Kalau ada pilihan library/CDN, sebutkan versi yang dipakai');
+  P.push('- Jika jawaban akan terpotong, berhenti di akhir sebuah file yang utuh dan tulis "BERSAMBUNG: (nama file berikutnya)". Saya akan membalas "lanjutkan"; lanjutkan dari titik itu tanpa mengulang.');
   P.push('');
   P.push(SEP);
   P.push('Prompt Builder ini dibuat oleh Yogo AJ — http://yogoaj.github.io');
@@ -1907,7 +2003,7 @@ function buildLlmPrompt() {
 }
 
 /* ====================================================================
-   BUILD STITCH PROMPT — Mempertahankan Struktur Asli + Ekspansi Mastery
+   BUILD STITCH PROMPT — Desain UI yang Siap Di-inject ke GAS
    ==================================================================== */
 function buildStitchPrompt() {
   const desc = document.getElementById('desc').value.trim();
@@ -1918,40 +2014,41 @@ function buildStitchPrompt() {
 
   const P = [];
 
-  P.push('Buat dashboard web untuk ' + state.type.toLowerCase() + '.');
+  P.push('Buat desain UI aplikasi web dashboard interaktif untuk ' + state.type.toLowerCase() + ' yang nantinya akan dihubungkan ke Google Apps Script (GAS).');
   P.push('');
-  P.push('KONTEKS:');
+  P.push('KONTEKS DATA:');
   P.push(desc);
   P.push('');
-  P.push('STRUKTUR UI:');
+  P.push('STRUKTUR KOMPONEN UI (Berikan ID yang jelas pada setiap kontainer):');
   if (state.tier === 'mastery1') {
     P.push('- Sidebar navigasi kiri gelap (#0F172A) dengan logo "DH Dashboard" dan 5 menu: Overview, Data, Form, Users, Settings');
-    P.push('- Header: judul halaman + info user login & role badge (Admin / Staff / Viewer)');
+    P.push('- Header: judul halaman + Global Filter dropdown + info user login & role badge (Admin / Staff / Viewer)');
   } else if (state.tier === 'mastery2') {
-    P.push('- Header: judul dashboard + filter dropdown + 3 tombol Export: [📕 PDF], [📘 Word], [📗 Excel]');
+    P.push('- Header: judul dashboard + Global Filter dropdown + 3 tombol Export: [📕 PDF], [📘 Word], [📗 Excel]');
     P.push('- Panel "✨ AI Data Assistant & AI Insight":');
     P.push('  * Bubble pertanyaan user: "' + (m2SampleQ || 'Tolong analisis tren penjualan 3 bulan terakhir dan berikan rekomendasi.') + '"');
     P.push('  * Card jawaban "✨ AI Insight" berisi bullet points analisis tren MoM, kategori dominan, & rekomendasi');
-    P.push('  * Input bar Natural Language Query (NLQ) untuk tanya data');
+    P.push('  * Input bar Natural Language Query (NLQ) dengan tombol Kirim dan Quick Prompt Chips');
   } else {
-    P.push('- Header: judul dashboard + filter dropdown (dropdown filter bisa disesuaikan)');
+    P.push('- Header: judul dashboard + bar Global Filter dropdown (untuk filter kategori/periode) + tombol Refresh Data');
   }
 
   if (state.goals.length) {
-    P.push('- Baris KPI cards (' + Math.min(state.goals.length, 4) + ' kartu) menampilkan metrik utama');
-    P.push('- Grid chart:');
+    P.push('- Baris KPI Cards (' + Math.min(state.goals.length, 4) + ' kartu) menampilkan angka metrik utama, label, dan badge persentase/status');
+    P.push('- Grid Chart (sediakan area kontainer bersih untuk canvas Chart.js):');
     state.goals.forEach(g => {
       P.push('  * ' + goalToChart(g) + ' untuk ' + g.toLowerCase());
     });
   } else {
-    P.push('- Baris KPI cards (4 kartu) menampilkan metrik utama');
-    P.push('- Grid chart: line chart untuk trend, bar chart untuk perbandingan');
+    P.push('- Baris KPI Cards (4 kartu) menampilkan metrik utama');
+    P.push('- Grid Chart: line chart untuk trend, bar chart untuk perbandingan');
   }
 
   if (state.tier === 'mastery1') {
-    P.push('- Tabel Recent Data di bawah chart lengkap dengan badge Status (Active / Pending), tombol "+ Tambah Data", serta tombol aksi Edit & Delete (CRUD)');
+    P.push('- Tabel Recent Data di bawah chart lengkap dengan Search bar, badge Status (Active / Pending), tombol "+ Tambah Data", serta tombol aksi Edit & Delete (CRUD)');
+    P.push('- Rancang juga layar pendukung: halaman Login (username, password, tombol Masuk), modal form "Tambah Data" dengan validasi inline, dan halaman Users (tabel pengguna + badge role)');
   } else {
-    P.push('- Tabel detail di bawah chart (searchable)');
+    P.push('- Tabel detail di bawah chart lengkap dengan kotak pencarian (searchable)');
   }
   P.push('');
   P.push('TEMA VISUAL:');
@@ -1964,9 +2061,9 @@ function buildStitchPrompt() {
   P.push('');
   P.push('BAHASA: Indonesia (semua label & teks).');
   P.push('');
-  P.push('FOKUS:');
-  P.push('- Mockup visual UI dashboard (bukan kode fungsional)');
-  P.push('- Layout bersih, mudah dibaca, responsive untuk mobile');
+  P.push('FOKUS TEKNIS UI:');
+  P.push('- Gunakan HTML5 dan CSS/Tailwind yang bersih serta mudah dipisahkan menjadi file Index.html dan CSS.html di Google Apps Script');
+  P.push('- Layout bersih, mudah dibaca, responsive untuk desktop dan mobile');
   P.push('- Chart dan KPI card harus terlihat proporsional');
 
   if (extra) {
@@ -1990,6 +2087,144 @@ function buildStitchPrompt() {
   P.push('═══════════════════════════════════════════════════════════════');
   P.push('Prompt ini dibuat oleh Yogo AJ — http://yogoaj.github.io');
   P.push('═══════════════════════════════════════════════════════════════');
+
+  return P.join('\n');
+}
+
+/* ====================================================================
+   BUILD STITCH-TO-GAS BRIDGE PROMPT (SEKALIGUS)
+   Mengubah hasil export HTML/CSS Google Stitch menjadi 4 File GAS Aktif
+   ==================================================================== */
+function buildStitchBridgePrompt() {
+  const desc = document.getElementById('desc').value.trim();
+  const cols = colsInput.value.trim();
+  const sample = sampleInput.value.trim();
+  const lblRev  = document.getElementById('lblRevenue').value.trim();
+  const lblProd = document.getElementById('lblProduct').value.trim();
+  const lblReg  = document.getElementById('lblRegion').value.trim();
+  const lblPer  = document.getElementById('lblPerson').value.trim();
+  const ssId    = document.getElementById('ssId').value.trim();
+  const shName  = document.getElementById('sheetName').value.trim();
+  const extra   = document.getElementById('extra').value.trim();
+
+  const colCount = parseColList(cols).length;
+  const rowCount = sample.split('\n').filter(l => l.trim()).length;
+  const SEP = '═══════════════════════════════════════════════════════════════';
+
+  const P = [];
+  P.push(SEP);
+  P.push('STITCH TO GOOGLE APPS SCRIPT (GAS) — CONVERTER & CONNECTOR PROMPT');
+  P.push('Level Kelas : ' + getTierShortLabel());
+  P.push(SEP);
+  P.push('');
+  P.push('Saya sudah membuat desain UI mockup menggunakan **Google Stitch** (kode HTML/CSS hasil export Stitch saya tempelkan di bagian paling bawah prompt ini).');
+  P.push('');
+  P.push('Tugas Anda sekarang adalah **mengubah desain statis dari Google Stitch tersebut menjadi aplikasi Web Google Apps Script (GAS) yang berfungsi penuh** dan terhubung langsung ke database Google Sheets saya.');
+  P.push('');
+  P.push(SEP);
+  P.push('1. ARSITEKTUR 4 FILE GOOGLE APPS SCRIPT');
+  P.push(SEP);
+  P.push('Konversi kode Stitch saya menjadi 4 file modular berikut:');
+  P.push('  • Code.gs      → logika server (doGet, include, baca/tulis Google Sheets)');
+  P.push('  • Index.html   → kerangka HTML dari Stitch (memanggil <?!= include(\'CSS\') ?> dan <?!= include(\'JS\') ?>)');
+  P.push('  • CSS.html     → seluruh styling dari Stitch (dalam tag style)');
+  P.push('  • JS.html      → semua logika client (dalam tag script, ambil data via google.script.run, render Chart.js)');
+  P.push('');
+  P.push(SEP);
+  P.push('2. DATA & KONEKSI GOOGLE SHEETS SAYA');
+  P.push(SEP);
+  P.push('Jenis Data     : ' + state.type);
+  P.push('Deskripsi      : ' + desc);
+  P.push('ID Spreadsheet : ' + (ssId || 'Gunakan placeholder SPREADSHEET_ID di baris paling atas Code.gs'));
+  P.push('Nama Sheet     : ' + (shName || 'DATA'));
+  P.push('');
+  P.push('Daftar Kolom (' + colCount + ' kolom):');
+  P.push(cols);
+  P.push('');
+  P.push('Contoh ' + rowCount + ' Baris Pertama Data:');
+  P.push(sample);
+
+  if (state.goals.length) {
+    P.push('');
+    P.push('Metrik & Grafik yang Harus Dihitung Otomatis dari Sheet:');
+    state.goals.forEach(g => P.push('• ' + g + ' (' + goalToChart(g) + ')'));
+  }
+
+  const labels = [];
+  if (lblRev  && lblRev.toLowerCase()  !== 'revenue')     labels.push('- "Revenue"     → ganti jadi "' + lblRev + '"');
+  if (lblProd && lblProd.toLowerCase() !== 'product')     labels.push('- "Product"     → ganti jadi "' + lblProd + '"');
+  if (lblReg  && lblReg.toLowerCase()  !== 'region')      labels.push('- "Region"      → ganti jadi "' + lblReg + '"');
+  if (lblPer  && lblPer.toLowerCase()  !== 'salesperson') labels.push('- "Salesperson" → ganti jadi "' + lblPer + '"');
+
+  if (labels.length) {
+    P.push('');
+    P.push('Penyesuaian Label:');
+    labels.forEach(l => P.push(l));
+  }
+
+  if (state.tier === 'mastery1') {
+    const m1IdCol = document.getElementById('m1IdCol').value.trim();
+    const m1StatusCol = document.getElementById('m1StatusCol').value.trim();
+    const m1Auth = document.getElementById('m1AuthMethod').value;
+    const m1Role = document.getElementById('m1RoleConfig').value;
+
+    P.push('');
+    P.push(SEP);
+    P.push('3. INTEGRASI FITUR MASTERY 1 — DASHBOARD ENGINE (CRUD, DB, LOGIN)');
+    P.push(SEP);
+    P.push('Hubungkan komponen sidebar, form, tabel, dan halaman login pada desain Stitch ke Code.gs:');
+    P.push('- Kolom Primary Key / ID : ' + (m1IdCol || 'Gunakan kolom pertama atau auto-generate ID unik'));
+    P.push('- Kolom Status Badge     : ' + (m1StatusCol || 'Tambahkan badge status berwarna (Active/Pending) di tabel'));
+    P.push('- Metode Login           : ' + m1Auth);
+    P.push('- Pembagian Hak Akses    : ' + m1Role);
+    state.m1Crud.forEach(item => P.push('- ' + item));
+    state.m1Db.forEach(item => P.push('- ' + item));
+    P.push('- Wajib sediakan fungsi di Code.gs: `setupDatabase()`, `loginUser()`, `createRecord()`, `updateRecord()`, dan `deleteRecord()` lengkap dengan `LockService`, pencatatan `AUDIT_LOG`, serta password hash SHA-256 (`Utilities.computeDigest`).');
+  } else if (state.tier === 'mastery2') {
+    const m2Scope = document.getElementById('m2BuildScope').value;
+    const m2Engine = document.getElementById('m2AiEngine').value;
+    const m2Persona = document.getElementById('m2AiPersona').value;
+    const m2SampleQ = document.getElementById('m2SampleQuery').value.trim();
+
+    P.push('');
+    P.push(SEP);
+    P.push('3. INTEGRASI FITUR MASTERY 2 — INTELLIGENT DASHBOARD (AI & AUTO REPORT)');
+    P.push(SEP);
+    P.push('Hubungkan komponen AI Insight, Chatbox AI Assistant, dan tombol Export pada desain Stitch ke Code.gs:');
+    P.push('- Mode Pembangunan  : ' + m2Scope);
+    P.push('- Engine AI         : ' + m2Engine);
+    P.push('- Persona Analis AI : ' + m2Persona);
+    state.m2Insight.forEach(item => P.push('- ' + item));
+    state.m2Assistant.forEach(item => P.push('- ' + item));
+    if (m2SampleQ) P.push('- Pertanyaan Default AI Assistant: "' + m2SampleQ + '"');
+    state.m2Report.forEach(item => P.push('- ' + item));
+    P.push('- Wajib sediakan fungsi `generateAiInsight()`, `askDataAssistant()` untuk Natural Language Query, serta fungsi export ke PDF, Word (.doc), dan Excel (.xlsx/.csv).');
+  }
+
+  if (extra) {
+    P.push('');
+    P.push('Catatan Tambahan: ' + extra);
+  }
+
+  P.push('');
+  P.push(SEP);
+  P.push('INSTRUKSI KONVERSI & TUGAS ANDA');
+  P.push(SEP);
+  P.push('1. Pertahankan 100% tampilan visual, warna, tipografi, layout, dan keindahan desain dari kode Google Stitch saya.');
+  P.push('2. Ganti angka/teks dummy di KPI Cards, Filter Dropdown, dan Tabel Data pada HTML Stitch dengan elemen dinamis yang diisi oleh `JS.html` dari hasil `google.script.run.withSuccessHandler(...).getDashboardData()`.');
+  P.push('3. Ganti grafik statis/SVG bawaan Stitch dengan elemen `<canvas>` yang di-render hidup menggunakan **Chart.js** (via CDN) berdasarkan data riil dari Google Sheets.');
+  P.push('4. Tuliskan kode LENGKAP dan SIAP PAKAI untuk ke-4 file (`Code.gs`, `Index.html`, `CSS.html`, `JS.html`) tanpa disingkat.');
+  P.push('5. Berikan panduan singkat langkah demi langkah untuk mem-paste ke-4 file ke Google Apps Script, mengatur `SPREADSHEET_ID`, dan melakukan Deploy sebagai Web App.');
+  P.push('6. Jika jawaban terlalu panjang dan berisiko terpotong, berhenti di akhir sebuah file yang utuh dan tulis "BERSAMBUNG: (nama file berikutnya)".');
+  P.push('');
+  P.push(SEP);
+  P.push('TEMPEL KODE HTML/CSS DARI GOOGLE STITCH DI BAWAH INI:');
+  P.push(SEP);
+  P.push('[PASTE KODE HASIL EXPORT GOOGLE STITCH ANDA DI SINI]');
+  P.push('');
+  P.push(SEP);
+  P.push('Prompt Builder ini dibuat oleh Yogo AJ — http://yogoaj.github.io');
+  P.push(SEP);
 
   return P.join('\n');
 }
@@ -2029,30 +2264,43 @@ function buildPrompt() {
 
   /* ===== Render sesuai mode ===== */
   const blockLlm = document.getElementById('blockLlm');
+  const blockStaged = document.getElementById('blockStaged');
   const blockStitch = document.getElementById('blockStitch');
+  const blockStitchBridge = document.getElementById('blockStitchBridge');
+  const blockStitchStaged = document.getElementById('blockStitchStaged');
   const info = [];
 
   blockLlm.style.display = 'none';
+  blockStaged.style.display = 'none';
   blockStitch.style.display = 'none';
+  blockStitchBridge.style.display = 'none';
+  blockStitchStaged.style.display = 'none';
 
   if (state.mode === 'llm' || state.mode === 'hybrid') {
     const llmPrompt = buildLlmPrompt();
     document.getElementById('promptLlm').textContent = llmPrompt;
     blockLlm.style.display = 'block';
     info.push('🔷 ' + llmPrompt.length + ' karakter (LLM)');
+    renderStaged();
+    info.push('🧩 5 Tahap LLM Gratis ✓');
   }
 
   if (state.mode === 'stitch' || state.mode === 'hybrid') {
     const stitchPrompt = buildStitchPrompt();
+    const bridgePrompt = buildStitchBridgePrompt();
     document.getElementById('promptStitch').textContent = stitchPrompt;
+    document.getElementById('promptStitchBridge').textContent = bridgePrompt;
     blockStitch.style.display = 'block';
-    info.push('🎨 ' + stitchPrompt.length + ' karakter (Stitch)');
+    blockStitchBridge.style.display = 'block';
+    renderStitchStaged();
+    info.push('🎨 ' + stitchPrompt.length + ' karakter (Stitch UI)');
+    info.push('🔌 Koneksi GAS (Sekaligus + 3 Tahap Gratis) ✓');
   }
 
   /* Info chips */
   const modeChip = '<span class="mode-' + state.mode + '">' +
     (state.mode === 'llm' ? '🔷 Mode LLM' :
-     state.mode === 'stitch' ? '🎨 Mode Stitch' :
+     state.mode === 'stitch' ? '🎨 Mode Stitch + Koneksi GAS' :
      '🔀 Mode Hybrid') + '</span>';
   const finalInfo = [
     '<span>🎯 ' + getTierShortLabel() + '</span>',
@@ -2105,19 +2353,420 @@ function loadSampleForCurrentTier() {
   showToast('🎲 Contoh data Warung Sembako berhasil dimuat!');
 }
 
+/* ====================================================================
+   MODE BERTAHAP LLM (Mini Class, Mastery 1, Mastery 2 — untuk LLM Gratis)
+   ==================================================================== */
+let stagedList = [];
+function buildStagedPrompts() {
+  const g = id => (document.getElementById(id) ? document.getElementById(id).value.trim() : '');
+  const cols = parseColList(colsInput.value.trim()).map(c => typeof c === 'string' ? c : (c.name || c.label || String(c)));
+  const sample = sampleInput.value.trim().split('\n').filter(l => l.trim()).slice(0, 3).join('\n');
+  const ssId = g('ssId') || 'SPREADSHEET_ID_DI_SINI';
+  const shName = g('sheetName') || 'DATA';
+  const theme = g('themeCustom') || state.theme || 'modern, bersih, profesional';
+  const goalsText = state.goals.length ? state.goals.map(x => x + ' (' + goalToChart(x) + ')').join(', ') : '4 KPI utama, line chart tren, bar chart perbandingan';
+  const tailCode = '\n\nATURAN JAWABAN:\n- Tulis HANYA isi file ini dalam satu blok kode, tanpa penjelasan panjang.\n- Jangan menyingkat kode (misalnya "sisanya sama").\n- Jika akan terpotong, berhenti di akhir blok yang utuh dan tulis BERSAMBUNG; saya akan membalas "lanjutkan".';
+
+  /* ----- LEVEL 1: MINI CLASS (5 Tahap Ringkas) ----- */
+  if (state.tier === 'miniclass') {
+    const C = [
+      'KONTRAK PROYEK MINI CLASS (WAJIB diikuti persis; file lain dibuat di percakapan terpisah berdasarkan kontrak ini)',
+      '- Jenis & Konteks data: ' + state.type + ' — ' + (g('desc') || '(isi deskripsi data)'),
+      '- Spreadsheet ID: ' + ssId + ' | Nama Sheet: ' + shName,
+      '- Kolom data (' + cols.length + ' kolom): ' + cols.join(', '),
+      '- Contoh data:\n' + sample,
+      '- Visualisasi: ' + goalsText,
+      '- Tema visual: ' + theme,
+      '',
+      'API SERVER (Code.gs):',
+      '  doGet(e), include(filename)',
+      '  getDashboardData(filters) -> {ok:true, rows, kpis:[{key,label,value,sub}], charts:{chart1,chart2,chart3}, filterOptions:{kategori:[],periode:[]}}',
+      '',
+      'ELEMEN HTML WAJIB (Index.html):',
+      '  #filterKategori, #filterPeriode, #btnResetFilter, #kpiContainer, canvas #chart1 #chart2 #chart3, #searchInput, #dataTable, #emptyState',
+      '',
+      'FUNGSI JS GLOBAL (JS.html):',
+      '  initDashboard(), fetchData(), applyFilters(), renderKpis(kpis), renderCharts(charts), renderTable(rows)'
+    ].join('\n');
+    const head = n => 'DASHBOARD MAGIC — MINI CLASS · TAHAP ' + n + ' dari 5\nSaya membangun dashboard web Google Apps Script + Google Sheets secara bertahap (untuk menghemat kuota LLM gratis). Berikut kontrak proyek, lalu tugas tahap ini.\n\n';
+    const T = [
+      ['Code.gs (backend pembaca data)', [
+        'TUGAS TAHAP 1 — file Code.gs (backend lengkap):',
+        '1. Konstanta SPREADSHEET_ID dan SHEET_NAME di bagian paling atas.',
+        '2. Fungsi doGet(e) menggunakan HtmlService.createTemplateFromFile("Index").evaluate() dan fungsi include(filename).',
+        '3. Fungsi getDashboardData(filters): membaca data dari sheet, menerapkan filter (jika ada), menghitung 4 KPI utama, menyiapkan agregasi data untuk chart1, chart2, chart3, serta daftar unik untuk dropdown filter.',
+        '4. Tangani error dengan try/catch dan kembalikan pesan yang jelas jika sheet kosong.'
+      ], tailCode],
+      ['Index.html (kerangka dashboard)', [
+        'TUGAS TAHAP 2 — file Index.html (struktur HTML):',
+        '1. Header judul dashboard + bar filter (#filterKategori, #filterPeriode, #btnResetFilter).',
+        '2. Container 4 kartu KPI (#kpiContainer), grid 3 grafik Chart.js (canvas #chart1, #chart2, #chart3), dan tabel data (#searchInput, #dataTable).',
+        '3. Muat Chart.js dari CDN, panggil <?!= include("CSS") ?> di <head> dan <?!= include("JS") ?> sebelum </body>.',
+        '4. Gunakan id elemen persis sesuai kontrak.'
+      ], tailCode],
+      ['CSS.html (styling tema)', [
+        'TUGAS TAHAP 3 — file CSS.html:',
+        '1. Bungkus dalam <style>...</style> sesuai tema: ' + theme + '.',
+        '2. Styling rapi untuk header, filter bar, grid KPI cards, card chart, tabel responsif, dan badge/empty state.',
+        '3. Responsif untuk layar desktop dan HP.'
+      ], tailCode],
+      ['JS.html (logika Chart.js & filter)', [
+        'TUGAS TAHAP 4 — file JS.html:',
+        '1. Bungkus dalam <script>...<\/script>. Panggil google.script.run.withSuccessHandler(...).getDashboardData() saat halaman dimuat.',
+        '2. Render 4 KPI cards, 3 grafik Chart.js (hancurkan instance chart lama sebelum redraw saat filter berubah), dan isi tabel data.',
+        '3. Aktifkan filter dropdown dan pencarian tabel secara real-time.'
+      ], tailCode],
+      ['Panduan pasang, deploy & mapping kolom', [
+        'TUGAS TAHAP 5 — panduan implementasi & mapping kolom (tanpa kode panjang):',
+        '1. Tabel mapping kolom data saya ke komponen KPI, Chart, dan Filter.',
+        '2. Langkah demi langkah memasang 4 file (Code.gs, Index.html, CSS.html, JS.html) di Google Apps Script.',
+        '3. Cara Deploy sebagai Web App dan cara cek jika data tidak muncul.'
+      ], '\n\nJawab ringkas, jelas, dan berurutan.']
+    ];
+    return T.map((t, i) => ({ title: t[0], text: head(i + 1) + C + '\n\n' + t[1].join('\n') + t[2] }));
+  }
+
+  /* ----- LEVEL 2: MASTERY 1 (100% Kontrak Asli Anda) ----- */
+  if (state.tier === 'mastery1') {
+    const idCol = g('m1IdCol') || 'id (auto-generate, mis. TRX-0001)';
+    const auth = g('m1AuthMethod'), role = g('m1RoleConfig');
+    const sheets = ['DATA','REFERENCE','USERS','CONFIG','AUDIT_LOG'].filter(n => n === 'DATA' || n === 'USERS' || state.m1Db.some(x => x.indexOf('Sheet ' + n) === 0));
+    const hasAudit = sheets.indexOf('AUDIT_LOG') >= 0;
+    const demo = /Quick Demo/i.test(auth);
+    const C = [
+      'KONTRAK PROYEK (WAJIB diikuti persis; file lain dibuat di percakapan terpisah berdasarkan kontrak ini)',
+      '- Konteks data: ' + (g('desc') || '(isi deskripsi data)'),
+      '- Kolom data (urut di sheet DATA): ' + cols.join(', ') + ' + metadata created_at, updated_at, updated_by',
+      '- Primary key: ' + idCol,
+      '- Contoh data:\n' + sample,
+      '- Sheet: ' + sheets.join(', '),
+      '- Login: ' + auth,
+      '- Hak akses: ' + role,
+      '- Tema visual: ' + theme,
+      '',
+      'API SERVER (Code.gs; semua fungsi mengembalikan {ok:true,...} atau {ok:false,error:"..."}):',
+      '  doGet(e), include(name), setupDatabase()',
+      '  loginUser(username, password) -> {ok, token, user:{username,name,role}}',
+      '  getDashboardData(token, filters) -> {ok, rows, kpis:[{key,label,value}], charts:{chart1,chart2,chart3}, options}',
+      '  createRecord(token, record), updateRecord(token, id, record), deleteRecord(token, id) -> {ok, id}',
+      '  getUsers(token), saveUser(token, user), getConfig(token), saveConfig(token, cfg)  (khusus Admin)',
+      '  token = sesi acak di CacheService (kedaluwarsa 6 jam); setiap fungsi selain loginUser memanggil requireRole_(token, [peran]).',
+      '',
+      'ELEMEN HTML (id/atribut wajib):',
+      '  #loginView, #loginUser, #loginPass, #loginBtn, #loginError; #appView, #sidebar, .nav-item[data-page=overview|data|form|users|settings], #userBadge, #logoutBtn',
+      '  #page-overview, #page-data, #page-form, #page-users, #page-settings; #globalFilter, #kpiCards, canvas #chart1 #chart2 #chart3',
+      '  #dataSearch, #dataTable, #pagination; #recordForm (input name = nama kolom), #recordId (hidden), #saveBtn, #formError; #usersTable; #toast',
+      '',
+      'FUNGSI JS GLOBAL (JS.html): callServer(fn, ...args), login(), logout(), navigate(page), loadDashboard(), renderKpis(), renderCharts(), renderTable(), openEdit(id), submitRecord(), deleteRow(id), applyFilter()'
+    ].join('\n');
+    const head = n => 'DASHBOARD MAGIC — MASTERY 1 · TAHAP ' + n + ' dari 5\nSaya membangun web app Google Apps Script + Google Sheets secara bertahap. Berikut kontrak proyek, lalu tugas tahap ini.\n\n';
+    const T = [
+      ['Code.gs (backend)', [
+        'TUGAS TAHAP 1 — file Code.gs (backend lengkap):',
+        '1. setupDatabase(): buat sheet ' + sheets.join(', ') + ' beserta header; buat akun Admin awal (password di-hash SHA-256 + salt unik via Utilities.computeDigest) dan pengingat agar kredensial segera diganti.',
+        '2. loginUser membuat token acak di CacheService; requireRole_(token, roles) memverifikasi identitas dan peran di server pada SETIAP fungsi. Menyembunyikan menu di UI tidak cukup.',
+        '3. CRUD dengan validasi server, ID unik, created_at/updated_at/updated_by, dibungkus LockService.getScriptLock() dan try...catch; cari baris berdasarkan ID, bukan nomor baris.',
+        hasAudit ? '4. Catat setiap Create/Update/Delete ke AUDIT_LOG (waktu, user, aksi, ID record).' : '4. Sheet AUDIT_LOG tidak dipakai.',
+        '5. getDashboardData: terapkan filter, hitung KPI (SUM, COUNT, AVERAGE, MEDIAN, MIN/MAX untuk kolom numerik yang relevan) dan agregasi untuk chart1..chart3, plus options untuk dropdown filter.',
+        '6. getUsers, saveUser, getConfig, saveConfig khusus Admin.',
+        demo ? '7. Konstanta DEMO_MODE (true/false) di atas file untuk tombol Quick Demo Login.' : '7. Jangan menaruh rahasia atau API key di file HTML.'
+      ], tailCode],
+      ['Index.html (struktur)', [
+        'TUGAS TAHAP 2 — file Index.html (struktur saja):',
+        '1. Dua tampilan: #loginView dan #appView (sidebar 5 menu: Overview, Data, Form, Users, Settings).',
+        '2. Semua id/atribut persis sesuai kontrak. Menu per peran memakai atribut data-roles (hanya untuk tampilan; server tetap memverifikasi).',
+        '3. Muat Chart.js dari CDN dengan versi tetap, lalu sisipkan <?!= include("CSS") ?> di <head> dan <?!= include("JS") ?> sebelum </body>.',
+        '4. Tanpa logika JS di file ini. #recordForm berisi satu input per kolom (tipe sesuai contoh data).'
+      ], tailCode],
+      ['CSS.html (tampilan)', [
+        'TUGAS TAHAP 3 — file CSS.html:',
+        '1. Bungkus dalam <style>...</style>. Layout sidebar + konten, KPI card, kartu chart, tabel dengan badge status, form, tombol loading/disabled, toast, responsif untuk HP.',
+        '2. Pakai variabel CSS sesuai tema; font dengan fallback sistem; tanpa gambar atau aset eksternal.',
+        '3. Gunakan hanya id dan kelas dari kontrak.'
+      ], tailCode],
+      ['JS.html (logika UI)', [
+        'TUGAS TAHAP 4 — file JS.html:',
+        '1. Bungkus dalam <script>...<\/script>. callServer membungkus google.script.run (withSuccessHandler/withFailureHandler) dalam Promise; token disimpan di variabel memori.',
+        '2. login/logout/navigate; tampilkan menu sesuai peran; tampilkan error server ({ok:false}) lewat #toast.',
+        '3. Global Filter: satu perubahan filter memperbarui KPI, ketiga chart Chart.js, dan tabel serentak; hancurkan instance chart lama sebelum menggambar ulang.',
+        '4. Tabel: search, sort, pagination, tombol Edit dan Hapus (dengan konfirmasi).',
+        '5. Form: validasi client (wajib isi, angka/tanggal); tombol Simpan nonaktif dengan loading selama proses (cegah double-submit).'
+      ], tailCode],
+      ['Panduan pasang & deploy', [
+        'TUGAS TAHAP 5 — panduan langkah demi langkah (tanpa kode baru):',
+        '1. Memasang 4 file di Apps Script dengan nama persis: Code.gs, Index, CSS, JS.',
+        '2. Menjalankan setupDatabase(), memberi izin Google, lalu mengganti kredensial Admin default.',
+        '3. Deploy Web App; jelaskan dampak "Execute as" dan "Who has access" terhadap login yang saya pilih, dan cara membuat deployment versi baru setelah kode diubah.',
+        '4. Daftar uji: login, tambah, edit, hapus, filter, cek AUDIT_LOG.',
+        '5. Lima error umum beserta perbaikannya.'
+      ], '\n\nJawab ringkas dan berurutan.']
+    ];
+    return T.map((t, i) => ({ title: t[0], text: head(i + 1) + C + '\n\n' + t[1].join('\n') + t[2] }));
+  }
+
+  /* ----- LEVEL 3: MASTERY 2 (Intelligent Dashboard — 5 Tahap) ----- */
+  const m2Scope = g('m2BuildScope');
+  const m2Engine = g('m2AiEngine');
+  const m2Persona = g('m2AiPersona');
+  const m2SampleQ = g('m2SampleQuery') || 'Tolong analisis tren 3 bulan terakhir dan berikan rekomendasi.';
+  const C2 = [
+    'KONTRAK PROYEK MASTERY 2 (WAJIB diikuti persis; file lain dibuat di percakapan terpisah berdasarkan kontrak ini)',
+    '- Konteks data: ' + (g('desc') || '(isi deskripsi data)'),
+    '- Kolom data: ' + cols.join(', '),
+    '- Contoh data:\n' + sample,
+    '- Mode Pembangunan: ' + m2Scope,
+    '- Engine AI: ' + m2Engine + ' | Persona: ' + m2Persona,
+    '- Tema visual: ' + theme,
+    '',
+    'API SERVER (Code.gs; semua mengembalikan {ok:true,...} atau {ok:false,error:"..."}):',
+    '  doGet(e), include(name), getDashboardData(filters)',
+    '  generateAiInsight(summaryPayload) -> {ok, insightHtml, bullets:[], recommendations:[]}',
+    '  askDataAssistant(question, filterContext) -> {ok, answer, statsUsed}',
+    '',
+    'ELEMEN HTML WAJIB (Index.html):',
+    '  #globalFilter, #btnExportPdf, #btnExportWord, #btnExportExcel, #kpiCards, canvas #chart1 #chart2 #chart3',
+    '  #aiInsightCard, #btnRefreshInsight, #chatHistory, #nlqInput, #btnAskAi, #quickPrompts, #dataSearch, #dataTable, #toast',
+    '',
+    'FUNGSI JS GLOBAL (JS.html):',
+    '  loadDashboard(), renderKpis(), renderCharts(), renderTable(), fetchAiInsight(), sendNlqQuestion(q), exportReport(format)'
+  ].join('\n');
+  const head2 = n => 'DASHBOARD MAGIC — MASTERY 2 · TAHAP ' + n + ' dari 5\nSaya membangun Intelligent Dashboard (Google Apps Script + AI Insight + NLQ + Auto Report) secara bertahap. Berikut kontrak proyek, lalu tugas tahap ini.\n\n';
+  const T2 = [
+    ['Code.gs (Backend + AI Engine & NLQ)', [
+      'TUGAS TAHAP 1 — file Code.gs (backend lengkap):',
+      '1. doGet(e), include(name), dan getDashboardData(filters) yang menghitung KPI, agregasi chart1..chart3, dan ringkasan statistik untuk konteks AI.',
+      '2. generateAiInsight(summaryPayload): ambil GEMINI_API_KEY dari PropertiesService.getScriptProperties(). Jika ada, panggil Gemini API via UrlFetchApp dengan persona ' + m2Persona + '. Sediakan juga Smart Statistical Fallback (rule-based) agar tetap menghasilkan analisis tren MoM, kategori dominan %, anomali, dan rekomendasi meski tanpa API Key.',
+      '3. askDataAssistant(question, filterContext): proses pertanyaan Natural Language Query (NLQ) terhadap agregasi data riil dan kembalikan jawaban akurat.'
+    ], tailCode],
+    ['Index.html (Struktur UI + Panel AI & Export)', [
+      'TUGAS TAHAP 2 — file Index.html (struktur saja):',
+      '1. Header dengan Global Filter dan 3 tombol Export (#btnExportPdf, #btnExportWord, #btnExportExcel).',
+      '2. Card "✨ AI Insight" (#aiInsightCard + #btnRefreshInsight) dan Panel "🤖 AI Data Assistant (NLQ)" (#chatHistory, #quickPrompts dengan contoh "' + m2SampleQ + '", #nlqInput, #btnAskAi).',
+      '3. Baris KPI (#kpiCards), 3 canvas Chart.js (#chart1, #chart2, #chart3), dan tabel data (#dataSearch, #dataTable).',
+      '4. Muat Chart.js dari CDN, sisipkan <?!= include("CSS") ?> dan <?!= include("JS") ?>.'
+    ], tailCode],
+    ['CSS.html (Styling Intelligent Dashboard)', [
+      'TUGAS TAHAP 3 — file CSS.html:',
+      '1. Bungkus dalam <style>...</style> sesuai tema: ' + theme + '.',
+      '2. Desain modern untuk AI Insight Card, bubble chat AI Data Assistant, Quick Prompt chips, tombol Export PDF/Word/Excel, KPI cards, chart grid, dan style @media print untuk cetak PDF rapi.'
+    ], tailCode],
+    ['JS.html (Logika Chart.js, AI NLQ & Generator PDF/Word/Excel)', [
+      'TUGAS TAHAP 4 — file JS.html:',
+      '1. Bungkus dalam <script>...<\/script>. Ambil data via google.script.run, render KPI, 3 Chart.js, dan tabel.',
+      '2. Fungsi fetchAiInsight() dan sendNlqQuestion(q) untuk interaksi chat AI Data Assistant beserta Quick Prompt chips.',
+      '3. Fungsi exportReport(format) yang bekerja nyata untuk mengunduh laporan ke format PDF (print/window report rapi), Word (.doc Blob lengkap dengan narasi AI Insight + KPI + Tabel), dan Excel (.csv/.xlsx Blob).'
+    ], tailCode],
+    ['Panduan Setup Gemini API Key & Deploy', [
+      'TUGAS TAHAP 5 — panduan langkah demi langkah (tanpa kode baru):',
+      '1. Cara memasang 4 file di Google Apps Script dan menghubungkan SPREADSHEET_ID.',
+      '2. Cara mendapatkan API Key Google Gemini gratis di Google AI Studio dan menyimpannya di Project Settings -> Script Properties (GEMINI_API_KEY).',
+      '3. Cara menguji fitur AI Insight, tanya jawab NLQ, dan tombol Export PDF / Word / Excel.'
+    ], '\n\nJawab ringkas dan berurutan.']
+  ];
+  return T2.map((t, i) => ({ title: t[0], text: head2(i + 1) + C2 + '\n\n' + t[1].join('\n') + t[2] }));
+}
+
+function renderStaged() {
+  const box = document.getElementById('blockStaged');
+  if (!(state.mode === 'llm' || state.mode === 'hybrid')) { box.style.display = 'none'; return; }
+  stagedList = buildStagedPrompts();
+  document.getElementById('stagedRows').innerHTML = stagedList.map((x, i) =>
+    '<div class="staged-row">' +
+      '<span class="staged-row-title"><strong>Tahap ' + (i + 1) + '</strong> — ' + x.title + ' <small>(' + x.text.length + ' karakter)</small></span>' +
+      '<span class="staged-actions">' +
+        '<button type="button" class="preview-btn" onclick="toggleStagedPreview(\'llm\',' + i + ')">👁️ Lihat</button>' +
+        '<button type="button" class="dl-btn" onclick="downloadStaged(' + i + ')">💾 .TXT</button>' +
+        '<button type="button" class="copy-llm" onclick="copyStaged(' + i + ')">📋 Copy Tahap ' + (i + 1) + '</button>' +
+      '</span>' +
+      '<div class="staged-preview" id="stagedPreviewLlm_' + i + '"><pre></pre></div>' +
+    '</div>').join('');
+  stagedList.forEach((x, i) => {
+    const pre = document.querySelector('#stagedPreviewLlm_' + i + ' pre');
+    if (pre) pre.textContent = x.text;
+  });
+  box.style.display = 'block';
+}
+
+function copyStaged(i) {
+  const t = stagedList[i].text;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(() => showToast('✅ Prompt Tahap ' + (i + 1) + ' berhasil disalin!')).catch(() => fallbackCopy(t));
+  } else { fallbackCopy(t); }
+}
+
+function downloadStaged(i) {
+  const blob = new Blob([stagedList[i].text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'prompt-' + state.tier + '-tahap' + (i + 1) + '.txt'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('💾 Tahap ' + (i + 1) + ' diunduh!');
+}
+
+/* ====================================================================
+   MODE BERTAHAP KONEKSI STITCH KE GAS (3 Tahap untuk LLM Gratis)
+   ==================================================================== */
+let stitchStagedList = [];
+function buildStitchStagedPrompts() {
+  const g = id => (document.getElementById(id) ? document.getElementById(id).value.trim() : '');
+  const cols = parseColList(colsInput.value.trim()).map(c => typeof c === 'string' ? c : (c.name || c.label || String(c)));
+  const sample = sampleInput.value.trim().split('\n').filter(l => l.trim()).slice(0, 3).join('\n');
+  const ssId = g('ssId') || 'Gunakan placeholder SPREADSHEET_ID di atas Code.gs';
+  const shName = g('sheetName') || 'DATA';
+  const goalsText = state.goals.length ? state.goals.map(x => x + ' (' + goalToChart(x) + ')').join(', ') : '4 KPI utama, line chart tren, bar chart perbandingan';
+
+  let tierExtra = '';
+  if (state.tier === 'mastery1') {
+    tierExtra = '- Fitur Mastery 1: Sidebar 5 menu (Overview, Data, Form, Users, Settings), Full CRUD dengan LockService, Sheet DATA/USERS/CONFIG/REFERENCE/AUDIT_LOG, Login SHA-256 (' + g('m1AuthMethod') + '), Role (' + g('m1RoleConfig') + ').';
+  } else if (state.tier === 'mastery2') {
+    tierExtra = '- Fitur Mastery 2: Card AI Insight otomatis (' + g('m2AiEngine') + '), Chatbox AI Data Assistant (NLQ), serta 3 tombol Auto Report Generator (PDF, Word, Excel).';
+  } else {
+    tierExtra = '- Fitur Mini Class: 4 KPI Cards, grafik interaktif Chart.js, Global Filter dropdown, dan pencarian tabel.';
+  }
+
+  const C = [
+    'KONTRAK KONVERSI GOOGLE STITCH KE GOOGLE APPS SCRIPT (WAJIB DIIKUTI PERSIS):',
+    '- Level Kelas: ' + getTierShortLabel(),
+    '- Jenis & Deskripsi Data: ' + state.type + ' — ' + g('desc'),
+    '- Spreadsheet ID: ' + ssId + ' | Nama Sheet: ' + shName,
+    '- Kolom Data (' + cols.length + ' kolom): ' + cols.join(', '),
+    '- Contoh Data:\n' + sample,
+    '- Visualisasi: ' + goalsText,
+    tierExtra,
+    '- Standar ID Elemen Penghubung (harus konsisten di Index.html, JS.html, dan Code.gs):',
+    '  * KPI Cards container: #kpiCards (atau #kpi1, #kpi2, #kpi3, #kpi4)',
+    '  * Canvas Chart.js: #chart1, #chart2, #chart3',
+    '  * Filter & Tabel: #globalFilter, #dataSearch, #dataTableBody'
+  ].join('\n');
+
+  const tailRule = '\n\nATURAN JAWABAN:\n- Tulis kode LENGKAP tanpa disingkat ("...sisanya sama" dilarang).\n- Jika hampir terpotong oleh batas token gratis, berhenti di baris yang utuh dan tulis BERSAMBUNG.';
+
+  const steps = [
+    {
+      title: 'Pecah HTML/CSS Stitch jadi Index.html & CSS.html',
+      text: [
+        'STITCH TO GAS (MODE BERTAHAP LLM GRATIS) — TAHAP 1 dari 3: FILE Index.html & CSS.html',
+        '',
+        C,
+        '',
+        'TUGAS TAHAP 1:',
+        'Di bawah ini saya lampirkan kode HTML/CSS hasil export dari **Google Stitch**. Tolong pecah dan rapikan menjadi 2 file Google Apps Script:',
+        '1. **Index.html**: Pertahankan 100% desain visual Stitch, ganti chart statis dengan `<canvas id="chart1"></canvas>`, `<canvas id="chart2"></canvas>`, dst., beri `id` yang konsisten sesuai Kontrak pada KPI, Filter, dan Tabel. Tambahkan CDN Chart.js, `<?!= include(\'CSS\') ?>` di `<head>`, dan `<?!= include(\'JS\') ?>` sebelum `</body>`.',
+        '2. **CSS.html**: Pindahkan seluruh CSS custom dari kode Stitch ke dalam `<style>...</style>`.',
+        tailRule,
+        '',
+        '═══════════════════════════════════════════════════════════════',
+        'TEMPEL KODE HTML/CSS DARI GOOGLE STITCH DI BAWAH INI:',
+        '═══════════════════════════════════════════════════════════════',
+        '[PASTE KODE HASIL EXPORT GOOGLE STITCH ANDA DI SINI]'
+      ].join('\n')
+    },
+    {
+      title: 'Buat Code.gs (Backend Google Sheets sesuai Kontrak)',
+      text: [
+        'STITCH TO GAS (MODE BERTAHAP LLM GRATIS) — TAHAP 2 dari 3: FILE Code.gs (BACKEND)',
+        '',
+        C,
+        '',
+        'TUGAS TAHAP 2:',
+        'Tuliskan kode LENGKAP untuk file **Code.gs** yang melayani UI Stitch sesuai Kontrak di atas:',
+        '1. Konstanta `SPREADSHEET_ID` dan `SHEET_NAME` di baris paling atas, fungsi `doGet(e)` dan `include(filename)`.',
+        '2. Fungsi `getDashboardData(filters)` yang membaca Google Sheets, menerapkan filter, menghitung metrik KPI, dan menyiapkan data agregasi untuk Chart.js (`chart1`, `chart2`, `chart3`) serta baris tabel.',
+        state.tier === 'mastery1'
+          ? '3. Sertakan fungsi Mastery 1 lengkap: `setupDatabase()`, `loginUser(username, password)` dengan SHA-256 hash & CacheService token, serta `createRecord()`, `updateRecord()`, `deleteRecord()` dengan `LockService` dan `AUDIT_LOG`.'
+          : (state.tier === 'mastery2'
+            ? '3. Sertakan fungsi Mastery 2 lengkap: `generateAiInsight()` (Gemini API via UrlFetchApp + Smart Statistical Fallback) dan `askDataAssistant(question, context)` untuk Natural Language Query.'
+            : '3. Sertakan error handling (`try/catch`) agar aman jika data di Sheet masih kosong.'),
+        tailRule
+      ].join('\n')
+    },
+    {
+      title: 'Buat JS.html (Koneksi google.script.run + Chart.js + Panduan Deploy)',
+      text: [
+        'STITCH TO GAS (MODE BERTAHAP LLM GRATIS) — TAHAP 3 dari 3: FILE JS.html & PANDUAN DEPLOY',
+        '',
+        C,
+        '',
+        'TUGAS TAHAP 3:',
+        'Tuliskan kode LENGKAP untuk file **JS.html** (dibungkus dalam tag `<script>...<\/script>`) yang menghidupkan tampilan Stitch dari Tahap 1 dan memanggil fungsi `Code.gs` dari Tahap 2:',
+        '1. Memanggil `google.script.run.withSuccessHandler(...).getDashboardData()` saat halaman dibuka.',
+        '2. Mengisi angka KPI ke `#kpiCards`, menggambar grafik interaktif **Chart.js** pada `#chart1`, `#chart2`, `#chart3` (destroy chart lama sebelum redraw), dan mengisi `#dataTableBody`.',
+        '3. Mengaktifkan `#globalFilter` dan pencarian `#dataSearch`.',
+        state.tier === 'mastery1'
+          ? '4. Menghubungkan navigasi 5 menu sidebar, login/logout, modal form tambah/edit data, dan hapus data ke fungsi CRUD di `Code.gs`.'
+          : (state.tier === 'mastery2'
+            ? '4. Menghubungkan tombol Refresh AI Insight, chatbox AI Data Assistant (NLQ), serta tombol Export PDF, Word (.doc), dan Excel (.csv/.xlsx).'
+            : '4. Menambahkan indikator loading dan penanganan jika data kosong.'),
+        '5. Di akhir jawaban, berikan panduan singkat 5 langkah memasang ke-4 file di Google Apps Script dan Deploy sebagai Web App.',
+        tailRule
+      ].join('\n')
+    }
+  ];
+
+  return steps;
+}
+
+function renderStitchStaged() {
+  const box = document.getElementById('blockStitchStaged');
+  if (!(state.mode === 'stitch' || state.mode === 'hybrid')) { box.style.display = 'none'; return; }
+  stitchStagedList = buildStitchStagedPrompts();
+  document.getElementById('stagedStitchRows').innerHTML = stitchStagedList.map((x, i) =>
+    '<div class="staged-row">' +
+      '<span class="staged-row-title"><strong>Tahap ' + (i + 1) + '</strong> — ' + x.title + ' <small>(' + x.text.length + ' karakter)</small></span>' +
+      '<span class="staged-actions">' +
+        '<button type="button" class="preview-btn" onclick="toggleStagedPreview(\'stitch\',' + i + ')">👁️ Lihat</button>' +
+        '<button type="button" class="dl-btn" onclick="downloadStitchStaged(' + i + ')">💾 .TXT</button>' +
+        '<button type="button" class="copy-bridge" onclick="copyStitchStaged(' + i + ')">📋 Copy Tahap ' + (i + 1) + '</button>' +
+      '</span>' +
+      '<div class="staged-preview" id="stagedPreviewStitch_' + i + '"><pre></pre></div>' +
+    '</div>').join('');
+  stitchStagedList.forEach((x, i) => {
+    const pre = document.querySelector('#stagedPreviewStitch_' + i + ' pre');
+    if (pre) pre.textContent = x.text;
+  });
+  box.style.display = 'block';
+}
+
+function toggleStagedPreview(group, idx) {
+  const id = group === 'llm' ? 'stagedPreviewLlm_' + idx : 'stagedPreviewStitch_' + idx;
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('show');
+}
+
+function copyStitchStaged(i) {
+  const t = stitchStagedList[i].text;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(() => showToast('✅ Koneksi Stitch Tahap ' + (i + 1) + ' disalin!')).catch(() => fallbackCopy(t));
+  } else { fallbackCopy(t); }
+}
+
+function downloadStitchStaged(i) {
+  const blob = new Blob([stitchStagedList[i].text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'prompt-stitch-ke-gas-' + state.tier + '-tahap' + (i + 1) + '.txt'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('💾 Stitch ke GAS Tahap ' + (i + 1) + ' diunduh!');
+}
+
 /* ===== Copy block ===== */
 function copyBlock(which) {
-  let text = '';
-  if (which === 'llm') {
-    text = document.getElementById('promptLlm').textContent;
-  } else if (which === 'stitch') {
-    text = document.getElementById('promptStitch').textContent;
-  }
+  const mapId = {
+    llm: 'promptLlm',
+    stitch: 'promptStitch',
+    bridge: 'promptStitchBridge'
+  };
+  const mapLabel = {
+    llm: 'LLM',
+    stitch: 'Stitch UI (Langkah 1)',
+    bridge: 'Koneksi Stitch ke GAS (Langkah 2A)'
+  };
+  const text = document.getElementById(mapId[which]) ? document.getElementById(mapId[which]).textContent : '';
   if (!text) return;
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      showToast('✅ Prompt ' + (which === 'llm' ? 'LLM' : 'Stitch') + ' copied!');
+      showToast('✅ Prompt ' + mapLabel[which] + ' copied!');
     }).catch(() => fallbackCopy(text));
   } else {
     fallbackCopy(text);
@@ -2135,8 +2784,13 @@ function fallbackCopy(text) {
 }
 
 function downloadBlock(which) {
-  const id = which === 'llm' ? 'promptLlm' : 'promptStitch';
-  const text = document.getElementById(id).textContent;
+  const mapId = {
+    llm: 'promptLlm',
+    stitch: 'promptStitch',
+    bridge: 'promptStitchBridge'
+  };
+  const id = mapId[which];
+  const text = document.getElementById(id) ? document.getElementById(id).textContent : '';
   if (!text) return;
   const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob);
