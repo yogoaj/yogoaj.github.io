@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Magic — Prompt Builder (Mini Class · Mastery 1 · Mastery 2)</title>
+<title>Dashboard Magic Prompt Builder v14 — Auto-Inject Kode Putaran 2</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -508,9 +508,45 @@
     width: 100%; display: none; margin-top: 8px;
   }
   .staged-preview.show { display: block; }
+
+  /* M1.4 — premium makeover, isolated from the existing generator */
+  .m14-panel { border: 2px solid #0D9488; background: linear-gradient(180deg,#FFFFFF,#F0FDFA); }
+  .m14-panel .m14-note { font-size: 12px; color: #115E59; background: #CCFBF1; padding: 12px; border-radius: 9px; margin: 10px 0 16px; }
+  .m14-panel textarea { min-height: 110px; }
+  .m14-panel .m14-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .m14-panel .m14-actions button { flex: 1; min-width: 190px; margin-top: 0; }
+  .m14-result { display: none; margin-top: 18px; }
+  .m14-result.show { display: block; }
+  .m14-result pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 350px; overflow-y: auto; background: #0F172A; color: #E2E8F0; padding: 14px; border-radius: 8px; font-size: 12px; }
+  .m14-result .m14-copy { border: 0; background: #0D9488; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 700; }
+  .m14-result h4 { margin: 18px 0 8px; color: #115E59; }
+
+
+/* Dashboard Magic Debug & Repair — available to all class tiers */
+.debug-panel{margin:26px 0;padding:22px;border:1px solid #b8c9e0;border-radius:16px;background:linear-gradient(135deg,#f7faff,#eef5ff);color:#1c304d}
+.debug-panel h2{font-size:21px;margin:0 0 7px;color:#183b6a}.debug-panel p{line-height:1.55}
+.debug-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:14px 0}
+.debug-field{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700}
+.debug-field input,.debug-field select,.debug-field textarea{box-sizing:border-box;width:100%;border:1px solid #b6c6da;border-radius:9px;padding:10px;font:13px/1.5 inherit;background:white;color:#16263a}
+.debug-field textarea{font:12px/1.5 ui-monospace,Consolas,monospace;resize:vertical;min-height:105px}
+.debug-field.wide{grid-column:1/-1}.debug-field small{font-weight:400;color:#52677e}
+.debug-actions{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}
+.debug-actions button{border:0;border-radius:9px;padding:12px 16px;font-weight:700;cursor:pointer;background:#2053a1;color:#fff}
+.debug-actions button.secondary{background:#e1e9f5;color:#15345d}
+#debugOutput{display:none;background:#fff;border:1px solid #b6c6da;border-radius:10px;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:540px;overflow:auto;font:12px/1.6 ui-monospace,Consolas,monospace}
+#debugFeedback{font-size:13px;font-weight:650;color:#9c341d;min-height:18px}
+@media(max-width:700px){.debug-grid{grid-template-columns:1fr}.debug-panel{padding:14px}}
+</style>
+<style>
+.old-code-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.old-code-grid label{font-size:13px;font-weight:600;display:block;min-width:0}
+.old-code-input{display:block;width:100%;box-sizing:border-box;min-height:155px;resize:vertical;margin-top:6px;padding:12px;border:1px solid #b9c5d5;border-radius:9px;background:#fff;color:#182335;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;tab-size:2}
+.old-code-input:focus{outline:2px solid #14b8a6;outline-offset:1px}
+@media(max-width:700px){.old-code-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+
 <div class="container">
 
   <!-- HEADER DINAMIS SESUAI LEVEL KELAS -->
@@ -538,11 +574,15 @@
       <span class="rm-arrow">→</span>
       <span class="rm-step" data-tier="mastery1">05 LOGIN</span>
       <span class="rm-arrow">→</span>
-      <span class="rm-step" data-tier="mastery2">06 AI INSIGHT</span>
+      <span class="rm-step" data-tier="mastery1">06 PREMIUM UI</span>
       <span class="rm-arrow">→</span>
-      <span class="rm-step" data-tier="mastery2">07 AI ASSISTANT</span>
+      <span class="rm-step" data-tier="mastery2">07 AI INSIGHT</span>
       <span class="rm-arrow">→</span>
-      <span class="rm-step" data-tier="mastery2">08 AUTO REPORT</span>
+      <span class="rm-step" data-tier="mastery2">08 AI ASSISTANT</span>
+      <span class="rm-arrow">→</span>
+      <span class="rm-step" data-tier="mastery2">09 AUTO REPORT</span>
+      <span class="rm-arrow">→</span>
+      <span class="rm-step" data-tier="mastery2">10 INTELLIGENT UI</span>
     </div>
   </div>
 
@@ -565,7 +605,7 @@
 
     <div class="tier-card t-m1" data-tier="mastery1">
       <div class="tier-card-top">
-        <span class="tier-badge">MASTERY 1 · STEP 03 – 05</span>
+        <span class="tier-badge">MASTERY 1 · STEP 03 – 06</span>
         <span class="lock-pill locked" id="lockPillM1">🔒 Member</span>
       </div>
       <div class="tier-title">⚙️ Dashboard Engine</div>
@@ -574,12 +614,13 @@
         <span>✓ CRUD & Database Design</span>
         <span>✓ Form, Input & Validation</span>
         <span>✓ Multi-User, Login & Permission</span>
+        <span>✓ Stitch Premium UI Makeover</span>
       </div>
     </div>
 
     <div class="tier-card t-m2" data-tier="mastery2">
       <div class="tier-card-top">
-        <span class="tier-badge">MASTERY 2 · STEP 06 – 08</span>
+        <span class="tier-badge">MASTERY 2 · STEP 07 – 10</span>
         <span class="lock-pill locked" id="lockPillM2">🔒 Member</span>
       </div>
       <div class="tier-title">✨ Intelligent Dashboard</div>
@@ -588,6 +629,7 @@
         <span>✓ AI Insight Otomatis</span>
         <span>✓ AI Data Assistant & NLQ</span>
         <span>✓ PDF / Word / Excel Generator</span>
+        <span>✓ Intelligent UI Upgrade (M2.4)</span>
       </div>
     </div>
   </div>
@@ -840,10 +882,10 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
         <div class="badge m1-badge">STEP 05 · LOGIN</div>
       </div>
       <div class="step-hint">
-        Atur sistem keamanan login dan pembagian hak akses (Role-Based Access Control).
+        Gunakan preset kelas: admin / admin12345 (hanya demo akses terbatas), lalu wajib ubah password pada login pertama. Atur autentikasi, role, dan panduan login pertama kali. Wajib lulus Login Readiness Gate sebelum lanjut.
       </div>
 <div class="info-note teal" style="margin-left:0;">
-<strong>🔐 Catatan keamanan:</strong> prompt akan meminta password disimpan sebagai <em>hash</em> dan role dicek di <em>server</em>. Opsi Hybrid hanya untuk latihan. Login SSO Google bergantung pada setelan deploy (Execute as / Who has access).
+<strong>🔐 Catatan keamanan:</strong> prompt akan meminta password disimpan sebagai <em>hash</em> dan role dicek di <em>server</em>. Hindari kredensial default dan tombol bypass login. Login SSO Google bergantung pada setelan deploy (Execute as / Who has access).
 </div>
       <div class="row" style="margin-bottom: 12px;">
         <div>
@@ -851,7 +893,7 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
           <select id="m1AuthMethod">
             <option value="Custom Login Page (Username/Email & Password/PIN divalidasi ke Sheet USERS)">Halaman Login Kustom (Username & Password di Sheet USERS)</option>
             <option value="Google Workspace Email Detection (Session.getActiveUser().getEmail() dicocokkan dengan Sheet USERS)">Deteksi Email Google Otomatis (SSO Google Account)</option>
-            <option value="Hybrid (Bisa Login Form Username/Password + Tombol Quick Demo Login Admin/Staff/Viewer)">Hybrid Login + Tombol Quick Demo Login (hanya untuk latihan)</option>
+            <option value="Google Account terverifikasi + Role di Sheet USERS (rekomendasi jika deployment mendukung identitas)">Google Account terverifikasi + Role USERS (rekomendasi)</option>
           </select>
         </div>
         <div>
@@ -861,6 +903,56 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
             <option value="2 Role: Admin (Full Akses CRUD & Settings) dan Viewer/Tamu (Hanya Lihat Dashboard)">2 Role: Admin & Viewer</option>
           </select>
         </div>
+      </div>
+    </div>
+
+    <!-- M1.4: STITCH PREMIUM UI MAKEOVER — independent post-deployment workflow -->
+    <div class="step m1-box m14-panel" id="m14Panel">
+      <div class="step-head">
+        <div class="step-num m1">M1.4</div>
+        <div class="step-title">Google Stitch — Premium UI Makeover</div>
+        <div class="badge m1-badge">STEP 06 · PREMIUM UI</div>
+      </div>
+      <p class="m14-note"><strong>📍 Kapan Masuk ke Google Stitch? (Putaran 3 — Pasca Quality Gate B):</strong> Jalankan tahap ini <strong>HANYA SETELAH aplikasi Mastery 1 lulus Putaran 1 (Quality Gate A) dan Putaran 2 (Quality Gate B)</strong>. Simpan backup 4 file GAS Anda, ambil screenshot aplikasi yang sudah berfungsi, buat desain di Stitch, lalu terapkan khusus pada frontend (<code>Index.html</code> &amp; <code>CSS.html</code>) tanpa merusak backend <code>Code.gs</code>.</p>
+      <div class="row">
+        <div class="field-row">
+          <label class="field-label" for="m14AppName">Nama aplikasi</label>
+          <input type="text" id="m14AppName" placeholder="Contoh: Business Performance Dashboard">
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="m14Scope">Cakupan makeover</label>
+          <select id="m14Scope">
+            <option value="Overview / Dashboard saja">Overview / Dashboard saja (praktik 30 menit)</option>
+            <option value="Overview, Data, Form, Users, Settings">Seluruh halaman (lanjutan)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field-row">
+          <label class="field-label" for="m14Theme">Gaya visual premium</label>
+          <select id="m14Theme">
+            <option value="Modern SaaS: indigo, slate, putih; kartu KPI rapi, spacing lega">Modern SaaS — Indigo</option>
+            <option value="Executive: navy, teal, putih; profesional dan minimalis">Executive — Navy & Teal</option>
+            <option value="Minimal: monokrom, tipografi kuat, aksen warna hemat">Minimal — Monochrome</option>
+            <option value="Light premium: putih, aksen violet, bayangan halus">Light Premium — Violet</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="m14ExportType">Format hasil ekspor Stitch</label>
+          <select id="m14ExportType">
+            <option value="HTML/CSS/vanilla JavaScript">HTML/CSS/JavaScript</option>
+            <option value="React/Tailwind; konversi ke HTML/CSS/vanilla JavaScript kompatibel GAS">React/Tailwind (perlu adaptasi)</option>
+            <option value="Screenshot / gambar referensi; terjemahkan ke HTML/CSS">Screenshot / referensi visual</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="m14Components">Komponen atau perilaku UI yang wajib dipertahankan</label>
+        <textarea id="m14Components" placeholder="Contoh: sidebar, filter periode, 4 KPI, grafik Chart.js, tabel CRUD, modal input, badge role."></textarea>
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="m14Notes">Catatan tambahan (opsional)</label>
+        <textarea id="m14Notes" placeholder="Contoh: desktop-first, responsif di ponsel, font Plus Jakarta Sans."></textarea>
       </div>
     </div>
   </div>
@@ -883,8 +975,12 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
       </div>
       <select id="m2BuildScope">
         <option value="Bangun Sistem Utuh (Dashboard + CRUD/Database Engine + AI Insight + AI Data Assistant + Auto Report Generator)">Bangun Sistem Utuh (Dashboard + CRUD + AI Insight + AI Assistant + Auto Report)</option>
-        <option value="Fokus Modul Intelligent Dashboard (Dashboard + AI Insight + AI Data Assistant NLQ + PDF/Word/Excel Generator)">Fokus Modul Intelligent Dashboard (Dashboard + AI Insight + AI Assistant + Auto Report)</option>
+        <option value="Fokus Modul Intelligent Dashboard (Dashboard + AI Insight + AI Data Assistant NLQ + PDF/Word/Excel Generator)">Fokus Modul Intelligent Dashboard (tanpa CRUD baru; untuk eksperimen mandiri)</option>
+        <option value="Upgrade Aplikasi Mastery 1 (Pertahankan Dashboard + CRUD + Login + Role + Database, tambahkan AI Insight + AI Assistant + Auto Report)">Upgrade Aplikasi Mastery 1 (pertahankan CRUD, login, role; direkomendasikan)</option>
       </select>
+      <div class="info-note purple" style="margin-left:0; margin-top:12px;">
+        <strong>Strategi sesuai LLM:</strong> Bangun Sistem Utuh cocok untuk LLM berbayar dengan konteks/output besar (CRUD wajib ada). Fokus Modul membuat prototipe AI tanpa CRUD baru. Upgrade Mastery 1 adalah jalur lanjutan paling aman; unggah 4 file M1 dan gunakan modul <strong>Mastery 2 Connected</strong> untuk audit &amp; integrasi. Semua jalur tetap memerlukan pengujian nyata.
+      </div>
     </div>
 
     <!-- M2.1: AI INSIGHT -->
@@ -964,6 +1060,86 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
         <div class="chip purple selected" data-value="Tombol Export Excel (.xlsx/.csv) (Sheet data terfilter + ringkasan statistik)">📗 Excel (.xlsx) Generator</div>
         <div class="chip purple selected" data-value="Sertakan otomatis hasil AI Insight & Rekomendasi terbaru di halaman pertama laporan">Sertakan Narasi AI Insight di Laporan</div>
       </div>
+    </div>
+    <!-- M2.4: INTELLIGENT UI UPGRADE -->
+    <div class="step m2-box m14-panel" id="m24Panel" style="border-color:#7C3AED;background:linear-gradient(180deg,#fff,#FAF5FF)">
+      <div class="step-head">
+        <div class="step-num m2">M2.4</div>
+        <div class="step-title">Intelligent UI Upgrade — Google Stitch</div>
+        <div class="badge m2-badge">STEP 10 · INTELLIGENT UI</div>
+      </div>
+      <div class="step-hint" style="padding-left:0">Redesign antarmuka fitur AI pada aplikasi GAS yang sudah berfungsi. Menghasilkan dua prompt: Stitch UI dan integrasi frontend tanpa merusak backend.</div>
+      <div class="info-note purple" style="margin-left:0">
+        <strong>📍 Kapan Masuk ke Google Stitch? (Putaran 3 — Pasca Quality Gate B):</strong> Jalankan tahap ini <strong>HANYA SETELAH aplikasi Mastery 2 lulus Putaran 1 (Quality Gate A: AI Insight &amp; NLQ) dan Putaran 2 (Quality Gate B: Auto Report &amp; Connected API)</strong>. Simpan backup 4 file GAS Anda, ambil screenshot aplikasi yang sudah berfungsi, lalu gunakan Stitch khusus untuk memperbarui frontend (<code>Index.html</code> &amp; <code>CSS.html</code>).
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="m24Mode">Mode integrasi</label>
+        <select id="m24Mode">
+          <option value="upgrade">Mode A — Upgrade dari Mastery 1 (pertahankan design system M1.4)</option>
+          <option value="full">Mode B — Full Intelligent UI Makeover (tanpa prasyarat M1.4)</option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="field-row">
+          <label class="field-label" for="m24AppName">Nama aplikasi</label>
+          <input type="text" id="m24AppName" placeholder="Contoh: Intelligent Business Dashboard">
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="m24Theme">Gaya visual</label>
+          <select id="m24Theme">
+            <option value="Match existing Mastery 1 design tokens, colors, typography and spacing">Ikuti desain Mastery 1</option>
+            <option value="Premium SaaS: navy, violet, clean cards and readable AI panels">Premium SaaS — Navy & Violet</option>
+            <option value="Executive Analytics: slate, teal, minimalist and accessible">Executive Analytics — Slate & Teal</option>
+            <option value="Clean AI Workspace: white, indigo, airy responsive layout">Clean AI Workspace — Indigo</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="field-label">Komponen UI AI yang akan diperbarui</label>
+        <div class="chip-group" id="chipM24Features">
+          <div class="chip purple selected" data-value="AI Insight panel: summary, growth trends, evidence, confidence/limitations, loading and fallback labels">AI Insight Panel</div>
+          <div class="chip purple selected" data-value="AI Assistant chat: conversation, quick prompts, source indicators, streaming/loading and error states">AI Assistant Chat</div>
+          <div class="chip purple selected" data-value="NLQ interface: filter-aware question input, supported query hints and graceful unsupported-query messages">Natural Language Query</div>
+          <div class="chip purple selected" data-value="Report Center: PDF/Word/Excel download buttons, format labels, progress and error feedback">Report Center</div>
+          <div class="chip purple" data-value="AI Settings: provider status, API key configuration guidance without exposing secrets, fallback status">AI Settings & Status</div>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="m24Constraints">Komponen/fungsi lama yang wajib dipertahankan</label>
+        <textarea id="m24Constraints" placeholder="Contoh: CRUD, Chart.js, sidebar, google.script.run, login, role, KPI, filter, download..."></textarea>
+      </div>
+      <div class="field-row">
+        <label class="field-label" for="m24Notes">Catatan desain tambahan (opsional)</label>
+        <textarea id="m24Notes" placeholder="Contoh: pertahankan layout mobile, label AI vs statistik fallback, tidak menampilkan API key."></textarea>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="tier-section" id="m2ConnectedSection">
+    <div class="divider-title purple">Mastery 2 · Intelligent &amp; Connected Dashboard — 5 Modul</div>
+    <div class="step m2-box">
+      <div class="step-head"><div class="step-num highlight">AI</div><div class="step-title">M2.1 · AI &amp; API Foundation</div></div>
+      <p class="step-hint">Konfigurasi provider tanpa memasukkan API key asli ke browser, prompt, atau file HTML. Simpan key melalui Script Properties di server.</p>
+      <div class="field-row"><label class="field-label" for="m2Provider">Provider AI utama</label><select id="m2Provider"><option value="gemini">Google AI Studio — Gemini API</option><option value="groq">GroqCloud — Groq API</option></select></div>
+      <div class="field-row"><label class="field-label" for="m2Model">Model AI (opsional, cek ketersediaan di console)</label><input id="m2Model" placeholder="Isi ID model resmi yang tersedia; jangan menebak" /></div>
+      <div class="field-row"><label class="field-label" for="m2Fallback">Strategi fallback</label><select id="m2Fallback"><option value="statistical">Statistical fallback tanpa API</option><option value="secondary">Provider kedua → statistical fallback</option><option value="none">Error eksplisit tanpa fallback</option></select></div>
+      <div class="field-row"><label class="field-label" for="m2Features">M2.2 · AI Insight &amp; Assistant</label><select id="m2Features"><option value="insight_nlq">AI Insight + NLQ</option><option value="insight">AI Insight saja</option><option value="nlq">NLQ saja</option></select></div>
+    </div>
+    <div class="step m2-box">
+      <div class="step-head"><div class="step-num highlight">API</div><div class="step-title">M2.3 · Public API &amp; Custom API</div></div>
+      <div class="field-row"><label class="field-label" for="m2PublicApi">Public API untuk dashboard</label><select id="m2PublicApi"><option value="openmeteo">Open-Meteo — cuaca Jakarta (tanpa API key sesuai ketentuan)</option><option value="worldbank">World Bank — indikator ekonomi</option><option value="custom">Custom REST API (URL sendiri)</option><option value="none">Tidak menggunakan Public API</option></select></div>
+      <div class="field-row"><label class="field-label" for="m2PublicUrl">URL endpoint (khusus Custom REST API)</label><input id="m2PublicUrl" type="url" placeholder="https://api.example.org/v1/summary" /></div>
+      <div class="field-row"><label class="field-label" for="m2Refresh">Refresh data</label><select id="m2Refresh"><option value="manual">Manual via tombol Refresh</option><option value="cache">Cache dengan TTL yang dikonfigurasi</option><option value="scheduled">Time-driven trigger GAS + cache</option></select></div>
+      <div class="field-row"><label class="field-label" for="m2Endpoint">Custom GAS API</label><select id="m2Endpoint"><option value="health_summary">doGet: health + summary (agregat sintetis)</option><option value="all">doGet: health + summary + regions + products</option><option value="none">Tidak membuat Custom API</option></select></div>
+      <p class="step-hint">Custom URL wajib HTTPS, divalidasi di server, dibatasi ke domain yang dipercaya; cegah SSRF. Endpoint publik hanya untuk data sintetis atau agregat yang aman dipublikasikan.</p>
+    </div>
+    <div class="step m2-box">
+      <div class="step-head"><div class="step-num highlight">QA</div><div class="step-title">Golden Dataset Contract &amp; Prompt Bertahap</div></div>
+      <p class="step-hint">Dataset inti: DATA (Transaction_ID, Date, Region, Product, Category, Quantity, Unit_Price, Discount), REFERENCE, SETTINGS, USERS, AUDIT_LOG. Jangan mengarang Total Profit tanpa Unit_Cost.</p>
+      <div class="field-row"><label class="field-label" for="m2TaskMode">Jenis prompt</label><select id="m2TaskMode"><option value="build">BUILD — Tambah fitur</option><option value="fix">FIX — Diagnosis dan perbaikan error</option><option value="test">TEST — Skenario dan regression test</option></select></div>
+      <div class="field-row"><label class="field-label" for="m2Error">Error / gejala (untuk mode FIX)</label><textarea id="m2Error" placeholder="Tempel error tanpa key/token/PII; sebutkan fungsi, file dan langkah reproduksi"></textarea></div>
+      <p class="step-hint">Urutan: audit read-only → provider → insight/NLQ → public/custom API → auto report → Stitch UI → regression test. Per file untuk LLM gratis.</p>
     </div>
   </div>
 
@@ -1065,6 +1241,24 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
     </div>
   </div>
 
+
+  <!-- INPUT KODE LAMA UNTUK PUTARAN 2: diisi SEBELUM generate -->
+  <div class="tier-section" id="oldCodeSection" style="margin:18px 0;">
+    <div class="divider-title teal">📁 Kode Putaran 1 — Siapkan Prompt Putaran 2</div>
+    <div class="step m1-box">
+      <p class="step-hint" style="padding-left:0">Untuk <strong>Mastery 1 / Mastery 2 Putaran 2</strong>: tempel kode lengkap hasil Putaran 1 pada empat kolom di bawah, <strong>sebelum</strong> klik “Buat Prompt Sekarang”. Generator otomatis memasukkan kode ke prompt Tahap 6–9. <strong>Tidak perlu paste lagi di tengah prompt.</strong> Mini Class dan Putaran 1 tidak memerlukan kode lama.</p>
+      <p class="step-hint" style="padding-left:0"><strong>Privasi:</strong> kode diproses hanya di browser pada halaman ini; jangan masukkan API key, password, token, atau data pribadi. Kolom ini tidak disimpan permanen dan akan hilang bila halaman ditutup atau di-refresh.</p>
+      <div class="old-code-grid">
+        <label>Kode lama: <strong>Code.gs</strong><textarea id="oldCodeGs" class="old-code-input" spellcheck="false" placeholder="Tempel SELURUH isi Code.gs dari Putaran 1..."></textarea></label>
+        <label>Kode lama: <strong>Index.html</strong><textarea id="oldIndexHtml" class="old-code-input" spellcheck="false" placeholder="Tempel SELURUH isi Index.html dari Putaran 1..."></textarea></label>
+        <label>Kode lama: <strong>CSS.html</strong><textarea id="oldCssHtml" class="old-code-input" spellcheck="false" placeholder="Tempel SELURUH isi CSS.html dari Putaran 1..."></textarea></label>
+        <label>Kode lama: <strong>JS.html</strong><textarea id="oldJsHtml" class="old-code-input" spellcheck="false" placeholder="Tempel SELURUH isi JS.html dari Putaran 1..."></textarea></label>
+      </div>
+      <div id="oldCodeStatus" role="status" style="font-size:13px;margin-top:10px;">Belum ada kode lama. Putaran 1 tetap bisa dibuat.</div>
+      <button type="button" class="dl-btn" onclick="clearOldCode()" style="margin-top:8px;">🗑 Kosongkan kode lama</button>
+    </div>
+  </div>
+
   <button class="btn" id="mainBtn" onclick="buildPrompt()">🪄 Buat Prompt Sekarang</button>
 
   <!-- OUTPUT -->
@@ -1089,10 +1283,10 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
     <!-- Block Mode Bertahap LLM -->
     <div class="prompt-block" id="blockStaged" style="display:none;">
       <div class="prompt-block-head">
-        <span class="prompt-block-label llm">🧩 MODE BERTAHAP LLM — 5 TAHAP (Disarankan untuk Claude / ChatGPT / Gemini Gratis)</span>
+        <span class="prompt-block-label llm">🧩 MODE BERTAHAP — 2 PUTARAN × 5 TAHAP (Mastery 1 &amp; Mastery 2) / 5 TAHAP (Mini Class)</span>
       </div>
       <p class="staged-note">
-        <strong>💡 Anti-Keteteran untuk Akun AI Gratis:</strong> Kirim satu per satu (Tahap 1 s/d 5) ke LLM. Setiap tahap sudah memuat <strong>Kontrak Proyek</strong> yang sama persis, sehingga Anda tidak perlu menempel ulang kode dari tahap sebelumnya dan kode tidak akan terpotong karena batas token gratis.
+        <strong>💡 Anti-Keteteran untuk Akun AI Gratis:</strong> Untuk <strong>Mastery 1 dan Mastery 2</strong>, selesaikan <strong>Putaran 1 (Tahap 1–5 → Quality Gate A)</strong> lalu <strong>Putaran 2 (Tahap 6–10 → Quality Gate B)</strong>. Untuk <strong>Mini Class</strong> gunakan 5 tahap. Setiap tahap sudah memuat <strong>Kontrak Proyek</strong> yang terkunci, kode lama diambil otomatis dari formulir sebelum generate Putaran 2. Jika respons terpotong, minta AI melanjutkan dari baris terakhir tanpa mengulang.
       </p>
       <div class="staged-list-wrap" id="stagedRows"></div>
     </div>
@@ -1127,7 +1321,7 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
         <span class="prompt-block-label bridge">🧩 LANGKAH 2B: MODE BERTAHAP KONEKSI STITCH KE GAS (Disarankan untuk Claude / ChatGPT / Gemini Gratis)</span>
       </div>
       <p class="staged-note teal">
-        <strong>💡 Cara Pakai dengan Google Stitch di LLM Gratis:</strong> Setelah meng-export kode HTML/CSS dari Google Stitch, gunakan <strong>3 Tahap</strong> di bawah ini secara berurutan agar LLM gratis tidak kehabisan kuota token saat mengonversi desain Stitch Anda menjadi 4 file Google Apps Script.
+        <strong>💡 Cara Pakai dengan Google Stitch di LLM Gratis:</strong> Setelah meng-export kode HTML/CSS dari Google Stitch, gunakan <strong>3 Tahap</strong> di bawah ini secara berurutan untuk mengurangi risiko respons terpotong. Tetap periksa kompatibilitas ID, fungsi server, dan hasil deploy; unggah kode yang sudah dibuat saat berpindah percakapan.
       </p>
       <div class="staged-list-wrap" id="stagedStitchRows"></div>
     </div>
@@ -1135,11 +1329,132 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
     <button class="btn secondary" onclick="resetAll()" style="margin-top: 14px;">↺ Isi Ulang</button>
   </div>
 
+  <!-- Specialized makeover generators at the END of the workflow, not in configuration panels -->
+  <div class="tier-section" id="m14OutputSection">
+    <div class="divider-title teal">Output Tambahan · M1.4 Premium UI Makeover</div>
+    <div class="step m1-box">
+      <p class="step-hint" style="padding-left:0"><strong>Putaran 3 (Opsional · Pasca Quality Gate B):</strong> Gunakan setelah seluruh fitur Putaran 1 (CRUD, KPI, Chart) &amp; Putaran 2 (Login, RBAC, Multi-Sheet) berfungsi penuh. Pengaturan M1.4 berada di bagian Mastery 1 di atas.</p>
+      <div class="m14-actions">
+        <button type="button" class="btn teal" onclick="generateM14()">🎨 Generate 2 Prompt M1.4</button>
+      </div>
+      <div class="m14-result" id="m14Result" aria-live="polite">
+        <h4>1. Prompt Redesign untuk Google Stitch</h4>
+        <button type="button" class="m14-copy" onclick="copyM14('m14StitchPrompt')">📋 Copy Prompt Stitch</button>
+        <pre id="m14StitchPrompt"></pre>
+        <h4>2. Prompt Integrasi untuk ChatGPT / Gemini / Claude</h4>
+        <button type="button" class="m14-copy" onclick="copyM14('m14IntegrationPrompt')">📋 Copy Prompt Integrasi GAS</button>
+        <pre id="m14IntegrationPrompt"></pre>
+        <div class="m14-actions">
+          <button type="button" class="btn secondary" onclick="downloadM14()">💾 Download 2 Prompt (.txt)</button>
+        </div>
+        <p class="m14-note"><strong>Urutan praktik:</strong> backup GAS → screenshot dashboard → desain di Stitch → ekspor desain → kirim kode GAS + ekspor Stitch ke AI coding → review perubahan → pasang frontend → regression test → deploy versi baru.</p>
+      </div>
+    </div>
+  </div>
+  <div class="tier-section" id="m24OutputSection">
+    <div class="divider-title purple">Output Tambahan · M2.5 Intelligent UI Upgrade</div>
+    <div class="step m2-box">
+      <p class="step-hint" style="padding-left:0"><strong>Putaran 3 (Opsional · Pasca Quality Gate B Mastery 2):</strong> Gunakan setelah seluruh fitur Putaran 1 (AI Insight, Statistical Fallback, NLQ) &amp; Putaran 2 (Report PDF/Word/Excel, Public &amp; Custom API) berfungsi penuh. Pengaturan berada di panel M2.4 di atas.</p>
+      <div class="m14-actions">
+        <button type="button" class="btn purple" onclick="generateM24()">✨ Generate 2 Prompt M2.5</button>
+      </div>
+      <div class="m14-result" id="m24Result" aria-live="polite">
+        <h4 style="color:#6D28D9">1. Prompt Desain Intelligent UI — Google Stitch</h4>
+        <button type="button" class="m14-copy" style="background:#7C3AED" onclick="copyM14('m24StitchPrompt')">📋 Copy Prompt Stitch</button>
+        <pre id="m24StitchPrompt"></pre>
+        <h4 style="color:#6D28D9">2. Prompt Integrasi Intelligent UI — GAS</h4>
+        <button type="button" class="m14-copy" style="background:#7C3AED" onclick="copyM14('m24IntegrationPrompt')">📋 Copy Prompt Integrasi</button>
+        <pre id="m24IntegrationPrompt"></pre>
+        <div class="m14-actions">
+          <button type="button" class="btn secondary" onclick="downloadM24()">💾 Download 2 Prompt (.txt)</button>
+        </div>
+        <p class="m14-note">Praktik LLM gratis: audit → mapping komponen → Index.html → CSS.html → JS.html → regression test. Kerjakan satu file per giliran dan sertakan ulang kode saat berpindah percakapan.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="tier-section" id="m2ConnectedOutput">
+    <div class="divider-title purple">Output Tambahan · Mastery 2 — Build / Fix / Test</div>
+    <div class="step m2-box"><p class="step-hint">Buat prompt integrasi sesuai konfigurasi M2.1–M2.5. Jangan masukkan API key asli.</p>
+      <button type="button" class="btn purple" onclick="generateM2Connected()">🧩 Generate Prompt Intelligent &amp; Connected</button>
+      <div class="m14-result" id="m2ConnectedResult" aria-live="polite">
+        <button type="button" class="m14-copy" onclick="copyM2Connected()">📋 Salin</button>
+        <pre id="m2ConnectedPrompt"></pre>
+        <button type="button" class="btn secondary" onclick="downloadM2Connected()">💾 Download TXT</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- DEBUG & REPAIR: independent of Mastery access, no server transmission -->
+  <section class="debug-panel" id="debugRepairPanel" aria-labelledby="debugHeading">
+    <h2 id="debugHeading">🛠️ Debug & Repair — Preset Khusus Mini Class / Mastery 1 / Mastery 2</h2>
+    <p>Jika aplikasi sudah jadi tetapi muncul error, isi data di bawah lalu pilih <strong>Diagnosis</strong>, <strong>Patch Minimal</strong>, atau <strong>Verifikasi</strong>. Kode lama dan log otomatis masuk ke prompt; tidak perlu mencari bagian [PASTE] di tengah prompt. Bisa digunakan dengan LLM gratis.</p>
+    <div class="debug-grid">
+      <label class="debug-field">Tahap perbaikan
+        <select id="debugMode"><option value="diagnosis">1 — Diagnosis (tanpa mengubah kode)</option><option value="patch">2 — Patch Minimal (perbaiki fungsi terkait)</option><option value="verify">3 — Verifikasi / Regression Test</option></select>
+      </label>
+      <label class="debug-field">Fitur bermasalah
+        <select id="debugFeature"><option>Google Sheets / Sistem sibuk</option><option>Dashboard / KPI / Grafik</option><option>Filter / Tabel</option><option>CRUD / Simpan / Edit / Hapus</option><option>Login / Role / Permission</option><option>AI Insight / AI Assistant</option><option>Ekspor PDF / Word / Excel</option><option>Deployment / Otorisasi</option><option>Lainnya</option></select>
+      </label>
+      <label class="debug-field">Preset masalah
+        <select id="debugPreset">
+          <option value="sheets-crud">Google Sheets &amp; CRUD — Sistem sibuk</option>
+          <option value="dashboard">Dashboard, KPI &amp; Filter</option>
+          <option value="auth">Login, Role &amp; Permission</option>
+          <option value="ai">AI, API &amp; Assistant</option>
+          <option value="export">Export PDF, Word &amp; Excel</option>
+          <option value="deployment">Deployment &amp; Otorisasi</option>
+          <option value="general">Error lainnya — Diagnosis umum</option>
+        </select>
+      </label>
+      <label class="debug-field">Target LLM
+        <select id="debugLlm">
+          <option value="gemini-free">Gemini Free (hemat token)</option>
+          <option value="free">LLM Gratis lainnya (hemat token)</option>
+          <option value="paid">LLM Berbayar (konteks lebih luas)</option>
+        </select>
+      </label>
+      <label class="debug-field wide">Pesan error / log dari Apps Script Executions atau Console <small>Wajib; jika belum ada log, tuliskan pesan yang terlihat.</small>
+        <textarea id="debugError" placeholder="Contoh: Sistem sibuk. Silakan coba lagi. / Exception: Service Spreadsheets timed out"></textarea>
+      </label>
+      <label class="debug-field wide">Langkah memunculkan error <small>Misalnya: buka aplikasi → pilih wilayah → klik Simpan → pesan error.</small>
+        <textarea id="debugSteps" placeholder="1. Buka Web App&#10;2. Pilih filter / klik Simpan&#10;3. Error muncul..."></textarea>
+      </label>
+      <label class="debug-field">Nama Sheet dan header kolom (opsional)
+        <textarea id="debugSchema" placeholder="DATA: ID, Date, Region, Revenue...&#10;USERS: Email, Role..."></textarea>
+      </label>
+      <label class="debug-field">Hasil percobaan / patch sebelumnya (opsional)
+        <textarea id="debugPrior" placeholder="Sudah coba deploy ulang; error masih muncul... "></textarea>
+      </label>
+      <label class="debug-field">Code.gs <small>Tempel fungsi terkait atau seluruh file.</small>
+        <textarea id="debugCode" placeholder="function getDashboardData() { ... }"></textarea>
+      </label>
+      <label class="debug-field">Index.html <small>Opsional; isi bila terkait DOM atau include.</small>
+        <textarea id="debugIndex" placeholder="<!DOCTYPE html>..."></textarea>
+      </label>
+      <label class="debug-field">CSS.html <small>Opsional; isi bila terkait tampilan.</small>
+        <textarea id="debugCss" placeholder="<style>...</style>"></textarea>
+      </label>
+      <label class="debug-field">JS.html <small>Terutama fungsi google.script.run dan handler.</small>
+        <textarea id="debugJs" placeholder="&lt;script&gt;... google.script.run ...&lt;/script&gt;"></textarea>
+      </label>
+    </div>
+    <p><strong>Keamanan:</strong> hapus API key, token, password, cookie, ID pribadi, dan data sensitif sebelum menempel kode atau log. Prompt dibuat lokal di browser, tetapi teks yang disalin akan dikirim ke layanan LLM pilihan Anda.</p>
+    <div class="debug-actions">
+      <button type="button" onclick="generateDebugRepair()">⚙️ Generate Prompt Debug & Repair</button>
+      <button type="button" class="secondary" onclick="copyDebugRepair()">📋 Copy Prompt</button>
+      <button type="button" class="secondary" onclick="downloadDebugRepair()">💾 Download TXT</button>
+      <button type="button" class="secondary" onclick="clearDebugRepair()">↺ Kosongkan</button>
+    </div>
+    <div id="debugFeedback" role="status" aria-live="polite"></div>
+    <pre id="debugOutput" aria-label="Prompt hasil Debug & Repair"></pre>
+  </section>
+
   <!-- FOOTER -->
   <div class="footer">
-    Created by <span class="name">Yogo AJ</span>
-    <span class="dot">·</span>
-    <a href="http://yogoaj.github.io" target="_blank" rel="noopener">yogoaj.github.io</a>
+    <a href="https://yogoaj.github.io" target="_blank" rel="noopener noreferrer">Created by Yogo AJ</a>
   </div>
 
 </div>
@@ -1427,6 +1742,11 @@ function syncTierUi() {
   header.classList.remove('tier-m1', 'tier-m2');
   secM1.classList.remove('active');
   secM2.classList.remove('active');
+  document.getElementById('oldCodeSection').classList.toggle('active', state.tier !== 'miniclass');
+  document.getElementById('m14OutputSection').classList.toggle('active', state.tier === 'mastery1');
+  document.getElementById('m24OutputSection').classList.toggle('active', state.tier === 'mastery2');
+  document.getElementById('m2ConnectedSection').classList.toggle('active', state.tier === 'mastery2');
+  document.getElementById('m2ConnectedOutput').classList.toggle('active', state.tier === 'mastery2');
 
   document.querySelectorAll('#roadmapBar .rm-step').forEach(step => {
     const st = step.dataset.tier;
@@ -1762,13 +2082,15 @@ function buildLlmPrompt() {
     P.push('   - Hak Akses    : ' + m1Role);
     P.push('');
     P.push('4. Keamanan & Otorisasi (WAJIB DIPATUHI):');
-    P.push('   - Password/PIN pengguna WAJIB disimpan sebagai hash (SHA-256 + salt unik per user, memakai Utilities.computeDigest), BUKAN teks biasa.');
+    P.push('   - Jangan menyimpan password plaintext atau hash SHA-256 cepat. Prioritaskan autentikasi Google terverifikasi; jika memakai password lokal, wajib gunakan KDF adaptif yang layak dan sesi aman, atau nyatakan mode itu tidak siap produksi.');
     P.push('   - Setiap fungsi server yang mengubah data atau mengelola Users & Settings (createRecord, updateRecord, deleteRecord, dst.) WAJIB memverifikasi identitas dan role pengguna di Code.gs. Menyembunyikan menu di UI TIDAK cukup.');
     P.push('   - Setiap operasi Create/Update/Delete dicatat ke sheet AUDIT_LOG (timestamp, user, aksi, ID record).');
-    P.push('   - setupDatabase() membuat akun Admin awal dan menampilkan pengingat agar kredensial default segera diganti.');
+    P.push('   - setupDatabase() menyiapkan sheet; setupDemoAdmin() dijalankan satu kali oleh pemilik dari editor Apps Script untuk membuat akun latihan admin / admin12345 (Admin), wajib ganti password pada login pertama. Jangan buka akses publik saat kredensial sementara aktif.');
     if (/Quick Demo/i.test(m1Auth)) P.push('   - Tombol Quick Demo Login hanya untuk latihan: kendalikan dengan konstanta DEMO_MODE (true/false) di bagian atas Code.gs dan sembunyikan saat DEMO_MODE = false.');
     if (/getActiveUser/.test(m1Auth)) P.push('   - Login SSO bergantung pada setelan deploy: jelaskan kapan getActiveUser().getEmail() bisa kosong dan sediakan penanganannya.');
     P.push('');
+    P.push('');
+    P.push("LOGIN PERTAMA — PRESET KELAS (DEMO ONLY) — WAJIB:\n- Golden Dataset Mastery 1: akun latihan username admin, password sementara admin12345, role Admin. HANYA untuk kelas dengan akses terbatas; bukan produksi atau data sensitif.\n- setupDatabase() menyiapkan sheet; setupDemoAdmin() hanya dijalankan MANUAL sekali dari editor Apps Script oleh pemilik. Gunakan LockService dan penanda inisialisasi; jangan reset password setiap deploy. Jangan izinkan pemanggilan setup dari Web App publik.\n- Jangan menyimpan password plaintext atau hash SHA-256 biasa. Bila autentikasi lokal tidak dapat diamankan, nyatakan aplikasi hanya prototipe dan jangan deploy publik.\n- Wajib paksa ganti password saat login pertama SEBELUM akses dashboard, CRUD, atau menu Admin. Nonaktifkan preset demo sebelum publikasi aplikasi.\n- Jangan gunakan auto-login, bypass, atau registrasi Admin terbuka. Semua fungsi server harus memverifikasi sesi dan role.\n- SETELAH KODE, WAJIB tampilkan CARA LOGIN PERTAMA KALI: jalankan setupDatabase() lalu setupDemoAdmin() dari editor → deploy akses terbatas → login admin / admin12345 → ganti password → logout dan login ulang. Tampilkan LOGIN READINESS TEST dan langkah pemulihan akses via pemilik.\n");
     P.push('5. KPI Engine & Global Filter:');
     P.push('   - Hitung metrik di Code.gs: SUM, COUNT, AVERAGE, MEDIAN (tahan outlier), serta MIN/MAX untuk kolom numerik yang relevan.');
     P.push('   - Sediakan Global Filter di bagian atas (mis. wilayah/kategori dan rentang bulan). Saat filter berubah, KPI card, semua grafik Chart.js, dan tabel data berubah serentak.');
@@ -1785,10 +2107,12 @@ function buildLlmPrompt() {
     P.push('');
     P.push('');
     P.push(SEP);
-    P.push('FITUR MASTERY 2 — INTELLIGENT DASHBOARD (AI & AUTO REPORT)');
+    P.push('FITUR MASTERY 2 — INTELLIGENT & CONNECTED DASHBOARD (5 MODUL)');
     P.push(SEP);
     P.push('');
+    P.push(...getM2ConnectedContract().split('\n'));
     P.push('Mode Pembangunan  : ' + m2Scope);
+    P.push('KETENTUAN MODE: Sistem Utuh WAJIB menyertakan CRUD, autentikasi, role, multi-sheet, audit log dan seluruh modul AI; Fokus Modul hanya dashboard+AI+laporan (tanpa CRUD baru); Upgrade M1 WAJIB mempertahankan CRUD/login/role lama dan meminta empat file M1 sebelum coding.');
     P.push('Engine AI         : ' + m2Engine);
     P.push('Persona Analis AI : ' + m2Persona);
     P.push('');
@@ -1924,8 +2248,8 @@ function buildLlmPrompt() {
   P.push('6. Buka URL hasil deploy dan test');
   P.push('7. Cara debug kalau data tidak muncul di dashboard');
   if (state.tier === 'mastery1') {
-    P.push('8. Cara menjalankan setupDatabase() dan login pertama kali sebagai Admin');
-    P.push('9. Jelaskan dampak setelan "Execute as" dan "Who has access" terhadap login yang saya pilih, cara mengganti kredensial Admin default, dan cara membuat deployment versi baru setelah kode diubah');
+    P.push('8. Jalankan setupDatabase() lalu setupDemoAdmin() dari editor Apps Script. Login latihan admin / admin12345 dan WAJIB ganti password sebelum mengakses dashboard. Batasi akses deployment.');
+    P.push('9. Jelaskan dampak setelan "Execute as" dan "Who has access" terhadap login yang saya pilih, cara mengganti password sementara Admin pada login pertama, cara pemulihan akses, dan cara membuat deployment versi baru setelah kode diubah');
   } else if (state.tier === 'mastery2') {
     P.push('8. Cara memasang API Key Gemini (jika memakai Gemini API) dan cara test fitur export PDF / Word / Excel');
   }
@@ -1996,7 +2320,7 @@ function buildLlmPrompt() {
   P.push('- Jika jawaban akan terpotong, berhenti di akhir sebuah file yang utuh dan tulis "BERSAMBUNG: (nama file berikutnya)". Saya akan membalas "lanjutkan"; lanjutkan dari titik itu tanpa mengulang.');
   P.push('');
   P.push(SEP);
-  P.push('Prompt Builder ini dibuat oleh Yogo AJ — http://yogoaj.github.io');
+  P.push('Prompt dibuat menggunakan Dashboard Magic Prompt Builder.');
   P.push(SEP);
 
   return P.join('\n');
@@ -2085,7 +2409,7 @@ function buildStitchPrompt() {
 
   P.push('');
   P.push('═══════════════════════════════════════════════════════════════');
-  P.push('Prompt ini dibuat oleh Yogo AJ — http://yogoaj.github.io');
+  P.push('Prompt dibuat menggunakan Dashboard Magic Prompt Builder.');
   P.push('═══════════════════════════════════════════════════════════════');
 
   return P.join('\n');
@@ -2179,7 +2503,7 @@ function buildStitchBridgePrompt() {
     P.push('- Pembagian Hak Akses    : ' + m1Role);
     state.m1Crud.forEach(item => P.push('- ' + item));
     state.m1Db.forEach(item => P.push('- ' + item));
-    P.push('- Wajib sediakan fungsi di Code.gs: `setupDatabase()`, `loginUser()`, `createRecord()`, `updateRecord()`, dan `deleteRecord()` lengkap dengan `LockService`, pencatatan `AUDIT_LOG`, serta password hash SHA-256 (`Utilities.computeDigest`).');
+    P.push('- Wajib sediakan fungsi di Code.gs: `setupDatabase()`, `loginUser()`, `createRecord()`, `updateRecord()`, dan `deleteRecord()` lengkap dengan `LockService`, pencatatan `AUDIT_LOG`, serta penyimpanan password dengan KDF adaptif yang layak; jika tidak tersedia, gunakan autentikasi Google terverifikasi (jangan gunakan SHA-256 cepat sebagai penyimpan password).');
   } else if (state.tier === 'mastery2') {
     const m2Scope = document.getElementById('m2BuildScope').value;
     const m2Engine = document.getElementById('m2AiEngine').value;
@@ -2223,7 +2547,7 @@ function buildStitchBridgePrompt() {
   P.push('[PASTE KODE HASIL EXPORT GOOGLE STITCH ANDA DI SINI]');
   P.push('');
   P.push(SEP);
-  P.push('Prompt Builder ini dibuat oleh Yogo AJ — http://yogoaj.github.io');
+  P.push('Prompt dibuat menggunakan Dashboard Magic Prompt Builder.');
   P.push(SEP);
 
   return P.join('\n');
@@ -2232,6 +2556,23 @@ function buildStitchBridgePrompt() {
 /* ====================================================================
    MAIN BUILD PROMPT — router berdasarkan mode
    ==================================================================== */
+
+/* Dashboard Magic Attribution Standard — all levels, all LLM modes. */
+const DM_ATTRIBUTION = [
+  'STANDAR ATRIBUSI DASHBOARD MAGIC (WAJIB UNTUK KODE FINAL, TERMASUK REVISI/UPGRADE):',
+  '- Pembuat/pemilik karya aplikasi: peserta yang membuat aplikasi; jangan klaim Yogo AJ pemilik kode/data peserta.',
+  '- Kredit metode pembelajaran: Dashboard Magic — Yogo AJ; situs referensi: https://yogoaj.github.io',
+  '- Pada <head> Index.html sertakan <meta name="credit" content="Dashboard Magic learning framework — Yogo AJ"> dan <meta name="credit-url" content="https://yogoaj.github.io"> serta <link rel="related" href="https://yogoaj.github.io" title="Dashboard Magic — Yogo AJ">.',
+  '- Jangan mengganti <meta name="author"> milik peserta dengan nama instruktur. Meta credit adalah dokumentasi, bukan jaminan SEO/backlink.',
+  '- Sertakan komentar kredit metode dan URL pada Code.gs, CSS.html, JS.html; jangan menambahkan komentar HTML di luar tag <style> atau <script> pada file include.',
+  '- ATURAN TAMPILAN APLIKASI PESERTA: tidak wajib menampilkan kredit visual. Jika ada kredit visual di footer/About/Settings, teks maksimal hanya "Build with Dashboard Magic" dan boleh berupa tautan ke https://yogoaj.github.io. Jangan pernah menampilkan nama Yogo AJ, "Created by Yogo AJ", atau URL mentah sebagai teks visual aplikasi peserta.',
+  '- Pertahankan kredit metode ketika integrasi Stitch, regenerasi, perbaikan bug, atau upgrade Mastery 1 ke Mastery 2.',
+  '- Jangan menghapus kredit penulis/pemilik aplikasi yang sudah ada.'
+].join('\n');
+function withDmCredit(prompt) {
+  return prompt.includes('STANDAR ATRIBUSI DASHBOARD MAGIC') ? prompt : prompt + '\n\n' + DM_ATTRIBUTION;
+}
+
 function buildPrompt() {
   if (state.tier === 'mastery1' && !authState.mastery1) {
     openAuthModal('mastery1');
@@ -2278,18 +2619,18 @@ function buildPrompt() {
 
   if (state.mode === 'llm' || state.mode === 'hybrid') {
     const llmPrompt = buildLlmPrompt();
-    document.getElementById('promptLlm').textContent = llmPrompt;
+    document.getElementById('promptLlm').textContent = withDmCredit(llmPrompt);
     blockLlm.style.display = 'block';
     info.push('🔷 ' + llmPrompt.length + ' karakter (LLM)');
     renderStaged();
-    info.push('🧩 5 Tahap LLM Gratis ✓');
+    info.push(state.tier !== 'miniclass' ? '🧩 2 Putaran × 5 Tahap LLM Gratis ✓' : '🧩 5 Tahap LLM Gratis ✓');
   }
 
   if (state.mode === 'stitch' || state.mode === 'hybrid') {
     const stitchPrompt = buildStitchPrompt();
     const bridgePrompt = buildStitchBridgePrompt();
     document.getElementById('promptStitch').textContent = stitchPrompt;
-    document.getElementById('promptStitchBridge').textContent = bridgePrompt;
+    document.getElementById('promptStitchBridge').textContent = withDmCredit(bridgePrompt);
     blockStitch.style.display = 'block';
     blockStitchBridge.style.display = 'block';
     renderStitchStaged();
@@ -2357,6 +2698,46 @@ function loadSampleForCurrentTier() {
    MODE BERTAHAP LLM (Mini Class, Mastery 1, Mastery 2 — untuk LLM Gratis)
    ==================================================================== */
 let stagedList = [];
+const OLD_CODE_IDS = {'Code.gs':'oldCodeGs','Index.html':'oldIndexHtml','CSS.html':'oldCssHtml','JS.html':'oldJsHtml'};
+function getOldCode(fileName) {
+  const el = document.getElementById(OLD_CODE_IDS[fileName]);
+  return el ? el.value.trim() : '';
+}
+function oldCodeBlock(fileName) {
+  const content = getOldCode(fileName);
+  return '\n\n===== KODE ASLI ' + fileName + ' DARI PUTARAN 1 (LAMPIRAN OTOMATIS) =====\n' +
+    (content || '[KODE BELUM DIISI — KEMBALI KE FORM KODE LAMA DI PROMPT BUILDER, LALU GENERATE ULANG]') +
+    '\n===== AKHIR KODE ' + fileName + ' =====';
+}
+function oldCodeComplete() { return Object.keys(OLD_CODE_IDS).every(name => !!getOldCode(name)); }
+function updateOldCodeStatus() {
+  const box = document.getElementById('oldCodeStatus');
+  if (!box) return;
+  const filled = Object.keys(OLD_CODE_IDS).filter(name => !!getOldCode(name));
+  box.textContent = filled.length === 4 ? '✅ 4/4 file siap. Generate prompt untuk memasukkan kode secara otomatis ke Tahap 6–9.' :
+    '📄 ' + filled.length + '/4 file terisi. Yang belum: ' + Object.keys(OLD_CODE_IDS).filter(name => !getOldCode(name)).join(', ') + '. Putaran 1 tetap bisa digunakan.';
+  box.style.color = filled.length === 4 ? '#15803d' : '';
+}
+function clearOldCode() {
+  Object.values(OLD_CODE_IDS).forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  updateOldCodeStatus();
+  if (document.getElementById('blockStaged')?.style.display === 'block') renderStaged();
+}
+function oldCodeStageGuard(i) {
+  if (stagedList.length === 10 && i >= 5 && i <= 8 && !getOldCode(['Code.gs','Index.html','CSS.html','JS.html'][i-5])) {
+    showToast('⚠ Isi kode lama ' + ['Code.gs','Index.html','CSS.html','JS.html'][i-5] + ' di formulir, lalu klik Buat Prompt Sekarang.');
+    return false;
+  }
+  return true;
+}
+document.addEventListener('input', function(e) {
+  if (e.target && Object.values(OLD_CODE_IDS).includes(e.target.id)) {
+    updateOldCodeStatus();
+    // Refresh prompt otomatis setelah peserta mengisi kode, tanpa menyalin manual.
+    if (document.getElementById('blockStaged')?.style.display === 'block') renderStaged();
+  }
+});
+
 function buildStagedPrompts() {
   const g = id => (document.getElementById(id) ? document.getElementById(id).value.trim() : '');
   const cols = parseColList(colsInput.value.trim()).map(c => typeof c === 'string' ? c : (c.name || c.label || String(c)));
@@ -2365,7 +2746,7 @@ function buildStagedPrompts() {
   const shName = g('sheetName') || 'DATA';
   const theme = g('themeCustom') || state.theme || 'modern, bersih, profesional';
   const goalsText = state.goals.length ? state.goals.map(x => x + ' (' + goalToChart(x) + ')').join(', ') : '4 KPI utama, line chart tren, bar chart perbandingan';
-  const tailCode = '\n\nATURAN JAWABAN:\n- Tulis HANYA isi file ini dalam satu blok kode, tanpa penjelasan panjang.\n- Jangan menyingkat kode (misalnya "sisanya sama").\n- Jika akan terpotong, berhenti di akhir blok yang utuh dan tulis BERSAMBUNG; saya akan membalas "lanjutkan".';
+  const tailCode = '\n\nATURAN JAWABAN (LLM GRATIS):\n- Tulis HANYA isi file yang diminta dalam satu blok kode; jangan membuat file lain pada tahap ini.\n- Jangan menyingkat kode, memakai placeholder fungsi, atau menulis "sisanya sama".\n- Jika akan terpotong, berhenti di akhir blok yang utuh dan tulis BERSAMBUNG; saya akan membalas "lanjutkan dari baris terakhir tanpa mengulang".\n- Pastikan nama fungsi, argumen, ID HTML, dan struktur respons konsisten dengan KONTRAK PROYEK.\n- Jangan mengarang kolom yang tidak ada; jika mapping tidak jelas, beri asumsi eksplisit.\n- Setelah file lengkap, lakukan audit sintaks, kecocokan antarmuka, dan sebutkan hal yang belum dapat diuji tanpa deploy.';
 
   /* ----- LEVEL 1: MINI CLASS (5 Tahap Ringkas) ----- */
   if (state.tier === 'miniclass') {
@@ -2426,160 +2807,199 @@ function buildStagedPrompts() {
     return T.map((t, i) => ({ title: t[0], text: head(i + 1) + C + '\n\n' + t[1].join('\n') + t[2] }));
   }
 
-  /* ----- LEVEL 2: MASTERY 1 (100% Kontrak Asli Anda) ----- */
+  /* ----- LEVEL 2: MASTERY 1 (Konsep 2 Putaran × 5 Tahap — Ramah LLM Gratis) ----- */
   if (state.tier === 'mastery1') {
-    const idCol = g('m1IdCol') || 'id (auto-generate, mis. TRX-0001)';
-    const auth = g('m1AuthMethod'), role = g('m1RoleConfig');
-    const sheets = ['DATA','REFERENCE','USERS','CONFIG','AUDIT_LOG'].filter(n => n === 'DATA' || n === 'USERS' || state.m1Db.some(x => x.indexOf('Sheet ' + n) === 0));
-    const hasAudit = sheets.indexOf('AUDIT_LOG') >= 0;
-    const demo = /Quick Demo/i.test(auth);
-    const C = [
-      'KONTRAK PROYEK (WAJIB diikuti persis; file lain dibuat di percakapan terpisah berdasarkan kontrak ini)',
-      '- Konteks data: ' + (g('desc') || '(isi deskripsi data)'),
-      '- Kolom data (urut di sheet DATA): ' + cols.join(', ') + ' + metadata created_at, updated_at, updated_by',
-      '- Primary key: ' + idCol,
-      '- Contoh data:\n' + sample,
-      '- Sheet: ' + sheets.join(', '),
-      '- Login: ' + auth,
-      '- Hak akses: ' + role,
+    const key = g('m1IdCol') || cols.find(x => /(^id$|_id$)/i.test(x)) || 'ID unik yang dipilih peserta';
+    const statusCol = g('m1StatusCol') || 'Status (opsional badge status)';
+    const auth = g('m1AuthMethod') || 'login demo terbatas';
+    const roles = g('m1RoleConfig') || 'Admin, Editor, Viewer';
+    const sheetList = ['DATA', ...state.m1Db.map(x => (x.match(/Sheet ([A-Z_]+)/) || [,''])[1]).filter(Boolean)].filter((x,i,a)=>a.indexOf(x)===i);
+    const contract = [
+      'DASHBOARD MAGIC MASTERY 1 — KONTRAK DATA & ANTARMUKA (2 PUTARAN × 5 TAHAP)',
+      'Tujuan: bangun aplikasi dari NOL menggunakan data peserta secara bertahap dalam 2 putaran agar kode tidak terpotong di LLM gratis.',
+      '- Konteks dataset: ' + state.type + ' — ' + (g('desc') || 'dataset peserta'),
+      '- Spreadsheet ID: ' + ssId + ' | Sheet utama: ' + shName,
+      '- Kolom tersedia (' + cols.length + ' kolom): ' + cols.join(', '),
+      '- Contoh baris (untuk inferensi tipe data, jangan mengarang kolom di luar daftar):\n' + sample,
+      '- Primary Key CRUD: ' + key + ' | Kolom Status: ' + statusCol,
+      '- Visualisasi/KPI pilihan: ' + goalsText,
       '- Tema visual: ' + theme,
+      '- Sheet sistem (Putaran 2): ' + (sheetList.join(', ') || shName),
+      '- Autentikasi & Role (Putaran 2): ' + auth + ' | ' + roles,
       '',
-      'API SERVER (Code.gs; semua fungsi mengembalikan {ok:true,...} atau {ok:false,error:"..."}):',
-      '  doGet(e), include(name), setupDatabase()',
-      '  loginUser(username, password) -> {ok, token, user:{username,name,role}}',
-      '  getDashboardData(token, filters) -> {ok, rows, kpis:[{key,label,value}], charts:{chart1,chart2,chart3}, options}',
-      '  createRecord(token, record), updateRecord(token, id, record), deleteRecord(token, id) -> {ok, id}',
-      '  getUsers(token), saveUser(token, user), getConfig(token), saveConfig(token, cfg)  (khusus Admin)',
-      '  token = sesi acak di CacheService (kedaluwarsa 6 jam); setiap fungsi selain loginUser memanggil requireRole_(token, [peran]).',
+      'KONTRAK STANDAR FUNGSI & ID DOM (WAJIB KONSISTEN ANTAR-FILE & ANTAR-PUTARAN):',
+      '- Struktur 4 file: Code.gs, Index.html, CSS.html (<style>...</style>), JS.html (<script>...<\/script>).',
+      '- API Server Putaran 1 (Code.gs): doGet(e), include(filename), getDashboardData(filters), createRecord(payload), updateRecord(id, payload), deleteRecord(id). Semua mengembalikan {ok:boolean, data?, error?}.',
+      '- Ekspansi API Server Putaran 2 (Code.gs): setupDatabase(), setupDemoAdmin(), loginUser(username, password), changeFirstPassword(token, newPassword), getUsers(token), saveUser(token, userPayload), getConfig(token), saveConfig(token, cfgPayload). Semua fungsi mutasi/data wajib memverifikasi token & role di server.',
+      '- ID DOM Inti Putaran 1 (Index.html & JS.html): #globalFilter, #btnResetFilter, #kpiCards, canvas #chart1 #chart2 #chart3, #dataSearch, #dataTable, #recordForm, #recordId, #saveBtn, #formError, #toast.',
+      '- Ekspansi ID DOM Putaran 2 (Index.html & JS.html): #loginView, #loginUser, #loginPass, #loginBtn, #loginError, #firstPassModal, #appView, #sidebar, .nav-item[data-page="overview|data|form|users|settings"], #userBadge, #logoutBtn, #page-overview, #page-data, #page-form, #page-users, #page-settings, #usersTable.',
       '',
-      'ELEMEN HTML (id/atribut wajib):',
-      '  #loginView, #loginUser, #loginPass, #loginBtn, #loginError; #appView, #sidebar, .nav-item[data-page=overview|data|form|users|settings], #userBadge, #logoutBtn',
-      '  #page-overview, #page-data, #page-form, #page-users, #page-settings; #globalFilter, #kpiCards, canvas #chart1 #chart2 #chart3',
-      '  #dataSearch, #dataTable, #pagination; #recordForm (input name = nama kolom), #recordId (hidden), #saveBtn, #formError; #usersTable; #toast',
-      '',
-      'FUNGSI JS GLOBAL (JS.html): callServer(fn, ...args), login(), logout(), navigate(page), loadDashboard(), renderKpis(), renderCharts(), renderTable(), openEdit(id), submitRecord(), deleteRow(id), applyFilter()'
+      'ATURAN KETAT LLM GRATIS:',
+      '- Jangan memaksakan kolom contoh (seperti Revenue/Cost/Profit) jika tidak ada pada daftar kolom peserta.',
+      '- Hasilkan HANYA 1 file lengkap yang diminta pada tahap ini; tanpa placeholder ("...sisanya sama") dan tanpa menulis ulang file lain.',
+      '- Tulis kode yang modular dan padat (hindari komentar panjang bertele-tele) agar utuh dalam 1 kali respons.',
+      '- Jika respons hampir terpotong, berhenti di akhir fungsi yang utuh dan tulis BERSAMBUNG; lanjutkan dari baris terakhir saat diminta.'
     ].join('\n');
-    const head = n => 'DASHBOARD MAGIC — MASTERY 1 · TAHAP ' + n + ' dari 5\nSaya membangun web app Google Apps Script + Google Sheets secara bertahap. Berikut kontrak proyek, lalu tugas tahap ini.\n\n';
-    const T = [
-      ['Code.gs (backend)', [
-        'TUGAS TAHAP 1 — file Code.gs (backend lengkap):',
-        '1. setupDatabase(): buat sheet ' + sheets.join(', ') + ' beserta header; buat akun Admin awal (password di-hash SHA-256 + salt unik via Utilities.computeDigest) dan pengingat agar kredensial segera diganti.',
-        '2. loginUser membuat token acak di CacheService; requireRole_(token, roles) memverifikasi identitas dan peran di server pada SETIAP fungsi. Menyembunyikan menu di UI tidak cukup.',
-        '3. CRUD dengan validasi server, ID unik, created_at/updated_at/updated_by, dibungkus LockService.getScriptLock() dan try...catch; cari baris berdasarkan ID, bukan nomor baris.',
-        hasAudit ? '4. Catat setiap Create/Update/Delete ke AUDIT_LOG (waktu, user, aksi, ID record).' : '4. Sheet AUDIT_LOG tidak dipakai.',
-        '5. getDashboardData: terapkan filter, hitung KPI (SUM, COUNT, AVERAGE, MEDIAN, MIN/MAX untuk kolom numerik yang relevan) dan agregasi untuk chart1..chart3, plus options untuk dropdown filter.',
-        '6. getUsers, saveUser, getConfig, saveConfig khusus Admin.',
-        demo ? '7. Konstanta DEMO_MODE (true/false) di atas file untuk tombol Quick Demo Login.' : '7. Jangan menaruh rahasia atau API key di file HTML.'
-      ], tailCode],
-      ['Index.html (struktur)', [
-        'TUGAS TAHAP 2 — file Index.html (struktur saja):',
-        '1. Dua tampilan: #loginView dan #appView (sidebar 5 menu: Overview, Data, Form, Users, Settings).',
-        '2. Semua id/atribut persis sesuai kontrak. Menu per peran memakai atribut data-roles (hanya untuk tampilan; server tetap memverifikasi).',
-        '3. Muat Chart.js dari CDN dengan versi tetap, lalu sisipkan <?!= include("CSS") ?> di <head> dan <?!= include("JS") ?> sebelum </body>.',
-        '4. Tanpa logika JS di file ini. #recordForm berisi satu input per kolom (tipe sesuai contoh data).'
-      ], tailCode],
-      ['CSS.html (tampilan)', [
-        'TUGAS TAHAP 3 — file CSS.html:',
-        '1. Bungkus dalam <style>...</style>. Layout sidebar + konten, KPI card, kartu chart, tabel dengan badge status, form, tombol loading/disabled, toast, responsif untuk HP.',
-        '2. Pakai variabel CSS sesuai tema; font dengan fallback sistem; tanpa gambar atau aset eksternal.',
-        '3. Gunakan hanya id dan kelas dari kontrak.'
-      ], tailCode],
-      ['JS.html (logika UI)', [
-        'TUGAS TAHAP 4 — file JS.html:',
-        '1. Bungkus dalam <script>...<\/script>. callServer membungkus google.script.run (withSuccessHandler/withFailureHandler) dalam Promise; token disimpan di variabel memori.',
-        '2. login/logout/navigate; tampilkan menu sesuai peran; tampilkan error server ({ok:false}) lewat #toast.',
-        '3. Global Filter: satu perubahan filter memperbarui KPI, ketiga chart Chart.js, dan tabel serentak; hancurkan instance chart lama sebelum menggambar ulang.',
-        '4. Tabel: search, sort, pagination, tombol Edit dan Hapus (dengan konfirmasi).',
-        '5. Form: validasi client (wajib isi, angka/tanggal); tombol Simpan nonaktif dengan loading selama proses (cegah double-submit).'
-      ], tailCode],
-      ['Panduan pasang & deploy', [
-        'TUGAS TAHAP 5 — panduan langkah demi langkah (tanpa kode baru):',
-        '1. Memasang 4 file di Apps Script dengan nama persis: Code.gs, Index, CSS, JS.',
-        '2. Menjalankan setupDatabase(), memberi izin Google, lalu mengganti kredensial Admin default.',
-        '3. Deploy Web App; jelaskan dampak "Execute as" dan "Who has access" terhadap login yang saya pilih, dan cara membuat deployment versi baru setelah kode diubah.',
-        '4. Daftar uji: login, tambah, edit, hapus, filter, cek AUDIT_LOG.',
-        '5. Lima error umum beserta perbaikannya.'
-      ], '\n\nJawab ringkas dan berurutan.']
+
+    const round1 = [
+      ['Backend Code.gs & Kontrak API (Tanpa Login)', 'Buat file Code.gs LENGKAP dari nol untuk Putaran 1. Baca data pada sheet peserta (' + shName + '); deteksi dan validasi header; hitung KPI sesuai kolom numerik/kategorikal yang tersedia; siapkan agregasi 3 chart (chart1, chart2, chart3), opsi filter unik, serta fungsi getDashboardData(filters), createRecord(payload), updateRecord(id, payload), dan deleteRecord(id). Gunakan primary key (' + key + '), LockService.getScriptLock() saat menulis, dan validasi server. Semua respons berformat {ok:boolean, data?, error?}. JANGAN tambahkan login/role di Putaran 1.'],
+      ['Struktur Index.html (Dashboard & Form CRUD)', 'Buat file Index.html LENGKAP untuk Putaran 1. Muat Chart.js dari CDN, sertakan <?!= include("CSS") ?> di <head> dan <?!= include("JS") ?> sebelum </body>. Sediakan navigasi tampilan Overview & Data/Form, Global Filter (#globalFilter, #btnResetFilter), container KPI (#kpiCards), 3 canvas grafik (#chart1, #chart2, #chart3), tabel transaksi (#dataSearch, #dataTable) dengan tombol Edit & Hapus, form tambah/edit (#recordForm, #recordId, #saveBtn, #formError) dengan input sesuai kolom peserta, serta #toast. Semua ID harus cocok dengan Kontrak. JANGAN menambah halaman login di Putaran 1.'],
+      ['Styling CSS.html (Desain Bersih & Responsif)', 'Buat file CSS.html LENGKAP yang dibungkus <style>...</style> sesuai tema: ' + theme + '. Rancang tata letak profesional, kartu KPI, grid 3 chart proporsional, tabel data responsif dengan badge status, form input rapi, tombol loading/disabled, dan toast notifikasi. Gunakan hanya selector dan ID yang ada pada Kontrak & Index.html.'],
+      ['Interaksi JS.html (Chart.js, Filter & CRUD)', 'Buat file JS.html LENGKAP yang dibungkus <script>...<\/script>. Implementasikan Promise wrapper untuk google.script.run, inisialisasi dashboard saat halaman dibuka, Global Filter tanpa duplikasi opsi, render 3 grafik Chart.js (wajib destroy instance lama sebelum redraw), render tabel dengan pencarian, serta submit form tambah/edit dan konfirmasi hapus data (refresh KPI, chart, dan tabel otomatis setelah CRUD). Sesuaikan persis dengan API Code.gs dan ID DOM di Index.html.'],
+      ['Deploy & Quality Gate A (Uji Fondasi Putaran 1)', 'JANGAN menghasilkan ulang kode. Berikan panduan langkah demi langkah memasang 4 file Putaran 1 di Google Apps Script, cara deploy Web App pertama, serta tabel Checklist Quality Gate A (PASS/FAIL): (1) Header & jumlah baris terbaca benar, (2) KPI tampil sesuai rumus kolom peserta, (3) Dropdown filter tidak menggandakan opsi & memperbarui ketiga chart serentak, (4) Tambah/Edit/Hapus mengubah baris di sheet DATA dengan LockService, (5) Cara simpan backup 4 file Putaran 1 sebelum lanjut ke Putaran 2.']
     ];
-    return T.map((t, i) => ({ title: t[0], text: head(i + 1) + C + '\n\n' + t[1].join('\n') + t[2] }));
+
+    const pasteBox = (fileName) => oldCodeBlock(fileName);
+
+    const round2 = [
+      ['Upgrade Code.gs (Multi-Sheet, Login & RBAC Server)', 'UPGRADE file Code.gs Putaran 1 yang saya tempelkan di bawah ini. Pertahankan seluruh logika KPI, filter, chart, dan CRUD yang sudah lulus Quality Gate A. Tambahkan: (1) setupDatabase() untuk menginisialisasi sheet ' + (sheetList.join(', ') || 'DATA, USERS, CONFIG, AUDIT_LOG') + ' jika belum ada, (2) setupDemoAdmin() yang dijalankan manual 1x dari editor GAS untuk membuat akun latihan admin / admin12345 (role Admin, wajib ganti password saat login pertama), (3) loginUser() & changeFirstPassword() dengan sesi token acak di CacheService dan penyimpanan password aman (hindari plaintext), (4) Verifikasi role server-side (requireRole_) untuk Admin/Editor/Viewer pada setiap fungsi data & manajemen user, serta (5) Pencatatan setiap Create/Update/Delete ke sheet AUDIT_LOG. Kembalikan satu file Code.gs LENGKAP (bukan potongan patch).' + pasteBox('Code.gs')],
+      ['Upgrade Index.html (Layar Login, Sidebar 5 Menu & Role View)', 'UPGRADE file Index.html Putaran 1 yang saya tempelkan di bawah ini. Pertahankan seluruh ID KPI, canvas Chart.js, filter, tabel, dan form CRUD dari Putaran 1. Tambahkan: (1) #loginView (input #loginUser, #loginPass, #loginBtn, #loginError), (2) Modal/layar wajib ganti password pada login pertama (#firstPassModal), (3) #appView dengan Sidebar 5 menu (.nav-item[data-page="overview|data|form|users|settings"]), info user & badge role (#userBadge, #logoutBtn), serta (4) Halaman manajemen pengguna (#page-users, #usersTable) dan pengaturan (#page-settings) khusus Admin. Kembalikan satu file Index.html LENGKAP.' + pasteBox('Index.html')],
+      ['Upgrade CSS.html (Styling Login, Sidebar 5 Menu & RBAC)', 'UPGRADE file CSS.html Putaran 1 yang saya tempelkan di bawah ini. Pertahankan seluruh styling KPI, chart, tabel, dan form Putaran 1 agar tidak ada tampilan yang rusak. Tambahkan styling yang selaras dengan tema (' + theme + ') untuk layar Login terpusat, modal ganti password pertama, Sidebar 5 menu beserta state aktif/tersembunyi berdasarkan role, badge Role (Admin/Editor/Viewer), tabel manajemen Users, serta tampilan mobile responsif. Kembalikan satu file CSS.html LENGKAP.' + pasteBox('CSS.html')],
+      ['Upgrade JS.html (Sesi Login, Role Guard & Audit UI)', 'UPGRADE file JS.html Putaran 1 yang saya tempelkan di bawah ini. Pertahankan seluruh fungsi render KPI, Chart.js, filter, dan form CRUD Putaran 1. Tambahkan: (1) Alur login, penyimpanan token sesi di memori/sessionStorage, dan logout, (2) Penanganan wajib ganti password pada login pertama sebelum masuk ke dashboard, (3) Pengiriman token sesi pada setiap pemanggilan fungsi server (getDashboardData, createRecord, updateRecord, deleteRecord, getUsers, saveUser), (4) Pengaturan visibilitas menu sidebar & tombol aksi sesuai role (dengan tetap mengandalkan validasi role di server). Kembalikan satu file JS.html LENGKAP.' + pasteBox('JS.html')],
+      ['Deploy, Quality Gate B & Persiapan ke Google Stitch (M1.4)', 'JANGAN menghasilkan ulang kode. Berikan panduan ringkas & berurutan untuk: (1) Migrasi 4 file Putaran 2 ke Apps Script & menjalankan setupDatabase() lalu setupDemoAdmin() dari editor, (2) Cara Login Pertama Kali dengan admin / admin12345 dan mengganti password wajib, (3) Tabel Checklist Quality Gate B (PASS/FAIL) untuk menguji hak akses Admin vs Editor vs Viewer, penolakan server jika Viewer memanggil fungsi hapus/edit, pencatatan AUDIT_LOG, serta regresi KPI/Chart/CRUD, dan (4) Langkah menyimpan backup final Putaran 2 sebelum melanjutkan ke tahap opsional M1.4 (Google Stitch Premium UI Makeover).']
+    ];
+
+    return [...round1, ...round2].map((x, i) => {
+      const roundNum = i < 5 ? 1 : 2;
+      const stepInRound = (i % 5) + 1;
+      const headerLine = 'DASHBOARD MAGIC — MASTERY 1 · PUTARAN ' + roundNum + ' (TAHAP ' + stepInRound + ' DARI 5): ' + x[0].toUpperCase();
+      const footerLine = i < 4
+        ? 'INSTRUKSI EKSEKUSI: Tulis HANYA kode lengkap file tahap ini. Simpan hasilnya untuk tahap berikutnya.'
+        : (i === 4
+          ? 'INSTRUKSI EKSEKUSI: Pastikan seluruh ceklis Quality Gate A berstatus PASS sebelum masuk ke Putaran 2.'
+          : (i < 9
+            ? 'INSTRUKSI EKSEKUSI: Kode Putaran 1 sudah dilampirkan otomatis oleh Prompt Builder; jika belum lengkap, isi formulir kode lama dan generate ulang. AI wajib mengembalikan 1 file lengkap hasil upgrade.'
+            : 'INSTRUKSI EKSEKUSI: Pastikan seluruh ceklis Quality Gate B berstatus PASS. Setelah lulus dan di-backup, Anda siap masuk ke Modul M1.4 (Google Stitch Premium UI Makeover).'));
+      return {
+        title: x[0],
+        text: headerLine + '\n\n' + contract + '\n\nTUGAS TAHAP INI:\n' + x[1] + '\n\n' + footerLine
+      };
+    });
   }
 
-  /* ----- LEVEL 3: MASTERY 2 (Intelligent Dashboard — 5 Tahap) ----- */
+  /* ----- LEVEL 3: MASTERY 2 (Konsep 2 Putaran × 5 Tahap — Ramah LLM Gratis) ----- */
   const m2Scope = g('m2BuildScope');
   const m2Engine = g('m2AiEngine');
   const m2Persona = g('m2AiPersona');
   const m2SampleQ = g('m2SampleQuery') || 'Tolong analisis tren 3 bulan terakhir dan berikan rekomendasi.';
-  const C2 = [
-    'KONTRAK PROYEK MASTERY 2 (WAJIB diikuti persis; file lain dibuat di percakapan terpisah berdasarkan kontrak ini)',
-    '- Konteks data: ' + (g('desc') || '(isi deskripsi data)'),
-    '- Kolom data: ' + cols.join(', '),
-    '- Contoh data:\n' + sample,
-    '- Mode Pembangunan: ' + m2Scope,
-    '- Engine AI: ' + m2Engine + ' | Persona: ' + m2Persona,
-    '- Tema visual: ' + theme,
-    '',
-    'API SERVER (Code.gs; semua mengembalikan {ok:true,...} atau {ok:false,error:"..."}):',
-    '  doGet(e), include(name), getDashboardData(filters)',
-    '  generateAiInsight(summaryPayload) -> {ok, insightHtml, bullets:[], recommendations:[]}',
-    '  askDataAssistant(question, filterContext) -> {ok, answer, statsUsed}',
-    '',
-    'ELEMEN HTML WAJIB (Index.html):',
-    '  #globalFilter, #btnExportPdf, #btnExportWord, #btnExportExcel, #kpiCards, canvas #chart1 #chart2 #chart3',
-    '  #aiInsightCard, #btnRefreshInsight, #chatHistory, #nlqInput, #btnAskAi, #quickPrompts, #dataSearch, #dataTable, #toast',
-    '',
-    'FUNGSI JS GLOBAL (JS.html):',
-    '  loadDashboard(), renderKpis(), renderCharts(), renderTable(), fetchAiInsight(), sendNlqQuestion(q), exportReport(format)'
-  ].join('\n');
-  const head2 = n => 'DASHBOARD MAGIC — MASTERY 2 · TAHAP ' + n + ' dari 5\nSaya membangun Intelligent Dashboard (Google Apps Script + AI Insight + NLQ + Auto Report) secara bertahap. Berikut kontrak proyek, lalu tugas tahap ini.\n\n';
-  const T2 = [
-    ['Code.gs (Backend + AI Engine & NLQ)', [
-      'TUGAS TAHAP 1 — file Code.gs (backend lengkap):',
-      '1. doGet(e), include(name), dan getDashboardData(filters) yang menghitung KPI, agregasi chart1..chart3, dan ringkasan statistik untuk konteks AI.',
-      '2. generateAiInsight(summaryPayload): ambil GEMINI_API_KEY dari PropertiesService.getScriptProperties(). Jika ada, panggil Gemini API via UrlFetchApp dengan persona ' + m2Persona + '. Sediakan juga Smart Statistical Fallback (rule-based) agar tetap menghasilkan analisis tren MoM, kategori dominan %, anomali, dan rekomendasi meski tanpa API Key.',
-      '3. askDataAssistant(question, filterContext): proses pertanyaan Natural Language Query (NLQ) terhadap agregasi data riil dan kembalikan jawaban akurat.'
-    ], tailCode],
-    ['Index.html (Struktur UI + Panel AI & Export)', [
-      'TUGAS TAHAP 2 — file Index.html (struktur saja):',
-      '1. Header dengan Global Filter dan 3 tombol Export (#btnExportPdf, #btnExportWord, #btnExportExcel).',
-      '2. Card "✨ AI Insight" (#aiInsightCard + #btnRefreshInsight) dan Panel "🤖 AI Data Assistant (NLQ)" (#chatHistory, #quickPrompts dengan contoh "' + m2SampleQ + '", #nlqInput, #btnAskAi).',
-      '3. Baris KPI (#kpiCards), 3 canvas Chart.js (#chart1, #chart2, #chart3), dan tabel data (#dataSearch, #dataTable).',
-      '4. Muat Chart.js dari CDN, sisipkan <?!= include("CSS") ?> dan <?!= include("JS") ?>.'
-    ], tailCode],
-    ['CSS.html (Styling Intelligent Dashboard)', [
-      'TUGAS TAHAP 3 — file CSS.html:',
-      '1. Bungkus dalam <style>...</style> sesuai tema: ' + theme + '.',
-      '2. Desain modern untuk AI Insight Card, bubble chat AI Data Assistant, Quick Prompt chips, tombol Export PDF/Word/Excel, KPI cards, chart grid, dan style @media print untuk cetak PDF rapi.'
-    ], tailCode],
-    ['JS.html (Logika Chart.js, AI NLQ & Generator PDF/Word/Excel)', [
-      'TUGAS TAHAP 4 — file JS.html:',
-      '1. Bungkus dalam <script>...<\/script>. Ambil data via google.script.run, render KPI, 3 Chart.js, dan tabel.',
-      '2. Fungsi fetchAiInsight() dan sendNlqQuestion(q) untuk interaksi chat AI Data Assistant beserta Quick Prompt chips.',
-      '3. Fungsi exportReport(format) yang bekerja nyata untuk mengunduh laporan ke format PDF (print/window report rapi), Word (.doc Blob lengkap dengan narasi AI Insight + KPI + Tabel), dan Excel (.csv/.xlsx Blob).'
-    ], tailCode],
-    ['Panduan Setup Gemini API Key & Deploy', [
-      'TUGAS TAHAP 5 — panduan langkah demi langkah (tanpa kode baru):',
-      '1. Cara memasang 4 file di Google Apps Script dan menghubungkan SPREADSHEET_ID.',
-      '2. Cara mendapatkan API Key Google Gemini gratis di Google AI Studio dan menyimpannya di Project Settings -> Script Properties (GEMINI_API_KEY).',
-      '3. Cara menguji fitur AI Insight, tanya jawab NLQ, dan tombol Export PDF / Word / Excel.'
-    ], '\n\nJawab ringkas dan berurutan.']
+  const m2Provider = g('m2Provider') || 'gemini';
+  const m2Model = g('m2Model') || 'model resmi yang tersedia di console (mis. gemini-2.5-flash / llama-3.3-70b-versatile)';
+  const m2Fallback = g('m2Fallback') || 'statistical';
+  const m2PublicApi = g('m2PublicApi') || 'openmeteo';
+  const m2PublicUrl = g('m2PublicUrl') || '';
+  const m2Refresh = g('m2Refresh') || 'cache';
+  const m2Endpoint = g('m2Endpoint') || 'health_summary';
+
+  const m2IsFull = m2Scope.startsWith('Bangun Sistem Utuh');
+  const m2IsUpgrade = m2Scope.startsWith('Upgrade Aplikasi Mastery 1');
+  const m2CrudContract = m2IsFull ? [
+    '- MODE SISTEM UTUH: WAJIB implementasikan CRUD nyata (Create, Read, Update, Delete) di sheet DATA, ID unik dari kolom yang dipilih peserta, validasi server, LockService, form input/edit, tombol hapus dengan konfirmasi, tabel interaktif, dan refresh KPI/chart setelah mutasi.',
+    '- MODE SISTEM UTUH: WAJIB setupDatabase() untuk sheet pendukung tanpa menghapus/mengganti data asli, autentikasi dan role yang diperiksa di server untuk setiap operasi tulis, serta AUDIT_LOG. Bila autentikasi aman belum dapat dipenuhi, batasi aplikasi untuk demo, jangan klaim production-ready.',
+    '- MODE SISTEM UTUH: 4 file wajib berisi navigasi Data, Form, Users dan elemen CRUD; Quality Gate A/B wajib menguji Create/Read/Update/Delete, hak akses, serta regresi KPI/chart setelah perubahan.'
+  ] : m2IsUpgrade ? [
+    '- MODE UPGRADE M1: WAJIB meminta dan menggunakan 4 file Mastery 1 beserta skema sheet SEBELUM menulis kode. Pertahankan CRUD, login, role, sidebar, filter, AUDIT_LOG dan fungsi lama; tambahkan modul AI secara kompatibel.',
+    '- MODE UPGRADE M1: Gunakan workflow Mastery 2 Connected untuk audit dan perubahan minimal. Jika memakai prompt bertahap, tempel file M1 yang relevan di tiap tahap; jangan membuat ulang aplikasi dari nol.',
+    '- MODE UPGRADE M1: Quality Gate A/B wajib regresi Create/Read/Update/Delete dan penolakan akses tanpa role.'
+  ] : [
+    '- MODE FOKUS MODUL: hanya membangun dashboard + AI + laporan; CRUD/login/role tidak otomatis disediakan. Jangan mengklaim aplikasi ini kelanjutan penuh Mastery 1.',
+    '- MODE FOKUS MODUL: untuk melanjutkan aplikasi M1 yang sudah ada, pilih mode Upgrade Aplikasi Mastery 1.'
   ];
-  return T2.map((t, i) => ({ title: t[0], text: head2(i + 1) + C2 + '\n\n' + t[1].join('\n') + t[2] }));
+  const m2CrudBackend = m2IsFull ? ' WAJIB tambahkan setupDatabase(), getRecords(filters), createRecord(payload), updateRecord(id,payload), deleteRecord(id), autentikasi/role server-side, dan AUDIT_LOG. Jangan mengubah kolom asli tanpa izin; gunakan ID unik dan LockService.' : m2IsUpgrade ? ' WAJIB gunakan Code.gs Mastery 1 yang ditempel peserta sebagai baseline; pertahankan seluruh fungsi CRUD, login, role, audit dan setupDatabase() serta tambahkan AI tanpa rewrite.' : '';
+  const m2CrudHtml = m2IsFull ? ' WAJIB sediakan sidebar Data, Form, Users; form tambah/edit, tabel dengan aksi Edit/Hapus, login dan pesan hak akses; ID DOM konsisten dengan JS.' : m2IsUpgrade ? ' Pertahankan semua halaman, form, tabel CRUD, login, sidebar dan ID DOM Mastery 1 yang sudah ada.' : '';
+  const m2CrudCss = m2IsFull ? ' Sertakan styling form CRUD, modal konfirmasi hapus, tabel aksi, login dan sidebar.' : m2IsUpgrade ? ' Pertahankan CSS lama untuk CRUD, login, role dan sidebar; jangan hilangkan selector yang dipakai JS.' : '';
+  const m2CrudJs = m2IsFull ? ' Implementasikan create/edit/delete dengan google.script.run, validasi, konfirmasi, loading anti-double-submit, pesan error, refresh tabel/KPI/chart, dan kontrol UI berdasar role (server tetap memverifikasi).' : m2IsUpgrade ? ' Pertahankan handler CRUD/login/role lama dan seluruh panggilan google.script.run; jangan ganti ID yang dipakai.' : '';
+  const m2CrudTest = m2IsFull || m2IsUpgrade ? ' WAJIB Quality Gate CRUD: Create→baris baru; Read→tabel; Update→baris berubah; Delete→baris terhapus/soft delete; role Viewer ditolak di server; KPI/chart/filter sesuai perubahan; AUDIT_LOG mencatat mutasi.' : ' Jelaskan bahwa mode Fokus tidak membangun CRUD.';
+  const contractM2 = [
+    'DASHBOARD MAGIC MASTERY 2 — KONTRAK DATA & INTELLIGENT SYSTEM (2 PUTARAN × 5 TAHAP)',
+    'Tujuan: bangun Intelligent & Connected Dashboard secara bertahap dalam 2 putaran agar kode tidak terpotong di akun LLM gratis.',
+    '- Konteks dataset: ' + state.type + ' — ' + (g('desc') || '(isi deskripsi data)'),
+    '- Spreadsheet ID: ' + ssId + ' | Sheet utama: ' + shName,
+    '- Kolom tersedia (' + cols.length + ' kolom): ' + cols.join(', '),
+    '- Contoh baris (untuk inferensi tipe data, jangan mengarang kolom di luar daftar):\n' + sample,
+    '- Visualisasi/KPI pilihan: ' + goalsText,
+    '- Mode Pembangunan: ' + m2Scope,
+    '- Engine AI & Provider: ' + m2Engine + ' | Provider utama: ' + m2Provider + ' (' + m2Model + ') | Fallback: ' + m2Fallback,
+    '- Persona Analis AI: ' + m2Persona,
+    '- Pertanyaan Default NLQ: "' + m2SampleQ + '"',
+    '- Fokus AI Insight: ' + (state.m2Insight.join('; ') || 'Tren MoM, Kategori Dominan, Anomali, Rekomendasi'),
+    '- Fokus AI Assistant: ' + (state.m2Assistant.join('; ') || 'Chatbox NLQ & Quick Prompt Chips'),
+    '- Fokus Auto Report (Putaran 2): ' + (state.m2Report.join('; ') || 'Export PDF, Word, Excel dengan narasi AI Insight'),
+    '- Public API & Custom Endpoint (Putaran 2): Public API=' + m2PublicApi + (m2PublicUrl ? ' (' + m2PublicUrl + ')' : '') + ', Refresh=' + m2Refresh + ', Custom GAS doGet Endpoint=' + m2Endpoint,
+    '- Tema visual: ' + theme,
+    ...m2CrudContract,
+    '',
+    'KONTRAK STANDAR FUNGSI & ID DOM (WAJIB KONSISTEN ANTAR-FILE & ANTAR-PUTARAN):',
+    '- Struktur 4 file: Code.gs, Index.html, CSS.html (<style>...</style>), JS.html (<script>...<\/script>).',
+    '- API Server Putaran 1 (Code.gs): doGet(e), include(filename), getDashboardData(filters), generateAiInsight(filters), askDataAssistant(question, filters). Semua mengembalikan {ok:boolean, data?, error?, source?}. Jika mode Sistem Utuh tambahkan CRUD, login, role dan setupDatabase().',
+    '- Ekspansi API Server Putaran 2 (Code.gs): fetchPublicApiData(forceRefresh), getReportPayload(filters), serta perluasan doGet(e) untuk melayani parameter JSON API (?action=health & ?action=summary) menggunakan ContentService.',
+    '- ID DOM Inti Putaran 1 (Index.html & JS.html): #globalFilter, #btnResetFilter, #kpiCards, canvas #chart1 #chart2 #chart3, #aiInsightCard, #aiSourceBadge, #btnRefreshInsight, #chatHistory, #quickPrompts, #nlqInput, #btnAskAi, #dataSearch, #dataTable, #toast.',
+    '- Ekspansi ID DOM Putaran 2 (Index.html & JS.html): #reportCenter, #btnExportPdf, #btnExportWord, #btnExportExcel, #btnInsertAiToReport, #publicApiCard, #apiStatusBadge, #btnRefreshApi.',
+    '',
+    'ATURAN KEAMANAN & LLM GRATIS (WAJIB DIPATUHI):',
+    '- KEAMANAN API KEY: Ambil API Key HANYA dari PropertiesService.getScriptProperties() (GEMINI_API_KEY / GROQ_API_KEY). DILARANG menulis API key di HTML, JS, atau log.',
+    '- KEJUJURAN STATISTIK: Semua angka KPI, persentase tren, dan agregasi WAJIB dihitung deterministik di Code.gs; LLM hanya menyusun narasi dari ringkasan angka tersebut. Bedakan secara eksplisit label "✨ AI Generative Insight" vs "📊 Smart Statistical Fallback (Rule-Based)".',
+    '- Hasilkan HANYA 1 file lengkap yang diminta pada tahap ini; tanpa placeholder ("...sisanya sama") dan tanpa menulis ulang file lain.',
+    '- Tulis kode modular dan ringkas agar muat utuh dalam 1 kali respons LLM gratis. Jika hampir terpotong, berhenti di akhir fungsi utuh dan tulis BERSAMBUNG.'
+  ].join('\n');
+
+  const round1M2 = [
+    ['Backend Code.gs (Agregasi Data, AI Insight Engine, Fallback & NLQ)', 'Buat file Code.gs LENGKAP untuk Putaran 1 Mastery 2. Implementasikan: (1) doGet(e), include(filename), dan getDashboardData(filters) yang membaca sheet ' + shName + ', menghitung KPI, agregasi 3 chart (chart1, chart2, chart3), opsi filter, serta objek ringkasan statistik deterministik (tren periode, kategori tertinggi/terendah, outlier), (2) generateAiInsight(filters) yang membaca GEMINI_API_KEY / GROQ_API_KEY dari PropertiesService.getScriptProperties(), memanggil API via UrlFetchApp dengan persona "' + m2Persona + '", dan otomatis beralih ke Smart Statistical Fallback (rule-based) jika API key belum diatur atau gagal, lengkap dengan properti source ("ai" atau "statistical_fallback"), (3) askDataAssistant(question, filters) untuk menjawab pertanyaan Natural Language Query (NLQ) berdasarkan agregasi data terfilter. JANGAN tambahkan kode Public API atau Report Generator di Putaran 1 agar kode tidak terpotong.' + m2CrudBackend],
+    ['Struktur Index.html (Dashboard KPI, Chart.js, Panel AI Insight & Chat NLQ)', 'Buat file Index.html LENGKAP untuk Putaran 1 Mastery 2. Muat Chart.js dari CDN, sertakan <?!= include("CSS") ?> di <head> dan <?!= include("JS") ?> sebelum </body>. Sediakan: (1) Header & Global Filter (#globalFilter, #btnResetFilter), (2) Baris KPI (#kpiCards) dan 3 canvas Chart.js (#chart1, #chart2, #chart3), (3) Card "✨ AI Insight" (#aiInsightCard, badge sumber #aiSourceBadge, tombol #btnRefreshInsight), (4) Panel "🤖 AI Data Assistant (NLQ)" (#chatHistory, chip pertanyaan instan #quickPrompts dengan contoh "' + m2SampleQ + '", input #nlqInput, tombol #btnAskAi), serta (5) Tabel data (#dataSearch, #dataTable) dan #toast. Gunakan ID DOM persis sesuai Kontrak.' + m2CrudHtml],
+    ['Styling CSS.html (Desain AI Workspace, Bubble Chat & Badge Status)', 'Buat file CSS.html LENGKAP yang dibungkus <style>...</style> sesuai tema: ' + theme + '. Rancang tampilan modern untuk header, Global Filter, kartu KPI, grid 3 chart proporsional, Card AI Insight dengan variasi warna badge (#aiSourceBadge: AI Aktif vs Statistical Fallback), ruang percakapan Chatbox AI Data Assistant (user bubble, AI response card, Quick Prompt chips, animasi loading/typing), serta tabel responsif. Gunakan hanya selector dan ID dari Kontrak.' + m2CrudCss],
+    ['Interaksi JS.html (Render Chart.js, Fetch AI Insight & Chat NLQ)', 'Buat file JS.html LENGKAP yang dibungkus <script>...<\/script>. Implementasikan: (1) Promise wrapper untuk google.script.run, (2) loadDashboard(), renderKpis(), renderCharts() (wajib destroy instance Chart.js lama sebelum redraw), dan renderTable() yang tersinkronisasi saat #globalFilter berubah, (3) fetchAiInsight() yang merender poin analisis & rekomendasi ke #aiInsightCard sekaligus menampilkan status #aiSourceBadge secara jujur (AI Generatif vs Statistical Fallback), dan (4) sendNlqQuestion(q) beserta event klik #quickPrompts untuk tanya-jawab interaktif di #chatHistory dengan penanganan loading & error.' + m2CrudJs],
+    ['Deploy, Setup Script Properties API Key & Quality Gate A (M2)', 'JANGAN menghasilkan ulang kode. Berikan panduan ringkas & berurutan untuk: (1) Memasang 4 file Putaran 1 di Google Apps Script dan melakukan deploy awal, (2) Cara mendapatkan API Key gratis (Google AI Studio / GroqCloud) dan menyimpannya dengan aman di Project Settings -> Script Properties (GEMINI_API_KEY / GROQ_API_KEY), (3) Tabel Checklist Quality Gate A Mastery 2 (PASS/FAIL): uji dashboard tanpa API key (Statistical Fallback berjalan mulus tanpa crash), uji dengan API key (AI Insight muncul dengan angka yang konsisten dengan KPI), uji 3 pertanyaan NLQ di chatbox, uji perubahan Global Filter, serta (4) Cara menyimpan backup 4 file Putaran 1 sebelum lanjut ke Putaran 2.' + m2CrudTest]
+  ];
+
+  const pasteBoxM2 = (fileName) => oldCodeBlock(fileName);
+
+  const round2M2 = [
+    ['Upgrade Code.gs (Public API Fetcher, Custom GAS JSON Endpoint & Report Payload)', 'UPGRADE file Code.gs Putaran 1 yang saya tempelkan di bawah ini. Pertahankan seluruh fungsi KPI, Chart, AI Insight, Statistical Fallback, dan NLQ yang sudah lulus Quality Gate A. Tambahkan: (1) fetchPublicApiData(forceRefresh) menggunakan UrlFetchApp ke sumber Public API (' + m2PublicApi + (m2PublicUrl ? ': ' + m2PublicUrl : '') + ') lengkap dengan validasi HTTPS/domain anti-SSRF, CacheService (' + m2Refresh + '), dan fallback aman jika API eksternal timeout, (2) Perluasan doGet(e) agar ketika diakses dengan query parameter ?action=health atau ?action=summary (' + m2Endpoint + ') mengembalikan JSON melalui ContentService.createTextOutput() berisi agregat sintetis/publik yang aman (tanpa membocorkan data mentah sensitif), serta (3) getReportPayload(filters) untuk menyiapkan paket data laporan eksekutif. Pertahankan semua fungsi CRUD, login, role, audit bila ada di file sebelumnya. Kembalikan satu file Code.gs LENGKAP.' + pasteBoxM2('Code.gs')],
+    ['Upgrade Index.html (Report Center PDF/Word/Excel & Widget Connected API)', 'UPGRADE file Index.html Putaran 1 yang saya tempelkan di bawah ini. Pertahankan seluruh ID elemen KPI, Chart.js, AI Insight, Chatbox NLQ, dan Tabel dari Putaran 1. Tambahkan: (1) Panel/Bar "📄 Auto Report Center" (#reportCenter) dengan 3 tombol ekspor satu-klik (#btnExportPdf, #btnExportWord, #btnExportExcel) dan tombol sisipkan jawaban AI ke draf laporan (#btnInsertAiToReport), serta (2) Card "🌐 Connected Public API & Custom Endpoint" (#publicApiCard, #apiStatusBadge, #btnRefreshApi) untuk menampilkan data eksternal kontekstual dan status endpoint JSON. Pertahankan halaman CRUD/login/sidebar bila sudah ada. Kembalikan satu file Index.html LENGKAP.' + pasteBoxM2('Index.html')],
+    ['Upgrade CSS.html (Styling Report Center, Widget API & @media print PDF)', 'UPGRADE file CSS.html Putaran 1 yang saya tempelkan di bawah ini. Pertahankan seluruh styling Putaran 1. Tambahkan styling untuk: (1) Bar Auto Report Center dan tombol multi-format (PDF, Word, Excel) beserta state loading saat mengunduh, (2) Card Connected Public API & badge status cache/online, serta (3) Aturan @media print lengkap agar saat pengguna mengekspor/mencetak PDF, elemen navigasi/input chat/tombol disembunyikan dan laporan eksekutif (Header, KPI, Narasi AI Insight, Grafik, Tabel) tercetak rapi. Pertahankan styling CRUD/login/sidebar bila ada. Kembalikan satu file CSS.html LENGKAP.' + pasteBoxM2('CSS.html')],
+    ['Upgrade JS.html (Generator Unduhan PDF / Word / Excel & Koneksi Public API)', 'UPGRADE file JS.html Putaran 1 yang saya tempelkan di bawah ini. Pertahankan seluruh fungsi dashboard, Chart.js, AI Insight, dan Chatbox NLQ Putaran 1. Tambahkan: (1) Fungsi exportReport(format) pada tombol #btnExportPdf, #btnExportWord, dan #btnExportExcel yang bekerja nyata menghasilkan dokumen berdasarkan data terfilter aktif + narasi AI Insight terbaru (PDF via window cetak laporan eksekutif terformat rapi, Word via Blob .doc HTML-compatible yang bisa diedit di MS Word, dan Excel/CSV via Blob spreadsheet dengan ekstensi jujur), (2) Fungsi #btnInsertAiToReport untuk menyalin/menyematkan analisis chat AI ke bagian ringkasan laporan, dan (3) Fungsi loadPublicApiWidget(forceRefresh) untuk memuat & me-refresh data di #publicApiCard. Pertahankan handler CRUD/login/role bila ada. Kembalikan satu file JS.html LENGKAP.' + pasteBoxM2('JS.html')],
+    ['Deploy, Quality Gate B & Persiapan ke Google Stitch (M2.4 Intelligent UI)', 'JANGAN menghasilkan ulang kode. Berikan panduan ringkas & berurutan untuk: (1) Migrasi 4 file Putaran 2 ke Google Apps Script dan membuat New Deployment, (2) Cara menguji Custom GAS JSON API di browser (?action=health dan ?action=summary) serta memeriksa keamanan datanya, (3) Tabel Checklist Quality Gate B Mastery 2 (PASS/FAIL): uji unduhan PDF, Word (.doc), dan Excel/CSV saat filter aktif (pastikan angka dan narasi AI Insight ikut tercetak), uji widget Public API & cache fallback, uji regresi AI Insight & Chat NLQ, serta (4) Langkah menyimpan backup final Putaran 2 sebelum masuk ke tahap opsional M2.4 (Google Stitch Intelligent UI Upgrade — Putaran 3).' + m2CrudTest]
+  ];
+
+  return [...round1M2, ...round2M2].map((x, i) => {
+    const roundNum = i < 5 ? 1 : 2;
+    const stepInRound = (i % 5) + 1;
+    const headerLine = 'DASHBOARD MAGIC — MASTERY 2 · PUTARAN ' + roundNum + ' (TAHAP ' + stepInRound + ' DARI 5): ' + x[0].toUpperCase();
+    const footerLine = i < 4
+      ? 'INSTRUKSI EKSEKUSI: Tulis HANYA kode lengkap file tahap ini. Simpan hasilnya untuk tahap berikutnya.'
+      : (i === 4
+        ? 'INSTRUKSI EKSEKUSI: Pastikan seluruh ceklis Quality Gate A Mastery 2 (AI Insight, Statistical Fallback, NLQ) berstatus PASS sebelum masuk ke Putaran 2.'
+        : (i < 9
+          ? 'INSTRUKSI EKSEKUSI: Kode Putaran 1 sudah dilampirkan otomatis oleh Prompt Builder; jika belum lengkap, isi formulir kode lama dan generate ulang. AI wajib mengembalikan 1 file lengkap hasil upgrade.'
+          : 'INSTRUKSI EKSEKUSI: Pastikan seluruh ceklis Quality Gate B Mastery 2 berstatus PASS. Setelah lulus dan di-backup, Anda siap masuk ke Modul M2.4 (Google Stitch Intelligent UI Upgrade).'));
+    return {
+      title: x[0],
+      text: headerLine + '\n\n' + contractM2 + '\n\nTUGAS TAHAP INI:\n' + x[1] + '\n\n' + footerLine
+    };
+  });
 }
 
 function renderStaged() {
   const box = document.getElementById('blockStaged');
   if (!(state.mode === 'llm' || state.mode === 'hybrid')) { box.style.display = 'none'; return; }
-  stagedList = buildStagedPrompts();
-  document.getElementById('stagedRows').innerHTML = stagedList.map((x, i) =>
-    '<div class="staged-row">' +
-      '<span class="staged-row-title"><strong>Tahap ' + (i + 1) + '</strong> — ' + x.title + ' <small>(' + x.text.length + ' karakter)</small></span>' +
+  stagedList = buildStagedPrompts().map(x => ({...x, text: withDmCredit(x.text)}));
+  const isTwoRounds = stagedList.length === 10;
+  document.getElementById('stagedRows').innerHTML = stagedList.map((x, i) => {
+    const badgeLabel = isTwoRounds
+      ? ('Putaran ' + (i < 5 ? '1' : '2') + ' · Tahap ' + ((i % 5) + 1) + '/5')
+      : ('Tahap ' + (i + 1) + '/5');
+    const btnLabel = isTwoRounds
+      ? ('P' + (i < 5 ? '1' : '2') + ' · Tahap ' + ((i % 5) + 1))
+      : ('Tahap ' + (i + 1));
+    return '<div class="staged-row">' +
+      '<span class="staged-row-title"><strong>' + badgeLabel + '</strong> — ' + x.title + ' <small>(' + x.text.length + ' karakter)</small></span>' +
       '<span class="staged-actions">' +
         '<button type="button" class="preview-btn" onclick="toggleStagedPreview(\'llm\',' + i + ')">👁️ Lihat</button>' +
         '<button type="button" class="dl-btn" onclick="downloadStaged(' + i + ')">💾 .TXT</button>' +
-        '<button type="button" class="copy-llm" onclick="copyStaged(' + i + ')">📋 Copy Tahap ' + (i + 1) + '</button>' +
+        '<button type="button" class="copy-llm" onclick="copyStaged(' + i + ')">📋 Copy ' + btnLabel + '</button>' +
       '</span>' +
       '<div class="staged-preview" id="stagedPreviewLlm_' + i + '"><pre></pre></div>' +
-    '</div>').join('');
+    '</div>';
+  }).join('');
   stagedList.forEach((x, i) => {
     const pre = document.querySelector('#stagedPreviewLlm_' + i + ' pre');
     if (pre) pre.textContent = x.text;
@@ -2588,19 +3008,30 @@ function renderStaged() {
 }
 
 function copyStaged(i) {
+  if (!oldCodeStageGuard(i)) return;
   const t = stagedList[i].text;
+  const isTwoRounds = stagedList.length === 10;
+  const label = isTwoRounds
+    ? ('Putaran ' + (i < 5 ? '1' : '2') + ' · Tahap ' + ((i % 5) + 1))
+    : ('Tahap ' + (i + 1));
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(t).then(() => showToast('✅ Prompt Tahap ' + (i + 1) + ' berhasil disalin!')).catch(() => fallbackCopy(t));
+    navigator.clipboard.writeText(t).then(() => showToast('✅ Prompt ' + label + ' berhasil disalin!')).catch(() => fallbackCopy(t));
   } else { fallbackCopy(t); }
 }
 
 function downloadStaged(i) {
+  if (!oldCodeStageGuard(i)) return;
   const blob = new Blob([stagedList[i].text], { type: 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'prompt-' + state.tier + '-tahap' + (i + 1) + '.txt'; a.click();
+  const isTwoRounds = stagedList.length === 10;
+  a.href = url;
+  a.download = isTwoRounds
+    ? ('prompt-' + state.tier + '-putaran' + (i < 5 ? 1 : 2) + '-tahap' + ((i % 5) + 1) + '.txt')
+    : ('prompt-' + state.tier + '-tahap' + (i + 1) + '.txt');
+  a.click();
   URL.revokeObjectURL(url);
-  showToast('💾 Tahap ' + (i + 1) + ' diunduh!');
+  showToast('💾 File prompt tahap berhasil diunduh!');
 }
 
 /* ====================================================================
@@ -2639,7 +3070,7 @@ function buildStitchStagedPrompts() {
     '  * Filter & Tabel: #globalFilter, #dataSearch, #dataTableBody'
   ].join('\n');
 
-  const tailRule = '\n\nATURAN JAWABAN:\n- Tulis kode LENGKAP tanpa disingkat ("...sisanya sama" dilarang).\n- Jika hampir terpotong oleh batas token gratis, berhenti di baris yang utuh dan tulis BERSAMBUNG.';
+  const tailRule = '\n\nATURAN JAWABAN LLM GRATIS:\n- Hanya hasilkan file/tahap yang diminta, lengkap tanpa placeholder atau singkatan.\n- Jaga ID DOM, nama fungsi dan kontrak google.script.run yang konsisten.\n- Jika respons hampir terpotong, berhenti di akhir baris utuh dan tulis BERSAMBUNG.\n- Jangan mengarang backend, token, atau autentikasi yang tidak ada pada kode sumber.\n- Jika input file sebelumnya tidak tersedia, minta pengguna melampirkannya terlebih dahulu.';
 
   const steps = [
     {
@@ -2709,10 +3140,10 @@ function buildStitchStagedPrompts() {
 function renderStitchStaged() {
   const box = document.getElementById('blockStitchStaged');
   if (!(state.mode === 'stitch' || state.mode === 'hybrid')) { box.style.display = 'none'; return; }
-  stitchStagedList = buildStitchStagedPrompts();
+  stitchStagedList = buildStitchStagedPrompts().map(x => ({...x, text: withDmCredit(x.text)}));
   document.getElementById('stagedStitchRows').innerHTML = stitchStagedList.map((x, i) =>
     '<div class="staged-row">' +
-      '<span class="staged-row-title"><strong>Tahap ' + (i + 1) + '</strong> — ' + x.title + ' <small>(' + x.text.length + ' karakter)</small></span>' +
+      '<span class="staged-row-title"><strong>Tahap ' + (i + 1) + '/3</strong> — ' + x.title + ' <small>(' + x.text.length + ' karakter)</small></span>' +
       '<span class="staged-actions">' +
         '<button type="button" class="preview-btn" onclick="toggleStagedPreview(\'stitch\',' + i + ')">👁️ Lihat</button>' +
         '<button type="button" class="dl-btn" onclick="downloadStitchStaged(' + i + ')">💾 .TXT</button>' +
@@ -2825,6 +3256,14 @@ function resetAll() {
     el.querySelector('.status').textContent = '';
   });
   document.getElementById('output').classList.remove('show');
+  ['m14AppName','m14Components','m14Notes'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('m14Scope').selectedIndex = 0;
+  document.getElementById('m14Theme').selectedIndex = 0;
+  document.getElementById('m14ExportType').selectedIndex = 0;
+  document.getElementById('m14Result').classList.remove('show');
+  ['m24AppName','m24Constraints','m24Notes'].forEach(id => { document.getElementById(id).value = ''; });
+  ['m24Mode','m24Theme'].forEach(id => { document.getElementById(id).selectedIndex = 0; });
+  document.getElementById('m24Result').classList.remove('show');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -2837,8 +3276,337 @@ function showToast(msg) {
   t._timer = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
+
+/* ===== M1.4: Independent Stitch makeover prompt generator ===== */
+function generateM14() {
+  if (!authState.mastery1) {
+    openAuthModal('mastery1');
+    return;
+  }
+  const val = id => document.getElementById(id).value.trim();
+  const app = val('m14AppName') || 'Dashboard Engine GAS';
+  const scope = val('m14Scope');
+  const theme = val('m14Theme');
+  const format = val('m14ExportType');
+  const components = val('m14Components') || 'Sidebar, KPI cards, charts, global filters, data table, CRUD forms, role-aware navigation';
+  const notes = val('m14Notes') || 'Responsive, accessible, professional, maintainable';
+  const type = state.type || 'data bisnis atau survei';
+  const stitch = [
+    'GOOGLE STITCH — PREMIUM UI REDESIGN (M1.4)',
+    'Redesign the EXISTING, FUNCTIONAL Google Apps Script dashboard. Use the attached screenshot as the primary reference.',
+    'Application: ' + app,
+    'Data domain: ' + type,
+    'Redesign scope: ' + scope,
+    'Visual direction: ' + theme,
+    'UI components and behaviors to preserve: ' + components,
+    'Additional requirements: ' + notes,
+    '',
+    'DESIGN CONTRACT:',
+    '- This is a visual redesign, NOT a new backend or a new app.',
+    '- Keep the existing information architecture, field labels, action buttons, filters, forms, tables and role-dependent navigation.',
+    '- Produce clear, consistent desktop/mobile layouts and identifiable components for integration.',
+    '- Keep a professional accessible contrast ratio, keyboard focus styles and empty/loading/error states.',
+    '- Do not introduce a new database, API, authentication service or hosting provider.',
+    '- Prefer HTML/CSS/vanilla JavaScript design assets suitable for Google Apps Script HTML Service.',
+    '- Export the design/code or provide a reference screenshot. Preserve the visual design system.',
+    '',
+    'INPUT FROM PARTICIPANT: Attach a screenshot of the currently working GAS dashboard.',
+    'OUTPUT: Premium UI design with clear structure for later frontend-only integration.'
+  ].join('\n');
+  const integration = [
+    'M1.4 — STITCH-TO-EXISTING-GAS FRONTEND INTEGRATION',
+    'You are a senior Google Apps Script frontend engineer.',
+    'Application: ' + app,
+    'Scope: ' + scope,
+    'Stitch export type: ' + format,
+    'Components to preserve: ' + components,
+    'Design preferences: ' + theme,
+    'Additional notes: ' + notes,
+    '',
+    'INPUTS (participant will attach/paste these):',
+    'A. Existing working Code.gs, Index.html, CSS.html and JS.html.',
+    'B. Exported Google Stitch HTML/CSS/code or design screenshots.',
+    'C. Existing DOM IDs, google.script.run function contracts and test scenarios if available.',
+    '',
+    'NON-NEGOTIABLE PRESERVATION CONTRACT:',
+    '1. Treat existing working GAS application as the source of truth for functionality.',
+    '2. Preserve Code.gs, spreadsheet schema, server-side validation, authentication and RBAC; propose backend changes separately for approval.',
+    '3. Preserve or explicitly map every google.script.run call, arguments, success/failure handlers, DOM ID, selector and event binding.',
+    '4. Keep Create/Read/Update/Delete, KPI calculations, charts, filters, forms, navigation, login and Admin/Editor/Viewer permissions functional.',
+    '5. Adapt React/Tailwind or other framework exports to GAS-compatible HTML/CSS/vanilla JS where needed; do not assume React works by direct paste.',
+    '6. Do not introduce a new database, authentication service or backend.',
+    '7. Do not put passwords, API keys, access tokens or server secrets in frontend code.',
+    '8. Do not rely on hiding UI buttons for security: all restricted actions must remain authorized server-side.',
+    '9. Escape untrusted content inserted into the DOM and avoid unsafe innerHTML for user data.',
+    '10. Preserve loading, empty, validation and error states; maintain responsive behavior.',
+    '',
+    'WORKFLOW:',
+    'PHASE 1 — READ-ONLY AUDIT: Inventory existing files, function contracts, DOM IDs, event listeners and dependencies. Map Stitch components to existing controls. Identify risks; do not generate replacements yet.',
+    'PHASE 2 — IMPLEMENTATION PLAN: Show file-by-file proposed changes and confirm what stays unchanged. Wait for approval before changing Code.gs.',
+    'PHASE 3 — FRONTEND IMPLEMENTATION: Provide complete revised Index.html, CSS.html, JS.html (no placeholders or missing functions). Keep Code.gs unchanged unless separately approved.',
+    'PHASE 4 — REGRESSION TEST: Provide reproducible manual tests for navigation, create, read, update, delete, KPI refresh, filters, chart updates, role permissions, unauthorized server calls and mobile view.',
+    'PHASE 5 — DEPLOYMENT: Explain backup, testing deployment, versioned deployment, rollback and verification of the live app.',
+    '',
+    'OUTPUT: audit, mapping table, revised frontend files, change log, regression checklist and deployment instructions.',
+    'If source files or Stitch export are missing, request them instead of inventing existing code.',
+    'FREE LLM MODE: work one file at a time. First output the audit and mapping only; after approval generate Index.html, then CSS.html, then JS.html in separate turns. If cut off, end with BERSAMBUNG and resume without repeating. Request existing files again if context is lost.'
+  ].join('\n');
+  document.getElementById('m14StitchPrompt').textContent = stitch;
+  document.getElementById('m14IntegrationPrompt').textContent = withDmCredit(integration);
+  document.getElementById('m14Result').classList.add('show');
+  document.getElementById('m14Result').scrollIntoView({behavior:'smooth',block:'start'});
+  showToast('✅ Dua prompt M1.4 siap digunakan');
+}
+function copyM14(id) {
+  const value = document.getElementById(id).textContent;
+  if (!value) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(value).then(
+      () => showToast('✅ Prompt M1.4 tersalin'),
+      () => fallbackCopy(value)
+    );
+  } else fallbackCopy(value);
+}
+function downloadM14() {
+  const a = document.getElementById('m14StitchPrompt').textContent;
+  const b = document.getElementById('m14IntegrationPrompt').textContent;
+  if (!a || !b) return;
+  const blob = new Blob([a + '\n\n' + '='.repeat(60) + '\n\n' + b], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'mastery1-m14-stitch-premium-makeover.txt';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showToast('💾 Prompt M1.4 diunduh');
+}
+
+
+/* ===== M2.4: Stitch Intelligent UI upgrade ===== */
+function generateM24() {
+  if (!authState.mastery2) {
+    openAuthModal('mastery2');
+    return;
+  }
+  const get = id => document.getElementById(id).value.trim();
+  const mode = get('m24Mode');
+  const fromM1 = mode === 'upgrade';
+  const app = get('m24AppName') || 'Intelligent Dashboard GAS';
+  const theme = get('m24Theme');
+  const features = Array.from(document.querySelectorAll('#chipM24Features .chip.selected'))
+    .map(chip => chip.dataset.value);
+  if (!features.length) { showToast('⚠️ Pilih minimal satu komponen Intelligent UI'); return; }
+  const preserve = get('m24Constraints') || 'Dashboard Overview, KPI, Chart.js, filters, CRUD, login, server-side RBAC, google.script.run, report generation';
+  const notes = get('m24Notes') || 'Responsive and accessible; display AI and statistical fallback status accurately';
+  const stitch = [
+    'M2.5 — GOOGLE STITCH INTELLIGENT UI DESIGN',
+    'Task: redesign the UI of an EXISTING FUNCTIONAL Google Apps Script Intelligent Dashboard.',
+    'Application: ' + app,
+    'Mode: ' + (fromM1 ? 'A — Upgrade from Mastery 1/M1.4 design system' : 'B — Full Intelligent UI Makeover'),
+    'Design direction: ' + theme,
+    'Features: ' + features.join('; '),
+    'Preserve: ' + preserve,
+    'Additional requirements: ' + notes,
+    '',
+    'DESIGN CONTRACT:',
+    fromM1
+      ? '- Keep the supplied Mastery 1/M1.4 visual design system: colors, spacing, typography, sidebar, cards and navigation.'
+      : '- Redesign the entire dashboard and AI workspace consistently, without requiring any prior M1.4 work.',
+    '- Design states for loading, empty data, AI error, missing API key, statistical fallback and unsupported NLQ questions.',
+    '- Distinguish AI-generated insight from deterministic statistical summaries; never imply fallback is generative AI.',
+    '- Design chat, quick prompts, NLQ query hints, export center, feedback and responsive mobile layouts.',
+    '- Respect role-aware navigation and existing workflow. UI hiding does not replace server authorization.',
+    '- Do not propose a new backend, data storage, authentication provider or API secret in the frontend.',
+    '- Keep accessibility: contrast, keyboard focus, readable typography, semantic actions.',
+    '',
+    'INPUT: Attach screenshots of the existing dashboard and AI pages; for Mode A attach M1.4 style reference.',
+    'OUTPUT: Stitch design/code export or reference screenshots with clear component names.'
+  ].join('\n');
+  const integration = [
+    'M2.5 — STITCH-TO-EXISTING INTELLIGENT GAS INTEGRATION',
+    'Act as senior GAS engineer. Integrate Stitch UI into a WORKING Intelligent Dashboard.',
+    'App: ' + app,
+    'Mode: ' + (fromM1 ? 'A — incremental AI UI upgrade' : 'B — full frontend visual makeover'),
+    'Design: ' + theme,
+    'Selected UI: ' + features.join('; '),
+    'Preserve: ' + preserve,
+    'Additional notes: ' + notes,
+    '',
+    'REQUIRED INPUTS:',
+    '- Working Code.gs, Index.html, CSS.html and JS.html.',
+    '- Stitch export (HTML/CSS/JS, React/Tailwind or screenshots).',
+    '- Existing server function signatures, response shapes, DOM IDs and role matrix, if available.',
+    fromM1 ? '- Existing M1.4 theme/design tokens, if available.' : '- Existing screenshots of all pages.',
+    '',
+    'NON-NEGOTIABLE CONTRACT:',
+    '1. Read-only audit first. Inventory server functions, google.script.run calls, DOM IDs, events, chart lifecycle and data shapes.',
+    '2. Keep Code.gs, Google Sheets schema, CRUD, login, server-side RBAC, AI API orchestration, fallback and export logic unchanged unless explicitly approved.',
+    '3. Preserve API key secrecy; no key/token in HTML or browser logs. Preserve provider errors without exposing secrets.',
+    '4. Do not invent AI functionality. Show unsupported NLQ and unavailable AI clearly; do not present rule-based fallback as generative AI.',
+    '5. Preserve actual numerical calculations and chart/filter behavior. Avoid duplicated handlers, duplicated filter options and chart instances.',
+    '6. Keep PDF, Word and Excel/CSV generation working and label real formats correctly; no fake downloads.',
+    '7. Adapt Stitch React/Tailwind output to GAS-compatible HTML/CSS/vanilla JS as needed.',
+    '8. Keep the four-file structure: Code.gs, Index.html, CSS.html, JS.html.',
+    '9. Escape untrusted data in the DOM. Keep loading/empty/error states and accessibility.',
+    '',
+    'FREE LLM STAGED WORKFLOW:',
+    'PHASE 1: Produce audit + component-to-function/DOM mapping only. List risks and missing inputs.',
+    'PHASE 2: Provide file-by-file implementation plan. Do not change Code.gs without explicit approval.',
+    'PHASE 3: Generate COMPLETE Index.html only, no placeholders. Wait.',
+    'PHASE 4: Generate COMPLETE CSS.html only, no placeholders. Wait.',
+    'PHASE 5: Generate COMPLETE JS.html only, no placeholders. Wait.',
+    'PHASE 6: Check consistency and provide regression tests and deploy/rollback instructions.',
+    'If a response is cut off, stop on a complete line and write BERSAMBUNG; continue from the last line without repeating.',
+    'If context is lost, request existing files again rather than inventing them.',
+    '',
+    'TEST MATRIX: Overview KPIs; chart refresh; filter/reset; CRUD; Admin/Editor/Viewer server-side checks; AI Insight with/without key; fallback label; NLQ supported/unsupported; chat error; PDF/Word/Excel downloads; mobile UI.',
+    'Report PASS/FAIL/NOT TESTED honestly; deployment-dependent behavior cannot be marked PASS from code review alone.'
+  ].join('\n');
+  document.getElementById('m24StitchPrompt').textContent = stitch;
+  document.getElementById('m24IntegrationPrompt').textContent = withDmCredit(integration);
+  document.getElementById('m24Result').classList.add('show');
+  document.getElementById('m24Result').scrollIntoView({behavior:'smooth',block:'start'});
+  showToast('✅ Dua prompt M2.4 siap digunakan');
+}
+function downloadM24() {
+  const a = document.getElementById('m24StitchPrompt').textContent;
+  const b = document.getElementById('m24IntegrationPrompt').textContent;
+  if (!a || !b) return;
+  const blob = new Blob([a + '\n\n' + '='.repeat(60) + '\n\n' + b], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'mastery2-m24-intelligent-ui-upgrade.txt';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showToast('💾 Prompt M2.4 diunduh');
+}
+
 // Inisialisasi status kunci saat halaman dimuat
 loadSavedAuth();
+
+/* Mastery 2 connected-dashboard prompt contract; no secrets are read or stored. */
+function getM2ConnectedContract() {
+  const val = id => (document.getElementById(id)?.value || '').trim();
+  const provider = val('m2Provider'), fallback = val('m2Fallback');
+  const api = val('m2PublicApi'), url = val('m2PublicUrl');
+  const endpoint = val('m2Endpoint'), mode = val('m2TaskMode');
+  const errors = val('m2Error').replace(/(AIza[0-9A-Za-z_-]{20,}|gsk_[0-9A-Za-z_-]{16,})/g, '[REDACTED_API_KEY]');
+  const safeUrl = api === 'custom' ? (url.startsWith('https://') ? url : '[WAJIB HTTPS URL]') : '(preset resmi)';
+  return [
+    'MASTER CONTRACT: MASTERY 2 · INTELLIGENT & CONNECTED DASHBOARD (180 MENIT / 5 MODUL)',
+    'M2.1 AI & API Foundation: primary=' + provider + ', model=' + (val('m2Model') || 'pilih model tersedia di console resmi') + ', fallback=' + fallback,
+    'M2.2 AI Insight & Assistant: features=' + val('m2Features') + '; angka harus dihitung dari agregasi server, LLM hanya narasi. Statistical fallback adalah rule-based, BUKAN AI generatif.',
+    'M2.3 Public API: source=' + api + ', url=' + safeUrl + ', refresh=' + val('m2Refresh') + '; gunakan UrlFetchApp server-side, validasi domain/HTTPS, response schema, status, timeout, cache dan error; cegah SSRF.',
+    'M2.3 Custom GAS API: endpoints=' + endpoint + '; implementasikan doGet(e) dan ContentService JSON dengan struktur {success,data,meta}; batasi data sintetis/agregat aman publik, tanpa USERS, AUDIT_LOG atau transaksi mentah.',
+    'M2.4 Auto Report: PDF, Word/DOCX dan Excel/XLSX sesuai kemampuan nyata; tidak boleh mengklaim CSV sebagai XLSX; angka sesuai filter.',
+    'M2.5 Intelligent UI: dua mode upgrade desain M1.4 / full makeover Stitch; jangan merusak CRUD, role server-side, filter, chart, google.script.run, AI, API dan export.',
+    'DATA CONTRACT: ikuti kolom dan sheet yang benar-benar dimiliki peserta. Dataset Mini Class dapat memiliki 13 kolom (Transaction_ID, Date, Region, Product, Category, Quantity, Unit_Price, Discount, Revenue, Cost, Profit, Salesperson, Month). Jangan paksa skema 8 kolom atau hitung Profit tanpa dasar biaya yang tersedia.',
+    'KEY SECURITY: API key Gemini/Groq hanya di Script Properties (mis. GEMINI_API_KEY / GROQ_API_KEY), jangan tulis ke prompt, HTML, JS, logs, query string atau screenshot.',
+    'DEVELOPMENT ORDER: audit read-only → provider → AI Insight/NLQ → Public API + doGet → reports → Stitch frontend → regression test. Hasilkan patch/file yang diperlukan SAJA, jangan rewrite seluruh aplikasi.',
+    'PROMPT MODE=' + mode + (mode === 'fix' ? '; symptoms=' + (errors || '[minta pengguna memberikan error yang disanitasi]') : ''),
+    mode === 'test' ? 'OUTPUT: test cases, expected results, data baseline, permissions, failure cases, and evidence checklist; jangan mengklaim sudah diuji.' :
+    mode === 'fix' ? 'OUTPUT: diagnosis berbasis bukti, perubahan minimal per file, langkah reproduksi dan regresi; audit dulu sebelum kode.' :
+    'OUTPUT: rencana integrasi, kontrak fungsi, perubahan minimal per file Code.gs/Index.html/CSS.html/JS.html, langkah deploy dan test.',
+    'REGRESSION: CRUD, role enforcement server-side, filter reset tanpa duplikasi, KPI/chart, AI failure fallback, unsupported NLQ, API response/cache, reports, mobile, rollback.'
+  ].join('\n');
+}
+function generateM2Connected() {
+  if (!authState.mastery2) { openAuthModal('mastery2'); return; }
+  const prompt = ['Anda senior engineer Google Apps Script. Tingkatkan aplikasi Mastery 1 yang SUDAH BERFUNGSI. Jangan membuat ulang dari nol.','',getM2ConnectedContract(),'', 'LANGKAH PERTAMA: minta 4 file dan contoh schema sheet; lakukan audit read-only, petakan dependensi dan tanyakan persetujuan sebelum mengubah kode.', 'Untuk LLM gratis: berikan satu file/patch per respons, tidak boleh menghapus fitur lama.'].join('\n');
+  document.getElementById('m2ConnectedPrompt').textContent=withDmCredit(prompt);
+  document.getElementById('m2ConnectedResult').classList.add('show');
+  showToast('Prompt Mastery 2 Connected siap');
+}
+function copyM2Connected() {
+  navigator.clipboard.writeText(document.getElementById('m2ConnectedPrompt').textContent).then(()=>showToast('Prompt tersalin')).catch(()=>showToast('Gagal menyalin; pilih teks manual'));
+}
+function downloadM2Connected() {
+  const b=new Blob([document.getElementById('m2ConnectedPrompt').textContent],{type:'text/plain;charset=utf-8'});
+  const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='mastery2-intelligent-connected-prompt.txt';a.click();URL.revokeObjectURL(u);
+}
+
+
+// Standalone Debug & Repair generator: intentionally does not depend on tier/state.
+let debugRepairText = '';
+function debugVal(id){return (document.getElementById(id)?.value || '').trim();}
+function debugFeedback(message){document.getElementById('debugFeedback').textContent=message;}
+function generateDebugRepair(){
+  const err=debugVal('debugError'), steps=debugVal('debugSteps');
+  if(!err){debugFeedback('Isi pesan error atau gejala terlebih dahulu.');document.getElementById('debugError').focus();return false;}
+  const mode=debugVal('debugMode'), feature=debugVal('debugFeature');
+  const codeFiles=[['Code.gs','debugCode'],['Index.html','debugIndex'],['CSS.html','debugCss'],['JS.html','debugJs']].filter(x=>debugVal(x[1]));
+  if(mode==='patch' && !codeFiles.length){debugFeedback('Mode Patch memerlukan minimal satu file kode yang relevan.');return false;}
+  const preset=debugVal('debugPreset'), llm=debugVal('debugLlm');
+  const instructions={
+    diagnosis:'TAHAP 1 — DIAGNOSIS SAJA. Telusuri alur kode, bedakan error asli dari fallback UI. Jangan tulis ulang kode. Jika bukti kurang, minta hanya log atau fungsi paling relevan. Beri hipotesis berurutan beserta cara membuktikannya.',
+    patch:'TAHAP 2 — PATCH MINIMAL. Bedakan akar masalah terkonfirmasi dan dugaan. Berikan fungsi pengganti LENGKAP atau patch kecil, sebutkan nama file, fungsi, dan cara memasangnya. Jika bukti belum cukup untuk patch aman, minta bukti dahulu.',
+    verify:'TAHAP 3 — VERIFIKASI. Berikan langkah uji terukur, reproduksi awal, pemeriksaan Apps Script Executions/Console dan regresi. Jangan mengaku sudah menguji. Minta hasil pengujian peserta untuk menentukan PASS/FAIL.'
+  };
+  const presets={
+    'sheets-crud':`PRESET GOOGLE SHEETS & CRUD — PRIORITAS TINGGI:
+1. Cari sumber literal pesan "Sistem sibuk. Silakan coba lagi" di JS.html/Code.gs. Jelaskan apakah pesan ini fallback umum yang menyembunyikan error asli. Jangan menyimpulkan server Google sedang sibuk tanpa log.
+2. Petakan SETIAP pemanggilan google.script.run yang berkaitan dengan Create/Read/Update/Delete, nama fungsi backend yang dipanggil, parameter, format hasil, withSuccessHandler, dan withFailureHandler. Cocokkan kontrak JS.html dengan Code.gs.
+3. Audit spreadsheet ID / openById atau getActiveSpreadsheet, nama sheet, header, indeks kolom, ID record unik, baris data, tipe tanggal/angka, izin akses, execute-as, dan versi deployment. Jangan meminta ID spreadsheet asli bila tidak perlu; gunakan placeholder.
+4. Periksa null sheet, exception yang ditelan try/catch, return yang tidak serializable, pemanggilan ganda, concurrency, timeouts, kuota, dan pembacaan getDataRange berulang. Optimalkan hanya jika bukti mengarah ke sana.
+5. Create/Update/Delete: hindari retry otomatis tanpa idempotensi, cegah klik ganda, gunakan LockService hanya bila ada risiko race saat menulis; pastikan tidak menulis ke baris/header yang salah.
+6. Bedakan kegagalan membaca data, menyimpan, mengedit, dan menghapus. Jangan menyatakan seluruh CRUD berhasil tanpa uji masing-masing.
+7. Quality Gate: Read → Create satu record uji → verifikasi di Sheet → Update ID yang sama → verifikasi → Delete ID yang sama → verifikasi → refresh dashboard → cek KPI/filter → cek Executions dan Console. Jangan gunakan data produksi untuk uji destruktif.
+8. Pertahankan kontrak google.script.run, fungsi, nama sheet, UI, dan metadata kecuali perubahan dijelaskan dan diuji.`,
+    dashboard:`PRESET DASHBOARD & FILTER: audit alur data → KPI → grafik → tabel; null/NaN, tanggal, event listener ganda, debounce, reset filter yang menduplikasi option, state filter dan re-render; cek Console dan regresi CRUD.`,
+    auth:`PRESET LOGIN & ROLE: audit login, autentikasi/otorisasi sisi server, session, USERS sheet, akses per role, deployment execute-as, dan kebocoran password/token. Jangan memindahkan keputusan akses hanya ke frontend.`,
+    ai:`PRESET AI & API: audit Script Properties, UrlFetchApp, endpoint, status HTTP, JSON parsing, rate limit, timeout, respons model, dan sanitasi error. Jangan minta atau tampilkan API key asli; lakukan fallback aman.`,
+    export:`PRESET EXPORT: audit pembuatan PDF/Word/Excel, izin Drive/Docs, MIME type, file sementara, data laporan, nama file, dan status respons. Jangan klaim file berhasil jika belum diverifikasi.`,
+    deployment:`PRESET DEPLOYMENT: audit izin OAuth, deploy versi terbaru, akses web app, execute as, ID Spreadsheet, fungsi doGet, Apps Script Executions, dan pesan browser. Jangan meminta peserta membagikan credential.`,
+    general:`PRESET UMUM: temukan jalur error berdasarkan log dan kode, minta bukti yang belum ada, perbaiki hanya fungsi relevan dan lakukan regresi.`
+  };
+  const llmRules=llm==='paid'
+    ? 'TARGET LLM BERBAYAR: boleh audit lintas-file secara terpadu jika semua kode tersedia, tetapi tetap prioritaskan patch kecil dan bukti. Hindari output ulang seluruh proyek bila tidak perlu.'
+    : 'TARGET LLM GRATIS / GEMINI FREE: batasi output agar tidak terpotong. Pada DIAGNOSIS: maksimal 5 hipotesis prioritas dan 3 permintaan bukti. Pada PATCH: kerjakan satu fungsi/file per balasan, tulis kode fungsi lengkap, tunggu hasil uji sebelum lanjut. Pada VERIFIKASI: checklist ringkas dan PASS/FAIL. Jangan menyalin ulang kode masukan atau memberi empat file penuh tanpa diminta.';
+  const blocks=codeFiles.map(([name,id])=>'===== MULAI '+name+' =====\n'+debugVal(id)+'\n===== SELESAI '+name+' =====').join('\n\n');
+  debugRepairText=[
+    '# DASHBOARD MAGIC — DEBUG & REPAIR (HEMAT TOKEN / LLM GRATIS)',
+    'Anda Senior Google Apps Script Engineer. Aplikasi peserta SUDAH ADA. Perbaiki tanpa rebuild, tanpa mengubah desain atau fitur yang tidak terkait.',
+    'Jangan menghapus KPI, grafik, filter, CRUD, login/role, AI, ekspor, atau kontrak fungsi yang telah berjalan. Pertahankan metadata kredit Dashboard Magic (Yogo AJ dan https://yogoaj.github.io tersembunyi); kredit visual peserta, jika ada, maksimal "Build with Dashboard Magic" dengan link ke https://yogoaj.github.io.',
+    'Jangan meminta API key/password asli. Jangan mencetak rahasia. Jangan mengarang diagnosis, patch, atau hasil tes.',
+    'Fokus fitur: '+feature,
+    'Preset: '+preset+' | Target: '+llm,
+    presets[preset],
+    llmRules,
+    instructions[mode],
+    'PANDUAN KEANDALAN: cek kesalahan nama sheet/header/ID, izin dan deployment, kegagalan google.script.run, pemanggilan paralel/berulang, timeout/kuota, dan error yang ditelan oleh catch. Optimalkan pembacaan Sheets bila terbukti perlu. CacheService hanya untuk data aman di-cache dan invalidasi setelah tulis. LockService hanya untuk konflik penulisan. Jangan auto-retry create/update/delete tanpa idempotensi; jangan membocorkan stack trace ke UI publik.',
+    'FORMAT JAWABAN: (A) Diagnosis & bukti (konfirmasi/hipotesis), (B) Penyebab paling mungkin, (C) Rencana perbaikan, (D) Patch terlokalisasi (hanya jika cukup bukti), (E) Cara memasang, (F) Checklist pengujian, (G) Status BELUM DIUJI / PASS berdasar bukti. Hemat token: prioritaskan satu file/fungsi per balasan.',
+    '===== GEJALA / LOG ERROR =====\n'+err,
+    '===== LANGKAH REPRODUKSI =====\n'+(steps||'Belum diisi; minta langkah reproduksi jika diperlukan.'),
+    '===== SKEMA GOOGLE SHEETS =====\n'+(debugVal('debugSchema')||'Belum tersedia.'),
+    '===== RIWAYAT PERCOBAAN =====\n'+(debugVal('debugPrior')||'Belum ada.'),
+    '===== KODE LAMA TERLAMPIR =====\n'+(blocks||'Belum dilampirkan. Minta potongan Code.gs / JS.html yang relevan sebelum membuat patch.'),
+    'MULAI SEKARANG: Ikuti tahap yang dipilih, jangan langsung membuat ulang seluruh aplikasi.'
+  ].join('\n\n');
+  const output=document.getElementById('debugOutput');output.textContent=debugRepairText;output.style.display='block';
+  debugFeedback('Prompt siap ('+debugRepairText.length.toLocaleString('id-ID')+' karakter). Periksa kembali agar tidak ada informasi rahasia.');
+  return true;
+}
+async function copyDebugRepair(){
+  if(!generateDebugRepair())return;
+  try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(debugRepairText);}else{fallbackCopy(debugRepairText);}debugFeedback('Prompt berhasil disalin.');}
+  catch(e){fallbackCopy(debugRepairText);debugFeedback('Prompt disalin menggunakan metode alternatif.');}
+}
+function downloadDebugRepair(){
+  if(!generateDebugRepair())return;
+  const blob=new Blob([debugRepairText],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='Dashboard_Magic_Debug_Repair_'+debugVal('debugMode')+'.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  debugFeedback('File prompt berhasil disiapkan untuk diunduh.');
+}
+function clearDebugRepair(){
+  ['debugError','debugSteps','debugSchema','debugPrior','debugCode','debugIndex','debugCss','debugJs'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('debugMode').value='diagnosis';document.getElementById('debugFeature').selectedIndex=0;document.getElementById('debugPreset').value='sheets-crud';document.getElementById('debugLlm').value='gemini-free';
+  debugRepairText='';document.getElementById('debugOutput').textContent='';document.getElementById('debugOutput').style.display='none';debugFeedback('Form Debug & Repair dikosongkan.');
+}
 </script>
 </body>
 </html>
