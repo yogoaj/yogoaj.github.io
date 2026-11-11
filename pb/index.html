@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Magic Prompt Builder</title>
+<title>Dashboard Magic Prompt Builder — Created by Yogo AJ</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -4249,6 +4249,41 @@ document.addEventListener('DOMContentLoaded',()=>{document.getElementById('m2Tas
 })();
 </script>
 
+<style id="dm-mastery-preview-blur">
+/* Mastery previews are softened on the public Mini Class page only.
+   Visual teaser only — all secure access remains routed through GAS. */
+body.dm-mini #tierSelector .tier-card[data-tier="mastery1"],
+body.dm-mini #tierSelector .tier-card[data-tier="mastery2"] {
+  isolation: isolate;
+  transition: border-color .24s ease, box-shadow .24s ease, background .24s ease;
+}
+body.dm-mini #tierSelector .tier-card[data-tier="mastery1"] > *,
+body.dm-mini #tierSelector .tier-card[data-tier="mastery2"] > * {
+  filter: blur(2.6px);
+  opacity: .48;
+  transition: filter .28s ease, opacity .28s ease;
+}
+body.dm-mini #tierSelector .tier-card[data-tier^="mastery"]:is(:hover, :focus, :focus-within) > * {
+  filter: blur(0);
+  opacity: 1;
+}
+body.dm-mini #tierSelector .tier-card[data-tier^="mastery"]:is(:hover, :focus, :focus-within) {
+  border-color: #7c9ce6;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .10);
+}
+/* Touchscreens lack reliable hover: show readable cards and retain one-tap navigation. */
+@media (hover: none) {
+  body.dm-mini #tierSelector .tier-card[data-tier^="mastery"] > * {
+    filter: none;
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.dm-mini #tierSelector .tier-card[data-tier^="mastery"],
+  body.dm-mini #tierSelector .tier-card[data-tier^="mastery"] > * {transition:none}
+}
+</style>
 <style id="dm-github-gas-public-style">
 .dm-public-gas-note{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:16px 0;padding:14px 17px;border:1px solid #b9dbe7;border-radius:13px;background:#f0f9ff;color:#164e63;font-size:12px;line-height:1.55}
 .dm-public-gas-note a{display:inline-block;white-space:nowrap;background:#155e75;color:#fff;text-decoration:none;padding:10px 14px;border-radius:9px;font-weight:800}
