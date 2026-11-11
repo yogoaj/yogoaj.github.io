@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Magic Prompt Builder v14 — Auto-Inject Kode Putaran 2</title>
+<title>Dashboard Magic Prompt Builder</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -291,6 +291,7 @@
   .chip.purple.selected { background: #7C3AED; border-color: #7C3AED; color: #fff; }
 
   /* MODE SELECTOR */
+  .mode-group.dm-only-llm { grid-template-columns: minmax(0, 1fr); }
   .mode-group {
     display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
   }
@@ -536,6 +537,15 @@
 #debugOutput{display:none;background:#fff;border:1px solid #b6c6da;border-radius:10px;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:540px;overflow:auto;font:12px/1.6 ui-monospace,Consolas,monospace}
 #debugFeedback{font-size:13px;font-weight:650;color:#9c341d;min-height:18px}
 @media(max-width:700px){.debug-grid{grid-template-columns:1fr}.debug-panel{padding:14px}}
+
+/* v18.1 — per-tier workspace and Toolkit Mastery 2 */
+.v181-tier-notice{padding:11px 15px;border-radius:11px;border:1px solid #cbd5e1;background:#f8fafc;color:#475569;font-size:12px;line-height:1.55;margin:0 0 14px}
+.v181-toolkit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:15px 0}
+.v181-mode{background:#fff;color:#1e293b;text-align:left;border:1.5px solid #e2e8f0;border-radius:12px;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:7px;min-height:102px;transition:background .15s,border-color .15s}
+.v181-mode strong{font-size:13px}.v181-mode span{font-size:11px;line-height:1.45;color:#64748b}.v181-mode:hover{border-color:#a78bfa}.v181-mode.active{border-color:#7c3aed;background:#f5f3ff;box-shadow:0 0 0 2px #ede9fe}
+.v181-toolkit-note{padding:12px 14px;background:#faf5ff;color:#5b21b6;border-left:3px solid #8b5cf6;border-radius:7px;font-size:12px;margin:12px 0}
+.v181-fix-field[hidden]{display:none!important}
+@media(max-width:700px){.v181-toolkit-grid{grid-template-columns:1fr}.v181-mode{min-height:auto}}
 </style>
 <style>
 .old-code-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
@@ -543,6 +553,134 @@
 .old-code-input{display:block;width:100%;box-sizing:border-box;min-height:155px;resize:vertical;margin-top:6px;padding:12px;border:1px solid #b9c5d5;border-radius:9px;background:#fff;color:#182335;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;tab-size:2}
 .old-code-input:focus{outline:2px solid #14b8a6;outline-offset:1px}
 @media(max-width:700px){.old-code-grid{grid-template-columns:1fr}}
+</style>
+<style>
+/* Dashboard Magic v17 additive styles, scoped to avoid altering v16 */
+.v17-hub{margin:32px 0 24px;scroll-margin-top:12px;color:#172033}
+.v17-hub *, .v17-hub *::before,.v17-hub *::after{box-sizing:border-box}
+.v17-top{background:linear-gradient(135deg,#0f213a,#174b6e);color:white;border-radius:17px;padding:24px 26px;margin-bottom:12px;box-shadow:0 10px 30px rgba(15,33,58,.13)}
+.v17-tag{font-size:10px;font-weight:800;letter-spacing:.15em;color:#9be8d8}
+.v17-top h2{font-size:24px;margin:7px 0 8px}
+.v17-top p{max-width:700px;font-size:13px;line-height:1.6;margin:0 0 12px;color:#e5eef8}
+.v17-quick{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0 10px}
+.v17-quick a{border:1px solid #6286a0;border-radius:100px;color:white;padding:5px 10px;font-size:11px;text-decoration:none;font-weight:700;background:rgba(255,255,255,.08)}
+.v17-quick a:hover,.v17-quick a:focus-visible{background:#fff;color:#174b6e}
+.v17-top .v17-small{font-size:11px;color:#cce0ed;margin-bottom:0}
+.v17-module{border:1px solid #dce4ee;background:#fff;border-radius:12px;margin:10px 0;scroll-margin-top:10px;overflow:hidden}
+.v17-module summary{display:flex;align-items:center;gap:10px;padding:15px 16px;cursor:pointer;font-weight:800;font-size:14px;list-style:none;min-height:54px}
+.v17-module summary::-webkit-details-marker{display:none}
+.v17-module summary::after{content:'⌄';font-size:20px;color:#64748b;margin-left:auto}
+.v17-module[open] summary::after{content:'⌃'}
+.v17-module summary:hover{background:#f6f9fc}
+.v17-module[open] summary{border-bottom:1px solid #edf0f5}
+.v17-n{width:28px;height:28px;background:#e0f2f1;color:#0f766e;border-radius:8px;display:inline-grid;place-items:center;font-size:11px;flex-shrink:0}
+.v17-summary-hint{font-size:11px;color:#64748b;font-weight:500;line-height:1.2}
+.v17-content{padding:16px 18px 20px;font-size:12.5px}
+.v17-content>p{color:#526176;line-height:1.65;margin:0 0 12px}
+.v17-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+.v17-content label:not(.v17-inline){font-weight:700;font-size:12px;display:block;color:#32445b}
+.v17-content textarea,.v17-content select,.v17-content input[type=text],.v17-content input:not([type]){width:100%;display:block;border:1px solid #cdd9e6;background:#fbfdff;color:#172033;border-radius:9px;padding:10px;margin:6px 0 0;min-height:40px;font-size:12px}
+.v17-content textarea{min-height:126px;resize:vertical;font-family:ui-monospace,'Courier New',monospace;line-height:1.45}
+.v17-actions{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}
+.v17-actions button{border:1px solid #0f766e;border-radius:9px;padding:10px 13px;color:#fff;background:#0f766e;cursor:pointer;font-size:12px;font-weight:700;max-width:100%;text-align:center}
+.v17-actions button:hover{filter:brightness(.94)}
+.v17-actions button:focus-visible,.v17-content input:focus-visible,.v17-content select:focus-visible,.v17-content textarea:focus-visible{outline:2px solid #0d9488;outline-offset:2px}
+.v17-actions button.v17-light{background:#f1f7fb;border-color:#cbd9e7;color:#194064}
+.v17-actions button.v17-danger{background:#fff1f2;border-color:#fda4af;color:#9f1239}
+.v17-result{font:12px/1.6 ui-monospace,Consolas,'Courier New',monospace;white-space:pre-wrap;overflow-wrap:anywhere;max-height:390px;overflow:auto;padding:13px 15px;background:#0f172a;color:#e2e8f0;border-radius:10px;margin:10px 0 0;min-height:54px}
+.v17-note{background:#eff6ff;color:#1e456e;border:1px solid #dbeafe;padding:10px 12px;border-radius:9px;line-height:1.5;margin:9px 0}
+.v17-small{font-size:11px!important;color:#64748b!important}
+.v17-inline{display:flex!important;align-items:flex-start;gap:8px;line-height:1.5;font-size:12px;font-weight:600;color:#334155}
+.v17-inline input[type=checkbox]{accent-color:#0f766e;flex:0 0 auto;margin-top:2px}
+.v17-options{display:grid;gap:8px;margin:13px 0}
+.v17-gates{display:grid;gap:9px;margin:12px 0}
+.v17-gate{border:1px solid #e2e8f0;border-radius:9px;padding:12px;background:#fcfdff}
+.v17-gate .v17-gate-title{font-weight:700;font-size:12px;margin-bottom:8px}
+.v17-gate-controls{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center}
+.v17-content .v17-gate-controls input{margin:0;min-height:36px}
+.v17-content .v17-gate-controls select{margin:0;min-height:36px}
+.v17-collapsed{display:none}
+@media(max-width:720px){.v17-top{padding:19px}.v17-top h2{font-size:21px}.v17-grid,.v17-gate-controls{grid-template-columns:1fr}.v17-module summary{align-items:flex-start;flex-wrap:wrap}.v17-summary-hint{display:block;flex-basis:calc(100% - 48px);margin-left:38px}.v17-module summary::after{position:absolute;right:16px}.v17-module summary{position:relative;padding-right:40px}.v17-content{padding:14px}}
+.v17-entry{border:1px solid #bce9dd;background:#effcf8;color:#12453f;padding:12px 15px;border-radius:12px;margin:0 0 22px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:12px;line-height:1.5}
+.v17-entry a{background:#0f766e;color:white;border-radius:8px;padding:9px 12px;text-decoration:none;font-size:12px;font-weight:800;white-space:nowrap}
+.v17-entry a:hover{background:#115e59}
+
+</style>
+<style id="dmMiniRefreshStyle">
+/* v17.1 Mini Class: presentation-only guided workflow, original controls & handlers remain intact */
+body.dm-mini {background:#f3f6fb;color:#172538}
+body.dm-mini .container{max-width:1020px}
+body.dm-mini #mainHeader{border-radius:20px;padding:25px 30px;box-shadow:0 12px 30px rgba(15,23,42,.12)}
+body.dm-mini #roadmapBar{display:none}
+body.dm-mini #tierSelector{gap:12px;margin-bottom:14px}
+body.dm-mini .tier-card{border-radius:15px;padding:14px 16px;transform:none}
+body.dm-mini .tier-card:not(.selected){background:#fbfcff}
+body.dm-mini .v17-entry,body.dm-mini #v17Hub{display:none!important}
+body.dm-mini .dm-mini-hidden{display:none!important}
+body.dm-mini .dm-mini-chrome{display:block}
+body:not(.dm-mini) .dm-mini-chrome{display:none!important}
+body.dm-mini .step{border:1px solid #e2e8f0;border-radius:16px;padding:23px 25px;margin:0 0 14px;box-shadow:0 4px 14px rgba(15,23,42,.035)}
+body.dm-mini .step-head{margin-bottom:12px}
+body.dm-mini .step-num{border-radius:10px;background:#2159b6}
+body.dm-mini .step-title{font-size:16px}
+body.dm-mini .divider-title{letter-spacing:.07em;margin:21px 0 13px;font-size:11px;color:#64748b}
+body.dm-mini .intro{display:none}
+body.dm-mini .chip{border-color:#d9e3ef;background:#fff}
+body.dm-mini .chip.selected{background:#205ac8;border-color:#205ac8}
+body.dm-mini .step-hint{color:#61728c}
+body.dm-mini textarea{min-height:95px}
+body.dm-mini #output{border:1px solid #bdd9f8;box-shadow:0 8px 22px rgba(26,78,160,.08)}
+body.dm-mini .dm-hero{border:1px solid #d9e5f7;background:linear-gradient(115deg,#fff,#eff6ff);padding:20px 24px;border-radius:17px;margin:8px 0 16px}
+.dm-hero h2{margin:0 0 6px;font-size:23px;letter-spacing:-.6px;color:#14274b}
+.dm-hero p{margin:0;color:#526783;font-size:13px;line-height:1.65}
+.dm-hero-head{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.dm-hero-tag{display:inline-block;color:#1c5bc4;background:#e2efff;font-size:11px;font-weight:800;padding:5px 11px;border-radius:99px;white-space:nowrap}
+.dm-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:13px 0 14px}
+.dm-step-btn{border:1px solid #d8e4f3;background:#fff;border-radius:13px;padding:13px 12px;cursor:pointer;text-align:left;color:#455a76;font-family:inherit;min-height:80px;display:flex;align-items:flex-start;gap:9px;transition:background .15s,box-shadow .15s}
+.dm-step-btn b{display:grid;place-items:center;width:25px;height:25px;border-radius:8px;background:#eff4fb;color:#4574a5;flex-shrink:0;font-size:12px}
+.dm-step-btn strong{font-size:12px;display:block;color:#1b2e49;margin:1px 0 4px}
+.dm-step-btn small{font-size:10px;display:block;line-height:1.3;color:#7c8ca3}
+.dm-step-btn[aria-current=step]{background:#ebf3ff;border-color:#3e76d9;box-shadow:0 3px 12px rgba(37,99,235,.11)}
+.dm-step-btn[aria-current=step] b{background:#2462d1;color:white}
+.dm-step-btn:focus-visible,.dm-btn:focus-visible{outline:3px solid #6ba9ff;outline-offset:3px}
+.dm-mini-actionbar{display:flex;gap:12px;align-items:center;justify-content:space-between;background:#fff;border:1px solid #e1e8f3;padding:13px 16px;border-radius:13px;margin:14px 0 18px;flex-wrap:wrap}
+.dm-mini-actionbar span{font-size:12px;color:#65758e}
+.dm-mini-actionbar .dm-right{display:flex;gap:8px}
+.dm-btn{font-family:inherit;border:1px solid #cdd9ed;background:white;color:#194a8f;font-size:12px;font-weight:800;border-radius:10px;padding:10px 15px;cursor:pointer}
+.dm-btn.primary{background:#245dc4;color:white;border-color:#245dc4}
+.dm-btn:disabled{opacity:.4;cursor:not-allowed}
+.dm-helper{background:#fff;border:1px solid #dce5f2;border-radius:15px;margin:18px 0;padding:0;overflow:hidden}
+.dm-helper>summary{cursor:pointer;padding:15px 18px;color:#193b6e;font-size:13px;font-weight:800}
+.dm-helper-inner{padding:0 18px 18px}
+.dm-helper p{font-size:12px;line-height:1.55;color:#64748b}
+.dm-helper pre{white-space:pre-wrap;word-break:break-word;max-height:210px;overflow:auto;background:#f5f8ff;border:1px solid #e2e9f6;border-radius:9px;padding:11px;font-size:11px}
+.dm-helper-actions{display:flex;gap:8px;flex-wrap:wrap}
+.dm-mini-tip{font-size:12px;color:#375879;background:#eef5ff;border:1px solid #d7e7ff;padding:12px 14px;border-radius:11px;margin:10px 0 15px}
+body.dm-mini #debugRepairPanel{background:#fff;border:1px solid #e0e9f5;padding:0;box-shadow:none}
+body.dm-mini #debugRepairPanel>h2,body.dm-mini #debugRepairPanel>p{display:none}
+body.dm-mini #debugRepairPanel .debug-grid,body.dm-mini #debugRepairPanel .debug-actions,body.dm-mini #debugRepairPanel #debugOutput,body.dm-mini #debugRepairPanel #debugFeedback{display:none!important}
+body.dm-mini #debugRepairPanel.dm-debug-expanded .debug-grid{display:grid!important}
+body.dm-mini #debugRepairPanel.dm-debug-expanded .debug-actions{display:flex!important}
+body.dm-mini #debugRepairPanel.dm-debug-expanded #debugOutput{display:block!important}
+body.dm-mini #debugRepairPanel.dm-debug-expanded #debugFeedback{display:block!important}
+body.dm-mini #debugRepairPanel.dm-debug-expanded{padding:18px}
+.dm-debug-toggle{width:100%;background:#fff;border:0;padding:16px;text-align:left;font-weight:800;color:#19416e;cursor:pointer;border-radius:14px}
+body.dm-mini #debugRepairPanel.dm-debug-expanded .dm-debug-toggle{background:#eff6ff;margin-bottom:12px}
+@media(max-width:720px){body.dm-mini .container{padding:0}body.dm-mini #mainHeader{padding:18px;border-radius:15px}body.dm-mini .dm-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.dm-step-btn{min-height:70px;padding:10px}.dm-hero h2{font-size:20px}body.dm-mini .step{padding:17px}body.dm-mini .tier-selector{grid-template-columns:1fr 1fr 1fr;gap:7px}body.dm-mini .tier-card{padding:10px}body.dm-mini .tier-card .tier-sub,body.dm-mini .tier-card .tier-checks{display:none}body.dm-mini .tier-title{font-size:12px}.dm-mini-actionbar{align-items:stretch}.dm-mini-actionbar .dm-right{width:100%}.dm-mini-actionbar .dm-right button{flex:1}}
+@media(max-width:410px){body.dm-mini .tier-selector{grid-template-columns:1fr 1fr 1fr}.dm-step-btn{gap:5px}.dm-step-btn strong{font-size:11px}}
+</style>
+<style id="v18Style">
+.v18-decision{margin:12px 0 18px;background:#fff;border:1px solid #cbd5e1;border-radius:16px;overflow:hidden;box-shadow:0 4px 13px #0f172a0b}
+.v18-decision-trigger{border:0;background:linear-gradient(120deg,#e8f4ff,#effdf8);padding:16px 19px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#123452;cursor:pointer;text-align:left;font:inherit}
+.v18-decision-trigger strong{font-size:15px;display:block}.v18-decision-trigger small{display:block;color:#506780;margin-top:3px;font-size:11px}.v18-decision-trigger>span:last-child{font-size:11px;white-space:nowrap;font-weight:700}
+#v18DecisionBody{padding:15px 19px 18px}.v18-d-intro{font-size:12px;color:#475569;margin:0 0 12px}
+.v18-decision-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.v18-decision-grid label{font-weight:700;font-size:12px;color:#334155}.v18-decision-grid select{margin-top:5px}
+.v18-d-flow{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap;margin:15px 0}.v18-d-node{border:1px solid #bfd7e7;background:#f8fcff;border-radius:10px;padding:10px;min-width:115px;flex:1;display:flex;flex-direction:column;gap:3px}.v18-d-node strong{font-size:12px}.v18-d-node small{font-size:11px;color:#53667f}.v18-d-arrow{align-self:center;color:#0d9488;font-weight:bold}
+.v18-d-result{background:#f0fdfa;border:1px solid #99f6e4;border-radius:11px;padding:13px;font-size:12px;line-height:1.7;color:#115e59;white-space:pre-line}.v18-d-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.v18-d-actions button,.v18-round-actions button,.v18-round-tabs button{cursor:pointer;border:1px solid #cbd5e1;border-radius:9px;background:white;color:#164e63;padding:10px 13px;font-size:12px;font-weight:750}.v18-d-actions button.v18-primary,.v18-round-actions button.v18-primary{background:#0d9488;border-color:#0d9488;color:white}
+.v18-round-nav{padding:14px 16px 0}.v18-round-tabs{display:flex;gap:9px;flex-wrap:wrap}.v18-round-tabs button.active{background:#0d9488;color:#fff;border-color:#0d9488}.v18-round-msg{font-size:12px;line-height:1.6;background:#f0fdfa;border-radius:9px;padding:10px 12px;color:#115e59;margin:12px 0 0}.v18-round-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;padding:12px 16px 17px;border-top:1px solid #e2e8f0}
+#v18DecisionBody[hidden],#v18RoundNav[hidden],#v18RoundActions[hidden],.staged-row[hidden],#v18NextRound[hidden],#v18NextStitch[hidden],#v18BackRound[hidden]{display:none!important}
+@media(max-width:700px){.v18-decision-grid{grid-template-columns:1fr 1fr}.v18-d-flow{flex-direction:column}.v18-d-arrow{transform:rotate(90deg)}.v18-decision-trigger{align-items:flex-start}.v18-decision-trigger>span:last-child{white-space:normal}}
+@media(max-width:420px){.v18-decision-grid{grid-template-columns:1fr}.v18-round-tabs button{flex:1}}
 </style>
 </head>
 <body>
@@ -587,7 +725,17 @@
   </div>
 
   <!-- PILIH LEVEL KELAS (MINI CLASS vs MASTERY 1 vs MASTERY 2) -->
-  <div class="divider-title" style="margin-top: 10px;">Pilih Level Kelas Anda</div>
+  <section id="v18Decision" class="v18-decision" aria-labelledby="v18DecisionHeading">
+  <button type="button" class="v18-decision-trigger" id="v18DecisionToggle" aria-expanded="false" onclick="v18ToggleDecision()"><span>🧭 <strong id="v18DecisionHeading">Decision Tree — Tentukan Jalur Pembuatan Aplikasi</strong><small>Gratis / berbayar · sudah punya kode · Stitch · API AI</small></span><span id="v18DecisionChevron">Buka panduan ↓</span></button>
+  <div id="v18DecisionBody" hidden>
+    <p class="v18-d-intro">Bantuan memilih strategi belajar. Rekomendasi tidak otomatis membuka akses Mastery; pilih kelas sesuai keanggotaan Anda.</p>
+    <div class="v18-decision-grid"><label>Target kelas<select id="v18DTier"><option value="miniclass">Mini Class</option><option value="mastery1">Mastery 1</option><option value="mastery2">Mastery 2</option></select></label><label>Akun LLM<select id="v18DLlm"><option value="free">Gratis / kuota terbatas</option><option value="paid">Berbayar</option></select></label><label>Proyek lama<select id="v18DOld"><option value="no">Belum punya</option><option value="yes">Sudah punya 4 file</option></select></label><label>Google Stitch<select id="v18DStitch"><option value="no">Tidak</option><option value="yes">Ya, ingin makeover</option></select></label><label class="v18-api-field">Akses AI API<select id="v18DApi"><option value="none">Tidak punya API</option><option value="free">API gratis / terbatas</option><option value="paid">API berbayar</option></select></label></div>
+    <div id="v18DecisionChart" class="v18-d-flow" aria-label="Grafik keputusan peserta"></div>
+    <div id="v18DecisionResult" class="v18-d-result" role="status"></div>
+    <div class="v18-d-actions"><button type="button" class="v18-primary" onclick="v18CopyDecision()">Salin jalur</button><button type="button" onclick="v18ApplyDecision()">Pilih kelas (sesuai akses)</button></div>
+  </div>
+</section>
+<div class="divider-title" style="margin-top: 10px;">Pilih Level Kelas Anda</div>
   <div class="tier-selector" id="tierSelector">
     <div class="tier-card t-mini selected" data-tier="miniclass">
       <div class="tier-card-top">
@@ -634,6 +782,10 @@
     </div>
   </div>
 
+  <div id="v181TierNotice" class="v181-tier-notice" role="status" aria-live="polite">
+    <strong>Ruang kerja terpisah per kelas.</strong> Berpindah level akan membuka formulir kosong; data dan kode tidak dibawa otomatis. Simpan progres kelas sebelumnya terlebih dahulu bila ingin memulihkannya nanti.
+  </div>
+
   <div class="intro">
     <div>
       <strong>💡 Cara pakai:</strong> Isi kotak bertanda wajib (<span style="color:#EF4444">*</span>).
@@ -642,6 +794,20 @@
     </div>
     <button type="button" class="btn-demo" onclick="loadSampleForCurrentTier()">🎲 Isi Contoh Data</button>
   </div>
+
+<section id="dmMiniGuide" class="dm-mini-chrome" aria-label="Panduan Mini Class">
+  <div class="dm-hero"><div class="dm-hero-head"><div><h2>Dashboard pertama Anda, mulai di sini.</h2><p>Cukup isi data, tentukan visualisasi, lalu salin prompt AI. Fitur teknis akan membantu di belakang layar.</p></div><span class="dm-hero-tag">4 LANGKAH PRAKTIS</span></div></div>
+  <nav class="dm-steps" aria-label="Langkah pembuatan dashboard">
+    <button type="button" class="dm-step-btn" data-dm-phase="1"><b>1</b><span><strong>Kenali data</strong><small>Jenis, kolom, contoh</small></span></button>
+    <button type="button" class="dm-step-btn" data-dm-phase="2"><b>2</b><span><strong>Pilih visualisasi</strong><small>KPI, tujuan, label</small></span></button>
+    <button type="button" class="dm-step-btn" data-dm-phase="3"><b>3</b><span><strong>Buat prompt AI</strong><small>Tampilan dan mode output</small></span></button>
+    <button type="button" class="dm-step-btn" data-dm-phase="4"><b>4</b><span><strong>Jalankan & uji</strong><small>Salin, pasang, perbaiki</small></span></button>
+  </nav>
+  <div class="dm-mini-tip" id="dmMiniTip" role="status">Mulai dengan memilih jenis data Anda. Anda dapat menggunakan tombol <strong>Isi Contoh Data</strong> agar lebih cepat.</div>
+  <div id="dmMiniExample" class="dm-mini-actionbar"><span>Coba dengan data demonstrasi tanpa harus menyiapkan spreadsheet terlebih dahulu.</span><button class="dm-btn" type="button" id="dmMiniSample">Isi Contoh Data</button></div>
+</section>
+<!-- V17 quick entry after class instructions; the original v16 workflow remains unchanged -->
+<div class="v17-entry"><span><strong>Baru di v17: Project Reliability Studio</strong> — 9 modul pemeriksaan, prompt untuk LLM gratis, pemulihan proyek, dan ekspor ZIP.</span><a href="#v17Hub">Buka 9 modul v17</a></div>
 
   <!-- ============ BAGIAN A: DATA ============ -->
   <div class="divider-title">Bagian A · Data Anda</div>
@@ -767,7 +933,7 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
       <div class="step-title">Apa yang ingin Anda lihat di dashboard?</div>
     </div>
     <div class="step-hint">
-      Pilih maksimal 4. Ini akan jadi chart / KPI di dashboard Anda.
+      <span id="dmGoalInstruction">Pilih maksimal 4 untuk Mini Class. Di Mastery 1 dan 2, pilihan tidak dibatasi.</span>
     </div>
     <div class="chip-group" id="chipGoal">
       <div class="chip" data-value="Rata-rata nilai">Rata-rata</div>
@@ -975,6 +1141,7 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
       </div>
       <select id="m2BuildScope">
         <option value="Bangun Sistem Utuh (Dashboard + CRUD/Database Engine + AI Insight + AI Data Assistant + Auto Report Generator)">Bangun Sistem Utuh (Dashboard + CRUD + AI Insight + AI Assistant + Auto Report)</option>
+        <option value="Bangun Sistem Utuh + Login + Role (Dashboard + CRUD + Database + Login + Role Admin Editor Viewer + Audit Log + AI Insight + AI Assistant + Auto Report)">Bangun Sistem Utuh + Login & Role (Admin / Editor / Viewer) — direkomendasikan</option>
         <option value="Fokus Modul Intelligent Dashboard (Dashboard + AI Insight + AI Data Assistant NLQ + PDF/Word/Excel Generator)">Fokus Modul Intelligent Dashboard (tanpa CRUD baru; untuk eksperimen mandiri)</option>
         <option value="Upgrade Aplikasi Mastery 1 (Pertahankan Dashboard + CRUD + Login + Role + Database, tambahkan AI Insight + AI Assistant + Auto Report)">Upgrade Aplikasi Mastery 1 (pertahankan CRUD, login, role; direkomendasikan)</option>
       </select>
@@ -1137,7 +1304,7 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
     <div class="step m2-box">
       <div class="step-head"><div class="step-num highlight">QA</div><div class="step-title">Golden Dataset Contract &amp; Prompt Bertahap</div></div>
       <p class="step-hint">Dataset inti: DATA (Transaction_ID, Date, Region, Product, Category, Quantity, Unit_Price, Discount), REFERENCE, SETTINGS, USERS, AUDIT_LOG. Jangan mengarang Total Profit tanpa Unit_Cost.</p>
-      <div class="field-row"><label class="field-label" for="m2TaskMode">Jenis prompt</label><select id="m2TaskMode"><option value="build">BUILD — Tambah fitur</option><option value="fix">FIX — Diagnosis dan perbaikan error</option><option value="test">TEST — Skenario dan regression test</option></select></div>
+      <div class="field-row"><label class="field-label" for="m2TaskMode">Jenis prompt (sinkron dengan Toolkit di bawah)</label><select id="m2TaskMode"><option value="build">BUILD — Tambah fitur</option><option value="fix">FIX — Diagnosis dan perbaikan error</option><option value="test">TEST — Skenario dan regression test</option></select></div>
       <div class="field-row"><label class="field-label" for="m2Error">Error / gejala (untuk mode FIX)</label><textarea id="m2Error" placeholder="Tempel error tanpa key/token/PII; sebutkan fungsi, file dan langkah reproduksi"></textarea></div>
       <p class="step-hint">Urutan: audit read-only → provider → insight/NLQ → public/custom API → auto report → Stitch UI → regression test. Per file untuk LLM gratis.</p>
     </div>
@@ -1218,8 +1385,7 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
       <div class="badge wajib">WAJIB</div>
     </div>
     <div class="step-hint">
-      Pilih <strong>LLM</strong> kalau langsung mau kode lengkap. Pilih <strong>Stitch</strong>
-      kalau mau lihat mockup visual dulu. Pilih <strong>Hybrid</strong> kalau mau keduanya.
+      Mini Class menggunakan <strong>LLM</strong> untuk membangun dashboard. Di Mastery 1 dan 2 tersedia tambahan <strong>Stitch</strong> untuk desain UI serta <strong>Hybrid</strong> untuk menggabungkan LLM dan Stitch.
     </div>
 
     <div class="mode-group" id="modeGroup">
@@ -1259,6 +1425,8 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
     </div>
   </div>
 
+<div id="dmMiniActionbar" class="dm-mini-actionbar dm-mini-chrome"><span id="dmMiniActionHint">Langkah 1 dari 4 · Kenali data Anda</span><div class="dm-right"><button type="button" id="dmMiniPrev" class="dm-btn">Kembali</button><button type="button" id="dmMiniNext" class="dm-btn primary">Lanjutkan</button></div></div>
+<details id="dmMiniHelper" class="dm-helper dm-mini-chrome"><summary>Bantuan sederhana: periksa data atau buat prompt untuk AI gratis</summary><div class="dm-helper-inner"><p>Anda tidak perlu memahami istilah teknis. Gunakan bantuan ini hanya bila diperlukan.</p><div class="dm-helper-actions"><button type="button" class="dm-btn" id="dmMiniCheck">Periksa data</button><button type="button" class="dm-btn" id="dmMiniFree">Buat prompt pendek untuk AI gratis</button><button type="button" class="dm-btn" id="dmMiniCopy" hidden>Salin hasil bantuan</button></div><pre id="dmMiniHelpOut" aria-live="polite" hidden></pre></div></details>
   <button class="btn" id="mainBtn" onclick="buildPrompt()">🪄 Buat Prompt Sekarang</button>
 
   <!-- OUTPUT -->
@@ -1288,7 +1456,12 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
       <p class="staged-note">
         <strong>💡 Anti-Keteteran untuk Akun AI Gratis:</strong> Untuk <strong>Mastery 1 dan Mastery 2</strong>, selesaikan <strong>Putaran 1 (Tahap 1–5 → Quality Gate A)</strong> lalu <strong>Putaran 2 (Tahap 6–10 → Quality Gate B)</strong>. Untuk <strong>Mini Class</strong> gunakan 5 tahap. Setiap tahap sudah memuat <strong>Kontrak Proyek</strong> yang terkunci, kode lama diambil otomatis dari formulir sebelum generate Putaran 2. Jika respons terpotong, minta AI melanjutkan dari baris terakhir tanpa mengulang.
       </p>
+      <div id="v18RoundNav" class="v18-round-nav" hidden>
+        <div class="v18-round-tabs" role="group" aria-label="Navigasi putaran"><button type="button" id="v18RoundTab1" onclick="v18ShowRound(1)">① Putaran 1 · Fondasi</button><button type="button" id="v18RoundTab2" onclick="v18PrepareRound(2)">② Putaran 2 · Upgrade</button><button type="button" id="v18RoundTab3" onclick="v18PrepareRound(3)">③ Putaran 3 · Stitch</button></div>
+        <p id="v18RoundDesc" class="v18-round-msg" aria-live="polite"></p>
+      </div>
       <div class="staged-list-wrap" id="stagedRows"></div>
+      <div id="v18RoundActions" class="v18-round-actions" hidden><button type="button" class="v18-primary" id="v18NextRound" onclick="v18PrepareRound(2)">Selesai tahap 1–5? Siapkan Putaran 2 →</button><button type="button" id="v18BackRound" onclick="v18ShowRound(1)" hidden>← Kembali ke Putaran 1</button><button type="button" class="v18-primary" id="v18NextStitch" onclick="v18PrepareRound(3)" hidden>Quality Gate B lulus? Siapkan Putaran 3 — Stitch →</button></div>
     </div>
 
     <!-- Block Stitch Step 1 -->
@@ -1375,17 +1548,148 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
 
 
   <div class="tier-section" id="m2ConnectedOutput">
-    <div class="divider-title purple">Output Tambahan · Mastery 2 — Build / Fix / Test</div>
-    <div class="step m2-box"><p class="step-hint">Buat prompt integrasi sesuai konfigurasi M2.1–M2.5. Jangan masukkan API key asli.</p>
-      <button type="button" class="btn purple" onclick="generateM2Connected()">🧩 Generate Prompt Intelligent &amp; Connected</button>
-      <div class="m14-result" id="m2ConnectedResult" aria-live="polite">
-        <button type="button" class="m14-copy" onclick="copyM2Connected()">📋 Salin</button>
-        <pre id="m2ConnectedPrompt"></pre>
-        <button type="button" class="btn secondary" onclick="downloadM2Connected()">💾 Download TXT</button>
+    <div class="divider-title purple">Toolkit Pengembangan · Mastery 2</div>
+    <div class="step m2-box v181-toolkit">
+      <div class="step-head"><div class="step-num m2">M2</div><div class="step-title">Perlu menambah, memperbaiki, atau menguji aplikasi?</div><div class="badge optional">OPSIONAL · SETELAH ADA BASELINE</div></div>
+      <p class="step-hint" style="padding-left:0">Toolkit ini <strong>bukan putaran wajib</strong>. Gunakan ketika sudah memiliki kode dasar, setelah Putaran 1 atau 2, atau saat menemukan kendala. Konfigurasi provider, API dan laporan mengikuti pilihan di M2.1–M2.4.</p>
+      <div class="v181-toolkit-grid" role="group" aria-label="Mode Toolkit Mastery 2">
+        <button type="button" class="v181-mode" data-mode="build" onclick="v181SelectToolkit('build')"><strong>＋ BUILD</strong><span>Tambah kemampuan tanpa menulis ulang proyek</span></button>
+        <button type="button" class="v181-mode" data-mode="fix" onclick="v181SelectToolkit('fix')"><strong>⚒ FIX</strong><span>Diagnosis error lalu patch minimal</span></button>
+        <button type="button" class="v181-mode" data-mode="test" onclick="v181SelectToolkit('test')"><strong>✓ TEST</strong><span>Susun kasus uji dan regression test</span></button>
       </div>
+      <div class="v181-toolkit-note" id="v181ToolkitGuide" aria-live="polite">Pilih mode sesuai kebutuhan proyek. File kode dan baseline tidak disalin otomatis dari kelas lain.</div>
+      <div class="v181-fix-field" id="v181FixField" hidden>
+        <label class="field-label" for="v181FixSymptoms">Gejala atau pesan error (tanpa API key / data pribadi)</label>
+        <textarea id="v181FixSymptoms" placeholder="Contoh: AI Insight 429 saat klik Analisis; fungsi lain normal. Sertakan hasil log bila tersedia."></textarea>
+      </div>
+      <button type="button" class="btn purple" style="margin-top:12px" onclick="v181GenerateToolkit()">Buat Prompt Toolkit Terpilih</button>
+      <div class="m14-result" id="m2ConnectedResult" aria-live="polite"><button type="button" class="m14-copy" onclick="copyM2Connected()">Salin Prompt</button><pre id="m2ConnectedPrompt"></pre><button type="button" class="btn secondary" onclick="downloadM2Connected()">Unduh TXT</button></div>
     </div>
   </div>
 
+
+<!-- V17: additive extension; all v16 markup and IDs are kept intact -->
+<section id="v17Hub" class="v17-hub" aria-labelledby="v17HubHeading">
+  <div class="v17-top">
+    <div class="v17-tag">DASHBOARD MAGIC · v17 RELIABLE FREE AI</div>
+    <h2 id="v17HubHeading">Project Reliability Studio</h2>
+    <p>Sembilan alat tambahan untuk membangun, menguji, memperbaiki, menyimpan, dan mengekspor proyek. Semua pemeriksaan berlangsung di browser; tidak mengirim data ke server.</p>
+    <div class="v17-quick" aria-label="Pintasan modul v17">
+      <a href="#v17Schema">Schema &amp; KPI</a><a href="#v17Free">Free LLM</a><a href="#v17Contract">Contract</a><a href="#v17Gates">Quality Gate</a><a href="#v17Auth">Auth</a><a href="#v17Stitch">Stitch</a><a href="#v17Fallback">AI Fallback</a><a href="#v17Recovery">Recovery</a><a href="#v17Export">Export Pack</a>
+    </div>
+    <p class="v17-small"><strong>Batas kemampuan:</strong> pemeriksaan statis bukan pengganti deploy dan tes langsung di Google Apps Script. Password pembuka kelas v16 tetap merupakan pembatas UI lokal, bukan kontrol lisensi aman.</p>
+  </div>
+
+  <details class="v17-module" id="v17Schema" open>
+    <summary><span class="v17-n">01</span> Schema &amp; KPI Advisor <span class="v17-summary-hint">Audit header, contoh data, dan rekomendasi KPI</span></summary>
+    <div class="v17-content">
+      <p>Membaca kolom dan maksimal lima baris contoh di formulir utama. Deteksi ini bersifat heuristik: cocok untuk rancangan, bukan statistik populasi atau seluruh dataset.</p>
+      <div class="v17-actions"><button type="button" onclick="DM17.analyzeSchema()">Analisis skema &amp; KPI</button><button type="button" class="v17-light" onclick="DM17.copyResult('schema')">Salin hasil</button></div>
+      <pre class="v17-result" id="v17SchemaOut" aria-live="polite">Belum dianalisis.</pre>
+    </div>
+  </details>
+
+  <details class="v17-module" id="v17Free">
+    <summary><span class="v17-n">02</span> Free LLM Mode <span class="v17-summary-hint">Prompt mikro, satu tugas per respons</span></summary>
+    <div class="v17-content">
+      <p>Berjalan bersama mode bertahap v16, bukan menggantikannya. Buat kontrak ringkas yang sama di semua tahap, lalu minta satu keluaran saja. Jika file besar, gunakan tahap yang lebih kecil dan beri konteks kode yang telah lolos tes.</p>
+      <div class="v17-grid">
+        <label>Tahap dari alur v16<select id="v17FreeStep"></select></label>
+        <label>Mode instruksi<select id="v17FreeAction"><option value="plan">1 · Rencanakan kontrak &amp; test case tanpa kode</option><option value="build" selected>2 · Tulis satu file / selesaikan satu tugas</option><option value="verify">3 · Audit jawaban &amp; berikan patch minimal</option></select></label>
+        <label>Target ukuran jawaban<select id="v17FreeBudget"><option value="3500">Ringkas — ±3.500 karakter (jika cukup)</option><option value="6500" selected>Standar gratis — ±6.500 karakter (jika cukup)</option><option value="10000">Lebih besar — ±10.000 karakter (jika cukup)</option></select></label>
+        <label>Status pekerjaan sebelumnya (opsional)<input id="v17FreeStatus" placeholder="Mis.: Code.gs lolos sintaks; error di getDashboardData"></label>
+      </div>
+      <div class="v17-actions"><button type="button" onclick="DM17.generateFree()">Buat prompt mikro</button><button type="button" class="v17-light" onclick="DM17.copyResult('free')">Salin prompt</button></div>
+      <pre class="v17-result" id="v17FreeOut" aria-live="polite">Pilih tahap untuk membuat prompt.</pre>
+      <p class="v17-small">Jika jawaban LLM terpotong, simpan keluaran yang valid dan minta kelanjutan berdasarkan fungsi terakhir; jangan menempel ulang output yang rusak sebagai kode final.</p>
+    </div>
+  </details>
+
+  <details class="v17-module" id="v17Contract">
+    <summary><span class="v17-n">03</span> Contract Validator <span class="v17-summary-hint">Periksa empat file dan kontrak DOM–GAS</span></summary>
+    <div class="v17-content">
+      <p>Gunakan kode pada bagian <strong>Kode Putaran 1</strong> di Mastery, atau tempel empat file terbaru di sini (bisa digunakan juga oleh Mini Class). Pemeriksaan mencakup nama fungsi server, ID DOM wajib, panggilan <code>google.script.run</code>, dan include file. Tidak mengeksekusi kode GAS.</p>
+      <div class="v17-grid">
+        <label>Code.gs<textarea id="v17CodeGs" spellcheck="false" placeholder="Tempel Code.gs..."></textarea></label>
+        <label>Index.html<textarea id="v17CodeIndex" spellcheck="false" placeholder="Tempel Index.html..."></textarea></label>
+        <label>CSS.html<textarea id="v17CodeCss" spellcheck="false" placeholder="Tempel CSS.html..."></textarea></label>
+        <label>JS.html<textarea id="v17CodeJs" spellcheck="false" placeholder="Tempel JS.html..."></textarea></label>
+      </div>
+      <label class="v17-inline"><input type="checkbox" id="v17UseOld" checked> Gunakan kode dari area Putaran 1 untuk kolom yang kosong</label>
+      <div class="v17-actions"><button type="button" onclick="DM17.validateContract()">Jalankan validator</button><button type="button" class="v17-light" onclick="DM17.copyResult('contract')">Salin laporan</button></div>
+      <pre class="v17-result" id="v17ContractOut" aria-live="polite">Belum divalidasi.</pre>
+    </div>
+  </details>
+
+  <details class="v17-module" id="v17Gates">
+    <summary><span class="v17-n">04</span> Quality Gate Runner <span class="v17-summary-hint">PASS / FAIL / Belum diuji dengan bukti</span></summary>
+    <div class="v17-content">
+      <p>Status ditandai peserta berdasarkan hasil pengujian nyata. Tool <strong>tidak</strong> menyatakan PASS secara otomatis. Gunakan file hasil deploy, baris data, dan tangkapan hasil uji sebagai bukti.</p>
+      <div class="v17-actions"><button type="button" onclick="DM17.renderGates()">Muat checklist level saat ini</button><button type="button" class="v17-light" onclick="DM17.copyResult('gates')">Salin laporan gate</button></div>
+      <div id="v17GateRows" class="v17-gates"></div>
+      <div id="v17GateSummary" class="v17-note" aria-live="polite">Belum ada hasil uji.</div>
+      <pre class="v17-result v17-collapsed" id="v17GatesOut"></pre>
+    </div>
+  </details>
+
+  <details class="v17-module" id="v17Auth">
+    <summary><span class="v17-n">05</span> Authentication Readiness Checker <span class="v17-summary-hint">Deployment, identitas, role, dan password</span></summary>
+    <div class="v17-content">
+      <div class="v17-grid">
+        <label>Jenis login<select id="v17AuthMethod"><option value="google">Identitas Google via Session</option><option value="custom">Login kustom USER/PASSWORD</option><option value="none">Tidak ada login (dashboard publik)</option></select></label>
+        <label>Execute as (Web App)<select id="v17ExecuteAs"><option value="me">Me / pemilik script</option><option value="user">User accessing the web app</option></select></label>
+        <label>Who has access<select id="v17Access"><option value="anyone">Anyone / siapa pun (jika tersedia)</option><option value="google">Anyone with Google account</option><option value="domain">Hanya organisasi Workspace</option><option value="onlyme">Hanya saya</option></select></label>
+        <label>Lingkungan pengguna<select id="v17Identity"><option value="mixed">Akun campuran / eksternal / Gmail pribadi</option><option value="workspace">Workspace organisasi yang dikelola</option></select></label>
+      </div>
+      <div class="v17-actions"><button type="button" onclick="DM17.checkAuth()">Periksa kesiapan login</button><button type="button" class="v17-light" onclick="DM17.copyResult('auth')">Salin laporan</button></div>
+      <pre class="v17-result" id="v17AuthOut" aria-live="polite">Belum diperiksa.</pre>
+    </div>
+  </details>
+
+  <details class="v17-module" id="v17Stitch">
+    <summary><span class="v17-n">06</span> Stitch Compatibility Checker <span class="v17-summary-hint">Audit ekspor desain sebelum dipasang</span></summary>
+    <div class="v17-content">
+      <p>Tempel HTML dari ekspor Google Stitch. Jika file <strong>Index.html</strong> aplikasi lama telah diisi di Contract Validator, ID aplikasi itu dipakai sebagai acuan; jika tidak, digunakan kontrak level kelas.</p>
+      <label>HTML hasil ekspor Stitch<textarea id="v17StitchHtml" spellcheck="false" placeholder="Tempel HTML hasil ekspor Stitch, bukan URL proyek..."></textarea></label>
+      <label>CSS / JS ekspor Stitch (opsional)<textarea id="v17StitchOther" spellcheck="false" placeholder="Tempel kode tambahan hasil ekspor, agar dapat diperiksa dependensinya..."></textarea></label>
+      <div class="v17-actions"><button type="button" onclick="DM17.checkStitch()">Periksa kompatibilitas</button><button type="button" class="v17-light" onclick="DM17.copyResult('stitch')">Salin laporan &amp; prompt perbaikan</button></div>
+      <pre class="v17-result" id="v17StitchOut" aria-live="polite">Belum diperiksa.</pre>
+    </div>
+  </details>
+
+  <details class="v17-module" id="v17Fallback">
+    <summary><span class="v17-n">07</span> AI Fallback Engine <span class="v17-summary-hint">Statistik deterministik tanpa API key</span></summary>
+    <div class="v17-content">
+      <p>Demonstrasi ringkasan yang dihitung di browser hanya dari data contoh yang ditempel di Langkah 4, bukan dari seluruh Google Sheets. Hasilnya tidak menggantikan kalkulasi server pada aplikasi akhir.</p>
+      <div class="v17-actions"><button type="button" onclick="DM17.runFallback()">Hitung insight contoh</button><button type="button" class="v17-light" onclick="DM17.copyResult('fallback')">Salin insight &amp; prompt integrasi</button></div>
+      <pre class="v17-result" id="v17FallbackOut" aria-live="polite">Belum dihitung.</pre>
+    </div>
+  </details>
+
+  <details class="v17-module" id="v17Recovery">
+    <summary><span class="v17-n">08</span> Progress &amp; Recovery <span class="v17-summary-hint">Simpan proyek dan pulihkan dari JSON</span></summary>
+    <div class="v17-content">
+      <p>Penyimpanan lokal pada browser/perangkat ini, bukan cloud. Pengaturan dan status uji dapat disimpan tanpa menyertakan contoh data, kode, token, atau log. Jangan menggunakan komputer umum untuk menyimpan data rahasia.</p>
+      <div class="v17-options">
+        <label class="v17-inline"><input type="checkbox" id="v17AutoSave" checked> Autosave pengaturan dasar &amp; progres gate (tanpa sampel/kode)</label>
+        <label class="v17-inline"><input type="checkbox" id="v17Sensitive"> Sertakan sampel data, kode, dan input Stitch dalam backup (berisiko; persetujuan eksplisit)</label>
+      </div>
+      <div class="v17-actions"><button type="button" onclick="DM17.saveProgress()">Simpan sekarang</button><button type="button" class="v17-light" onclick="DM17.restoreProgress()">Pulihkan tersimpan</button><button type="button" class="v17-light" onclick="DM17.downloadBackup()">Ekspor backup JSON</button><button type="button" class="v17-light" onclick="document.getElementById('v17ImportFile').click()">Impor backup JSON</button><button type="button" class="v17-danger" onclick="DM17.clearProgress()">Hapus simpanan lokal</button></div>
+      <input type="file" id="v17ImportFile" accept=".json,application/json" hidden>
+      <div class="v17-note" id="v17RecoveryInfo" role="status">Belum menyimpan progres.</div>
+    </div>
+  </details>
+
+  <details class="v17-module" id="v17Export">
+    <summary><span class="v17-n">09</span> Project Export Pack <span class="v17-summary-hint">ZIP siap pakai tanpa dependensi eksternal</span></summary>
+    <div class="v17-content">
+      <p>Unduh arsip ZIP berisi kontrak, prompt bertahap, laporan audit, checklist, README, dan backup proyek. Paket dibuat sepenuhnya lokal. Periksa materi sebelum dibagikan: prompt dapat mengandung contoh data yang Anda masukkan.</p>
+      <label class="v17-inline"><input type="checkbox" id="v17PackCode"> Tambahkan empat file kode mentah dan ekspor Stitch ke ZIP (tidak direkomendasikan jika mengandung rahasia)</label>
+      <div class="v17-actions"><button type="button" onclick="DM17.exportPack()">Buat &amp; unduh Project Pack (.zip)</button><button type="button" class="v17-light" onclick="DM17.copyResult('pack')">Salin manifes</button></div>
+      <pre class="v17-result" id="v17PackOut" aria-live="polite">Belum ada export pack.</pre>
+    </div>
+  </details>
+</section>
 
   <!-- DEBUG & REPAIR: independent of Mastery access, no server transmission -->
   <section class="debug-panel" id="debugRepairPanel" aria-labelledby="debugHeading">
@@ -1454,7 +1758,7 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
 
   <!-- FOOTER -->
   <div class="footer">
-    <a href="https://yogoaj.github.io" target="_blank" rel="noopener noreferrer">Created by Yogo AJ</a>
+    <a href="https://yogoaj.github.io" target="_blank" rel="noopener noreferrer">Build With Dashboard Magic | Created by Yogo AJ</a>
   </div>
 
 </div>
@@ -1633,11 +1937,45 @@ document.querySelectorAll('#tierSelector .tier-card').forEach(card => {
   });
 });
 
+// v18.1: switching level creates a NEW, empty workspace. Never silently load another level's work.
+const V181_DEFAULT_STATE = JSON.parse(JSON.stringify(state));
+const V181_FORM_DEFAULTS = new Map(Array.from(document.querySelectorAll('.container input[id],.container textarea[id],.container select[id]'))
+  .filter(el => !el.closest('#v18DecisionBody') && !['v17AutoSave','v17Sensitive','v17PackCode','v17ImportFile'].includes(el.id))
+  .map(el => [el.id,{value:el.value,checked:el.checked}]));
+function v181ResetWorkspace(nextTier) {
+  // Inputs, including old code, example data, API settings, Stitch content and debugging notes.
+  for (const [id,d] of V181_FORM_DEFAULTS) {
+    const el=document.getElementById(id); if(!el)continue;
+    if(el.type==='checkbox'||el.type==='radio')el.checked=d.checked;
+    else el.value=d.value;
+  }
+  for(const key of ['type','goals','theme','mode','m1Crud','m1Db','m2Insight','m2Assistant','m2Report']) {
+    state[key]=Array.isArray(V181_DEFAULT_STATE[key])?[...V181_DEFAULT_STATE[key]]:V181_DEFAULT_STATE[key];
+  }
+  for(const [key,id] of [['type','chipType'],['goals','chipGoal'],['theme','chipTheme'],['m1Crud','chipM1Crud'],['m1Db','chipM1Db'],['m2Insight','chipM2Insight'],['m2Assistant','chipM2Assistant'],['m2Report','chipM2Report']]) {
+    document.querySelectorAll('#'+id+' .chip').forEach(el=>el.classList.toggle('selected',Array.isArray(state[key])?state[key].includes(el.dataset.value):state[key]===el.dataset.value));
+  }
+  document.querySelectorAll('#modeGroup .mode-card').forEach(el=>el.classList.toggle('selected',el.dataset.value===state.mode));
+  stagedList=[];v18CurrentRound=1;
+  for(const id of ['output','m14Result','m24Result','m2ConnectedResult','v17ContractResult','v17AuthResult','v17StitchResult','v17FallbackResult'])document.getElementById(id)?.classList.remove('show');
+  for(const id of ['stagedPrompts','stagedOutput']){const el=document.getElementById(id);if(el)el.style.display='none';}
+  const promptBlocks=document.querySelectorAll('#output pre,#m14Result pre,#m24Result pre,#m2ConnectedPrompt,#debugOutput');promptBlocks.forEach(el=>el.textContent='');
+  document.getElementById('v18RoundNav')?.setAttribute('hidden','');
+  document.getElementById('v18RoundActions')?.setAttribute('hidden','');
+  document.getElementById('cols')?.dispatchEvent(new Event('input',{bubbles:true}));
+  document.getElementById('sample')?.dispatchEvent(new Event('input',{bubbles:true}));
+  if(window.DM17?.resetWorkspace)window.DM17.resetWorkspace();
+  if(typeof window.v181SelectToolkit==='function')window.v181SelectToolkit('build');
+  const notice=document.getElementById('v181TierNotice');
+  if(notice)notice.innerHTML='<strong>Ruang kerja '+({miniclass:'Mini Class',mastery1:'Mastery 1',mastery2:'Mastery 2'}[nextTier]||nextTier)+' dimulai dari kosong.</strong> Progres kelas lain tidak disalin. Jika perlu proyek sebelumnya, pulihkan secara manual melalui Progress &amp; Recovery atau tempel kode ke bagian Kode Lama.';
+}
 function activateTier(targetTier) {
+  if (state.tier !== targetTier) v181ResetWorkspace(targetTier);
   document.querySelectorAll('#tierSelector .tier-card').forEach(c => {
     c.classList.toggle('selected', c.dataset.tier === targetTier);
   });
   state.tier = targetTier;
+  if (targetTier === 'miniclass' && state.goals.length > 4) { state.goals = state.goals.slice(0, 4); document.querySelectorAll('#chipGoal .chip').forEach(chip => chip.classList.toggle('selected', state.goals.includes(chip.dataset.value))); showToast('Mini Class memakai maksimal 4 pilihan; simpan progres Mastery dahulu jika ingin mempertahankan pilihan tambahan.'); }
   syncTierUi();
 }
 
@@ -1776,7 +2114,22 @@ function syncTierUi() {
     desc.textContent = 'Manfaatkan AI untuk analisis yang lebih dalam dan otomatis (AI Insight, AI Assistant, Auto Report).';
     secM2.classList.add('active');
   }
+  // v18.2: Stitch & Hybrid are Mastery-only output modes. Keep underlying generators intact.
+  const miniMode = state.tier === 'miniclass';
+  document.querySelectorAll('#modeGroup .mode-card').forEach(card => {
+    if (card.dataset.value !== 'llm') {
+      card.hidden = miniMode;
+      card.setAttribute('aria-hidden', String(miniMode));
+      card.style.display = miniMode ? 'none' : '';
+    }
+  });
+  const modeGroup = document.getElementById('modeGroup');
+  if (modeGroup) modeGroup.classList.toggle('dm-only-llm', miniMode);
+  if (miniMode && state.mode !== 'llm') state.mode = 'llm';
+  document.querySelectorAll('#modeGroup .mode-card').forEach(card => card.classList.toggle('selected',card.dataset.value === state.mode));
   updateMainButton();
+  const goalInstruction = document.getElementById('dmGoalInstruction');
+  if (goalInstruction) goalInstruction.textContent = state.tier === 'miniclass' ? 'Pilih maksimal 4 untuk Mini Class. Ini akan jadi chart / KPI.' : 'Pilih sebanyak yang relevan — tidak ada batas empat pilihan pada Mastery 1 dan 2. KPI dan grafik harus sesuai data.';
 }
 
 /* ===== Chip Handlers ===== */
@@ -1793,8 +2146,8 @@ function bindMultiChipGroup(selector, key, limit = null) {
     chip.addEventListener('click', () => {
       const v = chip.dataset.value;
       if (!chip.classList.contains('selected')) {
-        if (limit && state[key].length >= limit) {
-          showToast('Maksimal ' + limit + ' pilihan');
+        if ((key === 'goals' ? state.tier === 'miniclass' && state[key].length >= 4 : limit && state[key].length >= limit)) {
+          showToast('Maksimal ' + (key === 'goals' ? 4 : limit) + ' pilihan');
           return;
         }
         chip.classList.add('selected');
@@ -1807,7 +2160,7 @@ function bindMultiChipGroup(selector, key, limit = null) {
   });
 }
 
-bindMultiChipGroup('#chipGoal', 'goals', 4);
+bindMultiChipGroup('#chipGoal', 'goals', null);
 bindMultiChipGroup('#chipM1Crud', 'm1Crud');
 bindMultiChipGroup('#chipM1Db', 'm1Db');
 bindMultiChipGroup('#chipM2Insight', 'm2Insight');
@@ -1833,6 +2186,7 @@ document.getElementById('themeCustom').addEventListener('input', (e) => {
 /* Mode selector */
 document.querySelectorAll('#modeGroup .mode-card').forEach(card => {
   card.addEventListener('click', () => {
+    if (state.tier === 'miniclass' && card.dataset.value !== 'llm') return;
     document.querySelectorAll('#modeGroup .mode-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
     state.mode = card.dataset.value;
@@ -2112,6 +2466,7 @@ function buildLlmPrompt() {
     P.push('');
     P.push(...getM2ConnectedContract().split('\n'));
     P.push('Mode Pembangunan  : ' + m2Scope);
+    if (m2Scope.startsWith('Bangun Sistem Utuh + Login')) P.push('PILIHAN LOGIN+ROLE EKSPLISIT: Wajib login UI, otorisasi server Admin/Editor/Viewer, logout, audit, cek identitas dan uji penolakan akses unauthorized.');
     P.push('KETENTUAN MODE: Sistem Utuh WAJIB menyertakan CRUD, autentikasi, role, multi-sheet, audit log dan seluruh modul AI; Fokus Modul hanya dashboard+AI+laporan (tanpa CRUD baru); Upgrade M1 WAJIB mempertahankan CRUD/login/role lama dan meminta empat file M1 sebelum coding.');
     P.push('Engine AI         : ' + m2Engine);
     P.push('Persona Analis AI : ' + m2Persona);
@@ -2516,6 +2871,7 @@ function buildStitchBridgePrompt() {
     P.push(SEP);
     P.push('Hubungkan komponen AI Insight, Chatbox AI Assistant, dan tombol Export pada desain Stitch ke Code.gs:');
     P.push('- Mode Pembangunan  : ' + m2Scope);
+    if (m2Scope.startsWith('Bangun Sistem Utuh + Login')) P.push('- Wajib tampilkan halaman login dan menu/aksi berdasarkan role Admin, Editor, Viewer.');
     P.push('- Engine AI         : ' + m2Engine);
     P.push('- Persona Analis AI : ' + m2Persona);
     state.m2Insight.forEach(item => P.push('- ' + item));
@@ -2574,6 +2930,7 @@ function withDmCredit(prompt) {
 }
 
 function buildPrompt() {
+  if (state.tier === 'miniclass' && state.mode !== 'llm') { state.mode = 'llm'; syncTierUi(); }
   if (state.tier === 'mastery1' && !authState.mastery1) {
     openAuthModal('mastery1');
     return;
@@ -2891,6 +3248,7 @@ function buildStagedPrompts() {
   const m2Endpoint = g('m2Endpoint') || 'health_summary';
 
   const m2IsFull = m2Scope.startsWith('Bangun Sistem Utuh');
+  const m2ExplicitAuth = m2Scope.startsWith('Bangun Sistem Utuh + Login');
   const m2IsUpgrade = m2Scope.startsWith('Upgrade Aplikasi Mastery 1');
   const m2CrudContract = m2IsFull ? [
     '- MODE SISTEM UTUH: WAJIB implementasikan CRUD nyata (Create, Read, Update, Delete) di sheet DATA, ID unik dari kolom yang dipilih peserta, validasi server, LockService, form input/edit, tombol hapus dengan konfirmasi, tabel interaktif, dan refresh KPI/chart setelah mutasi.',
@@ -2918,6 +3276,7 @@ function buildStagedPrompts() {
     '- Contoh baris (untuk inferensi tipe data, jangan mengarang kolom di luar daftar):\n' + sample,
     '- Visualisasi/KPI pilihan: ' + goalsText,
     '- Mode Pembangunan: ' + m2Scope,
+    '- LOGIN & ROLE: ' + (m2ExplicitAuth ? 'Mode eksplisit: UI login, verifikasi identitas, matriks Admin/Editor/Viewer dan server-side guard wajib diuji terpisah. Jangan gunakan akun demo sebagai kredensial produksi.' : (m2IsFull ? 'Termasuk autentikasi & role sesuai kontrak sistem utuh (legacy v17).' : 'Pertahankan sesuai mode dan baseline yang dipilih.')),
     '- Engine AI & Provider: ' + m2Engine + ' | Provider utama: ' + m2Provider + ' (' + m2Model + ') | Fallback: ' + m2Fallback,
     '- Persona Analis AI: ' + m2Persona,
     '- Pertanyaan Default NLQ: "' + m2SampleQ + '"',
@@ -2978,11 +3337,15 @@ function buildStagedPrompts() {
   });
 }
 
+let v18CurrentRound = 1;
+let v18LastTier = null;
 function renderStaged() {
   const box = document.getElementById('blockStaged');
   if (!(state.mode === 'llm' || state.mode === 'hybrid')) { box.style.display = 'none'; return; }
   stagedList = buildStagedPrompts().map(x => ({...x, text: withDmCredit(x.text)}));
   const isTwoRounds = stagedList.length === 10;
+  if (!isTwoRounds || v18LastTier !== state.tier) v18CurrentRound = 1;
+  v18LastTier = state.tier;
   document.getElementById('stagedRows').innerHTML = stagedList.map((x, i) => {
     const badgeLabel = isTwoRounds
       ? ('Putaran ' + (i < 5 ? '1' : '2') + ' · Tahap ' + ((i % 5) + 1) + '/5')
@@ -3005,6 +3368,40 @@ function renderStaged() {
     if (pre) pre.textContent = x.text;
   });
   box.style.display = 'block';
+  v18SyncRounds();
+}
+
+function v18SyncRounds() {
+  const enabled = stagedList.length === 10 && state.tier !== 'miniclass';
+  const nav = document.getElementById('v18RoundNav'), actions = document.getElementById('v18RoundActions');
+  if (!nav || !actions) return;
+  nav.hidden = !enabled; actions.hidden = !enabled;
+  if (!enabled) { document.querySelectorAll('#stagedRows .staged-row').forEach(row=>row.hidden=false); return; }
+  document.querySelectorAll('#stagedRows .staged-row').forEach((row,i)=>{ row.hidden = v18CurrentRound !== (i<5?1:2) || v18CurrentRound === 3; });
+  [1,2,3].forEach(n=>{let b=document.getElementById('v18RoundTab'+n); b.classList.toggle('active',n===v18CurrentRound);b.setAttribute('aria-pressed',String(n===v18CurrentRound));});
+  document.getElementById('v18RoundDesc').textContent = v18CurrentRound===1 ? 'Tahap 1–5: buat fondasi, deploy, dan tuntaskan Quality Gate A. Setelah selesai, gunakan tombol Siapkan Putaran 2.' : v18CurrentRound===2 ? 'Tahap 6–10: gunakan empat file Putaran 1 sebagai baseline. Upgrade kode tanpa menghapus fitur lama, lalu uji Quality Gate B.' : 'Putaran 3: desain dan integrasi Google Stitch sesudah Quality Gate B; fitur ini opsional.';
+  document.getElementById('v18NextRound').hidden = v18CurrentRound!==1;
+  document.getElementById('v18BackRound').hidden = v18CurrentRound===1;
+  document.getElementById('v18NextStitch').hidden = v18CurrentRound!==2;
+}
+function v18ShowRound(n) { v18CurrentRound=n; v18SyncRounds(); document.getElementById('v18RoundNav')?.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function v18PrepareRound(n) {
+  if (n===2) {
+    const filled=Object.keys(OLD_CODE_IDS).filter(name=>getOldCode(name));
+    v18CurrentRound=2;v18SyncRounds();
+    if (filled.length<4) {
+      document.getElementById('v18RoundDesc').textContent='Persiapan Putaran 2: baru '+filled.length+'/4 file baseline tersedia. Tempel Code.gs, Index.html, CSS.html, dan JS.html pada bagian Kode Lama; prompt tahap 6–9 baru siap setelah file terkait tersedia. Pastikan Quality Gate A lulus.';
+      document.getElementById('oldCodeSection')?.scrollIntoView({behavior:'smooth',block:'start'});
+      showToast('Siapkan Putaran 2: lengkapi 4 file baseline terlebih dahulu.');
+    } else { renderStaged(); showToast('Empat file tersedia. Jalankan tahap 6–10 setelah Quality Gate A lulus.'); }
+    return;
+  }
+  if (n===3) {
+    v18CurrentRound=3;v18SyncRounds();
+    const target=state.tier==='mastery1'?'m14Panel':'m24Panel';
+    const panel=document.getElementById(target); if(panel){panel.scrollIntoView({behavior:'smooth',block:'start'});panel.style.outline='3px solid #14b8a6';setTimeout(()=>panel.style.outline='',1800);}
+    showToast('Putaran 3 bersifat opsional: pastikan Quality Gate B lulus dan buat backup dahulu.');
+  }
 }
 
 function copyStaged(i) {
@@ -3486,8 +3883,9 @@ function downloadM24() {
   showToast('💾 Prompt M2.4 diunduh');
 }
 
-// Inisialisasi status kunci saat halaman dimuat
+// Inisialisasi status kunci dan pilihan mode sesuai kelas saat halaman dimuat
 loadSavedAuth();
+syncTierUi();
 
 /* Mastery 2 connected-dashboard prompt contract; no secrets are read or stored. */
 function getM2ConnectedContract() {
@@ -3517,7 +3915,7 @@ function getM2ConnectedContract() {
 }
 function generateM2Connected() {
   if (!authState.mastery2) { openAuthModal('mastery2'); return; }
-  const prompt = ['Anda senior engineer Google Apps Script. Tingkatkan aplikasi Mastery 1 yang SUDAH BERFUNGSI. Jangan membuat ulang dari nol.','',getM2ConnectedContract(),'', 'LANGKAH PERTAMA: minta 4 file dan contoh schema sheet; lakukan audit read-only, petakan dependensi dan tanyakan persetujuan sebelum mengubah kode.', 'Untuk LLM gratis: berikan satu file/patch per respons, tidak boleh menghapus fitur lama.'].join('\n');
+  const buildScope=document.getElementById('m2BuildScope')?.value||'';const isNew=buildScope.startsWith('Bangun Sistem Utuh')||buildScope.startsWith('Fokus Modul');const prompt=[isNew?'Anda senior engineer Google Apps Script. Bangun modul sesuai cakupan terpilih, mulai dari audit kebutuhan dan struktur data; jangan mengasumsikan ada aplikasi Mastery 1.':'Anda senior engineer Google Apps Script. Tingkatkan aplikasi Mastery 1 yang SUDAH BERFUNGSI. Jangan membuat ulang dari nol.','CAKUPAN: '+buildScope,'',getM2ConnectedContract(),'',isNew?'LANGKAH PERTAMA: tentukan kontrak data, nama fungsi, role bila dipilih, dan 4 file; mulai dari komponen fondasi lalu uji setiap tahap.':'LANGKAH PERTAMA: minta 4 file dan contoh schema sheet; audit read-only, petakan dependensi, lalu lakukan perubahan minimal.', 'Untuk LLM gratis: berikan satu file/patch per respons dan jangan menghapus fitur yang sudah ada.'].join('\n');
   document.getElementById('m2ConnectedPrompt').textContent=withDmCredit(prompt);
   document.getElementById('m2ConnectedResult').classList.add('show');
   showToast('Prompt Mastery 2 Connected siap');
@@ -3607,6 +4005,272 @@ function clearDebugRepair(){
   document.getElementById('debugMode').value='diagnosis';document.getElementById('debugFeature').selectedIndex=0;document.getElementById('debugPreset').value='sheets-crud';document.getElementById('debugLlm').value='gemini-free';
   debugRepairText='';document.getElementById('debugOutput').textContent='';document.getElementById('debugOutput').style.display='none';debugFeedback('Form Debug & Repair dikosongkan.');
 }
+</script>
+<script>
+/* Dashboard Magic v17: independent, client-side Reliability Studio. */
+window.DM17 = (() => {
+  'use strict';
+  const VERSION = '17.0';
+  const STORAGE_PREFIX = 'dm_v181_project_local_';
+  const workspaceKey=()=>STORAGE_PREFIX+state.tier;
+  let savePaused=false;
+  const $ = id => document.getElementById(id);
+  const get = id => ($(id)?.value || '').trim();
+  const put = (id, data) => { if ($(id)) $(id).textContent = String(data); };
+  const label = () => state.tier === 'miniclass' ? 'Mini Class' : state.tier === 'mastery1' ? 'Mastery 1' : 'Mastery 2';
+  const results = {schema:'',free:'',contract:'',gates:'',auth:'',stitch:'',fallback:'',pack:''};
+  let schemaData = null;
+  let gates = {};
+  let saveTimeout = null;
+  const safeFields = ['desc','cols','lblRevenue','lblProduct','lblRegion','lblPerson','sheetName','themeCustom','extra','m1IdCol','m1StatusCol','m1AuthMethod','m1RoleConfig','m2BuildScope','m2AiEngine','m2AiPersona','m2SampleQuery','m2Provider','m2Model','m2Fallback','m2PublicApi','m2PublicUrl','m2Refresh','m2Endpoint','m14AppName','m14Theme','m14Scope','m14ExportType','m14Components','m14Notes','m24Mode','m24Theme','m24AppName','m24Constraints','m24Notes','v17FreeStatus','v17FreeBudget','v17FreeAction','v17AuthMethod','v17ExecuteAs','v17Access','v17Identity'];
+  const sensitiveFields = ['sample','ssId','oldCodeGs','oldIndexHtml','oldCssHtml','oldJsHtml','v17CodeGs','v17CodeIndex','v17CodeCss','v17CodeJs','v17StitchHtml','v17StitchOther'];
+  const tierGates = {
+    miniclass: [
+      ['data','Google Sheet benar dan header sesuai sumber'],
+      ['kpi','Empat KPI dihitung dari data sebenarnya dan rumus dapat diverifikasi'],
+      ['charts','Tiga grafik tampil dengan agregasi yang benar'],
+      ['filters','Filter dan reset memperbarui KPI, chart, dan tabel konsisten'],
+      ['states','Loading, empty state, dan error ditampilkan dengan jelas'],
+      ['deploy','Web App di-deploy dan diuji pada akun pengguna sasaran']
+    ],
+    mastery1: [
+      ['data','KPI/filter/chart tetap bekerja (regresi Mini Class)'],
+      ['create','CREATE menambah tepat satu record valid ke Sheet'],
+      ['read','READ memperlihatkan record tersimpan dan pencarian/filter benar'],
+      ['update','UPDATE mengubah ID yang tepat tanpa duplikasi'],
+      ['delete','DELETE/soft delete mengubah record sesuai kebijakan dan audit'],
+      ['validation','Validasi input dan penanganan klik ganda/konkurensi diuji'],
+      ['auth','Login, logout, perubahan password pertama, dan sesi diuji'],
+      ['rbac','Viewer ditolak saat akses API mutasi langsung di sisi server'],
+      ['audit','AUDIT_LOG mencatat user, waktu, dan operasi dengan benar'],
+      ['deploy','Deployment, izin Google, dan akun eksternal diuji']
+    ],
+    mastery2: [
+      ['regression','Dashboard & CRUD/login yang sudah ada tetap berfungsi'],
+      ['kpi','Angka untuk narasi AI berasal dari agregasi deterministik'],
+      ['fallback','Tanpa API key / saat API gagal, insight fallback tetap tampil'],
+      ['ai','AI Insight menyebut sumber AI atau fallback dengan jujur'],
+      ['nlq','Tiga pertanyaan NLQ diuji, termasuk input yang tidak tersedia'],
+      ['filters','AI dan tabel menghormati filter aktif'],
+      ['pdf','Ekspor PDF mencerminkan KPI dan filter aktif'],
+      ['word','Ekspor Word dapat dibuka dan menyertakan narasi/tabel yang benar'],
+      ['excel','Ekspor Excel/CSV benar, tanpa formula injection'],
+      ['api','Public API error/timeout tidak merusak core dashboard'],
+      ['security','Key API server-only, role diuji, endpoint publik tidak membocorkan data'],
+      ['deploy','Full deployment dan tes regresi dengan pengguna sasaran']
+    ]
+  };
+  function writeResult(which, val) { results[which] = String(val); const id = {schema:'v17SchemaOut',free:'v17FreeOut',contract:'v17ContractOut',gates:'v17GatesOut',auth:'v17AuthOut',stitch:'v17StitchOut',fallback:'v17FallbackOut',pack:'v17PackOut'}[which]; put(id,results[which]); return results[which]; }
+  async function copyResult(which){const value=results[which];if(!value){showToast('Buat hasil terlebih dahulu.');return;}try{if(navigator.clipboard?.writeText) await navigator.clipboard.writeText(value);else fallbackCopy(value);showToast('Laporan berhasil disalin.');}catch(e){fallbackCopy(value);}}
+  function parseCSVRow(line, delimiter){ const parts=[];let field='',quoted=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(quoted&&line[i+1]==='"'){field+='"';i++;}else quoted=!quoted;}else if(c===delimiter&&!quoted){parts.push(field.trim());field='';}else field+=c;}parts.push(field.trim());return {parts,unclosed:quoted}; }
+  function detectDelimiter(lines){let best='\t', max=-1;for(const d of ['\t',',',';','|']){let counts=lines.map(l=>parseCSVRow(l,d).parts.length),median=counts.sort((a,b)=>a-b)[Math.floor(counts.length/2)]||0,variance=counts.reduce((s,c)=>s+Math.abs(c-median),0);let score=(median>1?median*10:0)-variance*5;if(score>max){max=score;best=d;}}return best;}
+  function headers(){const raw=get('cols');if(!raw)return[];let lines=raw.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);if(lines.length===1)return parseCSVRow(lines[0],detectDelimiter(lines)).parts.map(s=>s.trim()).filter(Boolean);return lines;}
+  function numeric(value){let s=String(value ?? '').trim();if(!s||/^(na|n\/a|null|none|nan|-)$/i.test(s))return null;s=s.replace(/^(?:rp\.?|idr|usd|\$)\s*/i,'').replace(/\s/g,'').replace(/%$/,'');if(!/^[-+]?\d[\d.,]*$/.test(s))return null;
+    if(s.includes(',')&&s.includes('.')){s=s.lastIndexOf(',')>s.lastIndexOf('.')?s.replace(/\./g,'').replace(',','.'):s.replace(/,/g,'');}
+    else if(s.includes(',')){s=/^[-+]?\d{1,3}(,\d{3})+$/.test(s)?s.replace(/,/g,''):s.replace(',','.');}
+    else if(/^[-+]?\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,'');
+    const v=Number(s);return Number.isFinite(v)?v:null; }
+  function inferType(name,values){const n=name.toLowerCase();if(/(^id$|^id_|_id$|\bnik\b|\bnim\b|kode|nomor|phone|telepon|postal|kodepos)/i.test(n))return 'identifier';const valid=values.filter(v=>String(v).trim()&&!/^(null|n\/a|na|-)$/.test(String(v).trim().toLowerCase()));if(!valid.length)return 'unknown';const dates=valid.filter(v=>/^\d{4}[-/]\d{1,2}[-/]\d{1,2}(?:\s|$)|^\d{1,2}[-/]\d{1,2}[-/]\d{4}(?:\s|$)/.test(v)).length;if(dates/valid.length>=.8)return 'date';const nums=valid.filter(v=>numeric(v)!==null).length;if(nums/valid.length>=.8)return 'numeric';return 'category';}
+  function inspectSchema(){const names=headers(),lines=get('sample').split(/\r?\n/).filter(l=>l.trim()),sep=detectDelimiter(lines),parsed=lines.map(l=>parseCSVRow(l,sep)),rows=parsed.map(p=>p.parts);const errors=[],warnings=[];
+    if(!names.length)errors.push('Header belum diisi.');if(!lines.length)warnings.push('Contoh data belum diisi; inferensi tipe belum tersedia.');if(lines.length>5)warnings.push('Ada '+lines.length+' baris; analisis ini hanya memakai lima baris pertama.');if(names.length!==new Set(names.map(n=>n.toLowerCase())).size)errors.push('Nama kolom ganda (case-insensitive).');if(names.some(n=>!n.trim()))errors.push('Ada nama kolom kosong.');if(parsed.some(p=>p.unclosed))errors.push('Tanda kutip CSV tidak berpasangan.');if(rows.some(r=>r.length!==names.length))warnings.push('Jumlah field contoh tidak sama dengan jumlah header: '+rows.map(r=>r.length).join(', ')+' vs '+names.length+'.');
+    const used=rows.slice(0,5);const cols=names.map((name,j)=>{const values=used.map(r=>r[j]??''),type=inferType(name,values),missing=values.filter(v=>!String(v).trim()||/^(null|na|n\/a|-)$/i.test(v)).length,validNum=values.map(numeric).filter(x=>x!==null),unique=new Set(values.filter(Boolean)).size;return {name,type,missing,unique,values,validNum};});
+    if(cols.some(c=>/nama|email|phone|telepon|nik|alamat|password|token|key|secret/i.test(c.name)))warnings.push('Kolom berpotensi mengandung identitas/rahasia: gunakan data sintetis dan hapus sebelum mengirim prompt ke LLM.');
+    const suggested=[];const numericCols=cols.filter(c=>c.type==='numeric' && !/^(tahun|year|bulan|month|age|umur|kode|id|\w*_id|rate|rasio|persen|percent|tfr|asfr)/i.test(c.name));const date=cols.find(c=>c.type==='date'),cats=cols.filter(c=>c.type==='category'&&c.unique>1);
+    suggested.push('Jumlah record (COUNT) — aman jika setiap baris mewakili satu unit observasi; periksa duplikasi.');
+    for(const c of numericCols.slice(0,3)){const aggregate=/qty|quantity|jumlah|total|amount|revenue|penjualan|nilai_transaksi|sales|cost|biaya|profit|harga_total/i.test(c.name)?'SUM (jika aditif)':'AVG/MEDIAN (validasi makna variabel)';suggested.push(c.name+': '+aggregate+'; jangan jumlahkan skor/rata-rata/rate tanpa justifikasi.');}
+    if(date&&numericCols.length)suggested.push('Tren '+numericCols[0].name+' menurut '+date.name+' — pastikan agregasi dan interval waktu konsisten.');
+    if(cats.length)suggested.push('Distribusi/ranking jumlah record berdasarkan '+cats[0].name+'; hitung proporsi dari denominator yang benar.');
+    if(!numericCols.length)warnings.push('Tidak teridentifikasi kolom nilai numerik aditif yang aman untuk KPI SUM; hindari mengarang Revenue/Profit.');
+    return {names,rows:used,sep,errors,warnings,cols,suggested,totalRows:lines.length}; }
+  function analyzeSchema(){const d=inspectSchema();schemaData=d;const lines=['SCHEMA & KPI ADVISOR — '+label(),'Kolom: '+d.names.length+' | contoh data: '+d.totalRows+' baris | delimiter: '+(d.sep==='\t'?'TAB':d.sep),'','KUALITAS:'];if(!d.errors.length)lines.push('✓ Tidak ada kesalahan struktur fatal terdeteksi.');d.errors.forEach(x=>lines.push('FAIL: '+x));d.warnings.forEach(x=>lines.push('PERIKSA: '+x));lines.push('','INFERENSI (maks. 5 baris; belum menggambarkan seluruh data):');d.cols.forEach(c=>lines.push('- '+c.name+' → '+c.type+', kosong '+c.missing+', unik sampel '+c.unique));lines.push('','REKOMENDASI KPI/CHART:');d.suggested.forEach((s,i)=>lines.push((i+1)+'. '+s));lines.push('','VALIDASI WAJIB: cek satuan, grain/baris, denominator, logika agregasi, dan data lengkap di Google Sheets.');return writeResult('schema',lines.join('\n'));}
+  function contractDef(){if(state.tier==='miniclass')return {baseFns:['doGet','include','getDashboardData'], ids:['filterKategori','filterPeriode','btnResetFilter','kpiContainer','chart1','chart2','chart3','searchInput','dataTable','emptyState'], extras:[]};if(state.tier==='mastery1')return{baseFns:['doGet','include','getDashboardData','createRecord','updateRecord','deleteRecord'],ids:['globalFilter','btnResetFilter','kpiCards','chart1','chart2','chart3','dataSearch','dataTable','recordForm','recordId','saveBtn','formError','toast'],extras:['setupDatabase','loginUser','getUsers']};return {baseFns:['doGet','include','getDashboardData','generateAiInsight','askDataAssistant'],ids:['globalFilter','btnResetFilter','kpiCards','chart1','chart2','chart3','aiInsightCard','aiSourceBadge','chatHistory','quickPrompts','nlqInput','btnAskAi','dataSearch','dataTable','toast'],extras:['fetchPublicApiData','getReportPayload']};}
+  function sources(){const old={gs:get('oldCodeGs'),index:get('oldIndexHtml'),css:get('oldCssHtml'),js:get('oldJsHtml')};const opt=$('v17UseOld').checked;return {gs:get('v17CodeGs')||(opt?old.gs:''),index:get('v17CodeIndex')||(opt?old.index:''),css:get('v17CodeCss')||(opt?old.css:''),js:get('v17CodeJs')||(opt?old.js:'')};}
+  function idsIn(s){return [...new Set([...s.matchAll(/\bid\s*=\s*["']([\w:-]+)["']/g)].map(m=>m[1]))];}
+  function jsDomRefs(s){const direct=[...s.matchAll(/getElementById\s*\(\s*["'`]([\w:-]+)["'`]/g)].map(m=>m[1]);const bySelector=[...s.matchAll(/querySelector(?:All)?\s*\(\s*["'`]#([\w:-]+)/g)].map(m=>m[1]);return [...new Set([...direct,...bySelector])];}
+  function functionsIn(s){return [...new Set([...s.matchAll(/\bfunction\s+([\w$]+)\s*\(/g)].map(m=>m[1]).concat([...s.matchAll(/\b(?:const|let|var)\s+([\w$]+)\s*=\s*(?:async\s*)?(?:function\b|\([^)]*\)\s*=>|[\w$]+\s*=>)/g)].map(m=>m[1])))];}
+  function validateContract(){const s=sources(),d=contractDef(),errors=[],warn=[],passes=[];let filled=Object.entries(s).filter(([,v])=>!!v).length;if(!filled){warn.push('Belum ada file kode. Tempel empat file yang telah dibuat; tidak bisa menilai kontrak.');}
+    const fns=functionsIn(s.gs),allIds=idsIn(s.index),jsRefs=jsDomRefs(s.js);
+    if(s.gs){for(const f of d.baseFns){(fns.includes(f)?passes:errors).push((fns.includes(f)?'Server API ditemukan: ':'Server API hilang: ')+f+'()');}if(state.tier!=='miniclass'){d.extras.forEach(f=>{if(!fns.includes(f))warn.push('Fungsi upgrade belum terlihat: '+f+'() — relevan setelah Putaran 2.');});}}
+    if(s.index){for(const id of d.ids){(allIds.includes(id)?passes:errors).push((allIds.includes(id)?'DOM ada: #':'DOM wajib hilang: #')+id);}if(!/include\s*\(\s*["']CSS["']\s*\)/.test(s.index))warn.push('Index belum memanggil include("CSS") secara eksplisit.');if(!/include\s*\(\s*["']JS["']\s*\)/.test(s.index))warn.push('Index belum memanggil include("JS") secara eksplisit.');}
+    if(s.index&&s.js){const missing=jsRefs.filter(id=>!allIds.includes(id));missing.forEach(id=>errors.push('JS merujuk ID yang tidak ditemukan pada Index: #'+id));if(!missing.length)passes.push('Referensi ID literal dari JS tersedia pada Index (referensi dinamis belum dicek).');}
+    if(s.gs&&s.js){const calls=[...s.js.matchAll(/\.with(?:Success|Failure)Handler\s*\([^;]*?\)\s*\.([\w$]+)\s*\(/gs)].map(m=>m[1]).concat([...s.js.matchAll(/google\.script\.run\.([\w$]+)\s*\(/g)].map(m=>m[1]));[...new Set(calls)].forEach(fn=>{if(!fns.includes(fn))warn.push('Panggilan server mungkin belum tersedia: '+fn+'() — periksa wrapper dinamis.');});if(!/google\.script\.run/.test(s.js))warn.push('JS tidak memuat google.script.run secara langsung; pastikan ada bridge API yang valid.');}
+    if(s.css&& !/<style[\s>]/i.test(s.css))warn.push('CSS.html tidak berisi tag <style> pembuka, sedangkan include v16 mengharapkannya.');if(s.js&& !/<script[\s>]/i.test(s.js))warn.push('JS.html tidak berisi tag <script> pembuka sesuai kontrak v16.');
+    if(/(?:admin12345|GEMINI_API_KEY\s*[:=]\s*["'][^"']+|GROQ_API_KEY\s*[:=]\s*["'][^"']+)/i.test(s.gs+'\n'+s.js))warn.push('Terlihat indikasi kredensial demo atau key langsung dalam kode; audit manual sebelum produksi.');
+    const lines=['CONTRACT VALIDATOR — '+label(),'File terisi: '+filled+'/4 | FAIL: '+errors.length+' | PERIKSA: '+warn.length+' | LULUS: '+passes.length,'','FAIL:'];lines.push(...(errors.length?errors.map(x=>'✗ '+x):['— Tidak ada mismatch yang dapat dibuktikan dari file tersedia.']));lines.push('','PERIKSA:',...(warn.length?warn.map(x=>'! '+x):['—']),'','COCOK:',...passes.map(x=>'✓ '+x),'','Batas: analisis literal/statis; tidak menangkap ID dinamis, branching, izin Apps Script, atau eksekusi browser.');return writeResult('contract',lines.join('\n'));}
+  function gateKey(){return state.tier;}
+  function renderGates(){const lvl=gateKey(),items=tierGates[lvl],wrap=$('v17GateRows');wrap.textContent='';for(const [id,title] of items){const entry=gates[lvl]?.[id]||{status:'untested',note:''};const row=document.createElement('div');row.className='v17-gate';const heading=document.createElement('div');heading.className='v17-gate-title';heading.textContent=title;const controls=document.createElement('div');controls.className='v17-gate-controls';const select=document.createElement('select');select.setAttribute('aria-label','Status: '+title);[['untested','Belum diuji'],['pass','PASS'],['fail','FAIL'],['na','Tidak relevan']].forEach(([v,t])=>{const o=document.createElement('option');o.value=v;o.textContent=t;select.append(o);});select.value=entry.status;const note=document.createElement('input');note.type='text';note.placeholder='Bukti, catatan, atau error (opsional)';note.value=entry.note;note.setAttribute('aria-label','Bukti: '+title);const change=()=>{if(!gates[lvl])gates[lvl]={};gates[lvl][id]={status:select.value,note:note.value,time:new Date().toISOString()};summarizeGates();scheduleSave();};select.addEventListener('change',change);note.addEventListener('input',change);controls.append(select,note);row.append(heading,controls);wrap.append(row);}summarizeGates();}
+  function summarizeGates(){const level=gateKey(),items=tierGates[level],n={pass:0,fail:0,untested:0,na:0};const rows=items.map(([id,description])=>{const v=gates[level]?.[id]||{status:'untested',note:''};n[v.status in n?v.status:'untested']++;return '- ['+v.status.toUpperCase()+'] '+description+(v.note?' — bukti: '+v.note:'');});const ready=n.fail===0&&n.untested===0&&n.pass>0;const summary='Quality Gate '+label()+': '+n.pass+'/'+items.length+' PASS, '+n.fail+' FAIL, '+n.untested+' belum diuji, '+n.na+' N/A. '+(ready?'Semua butir relevan dinyatakan PASS oleh pengguna; tetap perlu verifikasi bukti.':'Belum memenuhi seluruh gate; jangan klaim siap deploy/produksi.');put('v17GateSummary',summary);return writeResult('gates',[summary,'',...rows,'','Status PASS adalah pengakuan penguji, bukan pemeriksaan otomatis.'].join('\n'));}
+  function checkAuth(){const method=get('v17AuthMethod'),exec=get('v17ExecuteAs'),access=get('v17Access'),identity=get('v17Identity'),s=sources(),text=s.gs+'\n'+s.js;const serious=[],warn=[],pass=[];
+    if(method==='google'){if(exec==='me'&&access!=='onlyme')serious.push('Execute as me dengan akses pengguna lain: Session.getActiveUser().getEmail() dapat kosong/tidak mewakili pengunjung. Jangan mengandalkan ini sebagai SSO.');else if(exec==='user')pass.push('Execute as user membantu mengikat otorisasi ke pengguna yang menjalankan, tetapi perlu izin OAuth dan pengujian identitas nyata.');if(identity==='mixed')warn.push('Akun campuran/Gmail eksternal: identitas Session dan pembatasan akses perlu diuji per konfigurasi deploy.');if(access==='anyone')serious.push('Aplikasi publik tidak boleh memercayai input email dari klien sebagai identitas terautentikasi.');}
+    if(method==='custom'){warn.push('Login kustom di Sheets perlu password hashing adaptif dengan salt, pembatas percobaan, expiry/revocation token, dan audit; SHA-256 polos tidak cukup.');if(/admin12345/.test(text))serious.push('Password demo admin12345 terdeteksi; jangan deploy sebagai akun produksi.');if(/\b(?:password|passwd)\s*[:=]\s*["'][^"']{4,}/i.test(text))serious.push('Pola password hardcoded terdeteksi; periksa semua kode dan konfigurasi.');if(!/requireRole_|assertRole|authorize|checkRole|hasPermission/.test(s.gs))warn.push('Belum tampak pemeriksaan role eksplisit di backend; nama fungsi bisa berbeda.');}
+    if(method==='none'&&access!=='onlyme')warn.push('Dashboard publik: jangan mengungkap data pribadi, endpoint privat, atau operasi tulis.');
+    if(s.gs&&!/(?:getScriptProperties|PropertiesService)/.test(s.gs))warn.push('Tidak tampak PropertiesService; jika memakai token/API key, pastikan hanya disimpan server-side.');
+    if(s.js&&/GEMINI_API_KEY|GROQ_API_KEY|api[_-]?key\s*[:=]/i.test(s.js))serious.push('Ada indikasi penanganan API key di sisi klien.');
+    if(access==='domain'&&identity==='workspace')pass.push('Pembatas Workspace organisasi cocok untuk pengujian akun internal, dengan konfigurasi izin yang tepat.');
+    pass.push('Role Admin/Editor/Viewer harus ditolak di Code.gs pada setiap operasi sensitif, bukan hanya menyembunyikan tombol.');
+    const lines=['AUTHENTICATION READINESS CHECKER — '+label(),'Metode '+method+' | Execute as '+exec+' | Access '+access+' | Akun '+identity,'','RISIKO KRITIS:',...(serious.length?serious.map(s=>'FAIL: '+s):['Tidak ada konflik kritis yang jelas dari konfigurasi, bukan jaminan keamanan.']),'','PERLU VERIFIKASI:',...warn.map(s=>'PERIKSA: '+s),'','PENGUJIAN:',...pass.map(s=>'• '+s),'','Pastikan tes dengan minimal dua akun berbeda termasuk role tanpa izin; jangan bergantung pada password gerbang v16 sebagai lisensi aman.'];return writeResult('auth',lines.join('\n'));}
+  function checkStitch(){const html=get('v17StitchHtml'),other=get('v17StitchOther');if(!html){return writeResult('stitch','Tempel HTML hasil ekspor Stitch terlebih dahulu.');}const s=sources(),reference=s.index?idsIn(s.index):contractDef().ids,stitchIds=idsIn(html),missing=reference.filter(id=>!stitchIds.includes(id)),common=reference.filter(id=>stitchIds.includes(id)),warn=[];
+    if(/\bimport\s+.*?from\s*["']|\bexport\s+(?:default|const|function)|type=["']module["']/i.test(html+'\n'+other))warn.push('Kode menggunakan modul JS/import; perlu bundling atau konversi ke JavaScript kompatibel HtmlService.');
+    if(/\bReactDOM\b|\buseState\s*\(|\bcreateRoot\s*\(|<\w+\s+className=/i.test(html+'\n'+other))warn.push('Terdeteksi React/JSX; jangan ditempel mentah ke GAS tanpa konversi build.');
+    if(/\b(?:@tailwind|tailwindcss\/|className=)/i.test(html+'\n'+other))warn.push('Terdeteksi Tailwind/build-time classes; pastikan CSS final tersusun dan file tanpa toolchain siap pakai.');
+    if(/<script[^>]+src\s*=\s*["']https?:\/\//i.test(html))warn.push('Dependensi eksternal dari CDN: uji Content Security Policy, offline, dan izin HtmlService.');
+    if(/fetch\s*\(\s*["'](?:\/api\/|http:\/\/)/i.test(html+'\n'+other))warn.push('Fetch endpoint relatif/HTTP: tidak otomatis tersedia dalam Google Apps Script.');
+    if(s.index&&reference.length>50)warn.push('Aplikasi lama memiliki banyak ID; lakukan pemetaan secara selektif, jangan menghapus elemen fungsional.');
+    const lines=['STITCH → GAS COMPATIBILITY — '+label(),'ID acuan: '+reference.length+' | ID Stitch: '+stitchIds.length+' | cocok: '+common.length+' | hilang: '+missing.length,'',missing.length?'FAIL — ID yang tidak tampak di desain Stitch: '+missing.map(x=>'#'+x).join(', '):'PASS statis — semua ID acuan tersedia.','',...warn.map(x=>'PERIKSA: '+x),'','PROMPT ADAPTASI SIAP SALIN:','Adaptasi desain Stitch menjadi Index.html/CSS.html/JS.html Google Apps Script TANPA menulis ulang Code.gs. Pertahankan seluruh API, perhitungan, CRUD, role, AI, event handler, dan atribut data-*. Jangan hapus/rename ID wajib: '+reference.map(x=>'#'+x).join(', ')+'. Tambahkan wrapper jika perlu untuk ID yang hilang: '+(missing.map(x=>'#'+x).join(', ')||'tidak ada')+'. Gunakan <?!= include("CSS") ?> dan <?!= include("JS") ?> pada template GAS, pertahankan google.script.run serta uji ulang Quality Gate. Output 1 file per respons dan lampirkan kode sebelumnya secara lengkap.','', 'Batas: kesamaan ID tidak membuktikan event, CSS, logika, atau deploy bekerja.'];return writeResult('stitch',lines.join('\n'));}
+  function runFallback(){const d=inspectSchema();schemaData=d;if(!d.names.length||!d.rows.length)return writeResult('fallback','Isi header dan contoh data di Langkah 3–4 terlebih dahulu.');const lines=['SMART STATISTICAL FALLBACK — DEMO LOKAL','Sumber: '+d.rows.length+' BARIS CONTOH, BUKAN SELURUH GOOGLE SHEETS. Tidak memakai API AI.','Jumlah baris contoh: '+d.rows.length,''];
+    d.cols.filter(c=>c.type==='numeric'&&c.validNum.length).slice(0,5).forEach(c=>{const v=c.validNum,sum=v.reduce((a,b)=>a+b,0);lines.push('- '+c.name+': n='+v.length+', min='+Math.min(...v).toLocaleString('id-ID')+', max='+Math.max(...v).toLocaleString('id-ID')+', mean='+(sum/v.length).toLocaleString('id-ID',{maximumFractionDigits:3})+'; SUM='+sum.toLocaleString('id-ID')+' (hanya informatif, jangan dipakai jika ukuran nonaditif).');});
+    const cat=d.cols.find(c=>c.type==='category'&&c.unique>1);if(cat){const counts={};cat.values.forEach(v=>{if(v)counts[v]=(counts[v]||0)+1;});lines.push('Kategori contoh ('+cat.name+'): '+Object.entries(counts).map(([k,v])=>k+'='+v).join('; '));}
+    lines.push('','PROMPT INTEGRASI ENGINE TANPA API KEY:','Bangun fungsi Code.gs computeStatisticalInsight(rows, schema, filters) yang menghitung jumlah record, missing, ringkasan numerik sesuai tipe dan agregasi valid, top kategori dan tren hanya bila tersedia kolom waktu. Semua angka deterministik dari rows terfilter; tangani nol/empty/null, pembagian nol, rate nonaditif, dan pembulatan. Hasilkan {ok:true,source:"statistical_fallback",metrics:{...},insights:[...],limitations:[...]}. Saat panggilan LLM kosong, error, timeout, 429, atau API key tidak ada, panggil fungsi ini; labeli hasil "Statistical Fallback", jangan menulis "AI Generatif". Pertahankan API/KPI/CRUD lama, jangan kirim data sensitif ke provider AI. Untuk NLQ tanpa API gunakan whitelist pertanyaan statistik yang dapat dipastikan dari agregasi, selain itu jawab "belum didukung". Validasi dengan data Sheet lengkap, bukan lima baris contoh.');return writeResult('fallback',lines.join('\n'));}
+  function compactContract(){const d=inspectSchema(),contract=contractDef(),names=d.names,example=d.rows.slice(0,2).map(r=>r.join(' | ')).join(' / ');return ['KONTRAK PROYEK STABIL — '+label(),'- Data: '+(state.type||'belum dipilih')+' | Sheet: '+(get('sheetName')||'DATA'),'- Deskripsi: '+(get('desc').slice(0,240)||'(belum diisi)'),'- Tujuan: '+(state.goals.join('; ')||'KPI dan grafik sesuai jenis kolom'),'- Header: '+(names.join(' | ')||'(belum diisi)'),'- Tipe kolom (inferensi terbatas): '+d.cols.map(c=>c.name+'='+c.type).join('; '),'- Contoh paling banyak 2 baris (bukan seluruh dataset): '+(example.length>1200?example.slice(0,1200)+' [DIPOTONG: lampirkan data asli jika diperlukan]':(example||'(belum diisi)')),'- API minimum: '+contract.baseFns.map(x=>x+'()').join(', '),'- DOM ID: '+contract.ids.map(x=>'#'+x).join(' '),'- File: Code.gs + Index.html + CSS.html (<style>) + JS.html (<script>)','- API dan ID tidak boleh berubah pada tahapan berikutnya.','- Hanya hitung KPI yang didukung kolom; unit, denominator, aggregation grain harus valid.','- Kunci & token hanya di server; periksa role pada fungsi server, bukan hanya tombol.'].join('\n');}
+  function stageList(){try{return buildStagedPrompts();}catch(e){return [];}}
+  function refreshFreeSteps(){const select=$('v17FreeStep'),stages=stageList(),old=select.value;select.textContent='';stages.forEach((x,i)=>{const opt=document.createElement('option');opt.value=String(i);opt.textContent=(i+1)+' · '+x.title;select.append(opt);});if(stages.length){select.value=stages.some((_,i)=>String(i)===old)?old:'0';}}
+  function generateFree(){const stages=stageList();if(!stages.length)return writeResult('free','Tahap belum tersedia. Lengkapi data utama atau gunakan contoh.');const i=Number(get('v17FreeStep')||0),stage=stages[i];if(!stage)return writeResult('free','Tahap tidak ditemukan. Muat ulang pilihan tahap.');const action=get('v17FreeAction'),budget=get('v17FreeBudget'),status=get('v17FreeStatus');let body=stage.text;const taskIndex=body.indexOf('TUGAS TAHAP INI:');const miniTask=body.search(/TUGAS TAHAP \d/i);if(taskIndex>=0)body=body.slice(taskIndex);else if(miniTask>=0)body=body.slice(miniTask);else body=body.slice(0,2200);
+    // Avoid silently omitting old files: include compact source only if it fits; otherwise require explicit attachment.
+    const oldMatch=body.indexOf('===== KODE ASLI');if(oldMatch>=0)body=body.slice(0,oldMatch);
+    const fileNames=['Code.gs','Index.html','CSS.html','JS.html'];let sourcesText='';if(i>=5&&state.tier!=='miniclass'){const target=fileNames[(i-5)%5];if(target){const s=sources();const source=({ 'Code.gs':s.gs,'Index.html':s.index,'CSS.html':s.css,'JS.html':s.js})[target];if(source&&source.length<=Math.max(5000,Number(budget)*1.5)){sourcesText='\nKODE BASELINE '+target+':\n'+source;}else sourcesText='\nPENTING: '+(source?'Kode '+target+' melebihi anggaran konteks; UNGGAH file lengkap sebagai lampiran LLM. Jangan minta AI menebak fungsi yang tidak dilampirkan.':'Belum ada kode baseline '+target+'; tempel di bagian kode lama/validator sebelum upgrade.');}}
+    const act={plan:'Buat rencana fungsi, antarmuka, dependensi, dan 5 tes penerimaan. JANGAN tulis kode dahulu.',build:'Implementasikan tepat satu FILE/TUGAS pada tahap ini. Kode utuh dalam 1 code fence saja, tanpa pseudo-code atau "sisanya sama". Bila terlalu besar, ajukan pemecahan tugas pada batas fungsi yang aman, jangan keluarkan kode terpotong.',verify:'Audit kode yang SUDAH dibuat (minta saya lampirkan jika belum ada), daftar masalah nyata berdasarkan kontrak dan hasil tes. Jika perlu, keluarkan patch paling kecil disertai cara verifikasi; jangan buat ulang semua file.'}[action];
+    const prompt=['DASHBOARD MAGIC v17 — FREE LLM MICRO MODE','TAHAP '+(i+1)+'/'+stages.length+': '+stage.title,'MODE: '+action+' | TARGET PANJANG JAWABAN ±'+budget+' karakter jika realistis. Batas bukan jaminan kapasitas LLM.','',compactContract(),'','TUGAS:',body.replace(/\n{3,}/g,'\n\n'),'', 'ATURAN OUTPUT:',act,'- Jangan ubah fungsi, ID, skema, atau modul yang sudah lulus Quality Gate.','- Jika perlu asumsi, nyatakan singkat sebelum kode.','- Jika API key tidak ada, gunakan fallback deterministik (bukan narasi AI palsu).','- Keamanan: jangan meminta rahasia/API key.','- Tugas selesai jika memenuhi kontrak dan menyebut langkah uji yang dapat diverifikasi.',status?'STATUS SEBELUMNYA: '+status:'',sourcesText,'',DM_ATTRIBUTION].filter(Boolean).join('\n');return writeResult('free',prompt);}
+  function collectSnapshot(includeSensitive=false){const data={format:'dashboard-magic-v17-project',version:VERSION,exportedAt:new Date().toISOString(),tier:state.tier,selection:{type:state.type,goals:[...state.goals],theme:state.theme,mode:state.mode,m1Crud:[...state.m1Crud],m1Db:[...state.m1Db],m2Insight:[...state.m2Insight],m2Assistant:[...state.m2Assistant],m2Report:[...state.m2Report]},fields:{},qualityGates:JSON.parse(JSON.stringify(gates))};for(const id of safeFields){if($(id))data.fields[id]=$(id).value;}if(includeSensitive){data.sensitiveIncluded=true;for(const id of sensitiveFields){if($(id))data.fields[id]=$(id).value;}}return data;}
+  function updateRecoveryInfo(extra){let str=extra||'';try{const raw=localStorage.getItem(workspaceKey());if(raw){const s=JSON.parse(raw);str+=(str?'\n':'')+'Snapshot: '+(s.exportedAt?new Date(s.exportedAt).toLocaleString('id-ID'):'waktu tidak diketahui')+' | '+(s.sensitiveIncluded?'MEMUAT data/kode peserta':'tanpa sampel/kode mentah')+' | '+(s.tier||'miniclass');}}catch(e){str+='\nPenyimpanan lokal tidak tersedia.';}put('v17RecoveryInfo',str||'Belum menyimpan progres.');}
+  function saveProgress(silent=false){const include=!!$('v17Sensitive').checked;const snap=collectSnapshot(include);try{localStorage.setItem(workspaceKey(),JSON.stringify(snap));updateRecoveryInfo(silent?'Autosave metadata berhasil.':'Proyek tersimpan di browser ini.');if(!silent)showToast('Progres v17 tersimpan secara lokal.');return true;}catch(e){updateRecoveryInfo('Gagal menyimpan: penyimpanan browser tidak tersedia atau penuh.');if(!silent)showToast('Gagal menyimpan progres');return false;}}
+  function scheduleSave(){if(savePaused||!$('v17AutoSave')?.checked)return;clearTimeout(saveTimeout);saveTimeout=setTimeout(()=>{ // Autosave must never silently persist sample/code even if optional manual backup was chosen.
+    try{localStorage.setItem(workspaceKey(),JSON.stringify(collectSnapshot(false)));updateRecoveryInfo('Autosave pengaturan dasar.');}catch(e){updateRecoveryInfo('Autosave tidak tersedia.');}
+  },550);}
+  function applySnapshot(snapshot){if(snapshot?.tier && snapshot.tier!==state.tier)throw Error('Backup ini milik '+snapshot.tier+'. Pilih kelas yang sesuai dahulu; pemulihan lintas kelas otomatis diblokir.');if(!snapshot||snapshot.format!=='dashboard-magic-v17-project'||!snapshot.fields||typeof snapshot.fields!=='object')throw Error('Format backup tidak dikenali.');
+    const allowed=[...safeFields,...sensitiveFields];for(const id of allowed){if(Object.prototype.hasOwnProperty.call(snapshot.fields,id)&&$(id)&&typeof snapshot.fields[id]==='string'){$(id).value=snapshot.fields[id];}}
+    const saved=snapshot.selection||{};const allowedKeys=['type','goals','theme','mode','m1Crud','m1Db','m2Insight','m2Assistant','m2Report'];for(const k of allowedKeys){if(!Object.prototype.hasOwnProperty.call(saved,k))continue;if(Array.isArray(state[k])&&Array.isArray(saved[k]))state[k]=saved[k].filter(x=>typeof x==='string').slice(0,100);else if(typeof state[k]==='string'&&typeof saved[k]==='string')state[k]=saved[k];}
+    const allowedTier=['miniclass','mastery1','mastery2'];const desired=allowedTier.includes(snapshot.tier)?snapshot.tier:'miniclass';state.tier=desired==='mastery1'&&!authState.mastery1||desired==='mastery2'&&!authState.mastery2?'miniclass':desired;
+    if(state.tier==='miniclass')state.mode='llm';
+    for(const [key,id] of [['type','chipType'],['goals','chipGoal'],['theme','chipTheme'],['m1Crud','chipM1Crud'],['m1Db','chipM1Db'],['m2Insight','chipM2Insight'],['m2Assistant','chipM2Assistant'],['m2Report','chipM2Report']]){document.querySelectorAll('#'+id+' .chip').forEach(chip=>{const picked=Array.isArray(state[key])?state[key].includes(chip.dataset.value):state[key]===chip.dataset.value;chip.classList.toggle('selected',picked);});}
+    document.querySelectorAll('#modeGroup .mode-card').forEach(el=>el.classList.toggle('selected',el.dataset.value===state.mode));document.querySelectorAll('#tierSelector .tier-card').forEach(el=>el.classList.toggle('selected',el.dataset.tier===state.tier));
+    syncTierUi();$('cols').dispatchEvent(new Event('input',{bubbles:true}));$('sample').dispatchEvent(new Event('input',{bubbles:true}));gates=(snapshot.qualityGates&&typeof snapshot.qualityGates==='object')?snapshot.qualityGates:{};renderGates();refreshFreeSteps();
+    updateRecoveryInfo((state.tier!==desired?'Data konfigurasi dipulihkan, tetapi akses Mastery harus dibuka kembali dengan kode kelas.':'Data konfigurasi dipulihkan.')+(snapshot.sensitiveIncluded?' Backup juga memuat sampel dan kode.':''));}
+  function restoreProgress(){try{const raw=localStorage.getItem(workspaceKey());if(!raw){updateRecoveryInfo('Belum ada snapshot lokal.');return false;}applySnapshot(JSON.parse(raw));showToast('Progres berhasil dipulihkan.');return true;}catch(e){updateRecoveryInfo('Pemulihan gagal: '+e.message);return false;}}
+  function clearProgress(){try{localStorage.removeItem(workspaceKey());updateRecoveryInfo('Snapshot lokal v17 dihapus. Data formulir yang sedang terbuka tidak dihapus.');showToast('Simpanan lokal v17 dibersihkan.');}catch(e){updateRecoveryInfo('Penyimpanan tidak dapat diakses.');}}
+  function resetWorkspace(){
+    clearTimeout(saveTimeout);savePaused=true;
+    gates={};schemaData=null;
+    for(const key of Object.keys(results))results[key]='';
+    for(const id of ['v17FreeStatus','v17SchemaOutput','v17ContractOutput','v17AuthOutput','v17StitchOutput','v17FallbackOutput'])if($(id))$(id).textContent='';
+    renderGates();refreshFreeSteps();updateRecoveryInfo('Ruang kerja '+state.tier+' baru: form dimulai kosong. Progres tersimpan hanya bisa dipulihkan manual.');
+    queueMicrotask(()=>{savePaused=false;});
+  }
+  function downloadBlob(blob,filename){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1800);}
+  function downloadBackup(){const snap=collectSnapshot(!!$('v17Sensitive').checked);downloadBlob(new Blob([JSON.stringify(snap,null,2)],{type:'application/json;charset=utf-8'}),'Dashboard_Magic_v17_Project_Backup.json');updateRecoveryInfo('Backup JSON berhasil disiapkan. Periksa isi sebelum dibagikan.');}
+  async function importBackup(file){if(!file)return;try{if(file.size>8*1024*1024)throw Error('Backup terlalu besar (maks 8 MB).');const parsed=JSON.parse(await file.text());applySnapshot(parsed);showToast('Backup JSON dipulihkan (belum otomatis disimpan).');}catch(e){updateRecoveryInfo('Impor gagal: '+e.message);}finally{$('v17ImportFile').value='';}}
+  const crcTable=(()=>{const t=[];for(let i=0;i<256;i++){let c=i;for(let j=0;j<8;j++)c=c&1?0xedb88320^(c>>>1):c>>>1;t.push(c>>>0);}return t;})();
+  function crc32(bytes){let c=0xffffffff;for(const b of bytes)c=crcTable[(c^b)&255]^(c>>>8);return (c^0xffffffff)>>>0;}
+  function zipStore(files){const encoder=new TextEncoder(),chunks=[],central=[];let offset=0;const now=new Date(),time=((now.getHours()&31)<<11)|((now.getMinutes()&63)<<5)|((Math.floor(now.getSeconds()/2))&31),date=(((now.getFullYear()-1980)&127)<<9)|(((now.getMonth()+1)&15)<<5)|(now.getDate()&31);
+    const write16=(view,pos,v)=>view.setUint16(pos,v,true),write32=(view,pos,v)=>view.setUint32(pos,v>>>0,true);
+    for(const file of files){const name=encoder.encode(file.name),body=encoder.encode(String(file.content??'')),crc=crc32(body);if(name.length>65535||body.length>200*1024*1024)throw Error('File ZIP melebihi batas.');const local=new Uint8Array(30+name.length),lv=new DataView(local.buffer);write32(lv,0,0x04034b50);write16(lv,4,20);write16(lv,6,0x800);write16(lv,8,0);write16(lv,10,time);write16(lv,12,date);write32(lv,14,crc);write32(lv,18,body.length);write32(lv,22,body.length);write16(lv,26,name.length);write16(lv,28,0);local.set(name,30);chunks.push(local,body);
+      const cent=new Uint8Array(46+name.length),cv=new DataView(cent.buffer);write32(cv,0,0x02014b50);write16(cv,4,20);write16(cv,6,20);write16(cv,8,0x800);write16(cv,10,0);write16(cv,12,time);write16(cv,14,date);write32(cv,16,crc);write32(cv,20,body.length);write32(cv,24,body.length);write16(cv,28,name.length);write16(cv,30,0);write16(cv,32,0);write16(cv,34,0);write16(cv,36,0);write32(cv,38,0);write32(cv,42,offset);cent.set(name,46);central.push(cent);offset+=local.length+body.length;}
+    const centralSize=central.reduce((n,b)=>n+b.length,0),end=new Uint8Array(22),ev=new DataView(end.buffer);write32(ev,0,0x06054b50);write16(ev,4,0);write16(ev,6,0);write16(ev,8,central.length);write16(ev,10,central.length);write32(ev,12,centralSize);write32(ev,16,offset);write16(ev,20,0);return new Blob([...chunks,...central,end],{type:'application/zip'});}
+  function scrubBaseline(s){return String(s).replace(/===== KODE ASLI [\s\S]*?===== AKHIR KODE [^\n]+ =====/g,'[KODE BASELINE DIHILANGKAN DARI PAKET; LAMPIRKAN FILE ASLI SAAT MEMAKAI PROMPT]');}
+  function exportPack(){const packCode=$('v17PackCode').checked,files=[],d=inspectSchema(),stages=stageList(),s=sources();const add=(name,content)=>files.push({name,content});
+    const intro=['# Dashboard Magic v17 — Project Export Pack','',`Level: ${label()} | Dibuat: ${new Date().toISOString()}`,'','Isi: kontrak, prompt dari generator bertahap v16, prompt mikro v17 (jika ada), checklist dan hasil audit lokal, konfigurasi proyek.','', 'Langkah:','1. Baca KONTRAK_PROYEK.md dan pastikan skema sesuai Sheets.', '2. Jalankan prompt satu per satu; jangan lompat Quality Gate A/B.', '3. Periksa Code.gs / Index.html / CSS.html / JS.html dan deploy secara manual.', '4. Jalankan uji nyata, lengkapi Quality Gate Runner.', '5. Setelah lulus backup, gunakan Stitch Compatibility Checker untuk makeover.', '','Privasi: prompt dapat memuat contoh data yang dimasukkan di formulir. Jangan membagikan data/rahasia.','Keamanan: kode akses Mastery di file HTML lokal bukan autentikasi server-side.','Status validator bersifat statis dan tidak berarti kode telah diuji di Apps Script.'].join('\n');
+    add('README.md',intro);add('KONTRAK_PROYEK.md',compactContract());add('SKEMA_DAN_KPI.txt',results.schema||analyzeSchema());add('QUALITY_GATES.txt',summarizeGates());add('QUALITY_GATES.json',JSON.stringify(gates,null,2));add('PROJECT_BACKUP.json',JSON.stringify(collectSnapshot(false),null,2));
+    for(const [kind,id] of [['CONTRACT','contract'],['AUTH','auth'],['STITCH','stitch'],['AI_FALLBACK','fallback']])add('LAPORAN_'+kind+'.txt',results[id]||'Belum dilakukan; jalankan pemeriksaan pada modul terkait.');
+    stages.forEach((x,i)=>add('prompts/tahap_'+String(i+1).padStart(2,'0')+'.txt',packCode?withDmCredit(x.text):scrubBaseline(withDmCredit(x.text))));
+    if(results.free)add('prompts/FREE_LLM_MICRO.txt',packCode?results.free:scrubBaseline(results.free));
+    if(packCode){const map=[['Code.gs',s.gs],['Index.html',s.index],['CSS.html',s.css],['JS.html',s.js],['stitch_export.html',get('v17StitchHtml')],['stitch_additional.txt',get('v17StitchOther')]];map.filter(x=>x[1]).forEach(([name,content])=>add('kode_dan_stitch/'+name,content));}
+    const manifest={version:VERSION,level:state.tier,generatedAt:new Date().toISOString(),files:files.map(f=>f.name),includesRawCode:packCode,notes:['Prompt dapat memuat contoh data dari formulir','Tidak ada pengujian GAS otomatis']};add('MANIFEST.json',JSON.stringify(manifest,null,2));const archive=zipStore(files);downloadBlob(archive,'Dashboard_Magic_v17_Project_Pack_'+state.tier+'.zip');const report='Paket ZIP dibuat secara lokal.\nUkuran: '+(archive.size/1024).toFixed(1)+' KiB\nFile: '+files.length+'\nRaw code: '+(packCode?'DISERTAKAN':'tidak ditambahkan sebagai file terpisah')+'\n\n'+files.map(f=>'- '+f.name).join('\n');return writeResult('pack',report);}
+  function init(){document.title='Dashboard Magic Prompt Builder v18.2 — Toolkit & Ruang Kerja Terpisah';refreshFreeSteps();renderGates();updateRecoveryInfo();$('v17ImportFile').addEventListener('change',e=>importBackup(e.target.files?.[0]));
+    // Update module selections when v16 switches tiers. Do not modify original implementations.
+    document.querySelectorAll('#tierSelector .tier-card').forEach(el=>el.addEventListener('click',()=>setTimeout(()=>{refreshFreeSteps();renderGates();},0)));
+    $('modalSubmitBtn').addEventListener('click',()=>setTimeout(()=>{refreshFreeSteps();renderGates();},0));
+    $('passInput').addEventListener('keydown',e=>{if(e.key==='Enter')setTimeout(()=>{refreshFreeSteps();renderGates();},0);});
+    document.addEventListener('input',e=>{if(e.target&&(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))&&!e.target.closest('#v17Gates')){if(e.target.id==='cols'||e.target.id==='sample')schemaData=null;scheduleSave();}});
+    document.addEventListener('change',e=>{if(e.target&&e.target.id!=='v17AutoSave'&&e.target.id!=='v17Sensitive'&&e.target.id!=='v17ImportFile')scheduleSave();});
+    document.querySelectorAll('#chipType .chip,#chipGoal .chip,#chipTheme .chip,#chipM1Crud .chip,#chipM1Db .chip,#chipM2Insight .chip,#chipM2Assistant .chip,#chipM2Report .chip,#modeGroup .mode-card').forEach(el=>el.addEventListener('click',()=>setTimeout(scheduleSave,0)));
+    $('v17AutoSave').addEventListener('change',e=>{if(e.target.checked)scheduleSave();});
+    // Local affordance only: preserve all native v16 functions and HTML unchanged.
+  }
+  const api={init,analyzeSchema,inspectSchema,validateContract,checkAuth,checkStitch,runFallback,renderGates,summarizeGates,refreshFreeSteps,generateFree,copyResult,saveProgress,restoreProgress,clearProgress,downloadBackup,importBackup,exportPack,collectSnapshot,zipStore,contractDef,parseCSVRow,resetWorkspace};
+  document.addEventListener('DOMContentLoaded',init);
+  return api;
+})();
+
+</script>
+<script id="dmMiniRefreshScript">
+(() => {
+ 'use strict';
+ const $ = id => document.getElementById(id);
+ const container=document.querySelector('.container');
+ let phase=1, allNodes=[];
+ const phases={1:'Kenali data Anda',2:'Tentukan tujuan dashboard',3:'Buat prompt dengan AI',4:'Salin prompt dan jalankan dashboard'};
+ function activeTier(){return window.state?.tier || (document.querySelector('#tierSelector .tier-card.selected')?.dataset.tier || 'miniclass');}
+ function setPhase(n){phase=Math.max(1,Math.min(4,Number(n)||1)); document.body.dataset.dmPhase=String(phase);
+   allNodes.forEach(([node,group])=>node.classList.toggle('dm-mini-hidden',group!==phase));
+   document.querySelectorAll('.dm-step-btn').forEach(b=>{if(Number(b.dataset.dmPhase)===phase)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')});
+   $('dmMiniActionHint').textContent='Langkah '+phase+' dari 4 · '+phases[phase];
+   $('dmMiniPrev').disabled=phase===1;
+   $('dmMiniNext').textContent=phase===4?'Buat prompt baru':phase===3?'Buat prompt sekarang':'Lanjutkan';
+   $('dmMiniExample').style.display=phase===1?'flex':'none';
+   $('dmMiniTip').innerHTML=({'1':'Pilih jenis data, tuliskan kolom, dan tempel maksimal lima baris contoh. <strong>Isi Contoh Data</strong> jika ingin mencoba dahulu.','2':'Pilih tujuan dashboard. Anda dapat menyesuaikan nama KPI dan visualisasi tanpa perlu memahami pemrograman.','3':'Gunakan mode <strong>LLM</strong> untuk membangun dashboard Mini Class. Mode Stitch dan Hybrid hanya tersedia pada Mastery 1 dan Mastery 2.','4':'Salin prompt secara bertahap, terapkan pada Google Apps Script, lalu periksa hasilnya. Jika ada error, buka bantuan perbaikan di bawah.'})[phase];
+   if(phase===4&& !$('output').classList.contains('show')){$('dmMiniTip').textContent='Prompt belum dibuat. Kembali ke langkah 3 lalu pilih Buat prompt sekarang.';}
+   if(phase===4) setTimeout(()=>{const out=$('output');if(out.classList.contains('show'))out.scrollIntoView({behavior:'smooth',block:'start'});},50);
+ }
+ function syncTier(){const mini=activeTier()==='miniclass';document.body.classList.toggle('dm-mini',mini);if(mini)setPhase(phase);}
+ function assignGroups(){let current=0;const first=$('dmMiniGuide');const bar=$('dmMiniActionbar');
+   for(const node of Array.from(container.children)){
+     if(node===first||node===bar||node===$('dmMiniHelper'))continue;
+     if(node.classList.contains('divider-title')){const name=node.textContent||''; if(name.includes('Bagian A'))current=1;else if(name.includes('Bagian B'))current=2;else if(name.includes('Bagian C'))current=3;else if(name.includes('Bagian D'))current=3;}
+     if(node.id==='mainBtn')current=3;
+     if(node.id==='output')current=4;
+     if(node.id==='m14OutputSection'||node.id==='m24OutputSection'||node.id==='m2ConnectedOutput'||node.id==='v17Hub'||node.id==='debugRepairPanel')current=0;
+     if(current>=1&&current<=4&&node!==first&&node!==bar)allNodes.push([node,current]);
+   }
+ }
+ document.addEventListener('DOMContentLoaded',()=>{
+   assignGroups();
+   document.querySelectorAll('.dm-step-btn').forEach(b=>b.addEventListener('click',()=>setPhase(b.dataset.dmPhase)));
+   $('dmMiniPrev').addEventListener('click',()=>setPhase(phase-1));
+   $('dmMiniNext').addEventListener('click',()=>{if(phase===3){$('mainBtn').click();if($('output').classList.contains('show'))setPhase(4);}else if(phase===4)setPhase(1);else setPhase(phase+1)});
+   $('mainBtn').addEventListener('click',()=>{if(activeTier()==='miniclass'&&$('output').classList.contains('show'))setPhase(4)});
+   $('dmMiniSample').addEventListener('click',()=>{loadSampleForCurrentTier(); $('dmMiniTip').textContent='Contoh data sudah diisikan. Anda dapat mengubahnya sesuai data Anda.'});
+   $('dmMiniCheck').addEventListener('click',()=>{$('dmMiniHelpOut').hidden=false;$('dmMiniHelpOut').textContent=DM17.analyzeSchema();$('dmMiniCopy').hidden=false});
+   $('dmMiniFree').addEventListener('click',()=>{DM17.refreshFreeSteps();$('v17FreeBudget').value='3500';$('dmMiniHelpOut').hidden=false;$('dmMiniHelpOut').textContent=DM17.generateFree();$('dmMiniCopy').hidden=false});
+   $('dmMiniCopy').addEventListener('click',async()=>{const s=$('dmMiniHelpOut').textContent;try{await navigator.clipboard.writeText(s);$('dmMiniCopy').textContent='Tersalin';}catch(e){$('dmMiniCopy').textContent='Gunakan pilih teks lalu Ctrl+C';}});
+   const debug=$('debugRepairPanel');const toggle=document.createElement('button');toggle.type='button';toggle.className='dm-debug-toggle dm-mini-chrome';toggle.textContent='Ada error? Buka bantuan perbaikan';toggle.setAttribute('aria-expanded','false');debug.prepend(toggle);toggle.addEventListener('click',()=>{debug.classList.toggle('dm-debug-expanded');toggle.setAttribute('aria-expanded',String(debug.classList.contains('dm-debug-expanded')));toggle.textContent=debug.classList.contains('dm-debug-expanded')?'Tutup bantuan perbaikan':'Ada error? Buka bantuan perbaikan'});
+   document.querySelectorAll('#tierSelector .tier-card').forEach(el=>el.addEventListener('click',()=>setTimeout(syncTier,0)));
+   $('modalSubmitBtn').addEventListener('click',()=>setTimeout(syncTier,0));
+   $('passInput').addEventListener('keydown',e=>{if(e.key==='Enter')setTimeout(syncTier,0)});
+   $('btnLockReset')?.addEventListener('click',()=>setTimeout(syncTier,0));
+   const oldSync=window.syncTierUi; if(typeof oldSync==='function')window.syncTierUi=function(...args){const r=oldSync.apply(this,args);syncTier();return r;};
+   syncTier();
+ });
+})();
+</script>
+<script id="v18Script">
+(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+window.v18ToggleDecision=function(){const body=$('v18DecisionBody');const opened=body.hidden;body.hidden=!opened;$('v18DecisionToggle').setAttribute('aria-expanded',String(opened));$('v18DecisionChevron').textContent=opened?'Tutup panduan ↑':'Buka panduan ↓';if(opened)v18RenderDecision();};
+function getVal(id){return $(id).value;}
+function path(){
+const tier=getVal('v18DTier'),free=getVal('v18DLlm')==='free',old=getVal('v18DOld')==='yes',stitch=getVal('v18DStitch')==='yes',api=getVal('v18DApi');
+const names={miniclass:'Mini Class',mastery1:'Mastery 1',mastery2:'Mastery 2'};
+const start=old?'Audit + backup 4 file':'Persiapkan Sheets + data contoh';
+let code=tier==='miniclass'?'Dashboard 4 file + KPI/chart/filter':tier==='mastery1'?'Database + CRUD + login/role':'Statistical Engine + AI Insight + NLQ + laporan';
+let route=tier==='miniclass'?'4 langkah sederhana lalu deploy':tier==='mastery1'?'Putaran 1 (1–5) → Siapkan Putaran 2 (6–10) → opsi Putaran 3 Stitch':'Putaran 1 (1–5) → Siapkan Putaran 2 (6–10) → opsi Putaran 3 Stitch';
+const llm=free?'Free LLM Mode: prompt mikro, file demi file':'LLM standar: prompt penuh dengan pengujian';
+const service=tier==='mastery2'?(api==='none'?'Tanpa AI API: rule-based dan insight statistik':api==='free'?'AI API kuota gratis + statistical fallback':'AI API berbayar + monitoring biaya + fallback'):'Tanpa API AI wajib';
+const design=stitch?'Stitch opsional setelah aplikasi lulus Quality Gate':'UI bawaan, tanpa Stitch';
+const steps=[start,llm,code,route,service,design];return {tier,name:names[tier],steps,summary:'Jalur '+names[tier]+' · '+(free?'LLM gratis':'LLM berbayar')+' · '+(old?'Upgrade aplikasi':'Bangun dari awal')+'\n'+steps.map((x,i)=>(i+1)+'. '+x).join('\n')};
+}
+window.v18RenderDecision=function(){const p=path(); $('v18DecisionChart').innerHTML=p.steps.slice(0,4).map((step,i)=>'<div class="v18-d-node"><strong>'+['Mulai','LLM','Bangun','Uji & lanjut'][i]+'</strong><small>'+esc(step)+'</small></div>'+(i<3?'<span class="v18-d-arrow">→</span>':'')).join('');$('v18DecisionResult').textContent=p.summary;$('v18DApi').closest('label').hidden=p.tier!=='mastery2';};
+window.v18CopyDecision=function(){const p=path();if(navigator.clipboard?.writeText)navigator.clipboard.writeText(p.summary).then(()=>showToast('Jalur disalin')).catch(()=>showToast('Tidak bisa menyalin; pilih teks rekomendasi.'));else showToast('Browser membatasi clipboard; pilih teks rekomendasi.');};
+window.v18ApplyDecision=function(){const p=path();if(p.tier==='miniclass'||(p.tier==='mastery1'&&authState.mastery1)||(p.tier==='mastery2'&&authState.mastery2)){activateTier(p.tier);$('tierSelector').scrollIntoView({behavior:'smooth',block:'start'});}else {openAuthModal(p.tier);showToast('Akses kelas Mastery tetap membutuhkan kode kelas.');}};
+['v18DTier','v18DLlm','v18DOld','v18DStitch','v18DApi'].forEach(id=>$(id).addEventListener('change',v18RenderDecision));v18RenderDecision();
+})();
+</script>
+<script id="v181ToolkitAndWorkspace">
+(function(){'use strict';
+const modes={build:'BUILD — Tambahkan satu kemampuan baru berdasarkan konfigurasi M2.1–M2.4. Lampirkan kode baseline jika upgrade.',fix:'FIX — Masukkan gejala, log, dan kode yang relevan. Diagnosis terlebih dahulu, patch minimal kemudian uji ulang.',test:'TEST — Hasilkan kasus uji, hasil yang diharapkan, dan checklist bukti. Prompt ini tidak menjalankan tes otomatis.'};
+window.v181SelectToolkit=function(mode){if(!modes[mode])return;const sel=document.getElementById('m2TaskMode');sel.value=mode;document.querySelectorAll('.v181-mode').forEach(b=>{b.classList.toggle('active',b.dataset.mode===mode);b.setAttribute('aria-pressed',String(b.dataset.mode===mode));});document.getElementById('v181ToolkitGuide').textContent=modes[mode];document.getElementById('v181FixField').hidden=mode!=='fix';document.getElementById('m2ConnectedResult').classList.remove('show');};
+window.v181GenerateToolkit=function(){const mode=document.getElementById('m2TaskMode').value;if(mode==='fix'){const symptoms=document.getElementById('v181FixSymptoms').value.trim()||document.getElementById('m2Error').value.trim();if(!symptoms){document.getElementById('v181FixSymptoms').focus();showToast('Tuliskan gejala atau error sebelum membuat prompt FIX.');return;}document.getElementById('m2Error').value=symptoms;}generateM2Connected();};
+document.addEventListener('DOMContentLoaded',()=>{document.getElementById('m2TaskMode').addEventListener('change',e=>window.v181SelectToolkit(e.target.value));window.v181SelectToolkit('build');});
+})();
 </script>
 </body>
 </html>
