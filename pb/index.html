@@ -751,7 +751,7 @@ body.dm-mini #debugRepairPanel.dm-debug-expanded .dm-debug-toggle{background:#ef
       </div>
     </div>
 
-    <div class="tier-card t-m1" data-tier="mastery1">
+    <div class="tier-card t-m1" data-tier="mastery1" role="link" tabindex="0" aria-label="Buka Mastery 1 di Google Apps Script">
       <div class="tier-card-top">
         <span class="tier-badge">MASTERY 1 · STEP 03 – 06</span>
         <span class="lock-pill locked" id="lockPillM1">🔒 Member</span>
@@ -766,7 +766,7 @@ body.dm-mini #debugRepairPanel.dm-debug-expanded .dm-debug-toggle{background:#ef
       </div>
     </div>
 
-    <div class="tier-card t-m2" data-tier="mastery2">
+    <div class="tier-card t-m2" data-tier="mastery2" role="link" tabindex="0" aria-label="Buka Mastery 2 di Google Apps Script">
       <div class="tier-card-top">
         <span class="tier-badge">MASTERY 2 · STEP 07 – 10</span>
         <span class="lock-pill locked" id="lockPillM2">🔒 Member</span>
@@ -780,10 +780,6 @@ body.dm-mini #debugRepairPanel.dm-debug-expanded .dm-debug-toggle{background:#ef
         <span>✓ Intelligent UI Upgrade (M2.4)</span>
       </div>
     </div>
-  </div>
-
-  <div id="v181TierNotice" class="v181-tier-notice" role="status" aria-live="polite">
-    <strong>Ruang kerja terpisah per kelas.</strong> Berpindah level akan membuka formulir kosong; data dan kode tidak dibawa otomatis. Simpan progres kelas sebelumnya terlebih dahulu bila ingin memulihkannya nanti.
   </div>
 
   <div class="intro">
@@ -1758,7 +1754,7 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
 
   <!-- FOOTER -->
   <div class="footer">
-    <a href="https://yogoaj.github.io" target="_blank" rel="noopener noreferrer">Build With Dashboard Magic | Created by Yogo AJ</a>
+    <a href="https://yogoaj.github.io" target="_blank" rel="noopener noreferrer">Build with Dashboard Magic | Created by Yogo AJ</a>
   </div>
 
 </div>
@@ -1786,19 +1782,9 @@ R004, 2024-03-16 14:20, 2021004, Dewi, Hukum, Ilmu Hukum, 2022, P, 2, Dosen, 5, 
 <div class="toast" id="toast"></div>
 
 <script>
-const ACCESS_CODES = {
-  mastery1: [
-    'RU5HSU5FMjAyNg==', 
-    'TUFTVEVSWTE='      
-  ],
-  mastery2: [
-    'SU5URUxMSUdFTlQyMDI2', 
-    'TUFTVEVSWTI='          
-  ],
-  vipAll: [
-    'TUFHSUNWSVA='          
-  ]
-};
+/* GitHub public edition: credential verification moved to Apps Script.
+   Old client-side credentials intentionally removed from this public file. */
+const ACCESS_CODES = { mastery1: [], mastery2: [], vipAll: [] };
 
 const authState = {
   mastery1: false,
@@ -1858,11 +1844,9 @@ function parseColList(rawText) {
 
 /* ===== Load Saved Unlock Session ===== */
 function loadSavedAuth() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('dm_mastery_auth') || '{}');
-    if (saved.mastery1) authState.mastery1 = true;
-    if (saved.mastery2) authState.mastery2 = true;
-  } catch (e) {}
+  authState.mastery1 = false;
+  authState.mastery2 = false;
+  try { localStorage.removeItem('dm_mastery_auth'); } catch(e) {}
   refreshLockBadges();
 }
 
@@ -4262,6 +4246,54 @@ const modes={build:'BUILD — Tambahkan satu kemampuan baru berdasarkan konfigur
 window.v181SelectToolkit=function(mode){if(!modes[mode])return;const sel=document.getElementById('m2TaskMode');sel.value=mode;document.querySelectorAll('.v181-mode').forEach(b=>{b.classList.toggle('active',b.dataset.mode===mode);b.setAttribute('aria-pressed',String(b.dataset.mode===mode));});document.getElementById('v181ToolkitGuide').textContent=modes[mode];document.getElementById('v181FixField').hidden=mode!=='fix';document.getElementById('m2ConnectedResult').classList.remove('show');};
 window.v181GenerateToolkit=function(){const mode=document.getElementById('m2TaskMode').value;if(mode==='fix'){const symptoms=document.getElementById('v181FixSymptoms').value.trim()||document.getElementById('m2Error').value.trim();if(!symptoms){document.getElementById('v181FixSymptoms').focus();showToast('Tuliskan gejala atau error sebelum membuat prompt FIX.');return;}document.getElementById('m2Error').value=symptoms;}generateM2Connected();};
 document.addEventListener('DOMContentLoaded',()=>{document.getElementById('m2TaskMode').addEventListener('change',e=>window.v181SelectToolkit(e.target.value));window.v181SelectToolkit('build');});
+})();
+</script>
+
+<style id="dm-github-gas-public-style">
+.dm-public-gas-note{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:16px 0;padding:14px 17px;border:1px solid #b9dbe7;border-radius:13px;background:#f0f9ff;color:#164e63;font-size:12px;line-height:1.55}
+.dm-public-gas-note a{display:inline-block;white-space:nowrap;background:#155e75;color:#fff;text-decoration:none;padding:10px 14px;border-radius:9px;font-weight:800}
+#tierSelector .tier-card[data-tier^="mastery"]{cursor:pointer}
+#tierSelector .tier-card[data-tier^="mastery"]:focus-visible{outline:3px solid #0d9488;outline-offset:3px}
+@media(max-width:700px){.dm-public-gas-note a{width:100%;text-align:center}}
+</style>
+<script id="dm-github-gas-public-routing">
+(function(){
+ 'use strict';
+ const GAS_URL = 'https://script.google.com/macros/s/AKfycbx_XVbiziaks6GeKRdx5q6w9I20Qb2dikgfDtNDOotnfxAmeU-7dLvKHB_IU-YC4VUQ/exec';
+ const isMastery = tier => tier === 'mastery1' || tier === 'mastery2';
+ function goMastery(tier){
+   const q = tier === 'mastery2' ? '?tier=mastery2' : '?tier=mastery1';
+   // The GAS pilot may ignore this optional hint; it still shows session selection.
+   window.location.assign(GAS_URL + q);
+ }
+ window.dmOpenSecureMastery = goMastery;
+ // Capture before the original in-browser password handlers are reached.
+ const selector = document.getElementById('tierSelector');
+ if(selector){
+   selector.addEventListener('click', function(e){
+     const card = e.target.closest('.tier-card');
+     if(card && isMastery(card.dataset.tier)){
+       e.preventDefault();e.stopImmediatePropagation();goMastery(card.dataset.tier);
+     }
+   },true);
+   selector.addEventListener('keydown', function(e){
+     const card=e.target.closest('.tier-card');
+     if(card && isMastery(card.dataset.tier) && (e.key==='Enter'||e.key===' ')){
+       e.preventDefault();e.stopImmediatePropagation();goMastery(card.dataset.tier);
+     }
+   },true);
+ }
+ // Decision Tree must use the same external route.
+ window.v18ApplyDecision = function(){
+   const tier = document.getElementById('v18DTier')?.value || 'miniclass';
+   if(isMastery(tier)) return goMastery(tier);
+   activateTier('miniclass');
+   document.getElementById('tierSelector')?.scrollIntoView({behavior:'smooth',block:'start'});
+ };
+ // Prevent incidental legacy in-page auth popups from being used.
+ window.openAuthModal = function(tier){if(isMastery(tier))goMastery(tier);};
+ window.verifyPassword = function(){goMastery('mastery1');};
+ const modal=document.getElementById('authModal');if(modal){modal.classList.remove('show');modal.setAttribute('hidden','');}
 })();
 </script>
 </body>
