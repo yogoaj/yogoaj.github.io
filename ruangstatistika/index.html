@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ruang Statistika v4.8 — AI-Powered Research & Stats Reporting</title>
+<meta name="description" content="Analisis statistik berbasis Python, interpretasi hasil, dan laporan akademis dengan bantuan AI untuk mahasiswa dan peneliti.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://yogoaj.github.io/ruangstatistika/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="id_ID">
+<meta property="og:title" content="Ruang Statistika — Analisis Statistik dan Laporan Akademis">
+<meta property="og:description" content="Olah data, pahami hasil statistik, dan buat laporan akademis dengan bantuan AI.">
+<meta property="og:url" content="https://yogoaj.github.io/ruangstatistika/">
+<meta name="theme-color" content="#0c2340">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="https://i.imgur.com/QXZbV3n.png">
@@ -50,7 +59,7 @@ body {
   background: var(--navy); color: var(--gold); padding: 3px 10px; border-radius: 6px;
   font-size: 13px; font-weight: 800; letter-spacing: 0.5px;
 }
-.promo-countdown #countdown-timer { font-variant-numeric: tabular-nums; }
+
 
 /* ─── NAVBAR ─── */
 .nav {
@@ -484,7 +493,9 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
 .pill-gold { background: rgba(245,197,24,0.15); color: var(--gold); }
 
 @media (max-width: 768px) {
-  .nav-links { display: none; }
+  .nav-links { display: none; position:absolute; top:100%; left:0; right:0; padding:18px 5%; background:var(--navy); flex-direction:column; align-items:stretch; gap:12px; box-shadow:0 12px 24px rgba(0,0,0,.2); }
+  .nav-links.is-open { display:flex; }
+  .nav-menu-toggle { display:inline-flex; }
   .hero { padding: 4rem 5% 3rem; }
   .author-box { flex-direction: column; text-align: center; }
   .privacy-inner { flex-direction: column; text-align: center; }
@@ -495,21 +506,25 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
 @media (max-width: 480px) {
   .steps-grid { grid-template-columns: 1fr; }
 }
+/* Keyboard access and mobile navigation */
+.nav-menu-toggle { display:none; background:transparent; color:#fff; border:1px solid rgba(255,255,255,.5); border-radius:8px; padding:9px 12px; font:inherit; font-size:12px; font-weight:700; cursor:pointer; }
+.faq-q[role="button"] { cursor:pointer; }
+:where(a, button, .faq-q[role="button"]):focus-visible { outline:3px solid #f5c518; outline-offset:3px; }
+[id] { scroll-margin-top:90px; }
+@media (max-width:768px) { .nav-menu-toggle { display:inline-flex; } .nav { flex-wrap:wrap; gap:10px; } .nav-brand { font-size:17px; } .nav-cta { margin-left:auto; padding:.5rem .8rem; font-size:12px; } }
+@media (max-width:420px) { .nav-cta { width:100%; text-align:center; } }
+@media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
 </style>
 </head>
 <body>
 
 <!-- PROMO BAR -->
-<div class="promo-bar">
-  🔥 DISKON AKHIR TAHUN — Hemat hingga 57% untuk semua paket!
-  &nbsp;⏳ Berakhir dalam:
-  <span class="promo-countdown">⏰ <span id="countdown-timer">12:00:00</span></span>
-</div>
-
+<div class="promo-bar">Pelajari fitur Ruang Statistika dan pilih paket yang sesuai kebutuhan penelitian Anda. <a href="#pricing" style="color:inherit;text-decoration:underline;">Lihat paket &amp; harga</a></div>
 <!-- NAVBAR -->
 <nav class="nav">
   <a href="https://yogoaj.github.io/ruangstatistika/" class="nav-brand">Ruang <span>Statistika</span> <span class="version-tag">v4.8</span></a>
-  <div class="nav-links">
+  <button class="nav-menu-toggle" type="button" aria-controls="main-navigation" aria-expanded="false" aria-label="Buka menu navigasi">☰ Menu</button>
+  <div class="nav-links" id="main-navigation">
     <a href="#fitur">Fitur</a>
     <a href="#modul">Modul</a>
     <a href="#pricing">Harga</a>
@@ -521,8 +536,8 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
 <!-- HERO -->
 <section class="hero">
   <div class="hero-badge">✦ v4.8 — Google OAuth · Tier System · 30+ Modul</div>
-  <h1>Bab 4 Skripsi Beres<br>Sebelum Deadline. <em>Dijamin.</em></h1>
-  <p class="hero-sub">Dari data mentah ke laporan Word akademis dalam hitungan menit </p>
+  <h1>Analisis Statistik Lebih Terarah.<br><em>Laporan Lebih Mudah Disusun.</em></h1>
+  <p class="hero-sub">Olah data, pahami hasil uji, dan susun laporan akademis dengan bantuan Python dan AI. Periksa kembali asumsi serta hasil analisis. </p>
   
   <div class="hero-pain">
     <span class="pain-tag">❌ Pusing baca p-value?</span>
@@ -534,7 +549,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
   
   <div class="hero-btns">
     <a href="https://lynk.id/ruangstatistika" class="btn-hero btn-gold">Mulai Sekarang — Dari Rp 29rb</a>
-    <a href="https://ruang-statistika.streamlit.app/" class="btn-hero btn-ghost" target="_blank">Coba Gratis ↗</a>
+    <a href="https://ruang-statistika.streamlit.app/" class="btn-hero btn-ghost" target="_blank" rel="noopener noreferrer">Coba Gratis ↗</a>
   </div>
   
   <div class="hero-stats">
@@ -931,7 +946,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
           <li>Login personal + nama di cover laporan</li>
           <li class="dim">E-Book Bonus (tidak termasuk)</li>
         </ul>
-        <a href="https://lynk.id/ruangstatistika" target="_blank" class="btn-plan btn-plan-outline">Mulai Sekarang — Rp29rb</a>
+        <a href="https://lynk.id/ruangstatistika" target="_blank" rel="noopener noreferrer" class="btn-plan btn-plan-outline">Mulai Sekarang — Rp29rb</a>
       </div>
 
       <!-- PAKET PREMIUM (BEST SELLER) -->
@@ -952,7 +967,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
           <li>Update modul baru gratis</li>
           <li>E-Book Bab 4 Kilat seharga 75rb</li>
         </ul>
-        <a href="https://lynk.id/ruangstatistika/1koqz27pz7rx" target="_blank" class="btn-plan btn-plan-gold">Ambil Sekarang — Rp99rb</a>
+        <a href="https://lynk.id/ruangstatistika/1koqz27pz7rx" target="_blank" rel="noopener noreferrer" class="btn-plan btn-plan-gold">Ambil Sekarang — Rp99rb</a>
       </div>
 
       <!-- PAKET PROFESSIONAL -->
@@ -972,16 +987,16 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
           <li>Prioritas akses fitur baru</li>
           <li>Update modul baru lebih cepat</li>
         </ul>
-        <a href="https://lynk.id/ruangstatistika/5yq5gyo7ydjw" target="_blank" class="btn-plan btn-plan-green">Investasi Sekarang — Rp149rb</a>
+        <a href="https://lynk.id/ruangstatistika/5yq5gyo7ydjw" target="_blank" rel="noopener noreferrer" class="btn-plan btn-plan-green">Investasi Sekarang — Rp149rb</a>
       </div>
     </div>
     
     <p class="pricing-note">💳 Pembayaran via Transfer Bank, QRIS, OVO, Dana, ShopeePay &nbsp;·&nbsp; Aktivasi lisensi dalam 1×24 jam &nbsp;·&nbsp; ✅ Garansi uang kembali 7 hari jika tidak puas</p>
     <div style="text-align:center; margin-top: 1.5rem; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
-      <a href="https://wa.me/6289655003613" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.35); color:#4ade80; padding:10px 20px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none; transition:.2s;" onmouseover="this.style.background='rgba(37,211,102,0.25)'" onmouseout="this.style.background='rgba(37,211,102,0.15)'">
+      <a href="https://wa.me/6289655003613" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:8px; background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.35); color:#4ade80; padding:10px 20px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none; transition:.2s;" onmouseover="this.style.background='rgba(37,211,102,0.25)'" onmouseout="this.style.background='rgba(37,211,102,0.15)'">
         💬 Konsultasi via WA: 089655003613
       </a>
-      <a href="https://wa.me/6287887533149" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.35); color:#4ade80; padding:10px 20px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none; transition:.2s;" onmouseover="this.style.background='rgba(37,211,102,0.25)'" onmouseout="this.style.background='rgba(37,211,102,0.15)'">
+      <a href="https://wa.me/6287887533149" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:8px; background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.35); color:#4ade80; padding:10px 20px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none; transition:.2s;" onmouseover="this.style.background='rgba(37,211,102,0.25)'" onmouseout="this.style.background='rgba(37,211,102,0.15)'">
         💬 WA Ruang Statistika: 087887533149
       </a>
     </div>
@@ -1218,9 +1233,9 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
       <div class="role">Statistisi Ahli · Demografer · Badan Pusat Statistik (BPS) Indonesia</div>
       <p>Lebih dari 10 tahun pengalaman di BPS dalam bidang statistik populasi dan demografi. Pembicara webinar nasional JASP & AI untuk 500+ peserta dari berbagai universitas. Pengembang Ruang Statistika v4.8 — platform yang menggabungkan metodologi resmi BPS dengan kecerdasan buatan generatif untuk menghasilkan laporan akademis berkualitas jurnal.</p>
       <p style="margin-top: 8px; display: flex; gap: 16px; flex-wrap: wrap;">
-        <a href="https://ruang-statistika.streamlit.app/" target="_blank" style="color: var(--gold); text-decoration: none; font-size: 13px;">🌐 ruang-statistika.streamlit.app</a>
-        <a href="https://yogoaj.github.io/ruangstatistika/" target="_blank" style="color: rgba(255,255,255,0.55); text-decoration: none; font-size: 13px;">👤 Tentang Penulis</a>
-        <a href="https://wa.me/6289655003613" target="_blank" style="color: rgba(255,255,255,0.55); text-decoration: none; font-size: 13px;">💬 WA: 089655003613</a>
+        <a href="https://ruang-statistika.streamlit.app/" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-size: 13px;">🌐 ruang-statistika.streamlit.app</a>
+        <a href="https://yogoaj.github.io/ruangstatistika/" target="_blank" rel="noopener noreferrer" style="color: rgba(255,255,255,0.55); text-decoration: none; font-size: 13px;">👤 Tentang Penulis</a>
+        <a href="https://wa.me/6289655003613" target="_blank" rel="noopener noreferrer" style="color: rgba(255,255,255,0.55); text-decoration: none; font-size: 13px;">💬 WA: 089655003613</a>
       </p>
     </div>
   </div>
@@ -1235,15 +1250,15 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
   <div class="faq-list">
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apa bedanya dengan pakai ChatGPT langsung?</div>
-      <div class="faq-a">ChatGPT tidak bisa membaca file CSV/Excel Anda, tidak menghasilkan uji statistik yang akurat, dan tidak tahu standar penulisan APA 7th. Ruang Statistika mengintegrasikan library statistik scikit-learn, scipy, statsmodels, dan semopy yang teruji secara ilmiah, lalu mengirim hasilnya ke AI untuk diinterpretasikan dalam bahasa akademis Indonesia yang tepat. Ini kolaborasi terbaik antara presisi statistik dan kecerdasan bahasa.</div>
+      <div class="faq-a">ChatGPT juga dapat membaca file CSV/Excel dan membantu analisis. Keunggulan Ruang Statistika adalah alur kerja uji statistik yang terstruktur menggunakan library Python dan fasilitas penyusunan laporan. Ruang Statistika mengintegrasikan library statistik scikit-learn, scipy, statsmodels, dan semopy yang teruji secara ilmiah, lalu mengirim hasilnya ke AI untuk diinterpretasikan dalam bahasa akademis Indonesia yang tepat. Ini kolaborasi terbaik antara presisi statistik dan kecerdasan bahasa.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Berapa biaya API Key untuk AI-nya?</div>
-      <div class="faq-a">Groq (Llama 3.3 70B) sepenuhnya gratis untuk penggunaan normal — tidak perlu mengeluarkan biaya apapun. Google Gemini memiliki tier gratis yang generous. Anthropic Claude dan OpenAI GPT tersedia dengan bayar sesuai penggunaan. Untuk skripsi/tesis, biaya API biasanya di bawah Rp 10.000 total. Anda tidak berbagi kuota dengan pengguna lain — itu keuntungan model "Private by Design" kami.</div>
+      <div class="faq-a">Harga dan kuota API AI berbeda menurut penyedia dan model serta dapat berubah. Beberapa layanan menawarkan tier gratis dengan batasan, sedangkan lainnya mengenakan biaya sesuai pemakaian. Periksa ketentuan resmi penyedia sebelum memasukkan API Key. Anda tidak berbagi kuota dengan pengguna lain — itu keuntungan model "Private by Design" kami.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah hasil statistiknya akurat untuk publikasi jurnal?</div>
-      <div class="faq-a">Ya. Kami menggunakan library Python standar industri: scipy untuk uji statistik dasar, statsmodels untuk regresi OLS, diagnostik dan RLM robust, pingouin untuk ANOVA dan effect size, dan semopy untuk SEM/CFA. Semua library ini adalah standar yang sama digunakan peneliti di seluruh dunia dan menghasilkan hasil identik dengan SPSS, R, dan AMOS untuk data yang sama.</div>
+      <div class="faq-a">Ya. Kami menggunakan library Python standar industri: scipy untuk uji statistik dasar, statsmodels untuk regresi OLS, diagnostik dan RLM robust, pingouin untuk ANOVA dan effect size, dan semopy untuk SEM/CFA. Hasil dapat berbeda antarperangkat lunak karena pilihan metode estimasi, penanganan data hilang, dan pengaturan default. Tinjau asumsi serta parameter sebelum menggunakan hasil untuk publikasi.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah versi gratis benar-benar bisa dipakai tanpa bayar?</div>
@@ -1275,16 +1290,16 @@ hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
   <p>Bergabunglah dengan 500+ peneliti & mahasiswa yang sudah membuktikan — dari data mentah ke laporan akademis dalam hitungan menit.</p>
   <div class="cta-group">
     <a href="https://lynk.id/ruangstatistika" class="btn-hero btn-gold">Pilih Paket Saya — Mulai Rp 29rb →</a>
-    <a href="https://ruang-statistika.streamlit.app/" class="btn-hero btn-ghost" target="_blank">Coba Versi Gratis ↗</a>
+    <a href="https://ruang-statistika.streamlit.app/" class="btn-hero btn-ghost" target="_blank" rel="noopener noreferrer">Coba Versi Gratis ↗</a>
   </div>
   <p class="cta-note">💳 QRIS · Transfer Bank · OVO · Dana · ShopeePay &nbsp;·&nbsp; Aktivasi ≤ 24 jam &nbsp;·&nbsp; <a href="#faq">Garansi 7 hari</a></p>
-  <p style="margin-top: 1rem; font-size: 13px; color: rgba(255,255,255,0.45);">Ada pertanyaan? Hubungi kami via WhatsApp: <a href="https://wa.me/6289655003613" target="_blank" style="color:#4ade80;">089655003613</a> &nbsp;·&nbsp; <a href="https://wa.me/6287887533149" target="_blank" style="color:#4ade80;">087887533149</a></p>
+  <p style="margin-top: 1rem; font-size: 13px; color: rgba(255,255,255,0.45);">Ada pertanyaan? Hubungi kami via WhatsApp: <a href="https://wa.me/6289655003613" target="_blank" rel="noopener noreferrer" style="color:#4ade80;">089655003613</a> &nbsp;·&nbsp; <a href="https://wa.me/6287887533149" target="_blank" rel="noopener noreferrer" style="color:#4ade80;">087887533149</a></p>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div>© 2026 Ruang Statistika v4.8 &nbsp;·&nbsp; <a href="https://ruang-statistika.streamlit.app/" target="_blank">ruang-statistika.streamlit.app</a></div>
-  <div>Dikembangkan oleh <a href="https://yogoaj.github.io/ruangstatistika/" target="_blank" style="color: rgba(255,255,255,0.7); font-weight:600;">Yogo Aryo Jatmiko</a> · Statistisi BPS Indonesia &nbsp;·&nbsp; Powered by Python, Streamlit & Claude AI</div>
+  <div>© 2026 Ruang Statistika v4.8 &nbsp;·&nbsp; <a href="https://ruang-statistika.streamlit.app/" target="_blank" rel="noopener noreferrer">ruang-statistika.streamlit.app</a></div>
+  <div>Dikembangkan oleh <a href="https://yogoaj.github.io/ruangstatistika/" target="_blank" rel="noopener noreferrer" style="color: rgba(255,255,255,0.7); font-weight:600;">Yogo Aryo Jatmiko</a> · Statistisi BPS Indonesia &nbsp;·&nbsp; Powered by Python, Streamlit & Claude AI</div>
 </footer>
 
 <script>
@@ -1296,36 +1311,29 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// Countdown timer — set to 12 hours from page load
-(function() {
-  const timerEl = document.getElementById('countdown-timer');
-  if (!timerEl) return;
-
-  // Use sessionStorage so timer persists on reload but resets on new session
-  const KEY = 'rs_promo_end';
-  let endTime = sessionStorage.getItem(KEY);
-  if (!endTime) {
-    endTime = Date.now() + 12 * 60 * 60 * 1000; // 12 hours
-    sessionStorage.setItem(KEY, endTime);
-  }
-  endTime = parseInt(endTime);
-
-  function pad(n) { return String(n).padStart(2, '0'); }
-
-  function tick() {
-    const remaining = endTime - Date.now();
-    if (remaining <= 0) {
-      timerEl.textContent = '00:00:00';
-      return;
-    }
-    const h = Math.floor(remaining / 3600000);
-    const m = Math.floor((remaining % 3600000) / 60000);
-    const s = Math.floor((remaining % 60000) / 1000);
-    timerEl.textContent = pad(h) + ':' + pad(m) + ':' + pad(s);
-    setTimeout(tick, 1000);
-  }
-  tick();
-})();
+// Mobile menu
+const menuButton = document.querySelector('.nav-menu-toggle');
+const menuLinks = document.getElementById('main-navigation');
+if (menuButton && menuLinks) {
+  const closeMenu = () => { menuLinks.classList.remove('is-open'); menuButton.setAttribute('aria-expanded','false'); };
+  menuButton.addEventListener('click', () => {
+    const open = menuButton.getAttribute('aria-expanded') !== 'true';
+    menuLinks.classList.toggle('is-open', open);
+    menuButton.setAttribute('aria-expanded',String(open));
+  });
+  menuLinks.querySelectorAll('a').forEach(link => link.addEventListener('click',closeMenu));
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
+}
+// FAQ: mouse and keyboard
+document.querySelectorAll('.faq-q').forEach((q,i) => {
+  const answer=q.nextElementSibling;if(!answer||!answer.classList.contains('faq-a'))return;
+  answer.id='faq-answer-'+i;q.removeAttribute('onclick');
+  q.setAttribute('role','button');q.setAttribute('tabindex','0');
+  q.setAttribute('aria-controls',answer.id);q.setAttribute('aria-expanded','false');
+  const toggle=()=>{const expanded=q.parentElement.classList.toggle('open');q.setAttribute('aria-expanded',String(expanded));};
+  q.addEventListener('click',toggle);
+  q.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
+});
 </script>
 </body>
 </html>
