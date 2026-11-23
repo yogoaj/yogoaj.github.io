@@ -246,12 +246,53 @@
 
   .ebook-footer { text-align: center; padding: 20px; font-size: 11px; color: var(--gray); border-top: 1px solid var(--border); }
   .ebook-footer a { color: var(--navy); text-decoration:none; font-weight:600; }
+
+  /* Keep Home visible while chapter links scroll on narrow screens. */
+  :root { --ebook-nav-height:60px; }
+  .top-nav {
+    display:grid; grid-template-columns:auto minmax(0,1fr) auto;
+    grid-template-rows:44px; gap:6px 16px; padding:8px 24px;
+  }
+  .top-nav .brand { grid-column:1; grid-row:1; min-width:0; }
+  .top-nav .brand svg { flex-shrink:0; }
+  .top-nav .brand span { white-space:nowrap; }
+  .top-nav .nav-links {
+    grid-column:2; grid-row:1; min-width:0; flex-wrap:nowrap;
+    overflow-x:auto; align-items:center; scrollbar-width:thin;
+  }
+  .top-nav .nav-links a {
+    display:inline-flex; align-items:center; flex-shrink:0;
+    min-height:44px; white-space:nowrap; font-size:14px;
+  }
+  .portal-home {
+    grid-column:3; grid-row:1; display:inline-flex; align-items:center;
+    justify-content:center; gap:6px; min-height:44px; padding:8px 12px;
+    border-radius:8px; background:var(--gold); color:var(--navy);
+    font-size:14px; font-weight:700; line-height:1.2; text-decoration:none;
+    white-space:nowrap;
+  }
+  .portal-home:hover { background:var(--gold2); }
+  .portal-home:focus-visible, .top-nav .nav-links a:focus-visible {
+    outline:2px solid var(--white); outline-offset:-3px;
+  }
+  .progress-bar { top:var(--ebook-nav-height); }
+  #cover, .content-page { padding-top:calc(var(--ebook-nav-height) + 28px); }
+  @media (max-width:900px) {
+    :root { --ebook-nav-height:110px; }
+    .top-nav {
+      grid-template-columns:minmax(0,1fr) auto;
+      grid-template-rows:44px 44px; column-gap:12px; padding:8px 16px;
+    }
+    .top-nav .nav-links { grid-column:1 / -1; grid-row:2; }
+    .portal-home { grid-column:2; }
+  }
+
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="top-nav">
+<nav class="top-nav" aria-label="Navigasi ebook">
   <div class="brand">
     <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="100" height="100" rx="10" fill="#0d1f3c"/>
@@ -272,6 +313,12 @@
     <a href="javascript:void(0)" onclick="goPage(6)">J-N</a>
     <a href="javascript:void(0)" onclick="goPage(7)">Template</a>
   </div>
+  <a class="portal-home" href="https://yogoaj.github.io/portal/" aria-label="Home — kembali ke portal Ruang Statistika">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>
+    </svg>
+    <span>Home</span>
+  </a>
 </nav>
 
 <!-- PROGRESS -->
@@ -897,3 +944,4 @@
 </script>
 </body>
 </html>
+
