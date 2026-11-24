@@ -435,16 +435,16 @@
     </div>
   </div>
 
-  <h2 class="sec">Kriteria Validitas dalam CFA</h2>
+  <h2 class="sec">Panduan Evaluasi Model Pengukuran Reflektif</h2>
   <div class="tbl-wrap">
     <table class="apa-table">
-      <thead><tr><th>Kriteria</th><th>Nilai Ideal</th><th>Keterangan</th></tr></thead>
+      <thead><tr><th>Kriteria</th><th>Acuan Kontekstual</th><th>Keterangan</th></tr></thead>
       <tbody>
         <tr><td><strong>Loading Factor (λ)</strong></td><td><span class="badge-ok">≥ 0.50</span> (ideal ≥ 0.70)</td><td>Kontribusi indikator terhadap konstruk</td></tr>
         <tr><td><strong>AVE</strong></td><td><span class="badge-ok">≥ 0.50</span></td><td>Validitas konvergen — konstruk menjelaskan ≥50% varians indikatornya</td></tr>
-        <tr><td><strong>CR</strong> (Composite Reliability)</td><td><span class="badge-ok">≥ 0.70</span></td><td>Reliabilitas konstruk (pengganti Alpha Cronbach di SEM)</td></tr>
-        <tr><td><strong>Discriminant Validity</strong></td><td>√AVE > korelasi antar konstruk</td><td>Konstruk berbeda cukup dari konstruk lain</td></tr>
-        <tr><td><strong>HTMT</strong></td><td><span class="badge-ok">< 0.85</span> atau < 0.90</td><td>Alternatif uji discriminant validity (SmartPLS)</td></tr>
+        <tr><td><strong>CR</strong> (Composite Reliability)</td><td><span class="badge-ok">≥ 0.70</span></td><td>Konsistensi internal berbasis model; bukan bukti validitas</td></tr>
+        <tr><td><strong>Discriminant Validity</strong></td><td>√AVE > nilai absolut korelasi antar konstruk</td><td>Kriteria Fornell–Larcker; dapat gagal mendeteksi masalah validitas diskriminan</td></tr>
+        <tr><td><strong>HTMT</strong></td><td><span class="badge-ok">< 0.85</span> atau < 0.90</td><td>Evaluasi validitas diskriminan, terutama PLS-SEM reflektif; gunakan juga inferensi bootstrap</td></tr>
       </tbody>
     </table>
   </div>
@@ -453,7 +453,7 @@
   <div class="grid-2">
     <div class="card">
       <div class="card-header"><div class="card-icon">🔢</div><h3>Rumus AVE</h3></div>
-      <p style="font-family:monospace; font-size:13px; color:#1a1a2e;">AVE = Σλ² / (Σλ² + Σε)<br><span style="font-size:12px; color:var(--gray);">λ = loading, ε = 1 − λ²</span></p>
+      <p style="font-family:monospace; font-size:13px; color:#1a1a2e;">AVE = Σλ² / (Σλ² + Σε)<br><span style="font-size:12px; color:var(--gray);">λ = loading terstandar; ε di sini adalah varians error = 1 − λ²</span></p>
     </div>
     <div class="card">
       <div class="card-header"><div class="card-icon">🔢</div><h3>Rumus CR</h3></div>
@@ -469,18 +469,18 @@
   <h2 class="sec">Contoh Tabel CFA</h2>
   <div class="tbl-wrap">
     <table class="apa-table">
-      <caption><em><strong>Tabel 1</strong></em><br>Hasil Confirmatory Factor Analysis</caption>
+      <caption><strong>Tabel 1</strong><br><em>Hasil Confirmatory Factor Analysis</em></caption>
       <thead><tr><th>Konstruk</th><th>Indikator</th><th>Loading (λ)</th><th>AVE</th><th>CR</th><th>Status</th></tr></thead>
       <tbody>
-        <tr><td rowspan="3">Kepuasan Kerja</td><td>KK1</td><td>0.812</td><td rowspan="3">0.634</td><td rowspan="3">0.839</td><td rowspan="3"><span class="badge-ok">Valid & Reliabel</span></td></tr>
+        <tr><td rowspan="3">Kepuasan Kerja</td><td>KK1</td><td>0.812</td><td rowspan="3">0.637</td><td rowspan="3">0.840</td><td rowspan="3"><span class="badge-ok">Mendukung kriteria</span></td></tr>
         <tr><td>KK2</td><td>0.779</td></tr>
         <tr><td>KK3</td><td>0.803</td></tr>
-        <tr><td rowspan="3">Komitmen Org.</td><td>KO1</td><td>0.841</td><td rowspan="3">0.661</td><td rowspan="3">0.853</td><td rowspan="3"><span class="badge-ok">Valid & Reliabel</span></td></tr>
+        <tr><td rowspan="3">Komitmen Org.</td><td>KO1</td><td>0.841</td><td rowspan="3">0.659</td><td rowspan="3">0.853</td><td rowspan="3"><span class="badge-ok">Mendukung kriteria</span></td></tr>
         <tr><td>KO2</td><td>0.760</td></tr>
         <tr><td>KO3</td><td>0.832</td></tr>
       </tbody>
     </table>
-    <p class="apa-note"><em>Note.</em> AVE = Average Variance Extracted; CR = Composite Reliability. Seluruh nilai memenuhi kriteria cut-off.</p>
+    <p class="apa-note"><em>Note.</em> Ilustrasi. AVE dan CR dihitung ulang dari loading yang ditampilkan, dengan indikator terstandar dan error tidak berkorelasi. Nilai mendukung evaluasi konvergen/konsistensi internal, tetapi bukan bukti seluruh aspek validitas.</p>
   </div>
 </div>
 </div>
@@ -490,28 +490,28 @@
 <div class="content-page">
   <div class="section-label">📊 Bab 2</div>
   <h1 class="page-title">Goodness of Fit <span>(GoF) Indices</span></h1>
-  <p class="page-desc">Tabel referensi lengkap nilai ideal untuk menilai kelayakan model SEM.</p>
+  <p class="page-desc">Panduan indeks untuk covariance-based SEM (CB-SEM). Nilai acuan bukan ambang kelulusan universal dan tidak langsung dipindahkan ke PLS-SEM.</p>
 
   <div class="alert alert-warn">
     <span class="alert-icon">⚠️</span>
-    <div>Pembimbing dan penguji hampir pasti akan menanyakan GoF. Laporkan minimal <strong>3–5 indeks</strong> dari kategori yang berbeda — bukan hanya satu.</div>
+    <div>Jelaskan estimator, jenis indikator, ukuran sampel, dan spesifikasi model. Pada CB-SEM, laporkan χ²/df/p serta indeks relevan seperti CFI, TLI, RMSEA beserta CI, dan SRMR. Pada PLS-SEM, gunakan evaluasi pengukuran, struktural, dan prediksi yang sesuai.</div>
   </div>
 
-  <h2 class="sec">Tabel Referensi Nilai Ideal GoF</h2>
+  <h2 class="sec">Tabel Panduan Indeks CB-SEM</h2>
   <div class="tbl-wrap">
     <table class="apa-table">
-      <thead><tr><th>Indeks</th><th>Nilai Ideal</th><th>Kategori</th><th>Catatan</th></tr></thead>
+      <thead><tr><th>Indeks</th><th>Acuan Kontekstual</th><th>Kategori</th><th>Catatan</th></tr></thead>
       <tbody>
         <tr><td><strong>Chi-Square (χ²)</strong></td><td><span class="badge-warn">p > 0.05</span></td><td>Absolute</td><td>Sensitif terhadap n besar; tidak bisa berdiri sendiri</td></tr>
         <tr><td><strong>χ²/df (CMIN/DF)</strong></td><td><span class="badge-ok">≤ 2.0</span> (maks 3.0)</td><td>Absolute</td><td>Rasio chi-square terhadap derajat bebas</td></tr>
         <tr><td><strong>RMSEA</strong></td><td><span class="badge-ok">< 0.08</span> (ideal < 0.05)</td><td>Absolute</td><td>Root Mean Square Error of Approximation</td></tr>
         <tr><td><strong>SRMR</strong></td><td><span class="badge-ok">< 0.08</span></td><td>Absolute</td><td>Standardized Root Mean Square Residual</td></tr>
-        <tr><td><strong>GFI</strong></td><td><span class="badge-ok">≥ 0.90</span></td><td>Absolute</td><td>Goodness of Fit Index — mirip R² di regresi</td></tr>
+        <tr><td><strong>GFI</strong></td><td><span class="badge-ok">≥ 0.90</span></td><td>Absolute</td><td>Indeks historis; bukan padanan R² dan bukan ukuran utama tunggal</td></tr>
         <tr><td><strong>AGFI</strong></td><td><span class="badge-ok">≥ 0.90</span></td><td>Absolute</td><td>Adjusted GFI (memperhitungkan kompleksitas model)</td></tr>
         <tr><td><strong>CFI</strong></td><td><span class="badge-ok">≥ 0.95</span> (min 0.90)</td><td>Incremental</td><td>Comparative Fit Index — paling sering dilaporkan</td></tr>
         <tr><td><strong>TLI (NNFI)</strong></td><td><span class="badge-ok">≥ 0.90</span></td><td>Incremental</td><td>Tucker-Lewis Index — penalti model kompleks</td></tr>
         <tr><td><strong>NFI</strong></td><td><span class="badge-ok">≥ 0.90</span></td><td>Incremental</td><td>Normed Fit Index — terpengaruh ukuran sampel</td></tr>
-        <tr><td><strong>AIC</strong></td><td><span class="badge-info">Makin kecil makin baik</span></td><td>Parsimony</td><td>Untuk perbandingan model saja</td></tr>
+        <tr><td><strong>AIC</strong></td><td><span class="badge-info">Makin kecil makin baik</span></td><td>Parsimony</td><td>Bandingkan model dengan data, outcome, dan likelihood yang sebanding</td></tr>
         <tr><td><strong>PNFI</strong></td><td><span class="badge-ok">≥ 0.50</span></td><td>Parsimony</td><td>Parsimony Normed Fit Index</td></tr>
       </tbody>
     </table>
@@ -519,16 +519,16 @@
 
   <h2 class="sec">Strategi Pelaporan GoF</h2>
   <ul class="step-list">
-    <li><div class="step-num">1</div><div class="step-txt"><h4>Laporkan dari 3 kategori berbeda</h4><p>Absolute, incremental, dan parsimony — masing-masing minimal satu indeks.</p></div></li>
-    <li><div class="step-num">2</div><div class="step-txt"><h4>Prioritaskan indeks utama</h4><p>RMSEA, CFI, TLI, dan CMIN/DF adalah yang paling sering diminta pembimbing.</p></div></li>
+    <li><div class="step-num">1</div><div class="step-txt"><h4>Pilih indeks sesuai estimator dan tujuan</h4><p>Gunakan beberapa bukti pelengkap; jangan memilih hanya indeks yang terlihat baik.</p></div></li>
+    <li><div class="step-num">2</div><div class="step-txt"><h4>Prioritaskan indeks utama</h4><p>Laporkan χ²/df/p, CFI/TLI, RMSEA dengan interval kepercayaan, dan SRMR bila sesuai; sertakan koreksi robust jika estimator memerlukannya.</p></div></li>
     <li><div class="step-num">3</div><div class="step-txt"><h4>Jangan sembunyikan indeks yang tidak fit</h4><p>Jika ada indeks yang tidak memenuhi, jelaskan konteksnya: n besar, kompleksitas model, dll.</p></div></li>
-    <li><div class="step-num">4</div><div class="step-txt"><h4>Model fit = mayoritas indeks terpenuhi</h4><p>Tidak harus semua indeks memenuhi cut-off — yang penting mayoritas dan indeks kunci terpenuhi.</p></div></li>
+    <li><div class="step-num">4</div><div class="step-txt"><h4>Evaluasi gabungan, bukan pemungutan suara indeks</h4><p>Tinjau teori, residual lokal, parameter tidak wajar, estimator, dan sensitivitas. Banyak indeks melewati batas tidak membuktikan model benar.</p></div></li>
   </ul>
 
   <h2 class="sec">Contoh Tabel Ringkasan Fit Model</h2>
   <div class="tbl-wrap">
     <table class="apa-table">
-      <caption><em><strong>Tabel 2</strong></em><br>Hasil Evaluasi Goodness of Fit Model SEM</caption>
+      <caption><strong>Tabel 2</strong><br><em>Hasil Evaluasi Goodness of Fit Model SEM</em></caption>
       <thead><tr><th>Indeks</th><th>Nilai Cut-off</th><th>Hasil Model</th><th>Kesimpulan</th></tr></thead>
       <tbody>
         <tr><td>CMIN/DF</td><td>≤ 3.00</td><td>2.341</td><td><span class="badge-ok">Fit</span></td></tr>
@@ -539,12 +539,12 @@
         <tr><td>SRMR</td><td>< 0.08</td><td>0.071</td><td><span class="badge-ok">Fit</span></td></tr>
       </tbody>
     </table>
-    <p class="apa-note"><em>Note.</em> GFI yang marginal dapat diterima mengingat 5 dari 6 indeks lainnya memenuhi nilai cut-off.</p>
+    <p class="apa-note"><em>Note.</em> Angka ilustratif memperlihatkan beberapa indeks mendekati acuan; GFI = .887 tetap perlu dibahas. Kelayakan model tidak disimpulkan dengan menghitung berapa indeks yang lolos. Tambahkan χ², df, N, estimator, CI RMSEA, dan diagnosis residual dari output aktual.</p>
   </div>
 
   <div class="alert alert-warn">
     <span class="alert-icon">⚠️</span>
-    <div><strong>Perhatian:</strong> Chi-Square saja tidak cukup sebagai indikator fit. Pada n > 200, Chi-Square hampir selalu signifikan meski model sebenarnya baik. Selalu kombinasikan dengan RMSEA dan CFI.</div>
+    <div><strong>Perhatian:</strong> Chi-Square saja tidak cukup sebagai indikator fit. Chi-square sensitif terhadap ukuran sampel dan besar penyimpangan, tanpa batas n = 200 yang universal. Tinjau bersama indeks lain dan diagnosis model.</div>
   </div>
 </div>
 </div>
@@ -557,7 +557,7 @@
   <p class="page-desc">Cara kerja uji mediasi modern dan interpretasi Confidence Interval Bootstrap.</p>
 
   <h2 class="sec">Konsep Dasar Mediasi</h2>
-  <p>Mediasi menjelaskan <em>mekanisme</em> bagaimana variabel X mempengaruhi Y melalui variabel mediator M.</p>
+  <p>Mediasi memodelkan jalur X→M→Y. Interpretasi sebagai <em>mekanisme sebab-akibat</em> membutuhkan urutan waktu dan asumsi pengendalian perancu; hasil regresi/SEM observasional saja tidak membuktikannya.</p>
 
   <div class="path-diagram">
     <svg viewBox="0 0 500 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px;">
@@ -578,7 +578,7 @@
         <marker id="ah2" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#9ca3af"/></marker>
       </defs>
     </svg>
-    <p>Indirect effect = a × b &nbsp;|&nbsp; Total effect = a×b + c'</p>
+    <p>Dalam model linear sederhana tanpa interaksi dan dengan spesifikasi yang sebanding: indirect effect = a×b; total effect = a×b + c′</p>
   </div>
 
   <h2 class="sec">Jenis Mediasi</h2>
@@ -586,19 +586,19 @@
     <table class="apa-table">
       <thead><tr><th>Jenis</th><th>Kondisi</th><th>Artinya</th></tr></thead>
       <tbody>
-        <tr><td><strong>Mediasi Penuh</strong></td><td>c' tidak signifikan, a×b signifikan</td><td>M sepenuhnya menjelaskan pengaruh X→Y</td></tr>
-        <tr><td><strong>Mediasi Parsial</strong></td><td>c' signifikan, a×b signifikan</td><td>M memediasi sebagian; jalur langsung tetap ada</td></tr>
-        <tr><td><strong>Tidak Ada Mediasi</strong></td><td>a×b tidak signifikan</td><td>M bukan mediator yang valid</td></tr>
+        <tr><td><strong>Mediasi Penuh</strong></td><td>c' tidak signifikan, a×b signifikan</td><td>Efek tidak langsung didukung; c′ tidak signifikan bukan bukti c′ = 0 atau mekanisme sepenuhnya dijelaskan M</td></tr>
+        <tr><td><strong>Mediasi Parsial</strong></td><td>c' signifikan, a×b signifikan</td><td>Efek langsung dan tidak langsung didukung; jelaskan besaran, arah, CI, dan asumsi kausal</td></tr>
+        <tr><td><strong>Bukti Mediasi Belum Cukup</strong></td><td>a×b tidak signifikan</td><td>Belum cukup bukti efek tidak langsung; bukan pembuktian bahwa efek pasti nol</td></tr>
       </tbody>
     </table>
   </div>
 
   <h2 class="sec">Mengapa Bootstrap? Bukan Sobel?</h2>
-  <p>Uji Sobel mengasumsikan distribusi normal untuk indirect effect — padahal distribusi perkalian (a×b) cenderung <em>non-normal</em>. Bootstrap tidak butuh asumsi tersebut, sehingga lebih akurat dan lebih direkomendasikan literatur modern (Hayes, 2022).</p>
+  <p>Uji Sobel mengasumsikan distribusi normal untuk indirect effect — padahal distribusi perkalian (a×b) cenderung <em>non-normal</em>. Bootstrap mengestimasi ketidakpastian efek tidak langsung tanpa pendekatan normal Sobel. Hasil tetap bergantung pada kecukupan sampel, model, dan resampling yang sesuai desain; data klaster/berulang memerlukan penanganan khusus.</p>
 
   <div class="alert alert-info">
     <span class="alert-icon">💡</span>
-    <div>Gunakan <strong>5.000 bootstrap samples</strong> (minimum) atau 10.000 untuk hasil lebih stabil. Di PROCESS Macro, SmartPLS, dan AMOS sudah tersedia fitur ini.</div>
+    <div>Misalnya gunakan <strong>5.000–10.000 resamples</strong> dan periksa kestabilan hasil. Laporkan jenis CI (percentile/bias-corrected sesuai keluaran), jumlah resamples, seed, dan desain resampling.</div>
   </div>
 
   <h2 class="sec">Cara Baca Confidence Interval Bootstrap</h2>
@@ -619,13 +619,13 @@
 
   <div class="alert alert-warn">
     <span class="alert-icon">⚠️</span>
-    <div>Di Bootstrap, kamu <strong>tidak melihat p-value</strong> untuk indirect effect. Cukup periksa apakah <em>nol (0) ada di antara LLCI dan ULCI</em>. Jika tidak ada → signifikan.</div>
+    <div>Untuk inferensi efek tidak langsung berbasis CI 95%, periksa apakah interval mencakup nol. Beberapa perangkat lunak juga menampilkan p-value; laporkan metode yang benar-benar digunakan dan jangan menukar jenis CI.</div>
   </div>
 
   <h2 class="sec">Contoh Output Mediasi</h2>
   <div class="tbl-wrap">
     <table class="apa-table">
-      <caption><em><strong>Tabel 3</strong></em><br>Hasil Uji Mediasi Bootstrap (5.000 resamples, 95% CI)</caption>
+      <caption><strong>Tabel 3</strong><br><em>Hasil Uji Mediasi Bootstrap (5.000 resamples, 95% CI)</em></caption>
       <thead><tr><th>Efek</th><th>Koefisien</th><th>SE</th><th>LLCI</th><th>ULCI</th><th>Kesimpulan</th></tr></thead>
       <tbody>
         <tr><td>Total Effect (c)</td><td>0.421</td><td>0.089</td><td>0.247</td><td>0.595</td><td><span class="badge-ok">Signifikan</span></td></tr>
@@ -668,10 +668,10 @@
 
   <h2 class="sec">Langkah Uji Moderasi</h2>
   <ul class="step-list">
-    <li><div class="step-num">1</div><div class="step-txt"><h4>Mean-center variabel X dan Z</h4><p>Lakukan sebelum membuat interaction term untuk mengurangi multikolinearitas.</p></div></li>
-    <li><div class="step-num">2</div><div class="step-txt"><h4>Buat interaction term</h4><p>XZ = X_centered × Z_centered</p></div></li>
+    <li><div class="step-num">1</div><div class="step-txt"><h4>Tentukan skala X dan Z; centering opsional</h4><p>Mean-centering membantu interpretasi koefisien orde rendah pada nilai rata-rata. Ini bukan syarat uji interaksi dan tidak menjamin multikolinearitas hilang.</p></div></li>
+    <li><div class="step-num">2</div><div class="step-txt"><h4>Buat interaction term</h4><p>XZ = X × Z pada skala yang dipilih; jika dicenter, gunakan X_centered × Z_centered secara konsisten</p></div></li>
     <li><div class="step-num">3</div><div class="step-txt"><h4>Masukkan X, Z, dan XZ ke model regresi secara bersamaan</h4><p>Jangan memasukkan secara bertahap kecuali untuk tujuan perbandingan model.</p></div></li>
-    <li><div class="step-num">4</div><div class="step-txt"><h4>Cek signifikansi β₃ (interaction term)</h4><p>Jika <strong>p &lt; 0.05</strong>, moderasi terbukti secara statistik.</p></div></li>
+    <li><div class="step-num">4</div><div class="step-txt"><h4>Cek signifikansi β₃ (interaction term)</h4><p>Laporkan koefisien interaksi, CI, dan p. p &lt; α memberi bukti interaksi sesuai asumsi model; interpretasi kausal tetap bergantung pada desain.</p></div></li>
     <li><div class="step-num">5</div><div class="step-txt"><h4>Visualisasi simple slope plot</h4><p>Gambar garis X→Y pada Z tinggi (+1 SD), Z sedang (Mean), dan Z rendah (−1 SD).</p></div></li>
   </ul>
 
@@ -682,12 +682,12 @@
   <h2 class="sec">Cara Baca Simple Slope Plot</h2>
   <div class="card">
     <div class="card-header"><div class="card-icon">📈</div><h3>Tiga Garis di Plot Moderasi</h3></div>
-    <p>Visualisasikan pada tiga level moderator Z: <strong>Tinggi (+1 SD), Sedang (Mean), Rendah (−1 SD)</strong>. Jika ketiga garis memiliki kemiringan berbeda, moderasi ada. Garis-garis yang sejajar mengindikasikan moderasi lemah atau tidak ada.</p>
+    <p>Visualisasikan pada tiga level moderator Z: <strong>Tinggi (+1 SD), Sedang (Mean), Rendah (−1 SD)</strong>. Perbedaan kemiringan menggambarkan estimasi interaksi, tetapi bukti statistik perlu uji koefisien interaksi dan CI. Pilih nilai moderator yang bermakna serta berada dalam jangkauan data.</p>
   </div>
 
   <div class="alert alert-success">
     <span class="alert-icon">✅</span>
-    <div>Semakin berbeda kemiringan (slope) antar ketiga garis, semakin kuat efek moderasi yang ditemukan. Lanjut ke halaman berikut untuk analisis Johnson-Neyman yang lebih mendalam.</div>
+    <div>Jangan menilai kekuatan interaksi hanya dari tampilan grafik: skala sumbu, ketidakpastian, dan relevansi perubahan outcome perlu diperhatikan. Lanjut ke halaman berikut untuk analisis Johnson-Neyman yang lebih mendalam.</div>
   </div>
 </div>
 </div>
@@ -709,7 +709,7 @@
     </div>
     <div class="ci-card info-blue">
       <h5>Johnson-Neyman</h5>
-      Cek di <em>seluruh range</em> moderator. Menemukan titik kritis exact. Lebih kaya informasi.
+      Cek di <em>seluruh range</em> moderator. Menemukan batas signifikansi bersyarat sesuai model dan metode CI.
     </div>
   </div>
 
@@ -717,34 +717,34 @@
 
   <div class="jn-box">
     <h4>📍 Contoh Interpretasi Johnson-Neyman</h4>
-    <p>Ketika nilai moderator Z berada <strong>di bawah 2.34</strong> dan <strong>di atas 6.71</strong>, pengaruh X terhadap Y <em>signifikan (p &lt; 0.05)</em>. Pada rentang 2.34–6.71, pengaruh tidak signifikan secara statistik.</p>
+    <p>Ketika nilai moderator Z berada <strong>di bawah 2.959</strong> dan <strong>di atas 5.260</strong>, pengaruh X terhadap Y <em>signifikan (p &lt; 0.05)</em>. Pada rentang 2.959–5.260, bukti efek bersyarat belum cukup pada α = .05. Batas dihitung dari model ilustratif di bawah, bukan data penelitian nyata.</p>
   </div>
 
   <ul class="step-list">
-    <li><div class="step-num">1</div><div class="step-txt"><h4>Temukan Johnson-Neyman Point</h4><p>Lihat baris dalam output di mana tanda p-value berubah dari &lt; 0.05 menjadi &gt; 0.05 (atau sebaliknya). Itulah titik kritisnya.</p></div></li>
-    <li><div class="step-num">2</div><div class="step-txt"><h4>Hitung persentase sampel dalam rentang signifikan</h4><p>Jika mayoritas sampel berada di rentang signifikan, efek moderasi kuat secara praktis.</p></div></li>
-    <li><div class="step-num">3</div><div class="step-txt"><h4>Visualisasi Floodlight (opsional)</h4><p>Grafik floodlight menampilkan rentang J-N secara visual — sangat memukau di mata pembimbing dan penguji.</p></div></li>
+    <li><div class="step-num">1</div><div class="step-txt"><h4>Temukan Johnson-Neyman Point</h4><p>Gunakan batas yang dihitung perangkat lunak dari koefisien dan matriks kovariansnya; tabel grid hanya mendekati batas. Bisa ada nol, satu, atau dua batas dalam jangkauan data.</p></div></li>
+    <li><div class="step-num">2</div><div class="step-txt"><h4>Hitung persentase sampel dalam rentang signifikan</h4><p>Persentase menunjukkan cakupan observasi pada zona tersebut, bukan ukuran kekuatan atau kepentingan praktis interaksi. Periksa besar efek dan CI.</p></div></li>
+    <li><div class="step-num">3</div><div class="step-txt"><h4>Visualisasi Floodlight (opsional)</h4><p>Grafik menampilkan slope bersyarat beserta CI dan distribusi moderator. Batasi interpretasi pada rentang teramati; jangan mengekstrapolasi tanpa dasar.</p></div></li>
   </ul>
 
   <h2 class="sec">Contoh Tabel Output Johnson-Neyman</h2>
   <div class="tbl-wrap">
     <table class="apa-table">
-      <caption><em><strong>Tabel 4</strong></em><br>Analisis Johnson-Neyman: Conditional Effects X→Y</caption>
+      <caption><strong>Tabel 4</strong><br><em>Analisis Johnson-Neyman: Conditional Effects X→Y</em></caption>
       <thead><tr><th>Nilai Z (Moderator)</th><th>Effect X→Y</th><th>SE</th><th>p-value</th><th>Status</th></tr></thead>
       <tbody>
-        <tr><td>1.00</td><td>0.421</td><td>0.102</td><td>.000</td><td><span class="badge-ok">Signifikan</span></td></tr>
-        <tr><td><strong>2.34</strong> ← <em>JN Point</em></td><td>0.281</td><td>0.143</td><td>.050</td><td><span class="badge-warn">Batas Kritis</span></td></tr>
-        <tr><td>4.00</td><td>0.187</td><td>0.156</td><td>.231</td><td><span class="badge-warn">Tidak Sig.</span></td></tr>
-        <tr><td><strong>6.71</strong> ← <em>JN Point</em></td><td>0.051</td><td>0.143</td><td>.050</td><td><span class="badge-warn">Batas Kritis</span></td></tr>
-        <tr><td>8.00</td><td>−0.134</td><td>0.089</td><td>.032</td><td><span class="badge-ok">Signifikan (negatif)</span></td></tr>
+        <tr><td>1.000</td><td>0.600</td><td>0.122</td><td>&lt; .001</td><td><span class="badge-ok">Signifikan positif</span></td></tr>
+        <tr><td><strong>2.959</strong> ← JN</td><td>0.208</td><td>0.105</td><td>≈ .050</td><td><span class="badge-warn">Batas</span></td></tr>
+        <tr><td>4.000</td><td>0.000</td><td>0.110</td><td>1.000</td><td><span class="badge-warn">Tidak signifikan</span></td></tr>
+        <tr><td><strong>5.260</strong> ← JN</td><td>−0.252</td><td>0.127</td><td>≈ .050</td><td><span class="badge-warn">Batas</span></td></tr>
+        <tr><td>8.000</td><td>−0.800</td><td>0.190</td><td>&lt; .001</td><td><span class="badge-ok">Signifikan negatif</span></td></tr>
       </tbody>
     </table>
-    <p class="apa-note"><em>Note.</em> Johnson-Neyman points pada Z = 2.34 dan Z = 6.71. Di luar rentang ini, pengaruh X terhadap Y signifikan secara statistik (p &lt; .05).</p>
+    <p class="apa-note"><em>Note.</em> Ilustrasi matematis, bukan output data empiris: b₁ = .800, b₃ = −.200, Var(b₁) = .020, Var(b₃) = .001, Cov(b₁,b₃) = −.003, df = 96. Effect(z) = .8 − .2z; SE(z) = √(.020 − .006z + .001z²). Gunakan t = Effect/SE dan CI t dua sisi 95% pointwise. Batas tanpa pembulatan: 2.95898586 dan 5.25954884; angka tabel dibulatkan. Jika rentang Z teramati 1–8, zona signifikan berada di luar kedua batas di dalam rentang tersebut.</p>
   </div>
 
   <div class="alert alert-info">
     <span class="alert-icon">💡</span>
-    <div>Di PROCESS Macro, Johnson-Neyman output muncul otomatis di bawah bagian <em>Regions of significance</em>. Cukup ambil nilai batas atas dan bawah, lalu interpretasikan berapa persen sampel berada di tiap zona.</div>
+    <div>Aktifkan opsi Johnson–Neyman bila tersedia untuk model dan moderator kontinu yang digunakan. Periksa versi/opsi perangkat lunak, rentang teramati, tingkat CI, dan apakah inferensi pointwise atau dikoreksi untuk pengujian multipel.</div>
   </div>
 </div>
 </div>
@@ -761,9 +761,9 @@
   <div class="template-box">
     <div class="tag">📐 CFA — Validitas Konvergen</div>
     <div class="tmpl">
-      Hasil pengujian CFA menunjukkan bahwa seluruh indikator konstruk <span class="var">[nama konstruk]</span> memiliki nilai loading factor di atas <span class="var">[nilai minimum, misal 0.70]</span>, dengan nilai AVE sebesar <span class="var">[nilai AVE]</span> dan Composite Reliability sebesar <span class="var">[nilai CR]</span>. Dengan demikian, konstruk <span class="var">[nama konstruk]</span> memenuhi kriteria validitas konvergen dan reliabilitas komposit.
+      CFA untuk <span class="var">[konstruk]</span> diestimasi dengan <span class="var">[estimator, perangkat lunak/versi]</span>. Loading terstandar berkisar <span class="var">[minimum]</span>–<span class="var">[maksimum]</span>, AVE = <span class="var">[nilai]</span>, dan CR = <span class="var">[nilai]</span>. Temuan <span class="var">[mendukung / belum mendukung]</span> validitas konvergen dan konsistensi internal berdasarkan <span class="var">[acuan dan konteks]</span>. Indikator yang perlu ditinjau: <span class="var">[item/alasan]</span>. CR mengukur reliabilitas, bukan bukti validitas dengan sendirinya.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Hasil pengujian CFA menunjukkan bahwa seluruh indikator konstruk [nama konstruk] memiliki nilai loading factor di atas [nilai minimum], dengan nilai AVE sebesar [nilai AVE] dan Composite Reliability sebesar [nilai CR]. Dengan demikian, konstruk [nama konstruk] memenuhi kriteria validitas konvergen dan reliabilitas komposit.')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;CFA untuk [konstruk] diestimasi dengan [estimator, perangkat lunak/versi]. Loading terstandar berkisar [minimum]–[maksimum], AVE = [nilai], dan CR = [nilai]. Temuan [mendukung / belum mendukung] validitas konvergen dan konsistensi internal berdasarkan [acuan dan konteks]. Indikator yang perlu ditinjau: [item/alasan]. CR mengukur reliabilitas, bukan bukti validitas dengan sendirinya.&quot;)">📋 Salin Template</button>
   </div>
 
   <!-- Discriminant -->
@@ -771,9 +771,9 @@
   <div class="template-box">
     <div class="tag">📐 CFA — Discriminant Validity</div>
     <div class="tmpl">
-      Uji validitas diskriminan dilakukan dengan membandingkan nilai akar AVE (√AVE = <span class="var">[nilai]</span>) dengan korelasi antar konstruk. Hasil menunjukkan bahwa nilai √AVE lebih besar dari korelasi tertinggi antar konstruk (<span class="var">[nilai korelasi]</span>), sehingga validitas diskriminan terpenuhi.
+      Validitas diskriminan dievaluasi menggunakan <span class="var">[metode sesuai model]</span>. Nilai absolut korelasi antarkonstruk berkisar <span class="var">[rentang]</span>, dengan √AVE <span class="var">[nilai per konstruk]</span>. Sebagai pelengkap pada model reflektif yang sesuai, HTMT <span class="var">[nilai pasangan]</span> dan CI bootstrap <span class="var">[batas bawah]</span> hingga <span class="var">[batas atas]</span> dibandingkan dengan batas <span class="var">[alasan pemilihan]</span>. Temuan <span class="var">[evaluasi dan tindak lanjut]</span>; Fornell–Larcker saja tidak cukup memastikan konstruk berbeda.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Uji validitas diskriminan dilakukan dengan membandingkan nilai akar AVE (√AVE = [nilai]) dengan korelasi antar konstruk. Hasil menunjukkan bahwa nilai √AVE lebih besar dari korelasi tertinggi antar konstruk ([nilai korelasi]), sehingga validitas diskriminan terpenuhi.')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Validitas diskriminan dievaluasi menggunakan [metode sesuai model]. Nilai absolut korelasi antarkonstruk berkisar [rentang], dengan √AVE [nilai per konstruk]. Sebagai pelengkap pada model reflektif yang sesuai, HTMT [nilai pasangan] dan CI bootstrap [batas bawah] hingga [batas atas] dibandingkan dengan batas [alasan pemilihan]. Temuan [evaluasi dan tindak lanjut]; Fornell–Larcker saja tidak cukup memastikan konstruk berbeda.&quot;)">📋 Salin Template</button>
   </div>
 
   <!-- GoF -->
@@ -781,9 +781,9 @@
   <div class="template-box">
     <div class="tag">📊 GoF — Fit Model SEM</div>
     <div class="tmpl">
-      Evaluasi kelayakan model struktural menunjukkan hasil yang baik, dengan nilai CMIN/DF = <span class="var">[nilai]</span> (&lt;3.00), RMSEA = <span class="var">[nilai]</span> (&lt;0.08), CFI = <span class="var">[nilai]</span> (≥0.90), dan TLI = <span class="var">[nilai]</span> (≥0.90). Berdasarkan kriteria tersebut, model penelitian dinyatakan <em>fit</em> dan layak digunakan untuk pengujian hipotesis.
+      Untuk CB-SEM dengan estimator <span class="var">[nama]</span>, diperoleh χ²(<span class="var">[df]</span>) = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>, CFI = <span class="var">[nilai]</span>, TLI = <span class="var">[nilai]</span>, RMSEA = <span class="var">[nilai]</span> dengan CI 90% <span class="var">[batas bawah]</span> hingga <span class="var">[batas atas]</span>, dan SRMR = <span class="var">[nilai]</span>. Evaluasi gabungan bersama residual, parameter, dan teori menunjukkan <span class="var">[kesimpulan beserta keterbatasan]</span>. Indeks yang menunjukkan masalah: <span class="var">[rincian]</span>. Keputusan tidak didasarkan pada jumlah indeks yang melewati cutoff.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Evaluasi kelayakan model struktural menunjukkan hasil yang baik, dengan nilai CMIN/DF = [nilai] (<3.00), RMSEA = [nilai] (<0.08), CFI = [nilai] (≥0.90), dan TLI = [nilai] (≥0.90). Berdasarkan kriteria tersebut, model penelitian dinyatakan fit dan layak digunakan untuk pengujian hipotesis.')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Untuk CB-SEM dengan estimator [nama], diperoleh χ²([df]) = [nilai], p = [nilai], CFI = [nilai], TLI = [nilai], RMSEA = [nilai] dengan CI 90% [batas bawah] hingga [batas atas], dan SRMR = [nilai]. Evaluasi gabungan bersama residual, parameter, dan teori menunjukkan [kesimpulan beserta keterbatasan]. Indeks yang menunjukkan masalah: [rincian]. Keputusan tidak didasarkan pada jumlah indeks yang melewati cutoff.&quot;)">📋 Salin Template</button>
   </div>
 
   <!-- Mediasi Signifikan -->
@@ -791,9 +791,9 @@
   <div class="template-box">
     <div class="tag">🔗 Mediasi — Terbukti</div>
     <div class="tmpl">
-      Pengujian efek mediasi dilakukan menggunakan teknik bootstrapping dengan <span class="var">[5.000]</span> resamples. Hasil menunjukkan bahwa efek tidak langsung (indirect effect) variabel <span class="var">[X]</span> terhadap variabel <span class="var">[Y]</span> melalui <span class="var">[M]</span> adalah sebesar <span class="var">[nilai koefisien]</span> dengan 95% Confidence Interval [LLCI = <span class="var">[nilai]</span>, ULCI = <span class="var">[nilai]</span>]. Karena interval kepercayaan tidak mencakup nilai nol, dapat disimpulkan bahwa <span class="var">[M]</span> terbukti memediasi pengaruh <span class="var">[X]</span> terhadap <span class="var">[Y]</span> secara signifikan. Mengingat efek langsung (direct effect) <span class="var">[masih / tidak lagi]</span> signifikan (β = <span class="var">[nilai]</span>, p <span class="var">[< / >]</span> 0.05), jenis mediasi yang terjadi adalah <span class="var">[parsial / penuh]</span>.
+      Efek tidak langsung <span class="var">[X]</span> melalui <span class="var">[M]</span> terhadap <span class="var">[Y]</span> diestimasi dengan <span class="var">[jumlah]</span> bootstrap resamples, menggunakan CI <span class="var">[jenis]</span> 95%: b_indirect = <span class="var">[nilai]</span>, BootSE = <span class="var">[nilai]</span>, batas <span class="var">[bawah]</span> hingga <span class="var">[atas]</span>. Jika CI tidak mencakup nol, hasil memberikan bukti efek tidak langsung dalam model. Efek langsung c′ = <span class="var">[nilai]</span>, CI <span class="var">[bawah]</span> hingga <span class="var">[atas]</span>, p = <span class="var">[nilai]</span>. Efek langsung yang tidak signifikan tidak membuktikan mediasi penuh; interpretasi kausal memerlukan asumsi desain dan perancu yang dijelaskan.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Pengujian efek mediasi dilakukan menggunakan teknik bootstrapping dengan [5.000] resamples. Hasil menunjukkan bahwa efek tidak langsung variabel [X] terhadap [Y] melalui [M] adalah sebesar [nilai] dengan 95% CI [LLCI = [nilai], ULCI = [nilai]]. Karena CI tidak mencakup nilai nol, [M] terbukti memediasi pengaruh [X] terhadap [Y] secara signifikan. Jenis mediasi yang terjadi adalah [parsial / penuh].')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Efek tidak langsung [X] melalui [M] terhadap [Y] diestimasi dengan [jumlah] bootstrap resamples, menggunakan CI [jenis] 95%: b_indirect = [nilai], BootSE = [nilai], batas [bawah] hingga [atas]. Jika CI tidak mencakup nol, hasil memberikan bukti efek tidak langsung dalam model. Efek langsung c′ = [nilai], CI [bawah] hingga [atas], p = [nilai]. Efek langsung yang tidak signifikan tidak membuktikan mediasi penuh; interpretasi kausal memerlukan asumsi desain dan perancu yang dijelaskan.&quot;)">📋 Salin Template</button>
   </div>
 
   <!-- Mediasi Tidak Signifikan -->
@@ -801,19 +801,19 @@
   <div class="template-box">
     <div class="tag">🔗 Mediasi — Tidak Terbukti</div>
     <div class="tmpl">
-      Hasil bootstrap dengan <span class="var">[5.000]</span> resamples menunjukkan efek tidak langsung sebesar <span class="var">[nilai]</span> dengan 95% CI [LLCI = <span class="var">[nilai]</span>, ULCI = <span class="var">[nilai]</span>]. Karena interval kepercayaan mencakup nilai nol, disimpulkan bahwa <span class="var">[M]</span> tidak terbukti sebagai mediator yang signifikan dalam hubungan <span class="var">[X]</span> dan <span class="var">[Y]</span>.
+      Efek tidak langsung <span class="var">[X]</span> melalui <span class="var">[M]</span> terhadap <span class="var">[Y]</span> sebesar <span class="var">[nilai]</span>, dengan CI bootstrap <span class="var">[jenis]</span> 95% <span class="var">[bawah]</span> hingga <span class="var">[atas]</span> berdasarkan <span class="var">[jumlah]</span> resamples. Karena interval mencakup nol, bukti efek tidak langsung belum cukup pada tingkat ini. Hasil tersebut tidak membuktikan efek pasti tidak ada; perhatikan lebar CI dan keterbatasan penelitian.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Hasil bootstrap dengan [5.000] resamples menunjukkan efek tidak langsung sebesar [nilai] dengan 95% CI [LLCI = [nilai], ULCI = [nilai]]. Karena CI mencakup nilai nol, disimpulkan bahwa [M] tidak terbukti sebagai mediator yang signifikan dalam hubungan [X] dan [Y].')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Efek tidak langsung [X] melalui [M] terhadap [Y] sebesar [nilai], dengan CI bootstrap [jenis] 95% [bawah] hingga [atas] berdasarkan [jumlah] resamples. Karena interval mencakup nol, bukti efek tidak langsung belum cukup pada tingkat ini. Hasil tersebut tidak membuktikan efek pasti tidak ada; perhatikan lebar CI dan keterbatasan penelitian.&quot;)">📋 Salin Template</button>
   </div>
 
   <!-- Moderasi -->
-  <h2 class="sec">Template #6 — Moderasi Terbukti</h2>
+  <h2 class="sec">Template #6 — Hasil Uji Moderasi</h2>
   <div class="template-box">
     <div class="tag">⚙️ Moderasi — Terbukti</div>
     <div class="tmpl">
-      Hasil uji interaksi menunjukkan bahwa koefisien interaction term antara <span class="var">[X]</span> dan <span class="var">[Z]</span> adalah signifikan (β = <span class="var">[nilai]</span>, t = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>). Hal ini mengindikasikan bahwa variabel <span class="var">[Z]</span> terbukti memoderasi pengaruh <span class="var">[X]</span> terhadap <span class="var">[Y]</span>. Analisis simple slope menunjukkan bahwa pengaruh <span class="var">[X]</span> terhadap <span class="var">[Y]</span> lebih kuat pada kondisi <span class="var">[Z]</span> tinggi (β = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>) dibandingkan kondisi <span class="var">[Z]</span> rendah (β = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>).
+      Koefisien interaksi <span class="var">[X×Z]</span> adalah b₃ = <span class="var">[nilai]</span>, SE = <span class="var">[nilai]</span>, t(<span class="var">[df]</span>) = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>, CI 95% <span class="var">[bawah]</span> hingga <span class="var">[atas]</span>. Pada α = <span class="var">[nilai]</span>, hasil <span class="var">[memberikan / belum memberikan cukup]</span> bukti interaksi. Slope X pada Z = <span class="var">[nilai rendah]</span> adalah <span class="var">[nilai dan CI]</span>, dan pada Z = <span class="var">[nilai tinggi]</span> adalah <span class="var">[nilai dan CI]</span>. Arah dan relevansi perubahan dinilai pada skala outcome yang digunakan; perbedaan signifikan/tidak signifikan antarslope bukan pengganti uji interaksi.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Hasil uji interaksi menunjukkan bahwa koefisien interaction term antara [X] dan [Z] adalah signifikan (β = [nilai], t = [nilai], p = [nilai]). Hal ini mengindikasikan bahwa variabel [Z] terbukti memoderasi pengaruh [X] terhadap [Y]. Analisis simple slope menunjukkan bahwa pengaruh [X] terhadap [Y] lebih kuat pada kondisi [Z] tinggi (β = [nilai], p = [nilai]) dibandingkan kondisi [Z] rendah (β = [nilai], p = [nilai]).')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Koefisien interaksi [X×Z] adalah b₃ = [nilai], SE = [nilai], t([df]) = [nilai], p = [nilai], CI 95% [bawah] hingga [atas]. Pada α = [nilai], hasil [memberikan / belum memberikan cukup] bukti interaksi. Slope X pada Z = [nilai rendah] adalah [nilai dan CI], dan pada Z = [nilai tinggi] adalah [nilai dan CI]. Arah dan relevansi perubahan dinilai pada skala outcome yang digunakan; perbedaan signifikan/tidak signifikan antarslope bukan pengganti uji interaksi.&quot;)">📋 Salin Template</button>
   </div>
 
   <!-- Johnson-Neyman -->
@@ -821,9 +821,9 @@
   <div class="template-box">
     <div class="tag">🎯 Johnson-Neyman</div>
     <div class="tmpl">
-      Analisis Johnson-Neyman menunjukkan bahwa pengaruh <span class="var">[X]</span> terhadap <span class="var">[Y]</span> signifikan secara statistik ketika nilai moderator <span class="var">[Z]</span> berada di bawah <span class="var">[nilai JN point 1]</span> dan di atas <span class="var">[nilai JN point 2]</span>. Sebanyak <span class="var">[persentase]</span>% dari total sampel berada dalam rentang yang memberikan pengaruh signifikan, yang mengindikasikan bahwa moderasi memiliki relevansi praktis yang <span class="var">[kuat / moderat / lemah]</span>.
+      Analisis Johnson–Neyman pada model <span class="var">[spesifikasi]</span> dan α = <span class="var">[nilai]</span> menghasilkan <span class="var">[jumlah dan nilai batas dalam rentang teramati]</span>. Efek bersyarat <span class="var">[X]</span> terhadap <span class="var">[Y]</span> signifikan pada <span class="var">[zona sesuai output]</span>, dalam rentang moderator teramati <span class="var">[minimum]</span>–<span class="var">[maksimum]</span>. Sebanyak <span class="var">[persentase]</span>% observasi berada pada zona tersebut. Persentase ini menunjukkan cakupan, bukan kekuatan interaksi; relevansi praktis dinilai dari besar efek, CI, dan konteks. Metode inferensi: <span class="var">[pointwise / koreksi multipel yang digunakan]</span>.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Analisis Johnson-Neyman menunjukkan bahwa pengaruh [X] terhadap [Y] signifikan secara statistik ketika nilai moderator [Z] berada di bawah [JN point 1] dan di atas [JN point 2]. Sebanyak [persentase]% dari total sampel berada dalam rentang yang memberikan pengaruh signifikan, yang mengindikasikan bahwa moderasi memiliki relevansi praktis yang [kuat / moderat / lemah].')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Analisis Johnson–Neyman pada model [spesifikasi] dan α = [nilai] menghasilkan [jumlah dan nilai batas dalam rentang teramati]. Efek bersyarat [X] terhadap [Y] signifikan pada [zona sesuai output], dalam rentang moderator teramati [minimum]–[maksimum]. Sebanyak [persentase]% observasi berada pada zona tersebut. Persentase ini menunjukkan cakupan, bukan kekuatan interaksi; relevansi praktis dinilai dari besar efek, CI, dan konteks. Metode inferensi: [pointwise / koreksi multipel yang digunakan].&quot;)">📋 Salin Template</button>
   </div>
 
   <div class="alert alert-success">
@@ -888,6 +888,13 @@
     <span class="cta-link">Atau kunjungi <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">yogoaj.github.io/ruangstatistika</a></span>
   </div>
 
+  <h2 class="sec">Rujukan &amp; Pembaruan Materi</h2>
+  <p>Ditinjau 24 November 2026. Contoh angka adalah ilustrasi; sesuaikan kesimpulan dengan data, desain, dan pedoman institusi/jurnal.</p>
+  <ul>
+    <li><a href="https://afhayes.com/faq.html" target="_blank" rel="noopener noreferrer">Hayes — FAQ PROCESS (centering, mediasi, dan interpretasi)</a></li>
+    <li><a href="https://smartpls.com/documentation/algorithms-and-techniques/validity-and-model-fit/discriminant-validity-assessment/" target="_blank" rel="noopener noreferrer">SmartPLS — Discriminant validity dan HTMT</a></li>
+    <li><a href="https://doi.org/10.1080/10705519909540118" target="_blank" rel="noopener noreferrer">Hu &amp; Bentler (1999) — Fit-index cutoffs dalam konteks simulasi</a></li>
+  </ul>
   <div class="ebook-footer" style="margin-top:32px;">
     © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Bebas disebarkan untuk keperluan non-komersial
   </div>

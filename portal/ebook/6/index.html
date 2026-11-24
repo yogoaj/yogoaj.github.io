@@ -292,7 +292,7 @@
   <p><strong>Statistical power</strong> adalah probabilitas bahwa sebuah uji statistik akan berhasil mendeteksi efek yang memang benar-benar ada di populasi — yaitu menolak H₀ yang salah dengan tepat.</p>
 
   <div class="highlight">
-    Bayangkan power seperti "kepekaan detektor". Power = 0.80 berarti jika efek nyata ada di populasi, ada <strong>80% kemungkinan</strong> penelitian Anda akan menemukannya. Sisanya 20% adalah risiko gagal mendeteksi efek yang sebenarnya ada.
+    Bayangkan power seperti "kepekaan detektor". Power = 0.80 berarti pada <strong>besar efek, desain, dan asumsi tertentu</strong>, prosedur uji menolak H₀ pada sekitar 80% pengulangan penelitian. Sisanya 20% adalah risiko gagal mendeteksi efek yang sebenarnya ada.
   </div>
 
   <h2 class="sec">1.2 Empat Konsep yang Saling Terkait</h2>
@@ -304,7 +304,7 @@
 
   <div class="skala-card blue">
     <div class="skala-title">1 − β — Statistical Power</div>
-    <p>Probabilitas menolak H₀ yang <em>sebenarnya salah</em> — kemampuan mendeteksi efek yang ada. Standar minimum yang diterima secara luas: <strong>power ≥ 0.80 (80%)</strong>. Semakin besar power, semakin baik.</p>
+    <p>Probabilitas menolak H₀ yang <em>sebenarnya salah</em> — kemampuan mendeteksi efek yang ada. Target yang sering dipakai adalah <strong>.80 atau .90</strong>, sesuai konsekuensi kesalahan dan sumber daya; tidak ada batas universal.</p>
   </div>
 
   <div class="skala-card purple">
@@ -327,7 +327,7 @@
     </div>
     <div class="card" style="border-color:#6ee7b7;background:#f0fdf4;">
       <h3 style="color:#065f46;">⚠️ Type II Error (β)</h3>
-      <p style="color:#064e3b;">Gagal menemukan efek padahal sebenarnya <strong>ada</strong>. False negative. Terjadi saat sampel terlalu kecil (underpowered).</p>
+      <p style="color:#064e3b;">Gagal menemukan efek padahal sebenarnya <strong>ada</strong>. False negative. Dapat terjadi bahkan pada penelitian dengan power tinggi; risikonya bergantung pada besar efek, desain, dan ukuran sampel.</p>
       <p style="font-size:11px;color:#166534;font-weight:600;margin-top:8px;">Contoh: Obat efektif tapi dianggap tidak terbukti.</p>
     </div>
   </div>
@@ -344,7 +344,7 @@
 
   <div class="box-warn">
     <div class="box-label">⚠️ Underpowered Study</div>
-    Penelitian dengan power &lt; 0.80 disebut <em>underpowered</em>. Bahayanya: jika efek nyata ada di populasi, penelitian Anda kemungkinan besar <strong>tidak akan menemukannya</strong>, padahal bukan karena efeknya tidak ada, tapi karena sampelnya tidak cukup. Ini masalah yang sangat umum tapi jarang disadari.
+    Penelitian disebut <em>underpowered</em> relatif terhadap target dan efek yang direncanakan. Power .79 berarti peluang deteksi 79% dan kegagalan deteksi 21% pada kondisi tersebut, bukan kemungkinan besar gagal. Rencanakan power sebelum melihat hasil; hasil tidak signifikan tidak membuktikan efek nol.
   </div>
 </div>
 </div>
@@ -363,7 +363,7 @@
       <h3>Dari Penelitian Sebelumnya (Paling Direkomendasikan)</h3>
     </div>
     <div class="scenario-body">
-      <p style="font-size:13.5px;">Cari meta-analisis atau studi serupa di bidang Anda. Ambil effect size yang dilaporkan (Cohen's d, r, f², dll.) sebagai estimasi untuk penelitian Anda. Ini adalah pendekatan paling valid secara ilmiah.</p>
+      <p style="font-size:13.5px;">Cari meta-analisis atau studi serupa di bidang Anda. Ambil effect size yang dilaporkan (Cohen's d, r, f², dll.) sebagai estimasi untuk penelitian Anda. Nilai juga kesesuaian populasi/desain, ketidakpastian estimasi, dan kemungkinan bias publikasi; jangan mengambil angka studi terdahulu tanpa evaluasi.</p>
     </div>
   </div>
 
@@ -373,7 +373,7 @@
       <h3>Dari Pilot Study</h3>
     </div>
     <div class="scenario-body">
-      <p style="font-size:13.5px;">Lakukan uji coba kecil (N = 20–30) untuk mendapatkan estimasi awal effect size. Kemudian gunakan estimasi itu untuk menghitung sampel utama. Cocok ketika belum ada literatur yang cukup di bidang spesifik Anda.</p>
+      <p style="font-size:13.5px;">Pilot membantu menilai prosedur dan variasi data, tetapi estimasi efek dari sampel kecil sangat tidak stabil. Gunakan rentang skenario dan efek terkecil yang bermakna; tidak ada jaminan bahwa pilot 20–30 orang cukup.</p>
     </div>
   </div>
 
@@ -383,7 +383,7 @@
       <h3>Konvensi Cohen (1988) — Pilihan Terakhir</h3>
     </div>
     <div class="scenario-body">
-      <p style="font-size:13.5px;">Jika tidak ada referensi sama sekali, gunakan konvensi umum yang ditetapkan Jacob Cohen: kecil, sedang, atau besar. Gunakan "sedang" sebagai default yang paling umum dipakai dalam penelitian sosial.</p>
+      <p style="font-size:13.5px;">Konvensi kecil/sedang/besar dapat dipakai untuk analisis sensitivitas. Tetapkan efek terkecil yang bermakna dan bandingkan beberapa skenario; jangan otomatis memilih efek sedang karena menghasilkan N yang nyaman.</p>
     </div>
   </div>
 
@@ -419,7 +419,7 @@
         <td>0.10</td>
         <td><strong>0.30</strong></td>
         <td>0.50</td>
-        <td>Korelasi Pearson / Spearman</td>
+        <td>Korelasi Pearson</td>
       </tr>
       <tr>
         <td><strong>Cohen's f²</strong></td>
@@ -433,7 +433,7 @@
         <td>0.10</td>
         <td><strong>0.30</strong></td>
         <td>0.50</td>
-        <td>Chi-square (asosiasi kategori)</td>
+        <td>Chi-square asosiasi; batas ini hanya untuk min(baris−1, kolom−1) = 1. Untuk tabel lebih besar, acuan V bergantung pada dimensinya.</td>
       </tr>
       <tr>
         <td><strong>w</strong></td>
@@ -464,7 +464,7 @@
 
   <div class="box-info">
     <div class="box-label">💡 Tips Praktis</div>
-    Dalam penelitian sosial Indonesia (manajemen, psikologi, pendidikan), efek <strong>sedang (medium)</strong> adalah yang paling umum dan realistis untuk dijadikan estimasi awal jika tidak ada referensi spesifik. Gunakan d = 0.50, f = 0.25, atau r = 0.30 sebagai default.
+    Laporkan alasan pemilihan efek, bukan hanya label Cohen. Buat skenario efek kecil hingga efek yang dianggap penting; jika N terbatas, laporkan efek minimum yang dapat dideteksi pada target power.
   </div>
 </div>
 </div>
@@ -474,92 +474,76 @@
 <div class="content-page">
   <div class="section-label">📊 Bab 3 — Tabel Referensi</div>
   <h1 class="page-title">Tabel Sampel Minimum <span>per Jenis Uji</span></h1>
-  <p class="page-desc">Semua tabel di bawah menggunakan standar: <strong>power = 0.80</strong>, <strong>α = .05</strong>, dua sisi (two-tailed). Gunakan sebagai referensi cepat dalam menentukan ukuran sampel penelitian Anda.</p>
+  <p class="page-desc">Tabel memakai target <strong>power ≥ .80</strong> dan <strong>α = .05</strong>. t-test/korelasi dua sisi; ANOVA dan regresi omnibus memakai ekor atas distribusi F. N adalah observasi lengkap dan independen; klaster, data hilang, atau desain lain memerlukan penyesuaian.</p>
 
   <h2 class="sec">3.1 Independent t-test</h2>
-  <p>Perbandingan rata-rata dua kelompok independen. N berikut adalah <em>per kelompok</em>.</p>
+  <p>Student t-test dua sisi, dua kelompok sama besar dengan varians populasi sama. N berikut adalah <em>per kelompok</em>; dihitung dengan distribusi t noncentral lalu dibulatkan ke atas.</p>
   <table class="dec-table">
     <thead>
       <tr><th>Effect Size (Cohen's d)</th><th>N per Kelompok</th><th>Total N</th><th>Interpretasi</th></tr>
     </thead>
     <tbody>
-      <tr><td>Sangat Kecil (d = 0.10)</td><td>1571</td><td>3142</td><td><span class="tag-warn">Hampir mustahil secara praktis</span></td></tr>
+      <tr><td>Sangat Kecil (d = 0.10)</td><td>1571</td><td>3142</td><td><span class="tag-warn">Kebutuhan sampel sangat besar</span></td></tr>
       <tr><td>Kecil (d = 0.20)</td><td>394</td><td><strong>788</strong></td><td><span class="tag-warn">Butuh sampel sangat besar</span></td></tr>
-      <tr><td>Sedang (d = 0.50)</td><td>64</td><td><strong>128</strong></td><td><span class="tag-ok">Umum dalam penelitian sosial ✓</span></td></tr>
+      <tr><td>Sedang (d = 0.50)</td><td>64</td><td><strong>128</strong></td><td><span class="tag-ok">Contoh skenario efek sedang</span></td></tr>
       <tr><td>Besar (d = 0.80)</td><td>26</td><td><strong>52</strong></td><td><span class="tag-ok">Efek mudah terdeteksi ✓</span></td></tr>
       <tr><td>Sangat Besar (d = 1.20)</td><td>12</td><td>24</td><td><span class="tag-ok">Efek sangat kuat ✓</span></td></tr>
     </tbody>
   </table>
 
   <h2 class="sec">3.2 One-way ANOVA</h2>
-  <p>Perbandingan rata-rata tiga atau lebih kelompok. N berikut adalah <em>per kelompok</em>.</p>
+  <p>ANOVA fixed effects omnibus dengan kelompok sama besar, varians sama, dan observasi independen. N per kelompok dibulatkan ke atas hingga power mencapai target. Perhitungan: df₁ = k−1, df₂ = N−k, noncentrality λ = Nf².</p>
   <table class="dec-table">
     <thead>
       <tr><th>Effect Size (Cohen's f)</th><th>3 Kelompok</th><th>4 Kelompok</th><th>5 Kelompok</th></tr>
     </thead>
     <tbody>
-      <tr><td>Kecil (f = 0.10)</td><td>322 / kelompok (966 total)</td><td>274 / kel. (1096)</td><td>240 / kel. (1200)</td></tr>
-      <tr><td>Sedang (f = 0.25)</td><td><strong>52 / kelompok (156 total)</strong></td><td>45 / kel. (180)</td><td>39 / kel. (195)</td></tr>
-      <tr><td>Besar (f = 0.40)</td><td><strong>21 / kelompok (63 total)</strong></td><td>18 / kel. (72)</td><td>16 / kel. (80)</td></tr>
+      <tr><td>Kecil (f = 0.10)</td><td>323 / kelompok (969 total)</td><td>274 / kel. (1096)</td><td>240 / kel. (1200)</td></tr>
+      <tr><td>Sedang (f = 0.25)</td><td><strong>53 / kelompok (159 total)</strong></td><td>45 / kel. (180)</td><td>40 / kel. (200)</td></tr>
+      <tr><td>Besar (f = 0.40)</td><td><strong>22 / kelompok (66 total)</strong></td><td>19 / kel. (76)</td><td>16 / kel. (80)</td></tr>
     </tbody>
   </table>
 
   <h2 class="sec">3.3 Regresi Linier Berganda (OLS)</h2>
-  <p>Total N yang dibutuhkan berdasarkan jumlah prediktor dan effect size (f²).</p>
+  <p>Total N untuk uji F omnibus fixed model, H₀: R² = 0, dengan p prediktor (intersep tidak dihitung). Gunakan f² = R²/(1−R²), df₁ = p, df₂ = N−p−1, dan λ = Nf². Ini bukan perhitungan untuk satu koefisien atau tambahan R².</p>
   <table class="dec-table">
     <thead>
       <tr><th>Jumlah Prediktor</th><th>Kecil (f²=.02)</th><th>Sedang (f²=.15)</th><th>Besar (f²=.35)</th></tr>
     </thead>
     <tbody>
       <tr><td>1 prediktor</td><td>395</td><td>55</td><td>25</td></tr>
-      <tr><td>2 prediktor</td><td>481</td><td>68</td><td>30</td></tr>
-      <tr><td>3 prediktor</td><td>547</td><td>77</td><td>34</td></tr>
-      <tr><td>5 prediktor</td><td>645</td><td><strong>92</strong></td><td>42</td></tr>
-      <tr><td>7 prediktor</td><td>726</td><td><strong>103</strong></td><td>46</td></tr>
-      <tr><td>10 prediktor</td><td>844</td><td><strong>119</strong></td><td>54</td></tr>
+      <tr><td>2 prediktor</td><td>485</td><td>68</td><td>31</td></tr>
+      <tr><td>3 prediktor</td><td>550</td><td>77</td><td>36</td></tr>
+      <tr><td>5 prediktor</td><td>647</td><td>92</td><td>43</td></tr>
+      <tr><td>7 prediktor</td><td>725</td><td>103</td><td>49</td></tr>
+      <tr><td>10 prediktor</td><td>822</td><td>118</td><td>57</td></tr>
     </tbody>
   </table>
 
-  <h2 class="sec">3.4 Korelasi Pearson / Spearman</h2>
+  <h2 class="sec">3.4 Korelasi Pearson (Pendekatan Fisher z)</h2>
+  <p>Untuk H₀: ρ = 0, pasangan independen dengan asumsi normal bivariat. Pendekatan: N = ceil(3 + [(z.975 + z.80)/atanh(ρ)]²). Angka dapat berbeda dari metode exact G*Power; tidak otomatis berlaku untuk Spearman atau data klaster.</p>
   <table class="dec-table">
     <thead>
       <tr><th>Effect Size (r)</th><th>Sampel Minimum</th><th>Keterangan</th></tr>
     </thead>
     <tbody>
-      <tr><td>Kecil (r = 0.10)</td><td>782</td><td>Nyaris tidak bermakna secara praktis</td></tr>
-      <tr><td>r = 0.20</td><td>197</td><td>Hubungan lemah-sedang</td></tr>
-      <tr><td>Sedang (r = 0.30)</td><td><strong>84</strong></td><td><span class="tag-ok">Paling umum dalam penelitian sosial ✓</span></td></tr>
-      <tr><td>r = 0.40</td><td>46</td><td>Hubungan sedang-kuat</td></tr>
-      <tr><td>Besar (r = 0.50)</td><td><strong>28</strong></td><td>Hubungan kuat dan jelas</td></tr>
+      <tr><td>Kecil (r = 0.10)</td><td>783</td><td>Efek kecil tetap bisa penting secara substantif</td></tr>
+      <tr><td>r = 0.20</td><td>194</td><td>Hubungan lemah-sedang</td></tr>
+      <tr><td>Sedang (r = 0.30)</td><td><strong>85</strong></td><td><span class="tag-ok">Skenario efek sedang</span></td></tr>
+      <tr><td>r = 0.40</td><td>47</td><td>Hubungan sedang-kuat</td></tr>
+      <tr><td>Besar (r = 0.50)</td><td><strong>30</strong></td><td>Hubungan kuat dan jelas</td></tr>
     </tbody>
   </table>
 
   <h2 class="sec">3.5 SEM (Structural Equation Modeling)</h2>
-  <p>Untuk SEM tidak ada rumus tunggal seperti uji lainnya. Berikut panduan yang paling banyak digunakan:</p>
-
+  <p>Kebutuhan N bergantung pada loading, jalur yang ingin diuji, estimator, jumlah kategori, distribusi, missing data, dan struktur model. Aturan 5–10 responden per indikator atau 10 per parameter tidak menjamin power, konvergensi, atau presisi.</p>
   <div class="grid-2">
-    <div class="card">
-      <h3>📏 Aturan 10 (Rule of 10)</h3>
-      <p>Minimal <strong>10 responden per parameter</strong> yang diestimasi. Model dengan 20 parameter bebas → N minimum = 200.</p>
-    </div>
-    <div class="card">
-      <h3>📋 Hair et al. (2010)</h3>
-      <p><strong>5–10 responden per indikator</strong> (item kuesioner). 25 item → N = 125–250. Paling populer digunakan di Indonesia.</p>
-    </div>
-    <div class="card">
-      <h3>🎯 Model Sederhana</h3>
-      <p>3–5 konstruk, 15–25 item: targetkan <strong>N = 150–250</strong>. Cukup untuk sebagian besar tesis S2.</p>
-    </div>
-    <div class="card">
-      <h3>🏗️ Model Kompleks</h3>
-      <p>5+ konstruk, 30+ item: targetkan <strong>N ≥ 300</strong>. Lebih stabil untuk estimasi parameter dan lebih mudah achieve fit.</p>
-    </div>
+    <div class="card"><h3>🎯 Tetapkan target</h3><p>Pilih hipotesis utama: satu jalur, efek tidak langsung, perbandingan model, atau global fit. Power untuk satu target tidak menjamin target lain.</p></div>
+    <div class="card"><h3>📐 Tentukan model</h3><p>Masukkan parameter yang masuk akal, estimator, missing data, dan desain. Bandingkan beberapa skenario.</p></div>
+    <div class="card"><h3>🧮 Power analitik</h3><p>Gunakan semPower untuk pendekatan berbasis model atau RMSEA sesuai hipotesis. G*Power tidak menyediakan menu khusus power SEM berbasis RMSEA.</p></div>
+    <div class="card"><h3>🔁 Simulasi Monte Carlo</h3><p>Nilai power, konvergensi, bias, dan cakupan CI. Pilih N yang memadai untuk tujuan penelitian, bukan hanya agar model terlihat fit.</p></div>
   </div>
-
-  <div class="box-note">
-    <div class="box-label">📌 Catatan untuk SEM</div>
-    Pendekatan formal yang paling akurat adalah power analysis berdasarkan MacCallum et al. (1996) menggunakan df model dan target RMSEA. Tersedia di software G*Power (gratis) dan modul Power Analysis di Ruang Statistika (Pro).
-  </div>
+  <div class="box-note"><div class="box-label">📌 Catatan untuk SEM</div>Periksa dokumentasi <a href="https://moshagen.github.io/semPower/" target="_blank" rel="noopener noreferrer">semPower</a>. Ketersediaan fitur aplikasi perlu dicek pada versi yang sedang digunakan.</div>
 </div>
 </div>
 
@@ -571,24 +555,24 @@
   <p class="page-desc">Rumus Slovin sudah menjadi "reflek" mahasiswa Indonesia. Tapi tahukah Anda kapan Slovin tepat digunakan — dan kapan justru menyesatkan?</p>
 
   <h2 class="sec">4.1 Rumus Slovin: Apa dan Untuk Apa?</h2>
-  <p>Rumus Slovin (1960) dirancang untuk menentukan ukuran sampel dalam <strong>survei deskriptif</strong> dari populasi yang berhingga dan diketahui jumlahnya:</p>
+  <p>Rumus yang sering disebut Slovin berikut merupakan penyederhanaan perencanaan presisi dengan asumsi tertentu. Ia bukan rumus umum untuk seluruh survei atau semua jenis parameter:</p>
 
   <div class="formula-box">n = N / (1 + N·e²)</div>
   <p style="font-size:13px;color:var(--gray);">di mana N = ukuran populasi, e = margin of error yang dapat ditoleransi (biasanya 0.05 atau 0.10)</p>
 
   <div class="box-info">
     <div class="box-label">✅ Kapan Slovin Tepat Digunakan?</div>
-    Survei deskriptif murni: Anda ingin mengestimasi proporsi atau rata-rata dalam populasi yang diketahui jumlahnya, tanpa uji hipotesis. Contoh: survei kepuasan pelanggan dari 2.000 nasabah bank, survei preferensi dari populasi pegawai yang tercatat.
+    Untuk estimasi proporsi dengan sampling acak sederhana, gunakan formula eksplisit yang memuat tingkat kepercayaan, perkiraan proporsi, dan koreksi populasi berhingga. Rumus sederhana ini mendekati kasus konservatif p = .5 dan kepercayaan sekitar 95%; bukan formula umum rerata, klaster, atau sampel nonprobabilitas.
   </div>
 
-  <h2 class="sec">4.2 Kelemahan Slovin untuk Penelitian Inferensial</h2>
+  <h2 class="sec">4.2 Keterbatasan Slovin untuk Perencanaan Uji Hipotesis</h2>
   <p>Inilah yang jarang diajarkan: Slovin <strong>tidak mempertimbangkan</strong> kemampuan mendeteksi efek statistik. Akibatnya:</p>
 
   <ul class="dot-list">
     <li>Slovin bisa menghasilkan sampel yang <em>terlalu kecil</em> untuk regresi berganda (underpowered)</li>
     <li>Slovin bisa menghasilkan sampel yang <em>terlalu besar</em> untuk t-test dengan efek besar (pemborosan)</li>
     <li>Slovin tidak memperhitungkan jumlah prediktor, jenis uji, atau besar efek yang diharapkan</li>
-    <li>Slovin tidak relevan untuk data non-survei (eksperimen, data sekunder, dsb.)</li>
+    <li>Pilihan metode perencanaan bergantung pada estimand dan desain, bukan label survei atau non-survei</li>
   </ul>
 
   <h2 class="sec">4.3 Perbandingan Langsung</h2>
@@ -600,12 +584,12 @@
     <tbody>
       <tr>
         <td><strong>Tujuan</strong></td>
-        <td>Sampling deskriptif dari populasi berhingga</td>
+        <td>Pendekatan presisi proporsi dengan asumsi terbatas</td>
         <td>Mendeteksi efek dengan kekuatan statistik tertentu</td>
       </tr>
       <tr>
         <td><strong>Input</strong></td>
-        <td>N populasi + margin of error (e)</td>
+        <td>N dan e; asumsi tingkat kepercayaan/proporsi tersirat</td>
         <td>α, power, effect size, jenis uji</td>
       </tr>
       <tr>
@@ -621,12 +605,12 @@
       <tr>
         <td><strong>Standar jurnal internasional?</strong></td>
         <td><span class="tag-warn">Jarang diterima</span></td>
-        <td><span class="tag-ok">✅ Standar untuk penelitian inferensial</span></td>
+        <td><span class="tag-ok">Salah satu dasar untuk perencanaan uji hipotesis</span></td>
       </tr>
       <tr>
         <td><strong>Perlu populasi diketahui?</strong></td>
         <td>Ya — wajib</td>
-        <td>Tidak — bekerja pada populasi tak terhingga</td>
+        <td>Tidak selalu; sesuaikan dengan populasi dan desain</td>
       </tr>
       <tr>
         <td><strong>Software gratis?</strong></td>
@@ -645,14 +629,14 @@
     </div>
     <div class="vs-label">VS</div>
     <div class="vs-card-good">
-      <div class="vs-title">✅ Slovin oke jika...</div>
-      <p>Penelitian Anda <em>murni deskriptif</em>: ingin mengestimasi proporsi atau rata-rata populasi yang jumlahnya diketahui, tanpa menguji hipotesis apapun.</p>
+      <div class="vs-title">✅ Rencanakan presisi jika...</div>
+      <p>Tujuan utama mengestimasi proporsi/rerata dengan interval kepercayaan tertentu. Gunakan formula sesuai parameter, variasi, desain, dan populasi. Estimasi interval juga merupakan inferensi; perbedaannya bukan sekadar deskriptif vs inferensial.</p>
     </div>
   </div>
 
   <div class="box-danger">
     <div class="box-label">⚠️ Risiko Nyata</div>
-    Contoh kasus: Peneliti menggunakan Slovin dengan N populasi = 500, e = 0.05 → n = 222. Tapi penelitiannya menggunakan regresi berganda dengan 8 prediktor. Untuk power = 0.80 dengan efek sedang, sebenarnya dibutuhkan N ≈ 109. Namun jika efeknya kecil, dibutuhkan N ≈ 750. Slovin memberikan angka yang "terasa pas" tapi tidak berbasis pada kapasitas deteksi yang sesungguhnya.
+    Contoh kasus: Peneliti menggunakan Slovin dengan N populasi = 5.000, e = 0.05 → n = 371 (dibulatkan ke atas). Tapi penelitiannya menggunakan regresi berganda dengan 8 prediktor. Untuk power = 0.80 dengan efek sedang, sebenarnya dibutuhkan N ≈ 109. Namun jika efeknya kecil, dibutuhkan N = 759. Slovin memberikan angka yang "terasa pas" tapi tidak berbasis pada kapasitas deteksi yang sesungguhnya.
   </div>
 
   <h2 class="sec">4.5 Cara Melaporkan Sample Size di Metodologi</h2>
@@ -665,7 +649,7 @@
 
   <div class="box-note">
     <div class="box-label">📌 Tips</div>
-    Selalu tambahkan 10–20% dari sampel minimum sebagai buffer untuk antisipasi missing data, kuesioner tidak lengkap, atau responden yang tidak lolos skrining.
+    Jika proporsi data yang diperkirakan tidak dapat dianalisis r, target rekrutmen = ceil(n_lengkap / (1 − r)). Untuk 92 data lengkap dan kehilangan 20%, rekrut minimal 115, bukan 92 × 1.20. Pertimbangkan juga design effect/klaster; penambahan N tidak menghilangkan bias nonrespons.
   </div>
 </div>
 </div>
@@ -675,7 +659,7 @@
 <div class="content-page">
   <div class="section-label">🚀 Bab 5 — Platform</div>
   <h1 class="page-title">Hitung Sampel di <span>Ruang Statistika</span></h1>
-  <p class="page-desc">Semua konsep power analysis yang dibahas dalam ebook ini dapat langsung Anda praktikkan di Ruang Statistika — tanpa instalasi software, tanpa coding.</p>
+  <p class="page-desc">Gunakan modul Ruang Statistika yang tersedia untuk latihan; cocokkan jenis uji dan parameter. Untuk kebutuhan khusus SEM, gunakan semPower atau simulasi yang sesuai.</p>
 
   <h2 class="sec">Modul yang Relevan</h2>
   <div class="modul-grid">
@@ -698,7 +682,7 @@
     </div>
     <div class="card">
       <h3>🔍 Post Hoc Analysis</h3>
-      <p>Input: N aktual yang sudah terkumpul. Output: <strong>power yang dicapai</strong> untuk efek tertentu.</p>
+      <p>Input: N, α, desain, dan efek yang ditetapkan. Jangan memakai observed power dari efek hasil sampel untuk menafsirkan p-value; utamakan CI dan analisis sensitivitas.</p>
     </div>
     <div class="card">
       <h3>📈 Sensitivity Analysis</h3>
@@ -800,6 +784,13 @@
     </div>
   </div>
 
+  <h2 class="sec">Rujukan &amp; Pembaruan Materi</h2>
+  <p>Ditinjau 24 November 2026. Contoh angka adalah ilustrasi; sesuaikan kesimpulan dengan data, desain, dan pedoman institusi/jurnal.</p>
+  <ul>
+    <li><a href="https://www.psychologie.hhu.de/arbeitsgruppen/allgemeine-psychologie-und-arbeitspsychologie/gpower" target="_blank" rel="noopener noreferrer">G*Power — Dokumentasi resmi</a></li>
+    <li><a href="https://moshagen.github.io/semPower/" target="_blank" rel="noopener noreferrer">semPower — Power untuk SEM berbasis model dan simulasi</a></li>
+    <li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ncf.html" target="_blank" rel="noopener noreferrer">SciPy — Distribusi F noncentral untuk reproduksi tabel</a></li>
+  </ul>
   <div class="ebook-footer">
     © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat<br>
     Ebook ini boleh dibagikan secara gratis dengan mencantumkan sumber.

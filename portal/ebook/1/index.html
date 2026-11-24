@@ -269,7 +269,7 @@
 
   <div class="alert alert-info">
     <span class="alert-icon">💡</span>
-    <div><strong>Cara membaca ebook ini:</strong> Gunakan tombol ‹ › di bawah atau klik menu navigasi untuk berpindah halaman. Setiap kesalahan dapat diklik untuk melihat detail penjelasan.</div>
+    <div><strong>Cara membaca ebook ini:</strong> Gunakan tombol ‹ › di bawah atau klik menu navigasi untuk berpindah halaman. Penjelasan setiap kesalahan berada pada halaman berikutnya.</div>
   </div>
 
   <h2 class="sec">Ringkasan 10 Kesalahan</h2>
@@ -278,16 +278,16 @@
       <tr><th>#</th><th>❌ Yang Salah di SPSS</th><th>✅ Yang Benar</th></tr>
     </thead>
     <tbody>
-      <tr><td style="font-weight:700;color:var(--navy);">1</td><td><span class="tag-wrong">Langsung regresi tanpa uji asumsi normalitas</span></td><td><span class="tag-right">Lakukan uji K-S atau Shapiro-Wilk terlebih dahulu</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">1</td><td><span class="tag-wrong">Melaporkan regresi tanpa diagnosis model dan residual</span></td><td><span class="tag-right">Periksa desain, residual, bentuk hubungan, dan pengamatan berpengaruh</span></td></tr>
       <tr><td style="font-weight:700;color:var(--navy);">2</td><td><span class="tag-wrong">p &lt; 0,05 selalu berarti 'penting'</span></td><td><span class="tag-right">Laporkan juga effect size (Cohen's d, η², dll.)</span></td></tr>
-      <tr><td style="font-weight:700;color:var(--navy);">3</td><td><span class="tag-wrong">Abaikan multikolinearitas (VIF tidak dicek)</span></td><td><span class="tag-right">Selalu cek VIF; jika VIF > 10 ada masalah serius</span></td></tr>
-      <tr><td style="font-weight:700;color:var(--navy);">4</td><td><span class="tag-wrong">Pakai t-test meski data tidak normal & sampel kecil</span></td><td><span class="tag-right">Gunakan Mann-Whitney U sebagai alternatif nonparametrik</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">3</td><td><span class="tag-wrong">Abaikan multikolinearitas (VIF tidak dicek)</span></td><td><span class="tag-right">Tinjau VIF bersama teori, presisi, dan kestabilan koefisien</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">4</td><td><span class="tag-wrong">Memilih uji hanya dari p-value normalitas atau jumlah sampel</span></td><td><span class="tag-right">Tentukan target analisis; pertimbangkan Welch atau metode robust/peringkat</span></td></tr>
       <tr><td style="font-weight:700;color:var(--navy);">5</td><td><span class="tag-wrong">R² rendah langsung 'modelnya buruk'</span></td><td><span class="tag-right">R² rendah bisa wajar pada data sosial; jelaskan konteksnya</span></td></tr>
-      <tr><td style="font-weight:700;color:var(--navy);">6</td><td><span class="tag-wrong">Chi-square dengan sel expected &lt; 5</span></td><td><span class="tag-right">Gunakan Fisher's Exact Test jika ada sel dengan E &lt; 5</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">6</td><td><span class="tag-wrong">Chi-square dengan sel expected &lt; 5</span></td><td><span class="tag-right">Periksa kelayakan aproksimasi; gunakan uji exact/Monte Carlo bila perlu</span></td></tr>
       <tr><td style="font-weight:700;color:var(--navy);">7</td><td><span class="tag-wrong">Copy-paste output SPSS tanpa reformatting ke APA</span></td><td><span class="tag-right">Tabel harus diformat ulang sesuai standar APA 7th</span></td></tr>
       <tr><td style="font-weight:700;color:var(--navy);">8</td><td><span class="tag-wrong">Abaikan outlier karena 'data sudah dikumpulkan'</span></td><td><span class="tag-right">Identifikasi outlier dengan boxplot/Z-score, laporkan keputusan</span></td></tr>
       <tr><td style="font-weight:700;color:var(--navy);">9</td><td><span class="tag-wrong">Pilih one-tailed karena p-value lebih kecil</span></td><td><span class="tag-right">Gunakan one-tailed hanya jika hipotesis memang directional</span></td></tr>
-      <tr><td style="font-weight:700;color:var(--navy);">10</td><td><span class="tag-wrong">Tidak lakukan uji homogenitas sebelum ANOVA</span></td><td><span class="tag-right">Lakukan Levene's Test sebelum ANOVA</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--navy);">10</td><td><span class="tag-wrong">Tidak lakukan uji homogenitas sebelum ANOVA</span></td><td><span class="tag-right">Periksa variasi kelompok; pertimbangkan Welch ANOVA</span></td></tr>
     </tbody>
   </table>
 
@@ -315,18 +315,18 @@
 
   <p>Setiap uji statistik parametrik memiliki asumsi yang harus dipenuhi agar hasilnya valid. Melanggar asumsi tanpa mengakuinya adalah kesalahan metodologis yang serius — dan bisa menjadi bahan kritik tajam di sidang.</p>
 
-  <h2 class="sec" style="margin-top:16px;">Asumsi Wajib Dicek Sebelum Regresi OLS</h2>
+  <h2 class="sec" style="margin-top:16px;">Desain & Diagnosis Model Regresi OLS</h2>
   <ul class="dot-list">
-    <li><strong>Normalitas residual</strong> → Shapiro-Wilk atau Kolmogorov-Smirnov pada residual</li>
+    <li><strong>Distribusi error</strong> → gunakan Q–Q plot residual sebagai diagnosis. Normalitas error bersyarat mendukung inferensi t/F eksak pada sampel kecil; semua X atau Y tidak harus normal.</li>
     <li><strong>Homoskedastisitas</strong> → Breusch-Pagan Test atau plot residual vs fitted</li>
-    <li><strong>Tidak ada multikolinearitas</strong> → Variance Inflation Factor (VIF) &lt; 10</li>
-    <li><strong>Tidak ada autokorelasi</strong> → Durbin-Watson statistic (nilai ideal: 1.5–2.5)</li>
-    <li><strong>Linearitas</strong> → scatter plot variabel independen vs dependen</li>
+    <li><strong>Tidak ada kolinearitas sempurna</strong> → cek spesifikasi prediktor; gunakan VIF untuk menilai pembengkakan varians, bukan keputusan otomatis pada angka 5 atau 10.</li>
+    <li><strong>Ketergantungan observasi</strong> → tinjau desain klaster/pengukuran berulang. Untuk data berurutan, periksa autokorelasi residual; interpretasi Durbin–Watson bergantung pada model.</li>
+    <li><strong>Spesifikasi rerata bersyarat</strong> → periksa bentuk hubungan, plot residual, dan variabel yang relevan. Asumsi E(error|X) = 0 perlu alasan substantif; tidak dapat dibuktikan hanya dengan uji residual.</li>
   </ul>
 
   <div class="box-right">
     <div class="box-label">✅ Solusi</div>
-    Jadikan "Uji Asumsi Pra-Analisis" sebagai langkah pertama yang wajib sebelum setiap analisis. Modul Uji Asumsi di Ruang Statistika tersedia gratis dan akan langsung memberi tahu apakah asumsi terpenuhi beserta saran tindak lanjutnya.
+    Tentukan model berdasarkan desain penelitian, estimasikan model, lalu lakukan diagnosis residual dan pengamatan berpengaruh. p &gt; .05 pada uji asumsi berarti belum ada cukup bukti penyimpangan, bukan bukti asumsi pasti benar. Pertimbangkan standard error robust atau model lain sesuai masalah yang ditemukan.
   </div>
 
   <div style="height:1px;background:var(--border);margin:32px 0;"></div>
@@ -340,7 +340,7 @@
     Mahasiswa menemukan p = .032 dan langsung menulis: "Terdapat pengaruh yang signifikan dan kuat antara X dan Y." Padahal signifikan secara statistik tidak berarti efeknya besar atau penting secara praktis.
   </div>
 
-  <p>Nilai p hanya memberitahu Anda probabilitas mendapatkan hasil tersebut jika hipotesis nol benar. Dengan sampel yang sangat besar, efek yang sangat kecil pun bisa menghasilkan p &lt; 0.05. Itulah mengapa Anda harus melaporkan effect size.</p>
+  <p>Nilai p adalah probabilitas memperoleh statistik uji setidaknya sama ekstremnya dengan yang diamati, jika H₀ dan asumsi model berlaku. Nilai ini bukan probabilitas H₀ benar. Dengan sampel yang sangat besar, efek yang sangat kecil pun bisa menghasilkan p &lt; 0.05. Itulah mengapa Anda harus melaporkan effect size.</p>
 
   <div class="grid-2">
     <div class="card">
@@ -363,7 +363,7 @@
 
   <div class="template-box">
     <div class="tag">✅ Contoh Pelaporan yang Benar</div>
-    <div class="tmpl">"Terdapat perbedaan yang signifikan secara statistik (p = .032) namun efeknya kecil (d = 0.23), sehingga relevansi praktisnya terbatas."</div>
+    <div class="tmpl">"Terdapat perbedaan yang signifikan secara statistik (p = .032) namun efeknya kecil (d = 0.23), dengan relevansi praktis yang perlu dinilai berdasarkan konteks dan interval kepercayaannya. Batas kecil/sedang/besar merupakan panduan, bukan aturan universal."</div>
   </div>
 
   <div style="height:1px;background:var(--border);margin:32px 0;"></div>
@@ -377,17 +377,17 @@
     Dalam regresi berganda dengan banyak variabel independen, VIF tidak pernah dicek. Hasilnya: koefisien yang tidak stabil, standar error yang menggelembung, dan kesimpulan yang bisa berkebalikan dari kenyataan.
   </div>
 
-  <p>Multikolinearitas terjadi ketika dua atau lebih variabel independen dalam model regresi saling berkorelasi tinggi. Ini menyebabkan SPSS tidak bisa memisahkan efek masing-masing variabel dengan akurat.</p>
+  <p>Multikolinearitas terjadi ketika dua atau lebih variabel independen dalam model regresi saling berkorelasi tinggi. Korelasi yang tinggi dapat memperbesar standard error dan mengurangi kestabilan koefisien; kolinearitas sempurna membuat koefisien tidak teridentifikasi secara unik.</p>
 
   <div class="badge-row">
-    <span class="badge" style="background:#f0fff4;color:#276749;border-color:#c6f6d5;">VIF &lt; 5 → Aman</span>
+    <span class="badge" style="background:#f0fff4;color:#276749;border-color:#c6f6d5;">VIF &lt; 5 → Tetap tinjau konteks</span>
     <span class="badge" style="background:#fffbeb;color:#92400e;border-color:#fbd38d;">VIF 5–10 → Perlu Perhatian</span>
-    <span class="badge" style="background:#fff5f5;color:#c53030;border-color:#fed7d7;">VIF &gt; 10 → Masalah Serius</span>
+    <span class="badge" style="background:#fff5f5;color:#c53030;border-color:#fed7d7;">VIF &gt; 10 → Perlu diagnosis lanjut</span>
   </div>
 
   <div class="box-right">
     <div class="box-label">✅ Cara Penanganan</div>
-    Cek VIF dan Tolerance (= 1/VIF, harus > 0.1) untuk setiap variabel. Jika VIF tinggi: pertimbangkan menghapus satu variabel, ridge regression, atau PCA terlebih dahulu.
+    Laporkan VIF dan Tolerance (= 1/VIF). Angka 5 atau 10 adalah penanda praktis, bukan batas valid/tidak valid. Periksa redundansi dan ketidakpastian koefisien; jangan menghapus variabel kontrol penting hanya untuk menurunkan VIF. Regularisasi mengubah prosedur estimasi dan perlu tujuan yang jelas.
   </div>
 </div>
 </div>
@@ -411,8 +411,8 @@
   <h2 class="sec" style="margin-top:16px;">Kapan t-test Boleh Digunakan?</h2>
   <ul class="dot-list">
     <li>Data interval atau rasio</li>
-    <li>Distribusi normal (atau N ≥ 30 berdasarkan CLT)</li>
-    <li>Homogenitas varians antar kelompok (cek dengan Levene's Test)</li>
+    <li>Observasi independen antarunit; untuk paired t-test, pasangan harus benar dan normalitas sampel kecil menyangkut <strong>selisih pasangan</strong>. N ≥ 30 bukan jaminan ketahanan terhadap kemencengan atau outlier.</li>
+    <li>Student t-test dua kelompok mengasumsikan varians sama. Welch t-test tidak mensyaratkan varians sama dan dapat dipilih sejak perencanaan analisis.</li>
   </ul>
 
   <h2 class="sec">Alternatif Nonparametrik</h2>
@@ -433,7 +433,7 @@
 
   <div class="box-right">
     <div class="box-label">✅ Solusi</div>
-    Tentukan normalitas data sebelum memilih uji. Jika ragu, gunakan uji nonparametrik — hasilnya lebih konservatif tapi lebih aman secara metodologis.
+    Pilih uji sesuai besaran yang ingin diestimasi. Mann–Whitney dan Kruskal–Wallis membandingkan distribusi/peringkat, bukan otomatis perbedaan rerata atau median. Interpretasi sebagai pergeseran lokasi memerlukan bentuk distribusi yang sebanding. Wilcoxon signed-rank mengasumsikan distribusi selisih simetris; alternatif nonparametrik tidak selalu lebih konservatif.
   </div>
 
   <div style="height:1px;background:var(--border);margin:32px 0;"></div>
@@ -452,25 +452,25 @@
   <div class="grid-2">
     <div class="card">
       <h3>Psikologi & Perilaku</h3>
-      <p>R² = 0.10–0.20 sudah dianggap baik. Perilaku manusia sangat kompleks.</p>
+      <p>Nilai R² perlu dibandingkan dengan studi sejenis, mutu pengukuran, dan tujuan model; tidak ada ambang baik yang berlaku untuk semua studi.</p>
     </div>
     <div class="card">
       <h3>Ekonomi & Keuangan</h3>
-      <p>R² = 0.40–0.70 biasa ditemui.</p>
+      <p>Perhatikan struktur waktu dan tren bersama: R² tinggi dapat menyesatkan jika spesifikasi model tidak tepat.</p>
     </div>
     <div class="card">
       <h3>Fisika / Engineering</h3>
-      <p>R² > 0.90 sering dicapai karena variabel lebih terkontrol.</p>
+      <p>Gunakan pengetahuan proses dan kesalahan prediksi yang dapat ditoleransi; R² tinggi bukan bukti kausalitas.</p>
     </div>
     <div class="card">
       <h3>Data Survei Lintas Seksi</h3>
-      <p>R² rendah sangat wajar dan dapat diterima.</p>
+      <p>Laporkan R²/adjusted R². Untuk tujuan prediksi, nilai juga kinerja pada data validasi yang tidak dipakai melatih model.</p>
     </div>
   </div>
 
   <div class="template-box">
     <div class="tag">✅ Contoh Interpretasi yang Benar</div>
-    <div class="tmpl">"Model regresi mampu menjelaskan 18% varians kinerja karyawan (R² = .18), F(3,96) = 7.02, p &lt; .001. Meskipun proporsi yang dijelaskan relatif kecil, hal ini wajar pada data perilaku organisasi dan model secara keseluruhan tetap signifikan."</div>
+    <div class="tmpl">"Model regresi mampu menjelaskan 18% varians kinerja karyawan (R² = .18), F(3,96) = 7.02, p &lt; .001. Signifikansi model tidak membuktikan kecukupan spesifikasi atau kemampuan prediksi; nilai juga residual, ketidakpastian, dan relevansi substantif."</div>
   </div>
 
   <div style="height:1px;background:var(--border);margin:32px 0;"></div>
@@ -484,7 +484,7 @@
     Mahasiswa memiliki data kategori dengan sampel kecil, lalu menjalankan chi-square. SPSS memberikan peringatan kecil (sering diabaikan) bahwa ada sel dengan expected frequency &lt; 5. Hasil tetap dilaporkan.
   </div>
 
-  <p>Chi-square memiliki syarat: expected frequency (E) pada setiap sel harus ≥ 5. Jika syarat ini dilanggar, distribusi chi-square tidak lagi valid sebagai aproksimasi, dan nilai p menjadi tidak akurat.</p>
+  <p>Frekuensi harapan yang kecil dapat memperburuk aproksimasi chi-square. Pedoman E ≥ 5 merupakan pemeriksaan konservatif, bukan batas universal satu sel; periksa ukuran tabel, seluruh frekuensi harapan, dan independensi observasi. Untuk tabel jarang, pertimbangkan metode exact atau Monte Carlo.</p>
 
   <div class="grid-2">
     <div class="card">
@@ -493,7 +493,7 @@
     </div>
     <div class="card">
       <h3>Tabel lebih besar</h3>
-      <p>→ Gabungkan kategori yang jarang hingga semua E ≥ 5, atau gunakan Yates' Continuity Correction</p>
+      <p>→ Gunakan uji exact untuk tabel R×C atau Monte Carlo yang sesuai. Koreksi Yates ditujukan untuk tabel 2×2 (df = 1), bukan solusi tabel lebih besar. Penggabungan kategori harus beralasan substantif.</p>
     </div>
   </div>
 
@@ -522,11 +522,11 @@
 
   <h2 class="sec" style="margin-top:16px;">Prinsip Tabel APA 7th</h2>
   <ul class="checklist">
-    <li><span class="ck">★</span> Hanya garis horisontal: di atas header, di bawah header, dan di bawah tabel</li>
+    <li><span class="ck">★</span> Gunakan garis horizontal seperlunya, umumnya di atas, di bawah header, dan di bawah tabel</li>
     <li><span class="ck">★</span> <strong>Tidak ada garis vertikal</strong> di dalam tabel</li>
-    <li><span class="ck">★</span> Judul di atas tabel (italic), catatan <em>Note.</em> di bawah tabel</li>
+    <li><span class="ck">★</span> Nomor tabel <strong>tebal</strong>, judul <em>miring</em> pada baris berikutnya di atas tabel; <em>Note.</em> di bawah</li>
     <li><span class="ck">★</span> Kolom: hanya yang relevan untuk pelaporan (buang kolom internal SPSS)</li>
-    <li><span class="ck">★</span> Angka: bulatkan ke 2 desimal; gunakan p = .001 bukan p = 0.001</li>
+    <li><span class="ck">★</span> Presisi sesuai statistik dan konsisten per kolom: p umumnya 2–3 desimal, p &lt; .001 bila lebih kecil; jangan p = .000. N dan df bulat tidak perlu desimal</li>
   </ul>
 
   <div class="box-right">
@@ -566,7 +566,7 @@
   </div>
 
   <div class="highlight">
-    <strong>📌 Alur yang Benar:</strong> Jangan langsung hapus — identifikasi dulu apakah outlier karena error input atau memang nilai ekstrem yang valid. Jika error: perbaiki/hapus dan dokumentasikan. Jika valid: jalankan analisis dengan dan tanpa outlier, lalu bandingkan hasilnya. Gunakan regresi robust (RLM) jika outlier tidak bisa dihapus.
+    <strong>📌 Alur yang Benar:</strong> Jangan langsung hapus — identifikasi dulu apakah outlier karena error input atau memang nilai ekstrem yang valid. Jika error: perbaiki/hapus dan dokumentasikan. Jika valid: jalankan analisis dengan dan tanpa outlier, lalu bandingkan hasilnya. Jika diperlukan, pertimbangkan metode robust sesuai tujuan analisis; jangan menghapus nilai valid semata-mata agar p menjadi signifikan.
   </div>
 
   <div style="height:1px;background:var(--border);margin:32px 0;"></div>
@@ -604,15 +604,15 @@
 
   <div class="box-wrong">
     <div class="box-label">❌ Yang Terjadi</div>
-    ANOVA dijalankan langsung tanpa uji homogenitas varians (Levene's Test). Salah satu asumsi ANOVA adalah varians antar kelompok harus homogen — jika dilanggar, F-statistik tidak valid.
+    ANOVA dijalankan langsung tanpa uji homogenitas varians (Levene's Test). ANOVA klasik mengasumsikan varians antar kelompok sama. Pelanggarannya dapat mengganggu inferensi, terutama jika ukuran kelompok tidak seimbang.
   </div>
 
   <h2 class="sec" style="margin-top:16px;">Alur yang Benar untuk ANOVA</h2>
   <ul class="dot-list">
-    <li>Uji normalitas dalam setiap kelompok (Shapiro-Wilk per kelompok)</li>
-    <li>Uji homogenitas varians: <strong>Levene's Test</strong> (p > .05 berarti varians homogen)</li>
+    <li>Periksa independensi, desain penelitian, distribusi residual dalam kelompok, dan outlier; Q–Q plot melengkapi uji formal.</li>
+    <li>Periksa sebaran tiap kelompok dan, bila digunakan, <strong>Levene’s Test</strong>. p &gt; .05 tidak membuktikan varians sama.</li>
     <li>Jika varians tidak homogen → gunakan <strong>Welch's ANOVA</strong></li>
-    <li>Jika ANOVA signifikan → post-hoc <strong>Tukey HSD</strong> (homogen) atau <strong>Games-Howell</strong> (tidak homogen)</li>
+    <li>Tentukan perbandingan dan koreksi multipel sejak perencanaan; untuk post-hoc gunakan <strong>Tukey HSD</strong> (homogen) atau <strong>Games-Howell</strong> (tidak homogen)</li>
     <li>Laporkan beserta effect size (η² atau ω²)</li>
   </ul>
 
@@ -692,6 +692,13 @@
     <span class="cta-link">Atau kunjungi <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">yogoaj.github.io/ruangstatistika</a></span>
   </div>
 
+  <h2 class="sec">Rujukan &amp; Pembaruan Materi</h2>
+  <p>Ditinjau 24 November 2026. Contoh angka adalah ilustrasi; sesuaikan kesimpulan dengan data, desain, dan pedoman institusi/jurnal.</p>
+  <ul>
+    <li><a href="https://www.amstat.org/asa/files/pdfs/P-ValueStatement.pdf" target="_blank" rel="noopener noreferrer">ASA — Prinsip interpretasi p-value</a></li>
+    <li><a href="https://apastyle.apa.org/style-grammar-guidelines/tables-figures/tables" target="_blank" rel="noopener noreferrer">APA Style — Table setup</a></li>
+    <li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chi2_contingency.html" target="_blank" rel="noopener noreferrer">SciPy — Chi-square dan batas koreksi kontinuitas</a></li>
+  </ul>
   <div class="ebook-footer" style="margin-top:32px;">
     © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Bebas disebarkan untuk keperluan non-komersial dengan mencantumkan sumber.
   </div>

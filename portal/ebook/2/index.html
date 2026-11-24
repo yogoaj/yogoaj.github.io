@@ -252,7 +252,7 @@
 <div class="content-page">
   <div class="section-label">📋 Bab 1 — Pengantar</div>
   <h1 class="page-title">Tiga Pertanyaan Sebelum <span>Memilih Uji Statistik</span></h1>
-  <p class="page-desc">Sebelum buka SPSS, Python, atau aplikasi apapun, Anda harus menjawab tiga pertanyaan ini. Jawaban dari ketiganya akan menentukan uji statistik yang tepat secara otomatis.</p>
+  <p class="page-desc">Sebelum buka SPSS, Python, atau aplikasi apapun, Anda harus menjawab tiga pertanyaan ini. Ketiganya adalah titik awal. Periksa pula desain, independensi, data berulang/klaster, bobot survei, serta besaran yang ingin diestimasi; tabel ini bukan penentu uji otomatis.</p>
 
   <h2 class="sec">1.1 Apa skala pengukuran variabel saya?</h2>
   <p>Skala data menentukan operasi matematika apa yang boleh dilakukan pada data tersebut. Ada empat jenis:</p>
@@ -283,19 +283,14 @@
   </ul>
   <p>Jika tujuan Anda adalah melihat hubungan atau pengaruh (bukan perbedaan), langsung ke pertanyaan berikutnya.</p>
 
-  <h2 class="sec">1.3 Apakah data saya terdistribusi normal?</h2>
-  <p>Ini pertanyaan paling sering salah dipahami. Normalitas bukan syarat mutlak untuk semua uji statistik — hanya untuk uji parametrik.</p>
-
-  <div class="box-info">
-    <div class="box-label">💡 Aturan Praktis</div>
-    Jika N ≥ 30 (Central Limit Theorem): distribusi rata-rata sampel mendekati normal meskipun data aslinya tidak normal. Tetap lakukan uji normalitas, tapi jangan panik jika hasilnya tidak normal — ada alternatif nonparametrik.
-  </div>
-
-  <p><strong>Cara uji normalitas yang umum:</strong></p>
+  <h2 class="sec">1.3 Asumsi apa yang relevan dengan analisis saya?</h2>
+  <p>Normalitas tidak berlaku untuk semua metode parametrik. Pada regresi linear, diagnosis menyangkut error bersyarat melalui residual; pada paired t-test, yang diperiksa adalah selisih pasangan, bukan masing-masing skor sebelum dan sesudah.</p>
+  <div class="box-info"><div class="box-label">💡 Ukuran sampel bukan tombol otomatis</div>N ≥ 30 tidak menjamin pendekatan normal memadai. Ketahanan uji dipengaruhi kemencengan, outlier, ketergantungan, dan keseimbangan kelompok. Welch t-test menangani varians berbeda, tetapi bukan obat untuk semua penyimpangan.</div>
   <ul class="dot-list">
-    <li><strong>Kolmogorov-Smirnov (KS-test)</strong> — untuk N besar (> 50)</li>
-    <li><strong>Shapiro-Wilk</strong> — lebih akurat untuk N kecil (≤ 50)</li>
-    <li><strong>Q-Q Plot</strong> — visualisasi, data normal jika titik mengikuti garis diagonal</li>
+    <li><strong>Q–Q plot dan grafik residual:</strong> bantu menilai bentuk distribusi dan pengamatan ekstrem.</li>
+    <li><strong>Shapiro–Wilk:</strong> tidak khusus N ≤ 50. Misalnya implementasi R menerima 3–5.000 observasi; batas perangkat lunak bukan aturan pemilihan uji.</li>
+    <li><strong>Kolmogorov–Smirnov:</strong> tidak otomatis lebih tepat jika N &gt; 50. Uji KS standar mengasumsikan distribusi pembanding diketahui; parameter yang diestimasi memerlukan penyesuaian.</li>
+    <li><strong>Interpretasi:</strong> p &gt; .05 tidak membuktikan normalitas; nilai bukti bersama grafik dan sensitivitas hasil.</li>
   </ul>
 </div>
 </div>
@@ -308,32 +303,24 @@
   <p class="page-desc">Tabel lengkap yang memandu Anda dari skala data dan kondisi distribusi ke uji statistik yang tepat. Gunakan sebagai referensi cepat saat menulis metodologi penelitian.</p>
 
   <table class="dec-table">
-    <thead>
-      <tr>
-        <th>Skala Data</th>
-        <th>Distribusi</th>
-        <th>Tujuan Analisis</th>
-        <th>Uji yang Tepat</th>
-      </tr>
-    </thead>
+    <thead><tr><th>Skala Data</th><th>Desain / Asumsi Kunci</th><th>Tujuan Analisis</th><th>Pilihan Uji</th></tr></thead>
     <tbody>
-      <tr><td>Rasio / Interval</td><td>Normal</td><td>Beda rata-rata 2 kelompok independen</td><td><span class="tag-uji">Independent t-test</span></td></tr>
-      <tr><td>Rasio / Interval</td><td>Normal</td><td>Beda rata-rata 2 kelompok berpasangan</td><td><span class="tag-uji">Paired t-test</span></td></tr>
-      <tr><td>Rasio / Interval</td><td>Normal</td><td>Beda rata-rata 3+ kelompok</td><td><span class="tag-uji">One-way ANOVA</span></td></tr>
-      <tr><td>Rasio / Interval</td><td>Normal</td><td>Hubungan linier 2 variabel</td><td><span class="tag-uji">Pearson Correlation</span></td></tr>
-      <tr><td>Rasio / Interval</td><td>Normal</td><td>Prediksi variabel dependen</td><td><span class="tag-uji">Regresi Linier OLS</span></td></tr>
-      <tr><td>Rasio / Interval</td><td>Tidak Normal</td><td>Beda 2 kelompok independen</td><td><span class="tag-uji">Mann-Whitney U</span></td></tr>
-      <tr><td>Rasio / Interval</td><td>Tidak Normal</td><td>Beda 2 kelompok berpasangan</td><td><span class="tag-uji">Wilcoxon Signed-Rank</span></td></tr>
-      <tr><td>Rasio / Interval</td><td>Tidak Normal</td><td>Beda 3+ kelompok</td><td><span class="tag-uji">Kruskal-Wallis</span></td></tr>
-      <tr><td>Rasio / Interval</td><td>Tidak Normal</td><td>Hubungan 2 variabel</td><td><span class="tag-uji">Spearman / Kendall τ</span></td></tr>
-      <tr><td>Ordinal</td><td>—</td><td>Beda 2 kelompok independen</td><td><span class="tag-uji">Mann-Whitney U</span></td></tr>
-      <tr><td>Ordinal</td><td>—</td><td>Beda 3+ kelompok</td><td><span class="tag-uji">Kruskal-Wallis</span></td></tr>
-      <tr><td>Ordinal</td><td>—</td><td>Hubungan 2 variabel</td><td><span class="tag-uji">Spearman Correlation</span></td></tr>
-      <tr><td>Nominal / Kategori</td><td>—</td><td>Asosiasi 2 variabel kategori</td><td><span class="tag-uji">Chi-Square (χ²)</span></td></tr>
-      <tr><td>Nominal / Kategori</td><td>—</td><td>Prediksi variabel biner (ya/tidak)</td><td><span class="tag-uji">Regresi Logistik</span></td></tr>
-      <tr><td>Nominal / Kategori</td><td>—</td><td>Beda proporsi 2 kelompok berpasangan</td><td><span class="tag-uji">McNemar Test</span></td></tr>
+      <tr><td>Numerik</td><td>Dua kelompok independen</td><td>Beda rerata</td><td>Welch t-test; Student bila varians sama beralasan</td></tr>
+      <tr><td>Numerik</td><td>Pasangan benar; selisih mendekati normal untuk inferensi sampel kecil</td><td>Beda rerata selisih</td><td>Paired t-test</td></tr>
+      <tr><td>Numerik</td><td>3+ kelompok independen; periksa residual dan varians</td><td>Beda rerata</td><td>One-way ANOVA / Welch ANOVA</td></tr>
+      <tr><td>Numerik</td><td>Hubungan linear; periksa outlier dan asumsi inferensi</td><td>Korelasi linear</td><td>Pearson r</td></tr>
+      <tr><td>Numerik (Y)</td><td>Spesifikasi rerata dan error sesuai; X tidak harus normal</td><td>Asosiasi / prediksi</td><td>Regresi linear OLS</td></tr>
+      <tr><td>Ordinal / numerik</td><td>Dua kelompok independen</td><td>Perbandingan distribusi/peringkat</td><td>Mann–Whitney U</td></tr>
+      <tr><td>Selisih numerik bermakna</td><td>Berpasangan; distribusi selisih simetris</td><td>Lokasi selisih</td><td>Wilcoxon signed-rank</td></tr>
+      <tr><td>Ordinal / numerik</td><td>3+ kelompok independen</td><td>Perbandingan distribusi/peringkat</td><td>Kruskal–Wallis</td></tr>
+      <tr><td>Ordinal / numerik</td><td>Hubungan monoton; unit independen</td><td>Korelasi peringkat</td><td>Spearman / Kendall</td></tr>
+      <tr><td>Kategori</td><td>Unit independen; frekuensi harapan memadai</td><td>Asosiasi kategori</td><td>Chi-square; exact/Monte Carlo bila jarang</td></tr>
+      <tr><td>Y biner</td><td>Model logit, desain, separasi diperiksa</td><td>Asosiasi / prediksi probabilitas</td><td>Regresi logistik</td></tr>
+      <tr><td>Kategori biner</td><td>Dua pengukuran berpasangan</td><td>Perubahan proporsi marginal</td><td>McNemar; exact bila pasangan diskordan sedikit</td></tr>
+      <tr><td>Numerik / ordinal</td><td>3+ pengukuran berulang</td><td>Perbedaan antarwaktu/kondisi</td><td>Repeated-measures / mixed model / Friedman sesuai target</td></tr>
     </tbody>
   </table>
+  <p>Uji peringkat tidak otomatis menguji rerata/median. Interpretasi pergeseran lokasi Mann–Whitney/Kruskal–Wallis memerlukan bentuk distribusi sebanding. Untuk kategori ordinal berpasangan, pertimbangkan uji tanda bila besaran dan simetri selisih tidak beralasan. Desain survei kompleks memerlukan metode yang memperhitungkan bobot, strata, dan klaster.</p>
 
   <div class="box-note">
     <div class="box-label">📌 Catatan Penting</div>
@@ -375,9 +362,9 @@
       <ul>
         <li>2 kelompok, data normal, varians sama → <strong>Independent t-test</strong></li>
         <li>2 kelompok, data normal, varians berbeda → <strong>Welch's t-test</strong></li>
-        <li>2 kelompok, data tidak normal atau N kecil → <strong>Mann-Whitney U</strong></li>
-        <li>3+ kelompok, data normal → <strong>One-way ANOVA + post-hoc Tukey HSD</strong></li>
-        <li>3+ kelompok, data tidak normal → <strong>Kruskal-Wallis + post-hoc Dunn</strong></li>
+        <li>2 kelompok, target distribusi/peringkat → <strong>Mann-Whitney U</strong>; bukan pilihan otomatis karena N kecil</li>
+        <li>3+ kelompok, target rerata → <strong>ANOVA + Tukey HSD</strong> bila varians sama; <strong>Welch + Games–Howell</strong> bila tidak</li>
+        <li>3+ kelompok, target distribusi/peringkat → <strong>Kruskal-Wallis + Dunn</strong> dengan koreksi perbandingan multipel</li>
       </ul>
     </div>
   </div>
@@ -390,8 +377,8 @@
     <div class="scenario-body">
       <p style="font-size:13px;color:var(--gray);margin-bottom:10px;font-style:italic;">Contoh: "Apakah ada hubungan antara usia dan produktivitas kerja?"</p>
       <ul>
-        <li>Dua variabel interval/rasio, normal → <strong>Pearson Correlation (r)</strong></li>
-        <li>Minimal salah satu ordinal, atau tidak normal → <strong>Spearman Correlation (ρ)</strong></li>
+        <li>Dua variabel numerik, target hubungan linear → <strong>Pearson r</strong>; periksa asumsi inferensi dan outlier</li>
+        <li>Data ordinal/numerik, target hubungan monoton → <strong>Spearman ρ</strong></li>
         <li>Dua variabel nominal → <strong>Chi-Square Test of Association (χ²)</strong></li>
       </ul>
     </div>
@@ -405,9 +392,9 @@
     <div class="scenario-body">
       <p style="font-size:13px;color:var(--gray);margin-bottom:10px;font-style:italic;">Contoh: "Apakah pelatihan meningkatkan kompetensi karyawan?"</p>
       <ul>
-        <li>Data numerik, distribusi normal → <strong>Paired t-test</strong></li>
-        <li>Data numerik, tidak normal atau ordinal → <strong>Wilcoxon Signed-Rank Test</strong></li>
-        <li>Data kategori (proporsi berubah?) → <strong>McNemar Test</strong></li>
+        <li>Target rerata selisih, distribusi selisih mendekati normal → <strong>Paired t-test</strong></li>
+        <li>Selisih bermakna dan simetris → <strong>Wilcoxon signed-rank</strong>; pertimbangkan uji tanda jika syarat ini tidak sesuai</li>
+        <li>Data kategori biner berpasangan → <strong>McNemar Test</strong></li>
       </ul>
     </div>
   </div>
@@ -424,18 +411,18 @@
 <div class="content-page">
   <div class="section-label">📝 Bab 4 — Pelaporan APA</div>
   <h1 class="page-title">Cara Melaporkan Hasil Statistik <span>(APA 7th)</span></h1>
-  <p class="page-desc">Setelah memilih uji yang tepat dan menjalankan analisis, langkah berikutnya adalah melaporkan hasilnya dengan benar. Berikut format APA 7th yang paling umum untuk setiap uji.</p>
+  <p class="page-desc">Contoh berikut bersifat ilustratif; jangan menyalin kesimpulan signifikan tanpa memeriksa output. Contoh t-test memakai 50 observasi per kelompok, dan contoh chi-square N = 100. Tambahkan interval kepercayaan dari analisis sendiri. Regresi observasional menunjukkan asosiasi, bukan otomatis sebab-akibat.</p>
 
   <div class="apa-box">
     <div class="apa-title">Independent t-test</div>
     <div class="apa-label">Format APA</div>
-    <div class="apa-text">Hasil uji independent samples t-test menunjukkan terdapat perbedaan yang signifikan antara kelompok A (<strong>M = 4.21, SD = 0.63</strong>) dan kelompok B (<strong>M = 3.87, SD = 0.71</strong>), <strong>t(98) = 2.54, p = .013, d = 0.51</strong> [efek sedang].</div>
+    <div class="apa-text">Hasil uji independent samples t-test menunjukkan terdapat perbedaan yang signifikan antara kelompok A (<strong>M = 4.21, SD = 0.63</strong>) dan kelompok B (<strong>M = 3.87, SD = 0.71</strong>), <strong>t(98) = 2.53, p = .013, d = 0.51</strong> [efek sedang].</div>
   </div>
 
   <div class="apa-box">
     <div class="apa-title">One-way ANOVA</div>
     <div class="apa-label">Format APA</div>
-    <div class="apa-text">Terdapat perbedaan yang signifikan pada variabel kinerja antar tiga kelompok jabatan, <strong>F(2, 87) = 8.34, p &lt; .001, η² = .16</strong>. Uji post-hoc Tukey HSD menunjukkan kelompok manajer berbeda signifikan dari staf (<strong>p = .002</strong>).</div>
+    <div class="apa-text">Pada contoh ilustratif ini, terdapat perbedaan rerata kinerja antar tiga kelompok jabatan, <strong>F(2, 87) = 8.34, p &lt; .001, η² = .16</strong>. Uji post-hoc Tukey HSD menunjukkan kelompok manajer berbeda signifikan dari staf (<strong>p = .002</strong>).</div>
   </div>
 
   <div class="apa-box">
@@ -561,6 +548,12 @@
     </div>
   </div>
 
+  <h2 class="sec">Rujukan &amp; Pembaruan Materi</h2>
+  <p>Ditinjau 24 November 2026. Contoh angka adalah ilustrasi; sesuaikan kesimpulan dengan data, desain, dan pedoman institusi/jurnal.</p>
+  <ul>
+    <li><a href="https://www.amstat.org/asa/files/pdfs/P-ValueStatement.pdf" target="_blank" rel="noopener noreferrer">ASA — Prinsip interpretasi p-value</a></li>
+    <li><a href="https://search.r-project.org/R/refmans/stats/html/shapiro.test.html" target="_blank" rel="noopener noreferrer">R — Dokumentasi Shapiro–Wilk</a></li>
+  </ul>
   <div class="ebook-footer">
     © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat<br>
     Ebook ini boleh dibagikan secara gratis dengan mencantumkan sumber.

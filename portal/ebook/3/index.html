@@ -687,7 +687,7 @@
 <div class="content-page">
   <div class="section-label">📐 Bagian 01</div>
   <h1 class="page-title">Struktur Baku <span>Bab 4</span></h1>
-  <p class="page-desc">Kerangka standar yang diterima hampir semua program studi di Indonesia.</p>
+  <p class="page-desc">Kerangka awal yang perlu disesuaikan dengan pedoman penulisan dan arahan program studi masing-masing.</p>
 
   <div class="alert alert-warn">
     <span class="alert-icon">⚠️</span>
@@ -718,7 +718,7 @@
       <div class="step-num">4.3</div>
       <div class="step-txt">
         <h4>Uji Asumsi Klasik / Uji Prasyarat</h4>
-        <p>Normalitas (K-S / Shapiro-Wilk), homoskedastisitas, multikolinearitas (VIF), autokorelasi (Durbin-Watson). Setiap uji harus disertai keputusan.</p>
+        <p>Pilih diagnosis sesuai metode: residual dan bentuk hubungan pada regresi, heteroskedastisitas, VIF, serta ketergantungan jika relevan. Jelaskan temuan dan tindak lanjut; semua variabel mentah tidak harus normal.</p>
       </div>
     </li>
     <li>
@@ -773,7 +773,7 @@
 <div class="content-page">
   <div class="section-label">✍️ Bagian 02</div>
   <h1 class="page-title">Template Kalimat <span>Interpretasi</span></h1>
-  <p class="page-desc">Ganti teks berwarna kuning dengan nilai dari output analisismu.</p>
+  <p class="page-desc">Isi placeholder dari output aktual. Pilih kesimpulan sesuai hasil, laporkan ketidakpastian, dan sesuaikan format dengan pedoman kampus.</p>
 
   <!-- Template 1 -->
   <h2 class="sec">Template #1 — Statistik Deskriptif</h2>
@@ -790,14 +790,14 @@
   <div class="template-box">
     <div class="tag">🔔 Normalitas</div>
     <div class="tmpl">
-      Hasil uji normalitas <span class="var">[Kolmogorov-Smirnov / Shapiro-Wilk]</span> menunjukkan nilai signifikansi sebesar <span class="var">[p-value]</span>. Karena nilai p <span class="var">[> / <]</span> 0,05, dapat disimpulkan bahwa residual data <span class="var">[berdistribusi normal / tidak berdistribusi normal]</span>, sehingga asumsi normalitas <span class="var">[terpenuhi / tidak terpenuhi]</span>.
+      Normalitas <span class="var">[residual model / selisih pasangan / data yang relevan]</span> dievaluasi menggunakan Q–Q plot dan <span class="var">[uji tambahan bila digunakan]</span>. Hasil <span class="var">[nama uji]</span> adalah <span class="var">[statistik]</span> dengan p = <span class="var">[nilai]</span>. Pada α = <span class="var">[nilai]</span>, hasil ini <span class="var">[memberikan / belum memberikan cukup]</span> bukti penyimpangan dari normalitas. Pola grafik menunjukkan <span class="var">[temuan]</span>, sehingga <span class="var">[tindak lanjut]</span>. p yang besar bukan bukti distribusi pasti normal.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Hasil uji normalitas [K-S/Shapiro-Wilk] menunjukkan nilai signifikansi sebesar [p-value]. Karena nilai p [> / <] 0,05, dapat disimpulkan bahwa residual data [berdistribusi normal / tidak berdistribusi normal], sehingga asumsi normalitas [terpenuhi / tidak terpenuhi].')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Normalitas [residual model / selisih pasangan / data yang relevan] dievaluasi menggunakan Q–Q plot dan [uji tambahan bila digunakan]. Hasil [nama uji] adalah [statistik] dengan p = [nilai]. Pada α = [nilai], hasil ini [memberikan / belum memberikan cukup] bukti penyimpangan dari normalitas. Pola grafik menunjukkan [temuan], sehingga [tindak lanjut]. p yang besar bukan bukti distribusi pasti normal.&quot;)">📋 Salin Template</button>
   </div>
 
   <div class="alert alert-info">
     <span class="alert-icon">💡</span>
-    <div><strong>Catatan K-S vs Shapiro-Wilk:</strong> Untuk n ≤ 50, gunakan Shapiro-Wilk. Untuk n > 50, Kolmogorov-Smirnov lebih tepat. Jika data tidak normal → pertimbangkan transformasi atau uji non-parametrik.</div>
+    <div><strong>Catatan normalitas:</strong> Tidak ada aturan universal Shapiro–Wilk untuk n ≤ 50 dan KS untuk n &gt; 50. Periksa grafik, batas implementasi, outlier, dan tujuan analisis. KS standar perlu penyesuaian jika parameter distribusi diestimasi dari data.</div>
   </div>
 
   <!-- Template 3 -->
@@ -824,9 +824,9 @@
   <div class="template-box">
     <div class="tag">🔗 Multikolinearitas</div>
     <div class="tmpl">
-      Hasil uji multikolinearitas menunjukkan bahwa seluruh variabel independen memiliki nilai <em>Variance Inflation Factor</em> (VIF) di bawah 10 dan nilai <em>Tolerance</em> di atas 0,1. Variabel <span class="var">[X1]</span> memperoleh VIF = <span class="var">[nilai]</span>, variabel <span class="var">[X2]</span> memperoleh VIF = <span class="var">[nilai]</span>, dan variabel <span class="var">[X3]</span> memperoleh VIF = <span class="var">[nilai]</span>. Dengan demikian, tidak terdapat masalah multikolinearitas dalam model regresi ini.
+      VIF prediktor <span class="var">[X1]</span>, <span class="var">[X2]</span>, dan <span class="var">[X3]</span> masing-masing sebesar <span class="var">[nilai]</span>, <span class="var">[nilai]</span>, dan <span class="var">[nilai]</span>; Tolerance masing-masing <span class="var">[nilai]</span>. Berdasarkan spesifikasi model, korelasi prediktor, dan presisi koefisien, temuan ini menunjukkan <span class="var">[evaluasi dan tindak lanjut]</span>. Batas VIF 5 atau 10 digunakan sebagai penanda diagnosis, bukan bukti otomatis ada/tidaknya masalah.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Hasil uji multikolinearitas menunjukkan bahwa seluruh variabel independen memiliki nilai VIF di bawah 10 dan nilai Tolerance di atas 0,1. Variabel [X1] memperoleh VIF = [nilai], variabel [X2] memperoleh VIF = [nilai]. Dengan demikian, tidak terdapat masalah multikolinearitas dalam model regresi ini.')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;VIF prediktor [X1], [X2], dan [X3] masing-masing sebesar [nilai], [nilai], dan [nilai]; Tolerance masing-masing [nilai]. Berdasarkan spesifikasi model, korelasi prediktor, dan presisi koefisien, temuan ini menunjukkan [evaluasi dan tindak lanjut]. Batas VIF 5 atau 10 digunakan sebagai penanda diagnosis, bukan bukti otomatis ada/tidaknya masalah.&quot;)">📋 Salin Template</button>
   </div>
 
   <!-- Template 5 -->
@@ -834,13 +834,9 @@
   <div class="template-box">
     <div class="tag">📈 Regresi Linear</div>
     <div class="tmpl">
-      Berdasarkan hasil analisis regresi linear berganda, diperoleh persamaan:
-      <br><br>
-      <span style="color:#f5c518; font-weight:700;">Ŷ = <span class="var">[a]</span> + <span class="var">[b₁]</span>X₁ + <span class="var">[b₂]</span>X₂ + <span class="var">[b₃]</span>X₃</span>
-      <br><br>
-      Nilai koefisien <span class="var">[X1]</span> sebesar <span class="var">[b₁]</span> menunjukkan bahwa setiap peningkatan satu satuan <span class="var">[X1]</span> akan meningkatkan <span class="var">[Y]</span> sebesar <span class="var">[b₁]</span> satuan, dengan asumsi variabel lain konstan. Model ini memiliki koefisien determinasi (R²) sebesar <span class="var">[R²]</span>, yang berarti <span class="var">[R² × 100]</span>% variasi dalam <span class="var">[Y]</span> dapat dijelaskan oleh variabel independen dalam model.
+      Persamaan regresi yang diestimasi adalah Ŷ = <span class="var">[a]</span> + <span class="var">[b₁]</span>X₁ + <span class="var">[b₂]</span>X₂ + <span class="var">[b₃]</span>X₃. Kenaikan satu satuan <span class="var">[X1]</span> berasosiasi dengan perubahan rerata prediksi <span class="var">[Y]</span> sebesar b = <span class="var">[nilai bertanda]</span> satuan, setelah menyesuaikan prediktor lain (95% CI: <span class="var">[batas bawah]</span> hingga <span class="var">[batas atas]</span>). R² = <span class="var">[nilai]</span> menunjukkan proporsi variasi Y dalam sampel yang dijelaskan model. Hubungan ini tidak dengan sendirinya membuktikan sebab-akibat.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Berdasarkan hasil analisis regresi linear berganda, diperoleh persamaan: Ŷ = [a] + [b₁]X₁ + [b₂]X₂. Nilai koefisien [X1] sebesar [b₁] menunjukkan bahwa setiap peningkatan satu satuan [X1] akan meningkatkan [Y] sebesar [b₁] satuan, dengan asumsi variabel lain konstan. Model ini memiliki R² sebesar [R²], yang berarti [R²×100]% variasi dalam [Y] dapat dijelaskan oleh variabel independen.')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Persamaan regresi yang diestimasi adalah Ŷ = [a] + [b₁]X₁ + [b₂]X₂ + [b₃]X₃. Kenaikan satu satuan [X1] berasosiasi dengan perubahan rerata prediksi [Y] sebesar b = [nilai bertanda] satuan, setelah menyesuaikan prediktor lain (95% CI: [batas bawah] hingga [batas atas]). R² = [nilai] menunjukkan proporsi variasi Y dalam sampel yang dijelaskan model. Hubungan ini tidak dengan sendirinya membuktikan sebab-akibat.&quot;)">📋 Salin Template</button>
   </div>
 
   <!-- Template 6 -->
@@ -848,13 +844,9 @@
   <div class="template-box">
     <div class="tag">📊 Uji F & Uji t</div>
     <div class="tmpl">
-      <strong style="color:#f5c518;">Uji F (Simultan):</strong><br>
-      Hasil uji F menunjukkan nilai F = <span class="var">[F-hitung]</span> dengan signifikansi <span class="var">[p-value]</span>. Karena nilai p &lt; 0,05, dapat disimpulkan bahwa secara simultan variabel <span class="var">[X1, X2, X3]</span> berpengaruh signifikan terhadap <span class="var">[Y]</span>, sehingga model regresi yang digunakan layak (fit).
-      <br><br>
-      <strong style="color:#f5c518;">Uji t (Parsial):</strong><br>
-      Variabel <span class="var">[X1]</span> memperoleh nilai t = <span class="var">[t-hitung]</span> (p = <span class="var">[p-value]</span>), yang menunjukkan bahwa <span class="var">[X1]</span> <span class="var">[berpengaruh / tidak berpengaruh]</span> secara signifikan terhadap <span class="var">[Y]</span> pada taraf signifikansi 5%.
+      Uji F keseluruhan menghasilkan F(<span class="var">[df1]</span>, <span class="var">[df2]</span>) = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>. Pada α = <span class="var">[nilai]</span>, H₀ bahwa seluruh koefisien slope sama dengan nol <span class="var">[ditolak / gagal ditolak]</span>. Uji ini tidak membuktikan model sudah fit atau semua prediktor signifikan. Untuk <span class="var">[X1]</span>, b = <span class="var">[nilai]</span>, SE = <span class="var">[nilai]</span>, t(<span class="var">[df]</span>) = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>, 95% CI: <span class="var">[batas bawah]</span> hingga <span class="var">[batas atas]</span>. Hasil menunjukkan <span class="var">[ada bukti asosiasi / bukti belum cukup]</span>, setelah menyesuaikan prediktor lain.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Hasil uji F menunjukkan nilai F = [F-hitung] dengan signifikansi [p-value]. Karena nilai p < 0,05, dapat disimpulkan bahwa secara simultan variabel [X1, X2] berpengaruh signifikan terhadap [Y]. Variabel [X1] memperoleh nilai t = [t-hitung] (p = [p-value]), yang menunjukkan bahwa [X1] berpengaruh secara signifikan terhadap [Y] pada taraf signifikansi 5%.')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Uji F keseluruhan menghasilkan F([df1], [df2]) = [nilai], p = [nilai]. Pada α = [nilai], H₀ bahwa seluruh koefisien slope sama dengan nol [ditolak / gagal ditolak]. Uji ini tidak membuktikan model sudah fit atau semua prediktor signifikan. Untuk [X1], b = [nilai], SE = [nilai], t([df]) = [nilai], p = [nilai], 95% CI: [batas bawah] hingga [batas atas]. Hasil menunjukkan [ada bukti asosiasi / bukti belum cukup], setelah menyesuaikan prediktor lain.&quot;)">📋 Salin Template</button>
   </div>
 
   <div class="highlight">
@@ -875,9 +867,9 @@
   <div class="template-box">
     <div class="tag">📊 ANOVA</div>
     <div class="tmpl">
-      Hasil analisis varians satu arah (One-Way ANOVA) menunjukkan nilai F(<span class="var">[df antar kelompok]</span>, <span class="var">[df dalam kelompok]</span>) = <span class="var">[F-hitung]</span>, p = <span class="var">[p-value]</span>. Karena nilai p <span class="var">[< / >]</span> 0,05, terdapat <span class="var">[perbedaan / tidak ada perbedaan]</span> yang signifikan pada <span class="var">[variabel dependen]</span> antar kelompok <span class="var">[faktor/kategori]</span>. <span class="var">[Jika signifikan:]</span> Uji post-hoc Tukey menunjukkan bahwa kelompok <span class="var">[A]</span> berbeda secara signifikan dari kelompok <span class="var">[B]</span> (p = <span class="var">[nilai]</span>).
+      Perbandingan rerata menggunakan <span class="var">[ANOVA klasik / Welch ANOVA]</span> menghasilkan F(<span class="var">[df1]</span>, <span class="var">[df2]</span>) = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>, dengan ukuran efek <span class="var">[jenis dan nilai]</span>. Pada α = <span class="var">[nilai]</span>, <span class="var">[terdapat bukti perbedaan setidaknya satu rerata / belum cukup bukti perbedaan rerata]</span>. Perbandingan <span class="var">[terencana / post-hoc]</span> menggunakan <span class="var">[Tukey / Games–Howell / metode sesuai desain]</span> dan koreksi multipel <span class="var">[metode]</span>, menghasilkan selisih <span class="var">[A–B]</span> = <span class="var">[nilai]</span>, 95% CI: <span class="var">[batas bawah]</span> hingga <span class="var">[batas atas]</span>, p terkoreksi = <span class="var">[nilai]</span>. Hanya laporkan perbandingan yang benar-benar dilakukan.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Hasil analisis varians satu arah (One-Way ANOVA) menunjukkan nilai F([df1], [df2]) = [F-hitung], p = [p-value]. Karena nilai p [< / >] 0,05, terdapat [perbedaan / tidak ada perbedaan] yang signifikan pada [variabel dependen] antar kelompok [faktor]. Uji post-hoc Tukey menunjukkan bahwa kelompok [A] berbeda secara signifikan dari kelompok [B] (p = [nilai]).')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Perbandingan rerata menggunakan [ANOVA klasik / Welch ANOVA] menghasilkan F([df1], [df2]) = [nilai], p = [nilai], dengan ukuran efek [jenis dan nilai]. Pada α = [nilai], [terdapat bukti perbedaan setidaknya satu rerata / belum cukup bukti perbedaan rerata]. Perbandingan [terencana / post-hoc] menggunakan [Tukey / Games–Howell / metode sesuai desain] dan koreksi multipel [metode], menghasilkan selisih [A–B] = [nilai], 95% CI: [batas bawah] hingga [batas atas], p terkoreksi = [nilai]. Hanya laporkan perbandingan yang benar-benar dilakukan.&quot;)">📋 Salin Template</button>
   </div>
 
   <!-- Template 8 -->
@@ -885,9 +877,9 @@
   <div class="template-box">
     <div class="tag">🔄 Korelasi</div>
     <div class="tmpl">
-      Hasil uji korelasi <span class="var">[Pearson / Spearman]</span> antara variabel <span class="var">[X]</span> dan <span class="var">[Y]</span> menunjukkan nilai koefisien korelasi r = <span class="var">[nilai r]</span> dengan signifikansi p = <span class="var">[p-value]</span>. Nilai r tersebut mengindikasikan adanya hubungan <span class="var">[sangat lemah / lemah / sedang / kuat / sangat kuat]</span> yang bersifat <span class="var">[positif / negatif]</span> antara kedua variabel. Karena p &lt; 0,05, hubungan tersebut signifikan secara statistik.
+      Korelasi <span class="var">[Pearson r / Spearman rₛ]</span> antara <span class="var">[X]</span> dan <span class="var">[Y]</span> sebesar <span class="var">[nilai bertanda]</span>, 95% CI: <span class="var">[batas bawah]</span> hingga <span class="var">[batas atas]</span>, p = <span class="var">[nilai]</span>, N = <span class="var">[jumlah]</span>. Pada α = <span class="var">[nilai]</span>, hasil <span class="var">[memberikan / belum memberikan cukup]</span> bukti asosiasi <span class="var">[linear / monoton]</span>. Besaran hubungan dinilai berdasarkan konteks penelitian dan ketidakpastian, bukan label kekuatan semata. Korelasi tidak membuktikan kausalitas.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Hasil uji korelasi [Pearson / Spearman] antara variabel [X] dan [Y] menunjukkan nilai koefisien korelasi r = [nilai] dengan signifikansi p = [p-value]. Nilai r tersebut mengindikasikan adanya hubungan [kuat/lemah] yang bersifat [positif/negatif] antara kedua variabel. Karena p < 0,05, hubungan tersebut signifikan secara statistik.')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Korelasi [Pearson r / Spearman rₛ] antara [X] dan [Y] sebesar [nilai bertanda], 95% CI: [batas bawah] hingga [batas atas], p = [nilai], N = [jumlah]. Pada α = [nilai], hasil [memberikan / belum memberikan cukup] bukti asosiasi [linear / monoton]. Besaran hubungan dinilai berdasarkan konteks penelitian dan ketidakpastian, bukan label kekuatan semata. Korelasi tidak membuktikan kausalitas.&quot;)">📋 Salin Template</button>
   </div>
 
   <div class="card" style="margin-bottom:20px;">
@@ -904,9 +896,9 @@
   <div class="template-box">
     <div class="tag">🔲 Chi-Square</div>
     <div class="tmpl">
-      Hasil uji chi-square menunjukkan nilai χ²(<span class="var">[df]</span>) = <span class="var">[nilai chi-square]</span>, p = <span class="var">[p-value]</span>. Karena nilai p <span class="var">[< / >]</span> 0,05, dapat disimpulkan bahwa terdapat <span class="var">[hubungan / tidak ada hubungan]</span> yang signifikan antara <span class="var">[variabel kategori 1]</span> dan <span class="var">[variabel kategori 2]</span>. Kekuatan hubungan ditunjukkan oleh nilai Cramer's V = <span class="var">[nilai]</span>, yang mengindikasikan asosiasi <span class="var">[lemah / sedang / kuat]</span>.
+      Uji independensi menghasilkan χ²(<span class="var">[df]</span>, N = <span class="var">[jumlah]</span>) = <span class="var">[nilai]</span>, p = <span class="var">[nilai]</span>. Pada α = <span class="var">[nilai]</span>, hasil <span class="var">[memberikan / belum memberikan cukup]</span> bukti asosiasi antara <span class="var">[variabel 1]</span> dan <span class="var">[variabel 2]</span>. Cramér’s V = <span class="var">[nilai]</span>, dengan interpretasi sesuai ukuran tabel dan konteks. Kelayakan frekuensi harapan <span class="var">[hasil pemeriksaan]</span>; jika memakai uji exact/Monte Carlo, laporkan nama metode dan outputnya secara tepat.
     </div>
-    <button class="copy-btn" onclick="copyText(this, 'Hasil uji chi-square menunjukkan nilai χ²([df]) = [nilai], p = [p-value]. Karena nilai p [< / >] 0,05, dapat disimpulkan bahwa terdapat [hubungan / tidak ada hubungan] yang signifikan antara [variabel 1] dan [variabel 2]. Kekuatan hubungan ditunjukkan oleh nilai Cramér\'s V = [nilai], yang mengindikasikan asosiasi [lemah / sedang / kuat].')">📋 Salin Template</button>
+    <button class="copy-btn" onclick="copyText(this, &quot;Uji independensi menghasilkan χ²([df], N = [jumlah]) = [nilai], p = [nilai]. Pada α = [nilai], hasil [memberikan / belum memberikan cukup] bukti asosiasi antara [variabel 1] dan [variabel 2]. Cramér’s V = [nilai], dengan interpretasi sesuai ukuran tabel dan konteks. Kelayakan frekuensi harapan [hasil pemeriksaan]; jika memakai uji exact/Monte Carlo, laporkan nama metode dan outputnya secara tepat.&quot;)">📋 Salin Template</button>
   </div>
 
   <div class="alert alert-success">
@@ -921,22 +913,23 @@
 <div class="content-page">
   <div class="section-label">📋 Bagian 05</div>
   <h1 class="page-title">Format Tabel <span>APA 7th</span></h1>
-  <p class="page-desc">Aturan wajib yang sering membuat skripsi dikembalikan pembimbing.</p>
+  <p class="page-desc">Gunakan APA 7th bila diminta; pedoman kampus atau jurnal tetap menjadi acuan format akhir.</p>
 
   <h2 class="sec">Aturan Emas Tabel APA 7th</h2>
   <ul class="checklist">
-    <li><span class="ck">★</span> <div><strong>Caption di atas tabel</strong> — ditulis miring dan tebal: <em><strong>Tabel 1</strong></em> di baris pertama, lalu judul deskriptif di baris berikutnya</div></li>
-    <li><span class="ck">★</span> <div><strong>Tidak ada garis vertikal</strong> — hanya ada 3 garis horizontal: atas, bawah header, dan bawah tabel</div></li>
+    <li><span class="ck">★</span> <div><strong>Nomor dan judul di atas tabel</strong> — nomor <strong>tebal</strong> pada baris pertama; judul deskriptif <em>miring</em> pada baris berikutnya</div></li>
+    <li><span class="ck">★</span> <div><strong>Tidak ada garis vertikal</strong> — gunakan garis horizontal seperlunya, umumnya atas, bawah header, dan bawah tabel</div></li>
     <li><span class="ck">★</span> <div><strong>Catatan (Note) di bawah tabel</strong> — gunakan <em>Note.</em> miring untuk menjelaskan singkatan, transformasi, atau sumber data</div></li>
-    <li><span class="ck">★</span> <div><strong>Angka desimal konsisten</strong> — minimal 2 desimal untuk semua angka statistik dalam tabel yang sama</div></li>
+    <li><span class="ck">★</span> <div><strong>Angka desimal konsisten</strong> — presisi sesuai statistik dan konsisten per kolom; N/df bulat tanpa desimal, p umumnya 2–3 desimal</div></li>
     <li><span class="ck">★</span> <div><strong>p-value</strong> dilaporkan tepat: p = .003 (bukan p &lt; .005), kecuali p &lt; .001</div></li>
     <li><span class="ck">★</span> <div><strong>Penomoran berurutan</strong> — Tabel 1, Tabel 2, dst. sesuai urutan kemunculan dalam teks</div></li>
   </ul>
 
   <h2 class="sec">Contoh: Tabel Statistik Deskriptif (APA 7th)</h2>
+  <p>Kedua tabel berikut merupakan ilustrasi format yang terpisah, bukan hasil dari satu dataset. Nomor tabel tebal dan judul miring; warna kartu mengikuti desain ebook. Pada naskah akhir, ikuti aturan tampilan tabel institusi/jurnal.</p>
   <div class="apa-table-wrap">
     <table class="apa-table">
-      <caption><em><strong>Tabel 1</strong></em><br>Statistik Deskriptif Variabel Penelitian</caption>
+      <caption><strong>Tabel 1</strong><br><em>Statistik Deskriptif Variabel Penelitian</em></caption>
       <thead><tr><th>Variabel</th><th>N</th><th>M</th><th>SD</th><th>Min</th><th>Maks</th></tr></thead>
       <tbody>
         <tr><td>Kepuasan Kerja (Y)</td><td>120</td><td>3.84</td><td>0.62</td><td>2.00</td><td>5.00</td></tr>
@@ -951,7 +944,7 @@
   <h2 class="sec">Contoh: Tabel Hasil Regresi (APA 7th)</h2>
   <div class="apa-table-wrap">
     <table class="apa-table">
-      <caption><em><strong>Tabel 2</strong></em><br>Hasil Analisis Regresi Linear Berganda</caption>
+      <caption><strong>Tabel 2</strong><br><em>Hasil Analisis Regresi Linear Berganda</em></caption>
       <thead><tr><th>Variabel</th><th>B</th><th>SE</th><th>β</th><th>t</th><th>p</th></tr></thead>
       <tbody>
         <tr><td>Konstan</td><td>0.82</td><td>0.31</td><td>—</td><td>2.65</td><td>.009</td></tr>
@@ -991,7 +984,7 @@
     <li><span class="ck">□</span> Uji multikolinearitas: VIF dan Tolerance untuk setiap prediktor</li>
     <li><span class="ck">□</span> Uji homoskedastisitas (jika regresi): scatter plot atau Breusch-Pagan</li>
     <li><span class="ck">□</span> Uji autokorelasi (jika data time series): Durbin-Watson dilaporkan</li>
-    <li><span class="ck">□</span> Setiap uji asumsi disertai <em>keputusan</em> (asumsi terpenuhi/tidak terpenuhi)</li>
+    <li><span class="ck">□</span> Diagnosis asumsi yang relevan disertai bukti, keterbatasan, dan tindak lanjut</li>
   </ul>
 
   <h2 class="sec">📈 Analisis Utama & Hipotesis</h2>
@@ -1073,6 +1066,13 @@
     <span class="cta-link">Atau kunjungi <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">yogoaj.github.io/ruangstatistika</a></span>
   </div>
 
+  <h2 class="sec">Rujukan &amp; Pembaruan Materi</h2>
+  <p>Ditinjau 24 November 2026. Contoh angka adalah ilustrasi; sesuaikan kesimpulan dengan data, desain, dan pedoman institusi/jurnal.</p>
+  <ul>
+    <li><a href="https://www.amstat.org/asa/files/pdfs/P-ValueStatement.pdf" target="_blank" rel="noopener noreferrer">ASA — Prinsip interpretasi p-value</a></li>
+    <li><a href="https://apastyle.apa.org/style-grammar-guidelines/tables-figures/tables" target="_blank" rel="noopener noreferrer">APA Style — Table setup</a></li>
+    <li><a href="https://search.r-project.org/R/refmans/stats/html/shapiro.test.html" target="_blank" rel="noopener noreferrer">R — Dokumentasi Shapiro–Wilk</a></li>
+  </ul>
   <div class="ebook-footer" style="margin-top:32px;">
     © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat · Bebas disebarkan untuk keperluan non-komersial
   </div>

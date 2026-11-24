@@ -307,7 +307,7 @@
   </div>
   <div class="skala-card">
     <div class="skala-title">🔬 Construct Validity (Validitas Konstruk)</div>
-    <p>Apakah item-item berkorelasi kuat dengan konstruk laten yang ingin diukur? Dinilai dari data empiris responden. Diukur melalui <strong>CITC</strong> (corrected item-total correlation), <strong>AVE</strong>, dan <strong>CR</strong>.</p>
+    <p>Apakah interpretasi skor didukung teori, struktur faktor, dan hubungan dengan variabel lain? CITC adalah diagnosis item, AVE memberi bukti konvergen, sedangkan CR mengukur reliabilitas; ketiganya tidak saling menggantikan.</p>
   </div>
   <div class="skala-card">
     <div class="skala-title">📊 Convergent Validity</div>
@@ -315,12 +315,12 @@
   </div>
   <div class="skala-card">
     <div class="skala-title">🔀 Discriminant Validity</div>
-    <p>Bukti bahwa konstruk yang berbeda tidak terlalu berkorelasi. Ditunjukkan oleh <strong>√AVE > korelasi antar konstruk</strong> (kriteria Fornell-Larcker).</p>
+    <p>Nilai bukti bahwa konstruk dapat dibedakan. Fornell–Larcker (√AVE dibanding nilai absolut korelasi) dapat dilengkapi HTMT dan inferensinya, terutama pada PLS-SEM reflektif.</p>
   </div>
 
   <div class="box-info">
     <div class="box-label">💡 Alur Pengujian yang Disarankan</div>
-    <strong>Langkah 1:</strong> Uji Content Validity (CVR) sebelum penyebaran kuesioner besar → <strong>Langkah 2:</strong> Uji Construct Validity (CITC) pada data empiris → <strong>Langkah 3:</strong> Uji Reliabilitas (Cronbach Alpha / CR) → <strong>Langkah 4:</strong> Laporkan hasilnya di Bab 3.
+    <strong>Langkah 1:</strong> Uji Content Validity (CVR) sebelum penyebaran kuesioner besar → <strong>Langkah 2:</strong> Analisis item (CITC) dan struktur konstruk pada data empiris → <strong>Langkah 3:</strong> Uji Reliabilitas (Cronbach Alpha / CR) → <strong>Langkah 4:</strong> Laporkan hasilnya di Bab 3.
   </div>
 </div>
 </div>
@@ -344,8 +344,8 @@
     CVR berkisar antara <strong>−1.00</strong> hingga <strong>+1.00</strong>. Nilai CVR = 0 berarti setengah ahli menilai esensial. CVR = 1 berarti semua ahli menilai esensial. Nilai negatif berarti mayoritas ahli menilai item <em>tidak esensial</em>.
   </div>
 
-  <h2 class="sec">2.2 Tabel Nilai CVR Minimum (Lawshe, 1975)</h2>
-  <p>Nilai CVR harus memenuhi nilai minimum berikut agar item dinyatakan valid secara isi (p &lt; .05, one-tailed):</p>
+  <h2 class="sec">2.2 CVR Minimum: Pendekatan Binomial Eksak</h2>
+  <p>Tabel berikut menggunakan uji binomial eksak satu sisi pada α = .05, dengan peluang acuan .50 (Ayre &amp; Scally, 2014). Keputusan didasarkan pada jumlah ahli minimum, bukan pembulatan desimal. Ini bukti kesepakatan esensialitas, bukan jaminan seluruh aspek validitas.</p>
 
   <table class="dec-table">
     <thead>
@@ -356,38 +356,35 @@
       </tr>
     </thead>
     <tbody>
-      <tr><td>5</td><td>0.99</td><td><span class="tag-ok">Butuhkan hampir semua setuju</span></td></tr>
-      <tr><td>6</td><td>0.99</td><td><span class="tag-ok">Hampir semua setuju</span></td></tr>
-      <tr><td>7</td><td>0.99</td><td><span class="tag-ok">Hampir semua setuju</span></td></tr>
-      <tr><td>8</td><td>0.75</td><td><span class="tag-uji">6 dari 8 ahli setuju</span></td></tr>
-      <tr><td>9</td><td>0.78</td><td><span class="tag-uji">7 dari 9 ahli setuju</span></td></tr>
-      <tr><td>10</td><td>0.62</td><td><span class="tag-uji">8 dari 10 ahli setuju</span></td></tr>
-      <tr><td>12</td><td>0.56</td><td><span class="tag-uji">10 dari 12 ahli setuju</span></td></tr>
-      <tr><td>15</td><td>0.49</td><td><span class="tag-uji">11 dari 15 ahli setuju</span></td></tr>
-      <tr><td>20</td><td>0.42</td><td><span class="tag-uji">15 dari 20 ahli setuju</span></td></tr>
-      <tr><td>40</td><td>0.29</td><td><span class="tag-uji">25 dari 40 ahli setuju</span></td></tr>
+      <tr><td>5</td><td>1.000</td><td><span class="tag-uji">Minimal 5 dari 5 ahli menilai esensial</span></td></tr>
+      <tr><td>6</td><td>1.000</td><td><span class="tag-uji">Minimal 6 dari 6 ahli menilai esensial</span></td></tr>
+      <tr><td>7</td><td>1.000</td><td><span class="tag-uji">Minimal 7 dari 7 ahli menilai esensial</span></td></tr>
+      <tr><td>8</td><td>.750</td><td><span class="tag-uji">Minimal 7 dari 8 ahli menilai esensial</span></td></tr>
+      <tr><td>9</td><td>.778</td><td><span class="tag-uji">Minimal 8 dari 9 ahli menilai esensial</span></td></tr>
+      <tr><td>10</td><td>.800</td><td><span class="tag-uji">Minimal 9 dari 10 ahli menilai esensial</span></td></tr>
+      <tr><td>12</td><td>.667</td><td><span class="tag-uji">Minimal 10 dari 12 ahli menilai esensial</span></td></tr>
+      <tr><td>15</td><td>.600</td><td><span class="tag-uji">Minimal 12 dari 15 ahli menilai esensial</span></td></tr>
+      <tr><td>20</td><td>.500</td><td><span class="tag-uji">Minimal 15 dari 20 ahli menilai esensial</span></td></tr>
+      <tr><td>40</td><td>.300</td><td><span class="tag-uji">Minimal 26 dari 40 ahli menilai esensial</span></td></tr>
     </tbody>
   </table>
 
-  <h2 class="sec">2.3 Content Validity Index (CVI)</h2>
-  <p>Setelah CVR per-item dihitung, <strong>CVI (Content Validity Index)</strong> dihitung sebagai rata-rata CVR seluruh item. Ini menggambarkan kualitas instrumen secara keseluruhan.</p>
-
-  <div class="formula-box">CVI = (Σ CVR per item) / Jumlah total item</div>
-
+  <h2 class="sec">2.3 Content Validity Index (I-CVI & S-CVI)</h2>
+  <p>Bedakan metode CVI yang dipakai. Dalam pendekatan relevansi 4 tingkat, ahli memberi nilai 1–4 dan nilai 3/4 dihitung sebagai relevan. I-CVI adalah proporsi ahli yang menilai item relevan; S-CVI/Ave adalah rata-rata I-CVI. Ini berbeda dari rata-rata CVR dalam pendekatan Lawshe; jangan mencampur rumus dan ambangnya.</p>
+  <div class="formula-box">I-CVI = n_relevan / N ahli<br>S-CVI/Ave = Σ I-CVI / jumlah item</div>
   <table class="dec-table">
-    <thead>
-      <tr><th>Nilai CVI</th><th>Interpretasi</th><th>Rekomendasi</th></tr>
-    </thead>
+    <thead><tr><th>Indeks</th><th>Makna</th><th>Pelaporan</th></tr></thead>
     <tbody>
-      <tr><td>CVI ≥ 0.90</td><td><span class="tag-ok">Sangat Baik</span></td><td>Instrumen siap digunakan</td></tr>
-      <tr><td>0.80 ≤ CVI &lt; 0.90</td><td><span class="tag-uji">Baik</span></td><td>Revisi minor sebelum digunakan</td></tr>
-      <tr><td>CVI &lt; 0.80</td><td><span class="tag-fail">Tidak Memadai</span></td><td>Revisi substansial atau ganti item</td></tr>
+      <tr><td>I-CVI</td><td>Kesepakatan relevansi per item</td><td>Laporkan jumlah ahli dan proporsi; acuan .78 sering digunakan untuk 6–10 ahli, sedangkan panel lebih kecil memerlukan kesepakatan lebih ketat</td></tr>
+      <tr><td>S-CVI/Ave</td><td>Rerata I-CVI</td><td>.90 sering digunakan sebagai sasaran; tinjau item dan cakupan isi juga</td></tr>
+      <tr><td>S-CVI/UA</td><td>Proporsi item yang dinilai relevan oleh semua ahli</td><td>Lebih ketat; jangan disamakan dengan S-CVI/Ave</td></tr>
     </tbody>
   </table>
+  <p>Contoh: delapan ahli, tujuh menilai relevan → I-CVI = 7/8 = .875. Jika tujuh menilai <em>esensial</em> pada penilaian CVR terpisah, CVR = .750. Keduanya menjawab pertanyaan penilaian yang berbeda.</p>
 
   <div class="box-warn">
     <div class="box-label">⚠️ Praktik di Lapangan</div>
-    Dalam penelitian skripsi/tesis Indonesia, panel ahli umumnya terdiri dari <strong>3–5 orang dosen/praktisi</strong>. Dengan N=5, CVR minimum = 0.99, artinya semua ahli harus setuju item itu esensial. Gunakan minimal 5 ahli, idealnya 7–10 untuk fleksibilitas lebih tinggi.
+    Pilih ahli berdasarkan cakupan keahlian, independensi penilaian, dan domain instrumen. Dengan lima ahli, semuanya harus menilai esensial (CVR = 1). Pada N &lt; 5, bahkan kesepakatan penuh tidak mencapai α = .05 dalam uji binomial ini; penilaian kualitatif tetap berguna.
   </div>
 
   <h2 class="sec">2.4 Contoh Perhitungan CVR</h2>
@@ -395,7 +392,7 @@
 
   <div class="formula-box">CVR = (7 − 8/2) / (8/2) = (7 − 4) / 4 = 3/4 = <strong>0.75</strong></div>
 
-  <p>Nilai CVR = 0.75 ≥ 0.75 (nilai minimum untuk N=8) → <span style="color:#166534;font-weight:700;">Item dinyatakan VALID secara isi ✓</span></p>
+  <p>Nilai CVR = 0.75 ≥ 0.75 (nilai minimum untuk N=8) → <span style="color:#166534;font-weight:700;">Item memenuhi kriteria kesepakatan esensialitas pada metode ini ✓</span></p>
 </div>
 </div>
 
@@ -403,11 +400,11 @@
 <div class="page" id="page-3">
 <div class="content-page">
   <div class="section-label">🔬 Bab 3 — Construct Validity</div>
-  <h1 class="page-title">Validitas Konstruk: <span>CITC, AVE & CR</span></h1>
+  <h1 class="page-title">Analisis Item & Konstruk: <span>CITC, AVE & CR</span></h1>
   <p class="page-desc">Dilakukan pada data empiris (setelah kuesioner disebarkan). Menguji apakah setiap item benar-benar mengukur konstruk yang dituju.</p>
 
   <h2 class="sec">3.1 Corrected Item-Total Correlation (CITC)</h2>
-  <p>CITC (sering disebut juga <em>item-rest correlation</em> atau nilai r dalam output SPSS) mengukur korelasi antara satu item dengan total skor instrumen setelah item tersebut dikeluarkan. Ini adalah cara paling umum untuk uji validitas konstruk pada penelitian sosial berbasis skripsi/tesis.</p>
+  <p>CITC (sering disebut juga <em>item-rest correlation</em> atau nilai r dalam output SPSS) mengukur korelasi antara satu item dengan total skor instrumen setelah item tersebut dikeluarkan. CITC menunjukkan keselarasan item dengan skor subskala; CITC tinggi saja tidak membuktikan validitas konstruk atau unidimensionalitas.</p>
 
   <div class="formula-box">r_citc = korelasi(skor item_i , total skor − skor item_i)</div>
 
@@ -416,9 +413,9 @@
       <tr><th>Nilai CITC (r)</th><th>Interpretasi</th><th>Keputusan Item</th></tr>
     </thead>
     <tbody>
-      <tr><td>r ≥ 0.30</td><td><span class="tag-ok">Valid</span></td><td>Pertahankan item</td></tr>
+      <tr><td>r ≥ 0.30</td><td><span class="tag-ok">Selaras secara internal</span></td><td>Tinjau juga isi dan struktur faktor</td></tr>
       <tr><td>0.25 ≤ r &lt; 0.30</td><td><span class="tag-uji">Marginal</span></td><td>Revisi wording item, coba lagi</td></tr>
-      <tr><td>r &lt; 0.25 (atau &lt; 0.20)</td><td><span class="tag-fail">Tidak Valid</span></td><td>Buang item (drop)</td></tr>
+      <tr><td>r &lt; 0.25</td><td><span class="tag-fail">Perlu diagnosis</span></td><td>Cek coding, variasi respons, subskala, dan isi; bukan otomatis dihapus</td></tr>
     </tbody>
   </table>
 
@@ -438,13 +435,13 @@
       <tr><th>Nilai AVE</th><th>Interpretasi</th><th>Keputusan</th></tr>
     </thead>
     <tbody>
-      <tr><td>AVE ≥ 0.50</td><td><span class="tag-ok">Convergent Validity Terpenuhi</span></td><td>Konstruk valid, lebih banyak varians dijelaskan oleh konstruk daripada error</td></tr>
-      <tr><td>AVE &lt; 0.50</td><td><span class="tag-fail">Convergent Validity Tidak Terpenuhi</span></td><td>Indikator terlalu lemah; pertimbangkan menghapus item dengan loading rendah</td></tr>
+      <tr><td>AVE ≥ 0.50</td><td><span class="tag-ok">Convergent Validity Terpenuhi</span></td><td>Bukti konvergen pada model reflektif; belum mencakup semua aspek validitas</td></tr>
+      <tr><td>AVE &lt; 0.50</td><td><span class="tag-fail">Convergent Validity Tidak Terpenuhi</span></td><td>Periksa loading, spesifikasi, dan cakupan isi; penghapusan perlu alasan teoritis</td></tr>
     </tbody>
   </table>
 
   <h2 class="sec">3.3 Composite Reliability (CR)</h2>
-  <p>CR (atau <em>Construct Reliability / Rho_c</em>) adalah alternatif Cronbach Alpha yang lebih akurat untuk model CFA/SEM karena memperhitungkan factor loading masing-masing indikator (tidak mengasumsikan semua indikator memiliki bobot sama).</p>
+  <p>CR (rho_c) mengestimasi konsistensi internal berdasarkan loading dan varians error dalam model pengukuran. Ketepatannya bergantung pada model yang sesuai; CR bukan ukuran validitas. Rumus di sini menggunakan indikator terstandar dan error tidak berkorelasi.</p>
 
   <div class="formula-box">CR = (Σλ)² / [(Σλ)² + Σ(1−λ²)]</div>
 
@@ -459,18 +456,18 @@
     </tbody>
   </table>
 
-  <h2 class="sec">3.4 Discriminant Validity (Fornell-Larcker)</h2>
-  <p>Untuk memastikan konstruk yang berbeda benar-benar mengukur hal yang berbeda, gunakan kriteria <strong>Fornell-Larcker</strong>:</p>
+  <h2 class="sec">3.4 Discriminant Validity: Fornell–Larcker & HTMT</h2>
+  <p>Kriteria <strong>Fornell–Larcker</strong> adalah salah satu diagnosis, tetapi dapat melewatkan masalah. Untuk PLS-SEM reflektif, evaluasi juga HTMT dan CI bootstrap sesuai acuan/model; tidak ada satu cutoff yang membuktikan seluruh validitas.</p>
 
   <div class="highlight">
     <strong>Syarat Discriminant Validity:</strong><br>
-    √AVE setiap konstruk harus lebih besar dari korelasi konstruk tersebut dengan konstruk lainnya.<br><br>
+    Pada kriteria ini, √AVE dibandingkan dengan <strong>nilai absolut</strong> korelasi konstruk tersebut dengan konstruk lainnya.<br><br>
     Contoh: Konstruk A (AVE = 0.60) → √0.60 = 0.775. Maka korelasi A dengan B, A dengan C, dst. harus &lt; 0.775.
   </div>
 
   <div class="box-note">
-    <div class="box-label">✅ Ringkasan Kriteria Construct Validity</div>
-    <strong>CITC ≥ 0.30</strong> (untuk analisis skala SPSS) | <strong>Factor Loading ≥ 0.50</strong> (untuk CFA/SEM) | <strong>AVE ≥ 0.50</strong> | <strong>CR ≥ 0.70</strong> | <strong>√AVE &gt; r antar-konstruk</strong>
+    <div class="box-label">✅ Ringkasan Bukti yang Berbeda</div>
+    CITC: diagnosis keselarasan item. Loading/AVE: bukti konvergen. CR/alpha: konsistensi internal. Fornell–Larcker/HTMT: bukti diskriminan. Angka acuan harus dipertimbangkan bersama teori dan spesifikasi model.
   </div>
 </div>
 </div>
@@ -489,7 +486,7 @@
   <p style="font-size:12px;color:var(--gray);text-align:center;margin-top:-8px;margin-bottom:16px;">k = jumlah item | σ²_i = varians tiap item | σ²_total = varians total skor</p>
 
   <h2 class="sec">4.2 Tabel Interpretasi Cronbach Alpha</h2>
-  <p>Berikut tabel interpretasi yang paling umum digunakan dalam penelitian sosial Indonesia (mengacu pada George & Mallery, 2003 dan Nunnally, 1978):</p>
+  <p>Tabel berikut adalah konvensi deskriptif yang sering dikutip (George &amp; Mallery, 2003; Nunnally, 1978), bukan batas kelayakan universal. Pertimbangkan tujuan penggunaan, dimensi skala, asumsi, dan ketidakpastian estimasi:</p>
 
   <table class="dec-table">
     <thead>
@@ -502,23 +499,23 @@
     <tbody>
       <tr>
         <td><strong>α ≥ 0.90</strong></td>
-        <td><span class="tag-ok">Sangat Tinggi / Sempurna</span></td>
-        <td>Excellent — siap digunakan untuk penelitian klinis/kesehatan dan skripsi</td>
+        <td><span class="tag-ok">Sangat Tinggi; bukan sempurna</span></td>
+        <td>Periksa kemungkinan item berulang/redundan; tidak otomatis layak untuk keputusan klinis</td>
       </tr>
       <tr>
         <td><strong>0.80 ≤ α &lt; 0.90</strong></td>
         <td><span class="tag-ok">Tinggi / Baik</span></td>
-        <td>Good — memenuhi standar penelitian akademik dengan baik</td>
+        <td>Konsistensi internal relatif tinggi; tetap periksa dimensi dan tujuan penggunaan</td>
       </tr>
       <tr>
         <td><strong>0.70 ≤ α &lt; 0.80</strong></td>
         <td><span class="tag-uji">Cukup / Dapat Diterima</span></td>
-        <td>Acceptable — standar minimum untuk penelitian sosial dan skripsi</td>
+        <td>Sering dipakai sebagai acuan awal; kecukupan bergantung pada tujuan dan ketidakpastian</td>
       </tr>
       <tr>
         <td><strong>0.60 ≤ α &lt; 0.70</strong></td>
         <td><span class="tag-uji">Kurang / Dipertanyakan</span></td>
-        <td>Questionable — hanya diterima untuk penelitian eksploratori awal</td>
+        <td>Perlu evaluasi; konteks eksplorasi tidak otomatis membuatnya memadai</td>
       </tr>
       <tr>
         <td><strong>0.50 ≤ α &lt; 0.60</strong></td>
@@ -528,7 +525,7 @@
       <tr>
         <td><strong>α &lt; 0.50</strong></td>
         <td><span class="tag-fail">Sangat Rendah / Ditolak</span></td>
-        <td>Unacceptable — instrumen harus dirancang ulang</td>
+        <td>Periksa coding, dimensi, dan mutu item sebelum menentukan revisi</td>
       </tr>
     </tbody>
   </table>
@@ -546,11 +543,11 @@
   <div class="grid-2">
     <div class="card">
       <h3>✅ Asumsi Terpenuhi</h3>
-      <p>Item-item mengukur konstruk yang <strong>sama dan unidimensional</strong>. Semua item memiliki skala yang sama (misal: semua Likert 1–5).</p>
+      <p>Hitung untuk skor/subskala yang beralasan. Interpretasi alpha sebagai reliabilitas mengandalkan asumsi seperti essential tau-equivalence dan error tidak berkorelasi; alpha tinggi tidak membuktikan unidimensionalitas.</p>
     </div>
     <div class="card">
       <h3>⚠️ Perhatikan Ini</h3>
-      <p>Alpha sangat dipengaruhi jumlah item — makin banyak item, makin tinggi alpha. <strong>Alpha tinggi belum tentu valid!</strong></p>
+      <p>Alpha dipengaruhi jumlah item dan kovariansnya; menambah item tidak selalu meningkatkan kualitas pengukuran. <strong>Alpha tinggi belum tentu valid!</strong></p>
     </div>
   </div>
 
@@ -561,8 +558,8 @@
     </thead>
     <tbody>
       <tr><td>Analisis skala sederhana (SPSS)</td><td><strong>Cronbach Alpha</strong></td><td>Tersedia di semua software, mudah dilaporkan</td></tr>
-      <tr><td>SEM / CFA / SmartPLS</td><td><strong>CR (Composite Reliability)</strong></td><td>Lebih akurat karena mempertimbangkan loading berbeda-beda</td></tr>
-      <tr><td>Penelitian skripsi/tesis umum</td><td><strong>Cronbach Alpha</strong></td><td>Standar baku di Indonesia, diterima semua penguji</td></tr>
+      <tr><td>SEM / CFA / SmartPLS</td><td><strong>CR (Composite Reliability)</strong></td><td>Mempertimbangkan loading; perlu model pengukuran yang sesuai</td></tr>
+      <tr><td>Penelitian skripsi/tesis umum</td><td><strong>Cronbach Alpha</strong></td><td>Ikuti pedoman institusi; pertimbangkan omega/CR bila asumsi alpha kurang sesuai</td></tr>
       <tr><td>Jurnal internasional (SEM)</td><td><strong>CR + AVE</strong></td><td>Standar pelaporan untuk model measurement</td></tr>
     </tbody>
   </table>
@@ -608,14 +605,14 @@
     <div class="step-num">4</div>
     <div class="step-content">
       <h4>Baca Kolom "Corrected Item-Total Correlation"</h4>
-      <p>Ini adalah nilai <strong>CITC</strong>. Item dengan nilai r &lt; 0.30 → hapus. Setelah menghapus item, <strong>ulangi analisis</strong> hingga semua item memenuhi kriteria.</p>
+      <p>Nilai <strong>CITC &lt; .30</strong> menjadi sinyal diagnosis. Periksa reverse coding, distribusi respons, multidimensionalitas, dan pentingnya isi. Revisi/hapus hanya dengan alasan terdokumentasi; validasi ulang, idealnya pada data baru.</p>
     </div>
   </div>
   <div class="step-card">
     <div class="step-num">5</div>
     <div class="step-content">
       <h4>Cek Cronbach Alpha Final</h4>
-      <p>Setelah item-item tidak valid dibuang, baca nilai <strong>Reliability Statistics → Cronbach's Alpha</strong>. Nilai ≥ 0.70 → instrumen reliabel. Catat nilai ini untuk dilaporkan di Bab 3.</p>
+      <p>Setelah keputusan item dibuat dengan alasan substantif, laporkan <strong>Cronbach’s Alpha</strong>, jumlah item, N, dan CI bila tersedia. Nilai .70 adalah acuan umum, bukan bukti otomatis valid/reliabel untuk semua penggunaan.</p>
     </div>
   </div>
 
@@ -625,7 +622,7 @@
     <div class="step-num">1</div>
     <div class="step-content">
       <h4>Bangun Model Measurement (CFA)</h4>
-      <p>Di SmartPLS: buat outer model dengan semua indikator mengarah ke konstruk latennya. Di AMOS: buat CFA diagram dengan setiap indikator terhubung ke konstruk.</p>
+      <p>Pada model <strong>reflektif</strong>, arah panah adalah konstruk → indikator. Pada model <strong>formatif</strong>, indikator → konstruk, dengan evaluasi yang berbeda; alpha/AVE reflektif tidak otomatis sesuai. CFA faktor umum dan PLS-SEM juga menggunakan pendekatan estimasi yang berbeda.</p>
     </div>
   </div>
   <div class="step-card">
@@ -639,7 +636,7 @@
     <div class="step-num">3</div>
     <div class="step-content">
       <h4>Cek Outer Loading / Factor Loading</h4>
-      <p>Indikator dengan loading &lt; 0.50 → pertimbangkan untuk dihapus. Indikator dengan loading 0.50–0.70 → masih dapat diterima jika AVE ≥ 0.50. Loading &gt; 0.70 → ideal.</p>
+      <p>Periksa besar, tanda, CI loading, dan kecocokan model. Loading rendah memerlukan diagnosis, bukan penghapusan otomatis; pertahankan cakupan konstruk dan dokumentasikan keputusan.</p>
     </div>
   </div>
   <div class="step-card">
@@ -653,31 +650,24 @@
     <div class="step-num">5</div>
     <div class="step-content">
       <h4>Uji Discriminant Validity (Fornell-Larcker)</h4>
-      <p>SmartPLS: Lihat tabel <strong>Discriminant Validity → Fornell-Larcker Criterion</strong>. Pastikan nilai diagonal (√AVE) lebih besar dari semua nilai di baris/kolom yang sama.</p>
+      <p>Pada model reflektif, tinjau <strong>HTMT dan CI bootstrap</strong>; Fornell–Larcker dapat dilaporkan sebagai pelengkap dengan korelasi absolut. Jelaskan nilai acuan dan alasan pemilihannya.</p>
     </div>
   </div>
 
   <div class="box-note">
     <div class="box-label">✅ Tips Praktis</div>
-    Lakukan uji validitas dan reliabilitas pada <strong>data pilot study</strong> terlebih dahulu (30–50 responden) sebelum menyebarkan ke sampel penuh. Ini menghemat waktu dan memastikan instrumen sudah baik.
+    Pilot membantu menemukan masalah pemahaman dan prosedur. Ukurannya bergantung pada tujuan; 30–50 responden bukan jaminan kecukupan CFA atau stabilitas reliabilitas. Lakukan validasi pada sampel yang sesuai dengan model dan populasi target.
   </div>
 
   <h2 class="sec">5.3 Ringkasan Kriteria Keputusan</h2>
-  <table class="dec-table">
-    <thead>
-      <tr><th>Uji</th><th>Indikator</th><th>Nilai Minimum</th><th>Keputusan jika Tidak Terpenuhi</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Content Validity</td><td>CVR per item</td><td>≥ nilai kritis Lawshe (N ahli)</td><td>Revisi/hapus item</td></tr>
-      <tr><td>Content Validity</td><td>CVI instrumen</td><td>≥ 0.80</td><td>Revisi substansial instrumen</td></tr>
-      <tr><td>Construct Validity (SPSS)</td><td>CITC (r)</td><td>≥ 0.30</td><td>Hapus item, ulangi analisis</td></tr>
-      <tr><td>Construct Validity (SEM)</td><td>Factor Loading (λ)</td><td>≥ 0.50</td><td>Hapus indikator lemah</td></tr>
-      <tr><td>Convergent Validity</td><td>AVE</td><td>≥ 0.50</td><td>Hapus indikator loading rendah</td></tr>
-      <tr><td>Discriminant Validity</td><td>√AVE vs r antar-konstruk</td><td>√AVE &gt; r</td><td>Periksa multikolinearitas konstruk</td></tr>
-      <tr><td>Reliabilitas (SPSS)</td><td>Cronbach Alpha (α)</td><td>≥ 0.70</td><td>Revisi item, hapus yang melemahkan alpha</td></tr>
-      <tr><td>Reliabilitas (SEM)</td><td>Composite Reliability (CR)</td><td>≥ 0.70</td><td>Tambah/perbaiki indikator</td></tr>
-    </tbody>
-  </table>
+  <table class="dec-table"><thead><tr><th>Tujuan</th><th>Bukti</th><th>Tindak Lanjut</th></tr></thead><tbody>
+    <tr><td>Esensialitas isi</td><td>CVR dan jumlah ahli minimum (binomial eksak)</td><td>Tinjau alasan ahli serta cakupan domain</td></tr>
+    <tr><td>Relevansi isi</td><td>I-CVI dan S-CVI/Ave dari penilaian relevansi</td><td>Nyatakan metode dan acuan; jangan memakai rata-rata CVR</td></tr>
+    <tr><td>Keselarasan item</td><td>CITC; .30 sebagai sinyal diagnosis</td><td>Cek coding, subskala, isi, dan respons</td></tr>
+    <tr><td>Konvergen</td><td>Loading dan AVE; .50 sebagai acuan AVE</td><td>Tinjau model dan isi sebelum menghapus indikator</td></tr>
+    <tr><td>Diskriminan</td><td>HTMT/inferensi dan bukti lain sesuai model</td><td>Periksa tumpang tindih konsep dan spesifikasi</td></tr>
+    <tr><td>Konsistensi internal</td><td>Alpha/omega/CR sesuai asumsi; CI bila tersedia</td><td>Nilai sesuai penggunaan; bukan otomatis bukti validitas</td></tr>
+  </tbody></table>
 </div>
 </div>
 
@@ -693,9 +683,7 @@
   <div class="apa-box">
     <div class="apa-title">Laporan CVR — Bab 3 Metodologi</div>
     <div class="apa-label">Template</div>
-    <div class="apa-text">
-      Uji validitas isi instrumen dilakukan oleh <strong>[jumlah] ahli</strong> di bidang <strong>[nama bidang]</strong>. Setiap item dinilai menggunakan Content Validity Ratio (CVR) mengacu pada kriteria Lawshe (1975). Hasil penilaian menunjukkan bahwa <strong>[jumlah item]</strong> dari <strong>[total item]</strong> item memenuhi nilai CVR minimum sebesar <strong>[nilai kritis]</strong> (N = <strong>[jumlah ahli]</strong>). Content Validity Index (CVI) instrumen secara keseluruhan sebesar <strong>[nilai CVI]</strong>, yang berada dalam kategori <strong>[baik/sangat baik]</strong>. Dengan demikian, instrumen dinilai memiliki validitas isi yang memadai.
-    </div>
+    <div class="apa-text">Validitas isi dinilai oleh <strong>[jumlah]</strong> ahli dengan keahlian <strong>[bidang]</strong>. CVR dihitung dari penilaian esensialitas menurut Lawshe, dengan nilai kritis binomial eksak satu sisi α = .05 (Ayre &amp; Scally, 2014): minimal <strong>[jumlah]</strong> ahli dari <strong>[N]</strong>. Sebanyak <strong>[jumlah]</strong> dari <strong>[total]</strong> item memenuhi kriteria. Revisi item didasarkan pada <strong>[alasan]</strong>. Jika penilaian relevansi 1–4 juga dilakukan, laporkan I-CVI dan S-CVI/Ave secara terpisah: <strong>[hasil]</strong>; jangan mengisi dari CVR.</div>
   </div>
 
   <h2 class="sec">6.2 Template Pelaporan CITC dan Cronbach Alpha</h2>
@@ -703,25 +691,19 @@
   <div class="apa-box">
     <div class="apa-title">Laporan Validitas & Reliabilitas SPSS — Bab 3</div>
     <div class="apa-label">Template Metodologi</div>
-    <div class="apa-text">
-      Uji validitas instrumen dilakukan menggunakan teknik Corrected Item-Total Correlation (CITC) pada data uji coba dengan <strong>N = [jumlah responden]</strong> responden. Item dinyatakan valid apabila nilai CITC ≥ 0.30 (Sugiyono, 2019). Uji reliabilitas menggunakan koefisien Cronbach Alpha dengan kriteria reliabel apabila α ≥ 0.70 (Nunnally, 1978).
-    </div>
+    <div class="apa-text">Analisis keselarasan item menggunakan CITC pada <strong>[N]</strong> responden, dihitung per <strong>[subskala]</strong>. Nilai di bawah <strong>[acuan]</strong> memicu evaluasi coding, dimensi, dan isi, bukan penghapusan otomatis. Konsistensi internal diestimasi dengan <strong>[alpha/omega/CR]</strong>, dengan dasar pemilihan <strong>[alasan dan asumsi]</strong>.</div>
   </div>
 
   <div class="apa-box">
     <div class="apa-title">Laporan Hasil Uji Validitas CITC — Bab 4</div>
     <div class="apa-label">Template Hasil</div>
-    <div class="apa-text">
-      Hasil uji validitas terhadap variabel <strong>[nama variabel]</strong> menunjukkan bahwa dari <strong>[total] item</strong> yang diuji, <strong>[jumlah item valid]</strong> item dinyatakan valid dengan nilai Corrected Item-Total Correlation berkisar antara <strong>[nilai min]</strong> hingga <strong>[nilai max]</strong> (r ≥ 0.30). Sebanyak <strong>[jumlah item gugur]</strong> item gugur karena memiliki nilai CITC di bawah 0.30, yaitu item <strong>[nomor item]</strong>. Item yang gugur tidak diikutsertakan dalam analisis selanjutnya.
-    </div>
+    <div class="apa-text">CITC pada <strong>[konstruk/subskala]</strong> berkisar <strong>[minimum]</strong>–<strong>[maksimum]</strong>. Item <strong>[nomor]</strong> memerlukan evaluasi karena <strong>[hasil]</strong>. Setelah memeriksa coding, struktur, dan isi, item <strong>[dipertahankan/direvisi/dihapus]</strong> dengan alasan <strong>[rincian]</strong>. Temuan ini merupakan diagnosis item dan tidak cukup membuktikan validitas konstruk.</div>
   </div>
 
   <div class="apa-box">
     <div class="apa-title">Laporan Cronbach Alpha — Bab 4</div>
     <div class="apa-label">Template Hasil</div>
-    <div class="apa-text">
-      Uji reliabilitas terhadap variabel <strong>[nama variabel]</strong> menghasilkan nilai Cronbach Alpha sebesar <strong>α = [nilai]</strong>. Nilai ini berada di atas ambang batas reliabilitas yang ditetapkan (α ≥ 0.70), sehingga instrumen dinyatakan <strong>reliabel</strong> dan konsisten dalam mengukur konstruk yang dituju. Berdasarkan kategori George & Mallery (2003), tingkat reliabilitas instrumen ini tergolong <strong>[sangat tinggi/tinggi/cukup]</strong>.
-    </div>
+    <div class="apa-text">Skor <strong>[subskala]</strong> yang terdiri dari <strong>[jumlah]</strong> item pada N = <strong>[jumlah]</strong> memiliki Cronbach alpha = <strong>[nilai]</strong>, dengan CI <strong>[tingkat dan batas, jika tersedia]</strong>. Konsistensi internal <strong>[evaluasi sesuai tujuan/asumsi]</strong>. Nilai alpha tidak membuktikan unidimensionalitas, validitas, atau ketepatan keputusan individual.</div>
   </div>
 
   <h2 class="sec">6.3 Template Pelaporan AVE & CR (SEM/PLS)</h2>
@@ -729,17 +711,13 @@
   <div class="apa-box">
     <div class="apa-title">Laporan Convergent Validity — AVE & CR</div>
     <div class="apa-label">Template Hasil SEM/PLS</div>
-    <div class="apa-text">
-      Hasil uji convergent validity menunjukkan bahwa seluruh konstruk memiliki nilai Average Variance Extracted (AVE) di atas 0.50, berkisar antara <strong>[nilai min AVE]</strong> hingga <strong>[nilai max AVE]</strong>, yang mengindikasikan bahwa lebih dari 50% varians indikator dapat dijelaskan oleh konstruk latennya. Composite Reliability (CR) seluruh konstruk berada di atas 0.70, berkisar antara <strong>[nilai min CR]</strong> hingga <strong>[nilai max CR]</strong>, sehingga seluruh konstruk dinyatakan reliabel (Hair et al., 2019).
-    </div>
+    <div class="apa-text">Pada model reflektif <strong>[spesifikasi/estimator]</strong>, AVE berkisar <strong>[minimum]</strong>–<strong>[maksimum]</strong>, dan CR <strong>[minimum]</strong>–<strong>[maksimum]</strong>. Konstruk <strong>[nama]</strong> <strong>[memenuhi/belum memenuhi]</strong> acuan <strong>[nilai beserta alasan]</strong>. Temuan AVE dievaluasi sebagai bukti konvergen, sedangkan CR sebagai konsistensi internal. Item atau model yang perlu ditinjau: <strong>[rincian]</strong>.</div>
   </div>
 
   <div class="apa-box">
     <div class="apa-title">Laporan Discriminant Validity — Fornell-Larcker</div>
     <div class="apa-label">Template Hasil SEM/PLS</div>
-    <div class="apa-text">
-      Uji discriminant validity menggunakan kriteria Fornell-Larcker menunjukkan bahwa nilai akar kuadrat AVE (√AVE) setiap konstruk lebih besar dari korelasi konstruk tersebut dengan konstruk lainnya. Konstruk dengan √AVE terkecil adalah <strong>[nama konstruk]</strong> sebesar <strong>[nilai]</strong>, yang masih lebih besar dari korelasi tertinggi dengan konstruk lain sebesar <strong>[nilai korelasi]</strong>. Hasil ini mengkonfirmasi bahwa seluruh konstruk memiliki discriminant validity yang memadai (Fornell & Larcker, 1981).
-    </div>
+    <div class="apa-text">Validitas diskriminan dievaluasi dengan <strong>[metode sesuai model]</strong>. Perbandingan √AVE dan nilai absolut korelasi menghasilkan <strong>[temuan]</strong>. HTMT untuk pasangan <strong>[konstruk]</strong> adalah <strong>[nilai]</strong>, CI bootstrap <strong>[batas]</strong>, dengan acuan <strong>[nilai/alasan]</strong>. Bukti gabungan menunjukkan <strong>[kesimpulan dan keterbatasan]</strong>; Fornell–Larcker saja tidak memastikan validitas diskriminan.</div>
   </div>
 
   <h2 class="sec">6.4 Referensi yang Sering Digunakan</h2>
@@ -887,6 +865,13 @@
     </div>
   </div>
 
+  <h2 class="sec">Rujukan &amp; Pembaruan Materi</h2>
+  <p>Ditinjau 24 November 2026. Contoh angka adalah ilustrasi; sesuaikan kesimpulan dengan data, desain, dan pedoman institusi/jurnal.</p>
+  <ul>
+    <li><a href="https://doi.org/10.1177/0748175613513808" target="_blank" rel="noopener noreferrer">Ayre &amp; Scally (2014) — Nilai kritis CVR binomial eksak</a></li>
+    <li><a href="https://pubmed.ncbi.nlm.nih.gov/16977646/" target="_blank" rel="noopener noreferrer">Polit &amp; Beck (2006) — Perbedaan metode CVI</a></li>
+    <li><a href="https://smartpls.com/documentation/algorithms-and-techniques/validity-and-model-fit/discriminant-validity-assessment/" target="_blank" rel="noopener noreferrer">SmartPLS — Discriminant validity dan HTMT</a></li>
+  </ul>
   <div class="ebook-footer">
     © 2025 <a href="https://yogoaj.github.io/ruangstatistika" target="_blank">Ruang Statistika</a> · Yogo Aryo Jatmiko, SST, M.Stat<br>
     Ebook ini boleh dibagikan secara gratis dengan mencantumkan sumber.
